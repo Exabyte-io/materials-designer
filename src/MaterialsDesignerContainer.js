@@ -18,9 +18,11 @@ import {
 
 const initialState = () => {
     return {
+        // TODO: (account && account.defaultMaterial) || Material.createDefault();
         materials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
         index: 0,
         isLoading: false,
+        // TODO: account && account.serviceLevel.privateDataAllowed
         isSetPublicVisible: false,
     }
 };
@@ -73,6 +75,7 @@ export class MaterialsDesignerContainer extends React.Component {
     constructor(props) {
         super(props);
         const reducer = createMaterialsDesignerReducer(initialState());
+        // TODO: Meteor.settings.public.isProduction ? undefined
         this.store = createStore(reducer, applyMiddleware(logger));
         this.container = MaterialsDesignerContainerHelper;
     }
