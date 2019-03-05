@@ -11,8 +11,6 @@ import {ThreeDEditorFullscreen} from "./components/3d_editor/ThreeDEditorFullscr
 import {FullscreenComponentMixin} from "./components/include/FullscreenComponentMixin";
 import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
 
-import './stylesheets/designer.scss';
-
 class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMixin) {
 
     constructor(props) {
