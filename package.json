@@ -52,6 +52,9 @@
         "wave": "file:/stack/lib/wave"
     },
     "devDependencies": {},
+    "eslintConfig": {
+        "extends": "react-app"
+    },
     "browserslist": [
         ">0.2%",
         "not dead",
