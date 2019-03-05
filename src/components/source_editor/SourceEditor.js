@@ -1,5 +1,5 @@
+import {$} from "jquery";
 import React from 'react';
-import {$} from "meteor/jquery";
 import setClass from "classnames";
 
 import BasisEditor from './Basis';

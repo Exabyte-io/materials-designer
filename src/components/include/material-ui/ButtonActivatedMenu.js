@@ -6,7 +6,7 @@ import ClickAwayListener from 'material-ui-next/utils/ClickAwayListener';
 import {ShowIf} from "../../../utils/react/showif";
 import {randomAlphanumeric} from "../../../utils/str";
 
-class ButtonActivatedMenuMaterialUI extends React.Component {
+export class ButtonActivatedMenuMaterialUI extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -58,5 +58,3 @@ ButtonActivatedMenuMaterialUI.propTypes = {
 ButtonActivatedMenuMaterialUI.defaultProps = {
     id: randomAlphanumeric(10),
 };
-
-export default ButtonActivatedMenuMaterialUI;

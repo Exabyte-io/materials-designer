@@ -1,6 +1,7 @@
 import React from 'react';
+import _ from 'underscore';
 import {Made} from "made.js";
-import {Meteor} from "meteor/meteor";
+//import {Meteor} from "meteor/meteor";
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {ModalDialog} from '../../include/ModalDialog';
@@ -36,9 +37,9 @@ class CombinatorialBasisDialog extends ModalDialog {
     }
 
     assertCombinatorialBasesCount(bases) {
-        const maxCombinatorialBasesCount = Meteor.settings.public.maxCombinatorialBasesCount || 100;
+        const maxCombinatorialBasesCount = 100;
         if (bases.length > maxCombinatorialBasesCount) {
-            sAlert.warning(displayMessage('materialsDesigner.combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
+//            sAlert.warning(displayMessage('materialsDesigner.combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
             return false;
         }
         return true;
@@ -75,7 +76,7 @@ class CombinatorialBasisDialog extends ModalDialog {
                     name: `${material.name} - ${basis.formula}`
                 }
             );
-            const newMaterial = new Material(newMaterialConfig);
+            const newMaterial = new Made.Material(newMaterialConfig);
             newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
