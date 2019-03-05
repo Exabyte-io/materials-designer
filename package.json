@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "description": "Materials Designer",
     "scripts": {
-        "start": "react-scripts start",
+        "start": "PORT=3001 react-scripts start",
         "build": "react-scripts build",
         "postinstall": "babel --copy-files --out-dir lib src"
     },
