@@ -54,10 +54,9 @@ function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio,
     const bulkId = material && (material.id || material._id);
     const bulkExabyteId = material && (material.exabyteId);
 
-    if (!(bulkId || bulkExabyteId)) sAlert.warning(
-        displayMessage('materialsDesigner.createSurface.noBulkId'),
-        {timeout: 10000}
-    );
+    if (!(bulkId || bulkExabyteId)) {
+//        sAlert.warning(displayMessage('materialsDesigner.createSurface.noBulkId'), {timeout: 10000});
+    }
 
     Object.assign(slabConfig, {
         metadata: {

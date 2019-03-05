@@ -1,3 +1,4 @@
+import React from "react";
 import _ from "underscore";
 import lodash from "lodash";
 import {Made} from "made.js";
@@ -6,6 +7,8 @@ import {connect} from "react-redux";
 import {ActionCreators} from 'redux-undo';
 import {createStore, applyMiddleware} from "redux";
 
+import ReduxProvider from "./utils/react/provider";
+import {createMaterialsDesignerReducer} from "./reducers";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
 import {
     updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
@@ -15,10 +18,10 @@ import {
 
 const initialState = () => {
     return {
-        materials: Array(1).fill(Made.Material(Made.defaultMaterialConfig)),
+        materials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
         index: 0,
         isLoading: false,
-        isSetPublicVisible: account && account.serviceLevel.privateDataAllowed || false,
+        isSetPublicVisible: false,
     }
 };
 
@@ -65,16 +68,12 @@ const MaterialsDesignerContainerHelper = connect(
     mapDispatchToProps
 )(MaterialsDesignerComponent);
 
-import React from "react";
-import ReduxProvider from "./utils/react/provider";
-import {createMaterialsDesignerReducer} from "./reducers";
-
 export class MaterialsDesignerContainer extends React.Component {
 
     constructor(props) {
         super(props);
         const reducer = createMaterialsDesignerReducer(initialState());
-        this.store = createStore(reducer, Meteor.settings.public.isProduction ? undefined : applyMiddleware(logger));
+        this.store = createStore(reducer, applyMiddleware(logger));
         this.container = MaterialsDesignerContainerHelper;
     }
 
@@ -96,5 +95,3 @@ MaterialsDesignerContainer.propTypes = {
 };
 
 MaterialsDesignerContainer.defaultProps = {};
-
-export default MaterialsDesignerContainer;

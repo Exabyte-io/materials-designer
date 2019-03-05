@@ -42,7 +42,7 @@ import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
-import MaterialsExplorerModal from "../../../explorer/MaterialsExplorerModal";
+//import MaterialsExplorerModal from "../../../explorer/MaterialsExplorerModal";
 import ExportActionDialog from "./ExportActionDialog";
 import SaveActionDialog from "./SaveActionDialog";
 
@@ -79,10 +79,10 @@ class HeaderMenuToolbar extends React.Component {
                     Save
                 </MenuItem>
                 <MenuItem onClick={() => {
-                    Router.go('accountPage', {
-                        accountSlug: AccountsSelector.currentAccount().slug,
-                        tab: 'materials',
-                    }, {query: getRouteQueryParametersFromInSet(getInSetFromRoute())});
+//                    Router.go('accountPage', {
+//                        accountSlug: AccountsSelector.currentAccount().slug,
+//                        tab: 'materials',
+//                    }, {query: getRouteQueryParametersFromInSet(getInSetFromRoute())});
                 }}>
                     <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                     Exit
@@ -147,7 +147,7 @@ class HeaderMenuToolbar extends React.Component {
                     Interpolated set
                 </MenuItem>
                 <MenuItem
-                    disabled={!FeatureHandler.isAccessibleByCurrentAccount("SurfaceBuilder")}
+//                    disabled={!FeatureHandler.isAccessibleByCurrentAccount("SurfaceBuilder")}
                     onClick={() => this.setState({showSurfaceDialog: true})}>
                     <ListItemIcon><SlabIcon/></ListItemIcon>
                     Surface / slab
@@ -230,18 +230,18 @@ class HeaderMenuToolbar extends React.Component {
                     onHide={() => this.setState({showSurfaceDialog: false})}
                 />
 
-                <MaterialsExplorerModal
-                    title="Import materials"
-                    show={this.state.showImportMaterialsDialog}
-                    hintText="Search materials by name, formula, symmetry..."
-                    modalId="material-add"
-                    backdropColor='dark'
-                    onHide={() => this.setState({showImportMaterialsDialog: false})}
-                    onSubmit={(materials) => {
-                        this.props.onAdd(materials);
-                        this.setState({showImportMaterialsDialog: false});
-                    }}
-                />
+                {/*<MaterialsExplorerModal*/}
+                    {/*title="Import materials"*/}
+                    {/*show={this.state.showImportMaterialsDialog}*/}
+                    {/*hintText="Search materials by name, formula, symmetry..."*/}
+                    {/*modalId="material-add"*/}
+                    {/*backdropColor='dark'*/}
+                    {/*onHide={() => this.setState({showImportMaterialsDialog: false})}*/}
+                    {/*onSubmit={(materials) => {*/}
+                        {/*this.props.onAdd(materials);*/}
+                        {/*this.setState({showImportMaterialsDialog: false});*/}
+                    {/*}}*/}
+                {/*/>*/}
 
 
                 <ExportActionDialog
@@ -266,39 +266,39 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 {/* SelectSet Dialog */}
-                <MaterialsExplorerModal
-                    title="Select material set"
-                    show={this.state.showSelectSetDialog}
-                    hintText="Search by name"
-                    modalId="materials-set-select"
-                    omitEntitySetFunctions={false}
-                    omitEntitySelection={true}
-                    omitEntitySetSelection={false}
-                    selectionLimit={1}
-                    onHide={() => this.setState({
-                            showSaveMaterialsDialog: true,
-                        },
-                        () => this.setState({showSelectSetDialog: false,})
-                    )}
-                    onSubmit={(entitySets) => {
-                        const materialSet = entitySets[0];
-                        if (entitySets.length > 1) {
-                            // throw error re-using generic message for workflows
-                            sAlert.warning(displayMessage('workflow.errors.select.singleOnly'));
-                            return
-                        }
-                        if (!materialSet.isEntitySet) {
-                            sAlert.warning(displayMessage('errors.notAnEntitySet'));
-                            return;
-                        }
-                        this.setState({
-                                showSelectSetDialog: false,
-                                entitySetClsInstance: materialSet,
-                            },
-                            () => this.setState({showSaveMaterialsDialog: true,})
-                        );
-                    }}
-                />
+                {/*<MaterialsExplorerModal*/}
+                    {/*title="Select material set"*/}
+                    {/*show={this.state.showSelectSetDialog}*/}
+                    {/*hintText="Search by name"*/}
+                    {/*modalId="materials-set-select"*/}
+                    {/*omitEntitySetFunctions={false}*/}
+                    {/*omitEntitySelection={true}*/}
+                    {/*omitEntitySetSelection={false}*/}
+                    {/*selectionLimit={1}*/}
+                    {/*onHide={() => this.setState({*/}
+                            {/*showSaveMaterialsDialog: true,*/}
+                        {/*},*/}
+                        {/*() => this.setState({showSelectSetDialog: false,})*/}
+                    {/*)}*/}
+                    {/*onSubmit={(entitySets) => {*/}
+                        {/*const materialSet = entitySets[0];*/}
+                        {/*if (entitySets.length > 1) {*/}
+                            {/*// throw error re-using generic message for workflows*/}
+{/*//                            sAlert.warning(displayMessage('workflow.errors.select.singleOnly'));*/}
+                            {/*return*/}
+                        {/*}*/}
+                        {/*if (!materialSet.isEntitySet) {*/}
+{/*//                            sAlert.warning(displayMessage('errors.notAnEntitySet'));*/}
+                            {/*return;*/}
+                        {/*}*/}
+                        {/*this.setState({*/}
+                                {/*showSelectSetDialog: false,*/}
+                                {/*entitySetClsInstance: materialSet,*/}
+                            {/*},*/}
+                            {/*() => this.setState({showSaveMaterialsDialog: true,})*/}
+                        {/*);*/}
+                    {/*}}*/}
+                {/*/>*/}
 
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"

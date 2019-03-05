@@ -58,7 +58,7 @@ class InterpolateBasesDialog extends ModalDialog {
                     name: `${idx} - ${material.name} - ${newBasis.formula}`
                 }
             );
-            const newMaterial = new Material(newMaterialConfig);
+            const newMaterial = new Made.Material(newMaterialConfig);
             newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
