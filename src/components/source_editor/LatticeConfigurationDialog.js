@@ -1,14 +1,10 @@
-import React from "react";
-import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
-import _ from "underscore";
 import $ from 'jquery';
-
-import {ModalDialog} from "/imports/ui/exports";
+import React from "react";
 import {Made} from "made.js";
-import {deepClone} from "../../utils/index";
-import ToggleSwitch from "/imports/ui/components/form/ToggleSwitch";
+import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
 
-import {Material} from "../../../../../material";
+import {deepClone} from "../../utils/index";
+import ToggleSwitch from "../include/ToggleSwitch";
 
 /**
  * @summary Crystal Lattice configuration dialog.
@@ -101,7 +97,7 @@ class LatticeConfigurationDialog extends React.Component {
     }
 
     handleUpdateLattice() {
-        const oldMaterialCopy = new Material(this.props.material.clone());
+        const oldMaterialCopy = new Made.Material(this.props.material.clone());
         this.state.preserveBasis ? oldMaterialCopy.toCartesian() : oldMaterialCopy.toCrystal();
 
         const newMaterialConfig = Object.assign({},

@@ -1,9 +1,8 @@
 import React from "react";
-import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
-import {ModalDialog} from "/imports/ui/exports";
-
 import math from "mathjs";
-import {MATERIALS_GENERATE_SUPERCELL_FOR_ONE} from "../../../actions";
+import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
+
+import {ModalDialog} from "../../include/ModalDialog";
 
 class SupercellDialog extends ModalDialog {
 

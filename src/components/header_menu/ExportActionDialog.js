@@ -1,7 +1,7 @@
 import React from 'react';
-import Input, {InputLabel} from 'material-ui-next/Input';
-import {FormControl} from 'material-ui-next/Form';
 import Select from 'material-ui-next/Select';
+import {FormControl} from 'material-ui-next/Form';
+import Input, {InputLabel} from 'material-ui-next/Input';
 
 import ActionDialog from "../include/ActionDialog";
 

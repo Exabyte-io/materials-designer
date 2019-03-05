@@ -3,9 +3,9 @@ import setClass from "classnames";
 
 import Toolbar from 'material-ui-next/Toolbar';
 import Divider from 'material-ui-next/Divider';
-import IconButton from 'material-ui-next/IconButton';
 import {MenuItem} from 'material-ui-next/Menu';
 import {ListItemIcon} from 'material-ui-next/List';
+import IconButton from 'material-ui-next/IconButton';
 
 import {
     Check as CheckIcon,
@@ -35,10 +35,7 @@ import {
 
 } from 'material-ui-icons-next';
 
-import FeatureHandler from "/imports/access/feature";
-import {ButtonActivatedMenuMaterialUI} from "/imports/ui/exports";
-import {getInSetFromRoute, getRouteQueryParametersFromInSet} from "/imports/entity_sets/client/utils";
-import {AccountsSelector} from "/imports/accounts/exports_client";
+import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActivatedMenu";
 import {displayMessage} from "../../utils/messages";
 
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";

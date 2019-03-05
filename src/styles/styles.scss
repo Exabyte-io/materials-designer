@@ -1,0 +1,363 @@
+// material-ui v1.00-beta.37 dark theme
+$material-ui-expansion-panels-color: #424242;
+$material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+
+// menu items in materials designer header
+.button-activated-menu {
+    position: absolute !important; // to override default Mui classes
+    background: $material-ui-expansion-panels-color;
+    z-index: 10;
+    box-shadow: $material-ui-menu-box-shadow;
+}
+
+// Basis source text
+textarea.form-control.material-textarea {
+    font-family: $font-family-monospace;
+    font-size: 11px;
+    padding: 10px;
+    border: 1px solid $gray-light;
+    border-radius: 3px;
+    @include inverse;
+}
+
+.crystal-lattice-config {
+    .fg-line input {
+        border-bottom-color: #555;
+    }
+}
+
+.material-view-or-edit, .materials-designer {
+
+    padding: 0;
+
+    .lattice-basis {
+        height: 65vmin;
+        min-height: 445px; // to avoid basis-view being hidden behind viewer on mobile
+        padding: 20px 10px;
+        @media (min-width: $screen-md) {
+            padding: 20px 30px;
+        }
+
+        .xyz, .basis-options {
+            margin-bottom: 10px;
+        }
+
+        .btn-custom {
+            margin-bottom: 10px;
+            background-color: $exagray_semi-transparent;
+        }
+
+    }
+
+    .toggle-switch {
+        margin: 0px 40px 20px;
+        @media (min-width: $screen-md) {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+        }
+    }
+
+    #advanced-geometry {
+        position: absolute;
+        bottom: 10px;
+    }
+
+    /*
+     * Combinatorial Stylings
+     */
+    .highlighted-border {
+        border-color: $warning_color !important;
+    }
+
+    /*
+     * Combinatorial High Throughput Design Tools
+     */
+    .materials-toolbar {
+        padding: 0px 30px;
+        width: 100%;
+
+        .toolbar-toggle {
+            margin-bottom: 10px;
+            float: right;
+            width: 100%;
+        }
+
+        .toolbar-container {
+            text-align: center;
+
+            .btn {
+                margin-bottom: 5px;
+            }
+
+            &.active {
+                display: block;
+            }
+        }
+
+        @media (min-width: $screen-md) {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            margin: 20px;
+            padding: 0px;
+            .toolbar-toggle, .toolbar-container {
+                float: right;
+                width: auto;
+                margin-left: 10px;
+            }
+        }
+    }
+
+}
+
+.materials-name-and-toolbar {
+    .btn {
+        min-width: 35px;
+        font-size: 18px;
+        margin-top: 1px;
+
+        &#save-material {
+            border-width: 2px;
+            margin-top: 0px;
+        }
+    }
+}
+
+#material-name-input {
+    margin: 0;
+    width: 300px;
+    height: 24px;
+    background-color: transparent;
+    padding: 0 6px;
+}
+
+#material-name-input-wrap, #material-name-accept, #material-name-cancel {
+    display: none;
+}
+
+#material-name-edit, #material-name-accept, #material-name-cancel {
+    padding: 0 6px;
+}
+
+.row-name {
+    &.editing {
+        #material-name-label, #material-name-edit {
+            display: none;
+        }
+
+        #material-name-input-wrap, #material-name-accept, #material-name-cancel {
+            display: inline-block;
+        }
+    }
+}
+
+#bank-item, #relaxation-results-structure, .material-view-or-edit {
+    overflow: hidden;
+
+    .card:not(.metadata-tags) {
+        height: 100%;
+        border: 1px solid $gray-dark;
+        background: none;
+
+        pre {
+            color: $gray-lighter;
+            background: none;
+            border: none;
+        }
+    }
+
+    .lattice-view {
+        .label {
+            font-size: 14px;
+            color: $gray-lighter;
+            border: 1px solid $gray-lighter;
+            background: transparent;
+        }
+    }
+
+    .basis-view {
+        height: 100%;
+        padding-bottom: 260px;
+
+        .card-body {
+            height: 100%;
+            padding-bottom: 70px;
+        }
+
+    }
+}
+
+.xyz {
+    height: 100%;
+
+    textarea, pre {
+        display: block;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: auto;
+
+        &::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        &::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 12px $gray-light;
+        }
+    }
+}
+
+.material-designer-embedded {
+    .wizard-step-footer {
+        margin-top: 0px;
+    }
+}
+
+.button-activated-menu {
+    position: absolute !important; // to override default Mui classes
+    background: $material-ui-expansion-panels-color;
+    z-index: 10;
+    box-shadow: $material-ui-menu-box-shadow;
+}
+
+// styles for when three-renderer is fullscreen on its own
+.three-renderer {
+    height: 65vmin;
+}
+
+.full-screen .three-renderer {
+    height: 100vmin;
+}
+
+.three-renderer {
+    canvas:first-child {
+        position: absolute;
+        right: 10px;
+    }
+
+    .three-renderer-selection {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.4);
+        visibility: hidden;
+    }
+}
+
+$header-menu-height: 64px;
+$editor-info-height: 41px;
+$materials-designer-height: 65vmin;
+$materials-designer-height-fullscreen: calc(100vmin - #{$editor-info-height} - #{$header-menu-height});
+
+.materials-designer-header-menu {
+    padding-left: 32px !important; // to align the buttons and popover menus
+    button:not(.active) {
+        color: inherit !important;
+    }
+
+    button.active {
+        background: $material-ui-expansion-panels-color;
+    }
+
+    button.spinner-icon {
+        position: absolute;
+        right: 20px;
+        top: 8px;
+    }
+}
+
+.materials-designer-items-list {
+    max-height: $materials-designer-height;
+    overflow-x: auto;
+    overflow-y: auto;
+    @include darkScrollbar(8);
+
+    input {
+        background-color: inherit;
+        text-overflow: ellipsis;
+        padding: 0;
+        max-width: 100%;
+    }
+
+    // TODO: find out whether this is a recommended way to override MaterialUI-next css classes
+    [class^="MuiFormControl-root-"] {
+        min-width: 0 !important;
+        max-width: 100%;
+    }
+
+    nav .active {
+        background: $material-ui-expansion-panels-color;
+    }
+
+    nav .updated {
+        color: $amber;
+    }
+
+    nav [role="button"] {
+        padding: 10px;
+    }
+
+    // icon colors
+    svg {
+        color: inherit !important;
+        margin: 0 !important;
+
+        &:last-of-type {
+            opacity: 0.5;
+        }
+    }
+
+    svg.superscript-icon {
+        position: absolute;
+        font-size: 110% !important;
+        top: 7px;
+        left: 7px;
+        border: 1px solid;
+        border-radius: 50px;
+        box-shadow: 0 1px 0 1px $material-ui-expansion-panels-color;
+        background: $material-ui-expansion-panels-color;
+    }
+}
+
+$source-editor-crystal-lattice-collapsed-height: 215px;
+
+.materials-designer-source-editor {
+
+    height: $materials-designer-height;
+    overflow: hidden;
+    min-height: 445px; // to avoid basis-view being hidden behind GLmol on mobile
+    padding: 10px 10px;
+
+    .btn-custom {
+        margin-bottom: 10px;
+        background-color: $exagray_semi-transparent;
+    }
+
+    textarea[name="basis-xyz"] {
+        height: calc(#{$materials-designer-height} - #{$source-editor-crystal-lattice-collapsed-height});
+        resize: vertical;
+    }
+
+}
+
+// has to be at the end of the file to override prior directives
+.fullscreen.fullscreen-enabled {
+    .materials-designer-items-list, .materials-designer-source-editor {
+        height: $materials-designer-height-fullscreen;
+
+        textarea[name="basis-xyz"] {
+            height: calc(#{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height});
+        }
+    }
+
+    .materials-designer-3d-editor {
+        // styles for when three-renderer is fullscreen inside materials designer
+        .three-renderer {
+            height: $materials-designer-height-fullscreen;
+        }
+    }
+}

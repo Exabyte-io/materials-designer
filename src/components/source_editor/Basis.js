@@ -2,9 +2,8 @@ import React from 'react';
 import {Made} from "made.js";
 import {$} from "meteor/jquery";
 import setClass from 'classnames';
-
-import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from 'material-ui-next/ExpansionPanel';
 import ExpandMoreIcon from 'material-ui-icons-next/ExpandMore';
+import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from 'material-ui-next/ExpansionPanel';
 
 import {displayMessage} from "../../utils/messages";
 

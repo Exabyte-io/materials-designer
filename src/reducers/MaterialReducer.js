@@ -4,14 +4,11 @@ import {displayMessage} from "../utils/messages";
 import {
     MATERIALS_UPDATE_INDEX,
     MATERIALS_UPDATE_ONE,
-    MATERIALS_UPDATE,
     MATERIALS_CLONE_ONE,
     MATERIALS_UPDATE_NAME_FOR_ONE,
     MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
     MATERIALS_GENERATE_SURFACE_FOR_ONE,
 } from "../actions";
-
-import {Material} from "../../../../material";
 
 function materialsUpdateOne(state, action) {
     const materials = state.materials.slice();  // get copy of array
@@ -49,7 +46,7 @@ function materialsGenerateSupercellForOne(state, action) {
     const matrixAsNestedArray = action.matrix;
     const material = state.materials[state.index];  // only using currently active material
     const supercellConfig = Made.tools.supercell.generateConfig(material, matrixAsNestedArray);
-    const supercell = new Material(supercellConfig);
+    const supercell = new Made.Material(supercellConfig);
     return materialsUpdateOne(state, Object.assign(action, {material: supercell}));
 }
 
@@ -91,7 +88,7 @@ function materialsGenerateSurfaceForOne(state, action) {
         material
     });
 
-    const newMaterial = new Material(supercellConfig);
+    const newMaterial = new Made.Material(supercellConfig);
     Made.tools.material.scaleOneLatticeVector(newMaterial, ["a", "b", "c"][outOfPlaneAxisIndex], 1 / (1 - vacuumRatio));
 
     return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
