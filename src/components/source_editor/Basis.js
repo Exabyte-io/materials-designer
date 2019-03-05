@@ -6,7 +6,7 @@ import setClass from 'classnames';
 import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from 'material-ui-next/ExpansionPanel';
 import ExpandMoreIcon from 'material-ui-icons-next/ExpandMore';
 
-import {displayMessage} from "/imports/utils/messages";
+import {displayMessage} from "../../utils/messages";
 
 class Basis extends React.Component {
 

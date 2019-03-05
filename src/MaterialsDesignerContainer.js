@@ -72,7 +72,7 @@ const MaterialsDesignerContainerHelper = connect(
 )(MaterialsDesignerComponent);
 
 import React from "react";
-import ReduxProvider from "/imports/utils/react/provider";
+import ReduxProvider from "./utils/react/provider";
 import {createMaterialsDesignerReducer} from "./reducers";
 
 export class MaterialsDesignerContainer extends React.Component {

@@ -1,4 +1,4 @@
-import {safeMakeArrayIfNot} from "/imports/utils/array";
+import {safeMakeArrayIfNot} from "../utils/array";
 
 export const MATERIALS_SAVE = 'MATERIALS_SAVE';
 export function saveMaterials(tags = [], useMultiple = false, isPublic = false, inSetConfig = {}, dispatch) {

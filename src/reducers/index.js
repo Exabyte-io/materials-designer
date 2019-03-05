@@ -1,8 +1,8 @@
-import {createReducer} from "/imports/utils/react/reducer";
+import {createReducer} from "../utils/react/reducer";
 import undoable, {excludeAction} from 'redux-undo';
 
-import StateResetReducer from "/imports/utils/redux/reset_state/reducer"
-import IsLoadingReducer from "/imports/utils/redux/is_loading/reducer"
+import StateResetReducer from "../utils/redux/reset_state/reducer"
+import IsLoadingReducer from "../utils/redux/is_loading/reducer"
 
 import {MATERIALS_UPDATE_INDEX} from "../actions";
 import MaterialReducer from "./MaterialReducer";

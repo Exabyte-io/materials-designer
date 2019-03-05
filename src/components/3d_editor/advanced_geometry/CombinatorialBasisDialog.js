@@ -5,7 +5,7 @@ import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 import {Made} from "made.js";
 import {ModalDialog} from '/imports/ui/exports';
 import Material from '/imports/materials/material';
-import {displayMessage} from "/imports/utils/messages";
+import {displayMessage} from "../../../utils/messages";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 

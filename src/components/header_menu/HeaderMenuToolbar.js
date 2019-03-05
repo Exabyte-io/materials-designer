@@ -39,7 +39,7 @@ import FeatureHandler from "/imports/access/feature";
 import {ButtonActivatedMenuMaterialUI} from "/imports/ui/exports";
 import {getInSetFromRoute, getRouteQueryParametersFromInSet} from "/imports/entity_sets/client/utils";
 import {AccountsSelector} from "/imports/accounts/exports_client";
-import {displayMessage} from "/imports/utils/messages";
+import {displayMessage} from "../../utils/messages";
 
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
