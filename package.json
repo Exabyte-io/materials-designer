@@ -1,0 +1,44 @@
+{
+    "name": "materials-designer",
+    "version": "0.1.0",
+    "description": "Materials Designer",
+    "scripts": {
+        "postinstall": "babel --copy-files --out-dir lib src"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Exabyte-io/materials-designer.git"
+    },
+    "main": "lib/exports.js",
+    "author": "Exabyte Inc.",
+    "bugs": {
+        "url": "https://github.com/Exabyte-io/materials-designer/issues"
+    },
+    "homepage": "https://github.com/Exabyte-io/materials-designer",
+    "dependencies": {
+        "@babel/cli": "7.0.0",
+        "@babel/core": "7.0.0",
+        "@babel/polyfill": "7.0.0",
+        "@babel/preset-env": "7.0.0",
+        "@babel/preset-react": "7.0.0",
+        "@babel/runtime-corejs2": "^7.0.0",
+        "@babel/plugin-proposal-class-properties": "7.0.0",
+        "made.js": "file:/stack/lib/made-js",
+        "classnames": "^2.2.5",
+        "mixwith": "^0.1.1",
+        "node-sass": "^4.11.0",
+        "periodic-table": "file:/stack/lib/periodic-table",
+        "react": "^15.6.2",
+        "react-jss": "^8.6.1",
+        "react-dom": "^15.6.2",
+        "three": "^0.90.0",
+        "three-orbit-controls": "^82.1.0",
+        "three-transform-controls": "^1.0.4",
+        "underscore": "^1.8.3",
+        "underscore.string": "^3.3.4",
+        "material-ui-icons-next": "^1.0.0-beta.17-next",
+        "material-ui-next": "^1.0.0-beta.38",
+        "jquery": "^1.11.2"
+    },
+    "devDependencies": {}
+}
