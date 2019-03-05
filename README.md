@@ -1,2 +1,1 @@
-# materials-designer
-Materials Designer
+# Materials Designer
