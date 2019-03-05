@@ -6,7 +6,7 @@ import WidgetsIcon from 'material-ui-icons-next/Widgets';
 import CheckIcon from 'material-ui-icons-next/Check';
 import DeleteIcon from 'material-ui-icons-next/Delete';
 
-import {ShowIf} from "/imports/utils/react/showif";
+import {ShowIf} from "../../utils/react/showif";
 
 class ItemsList extends React.Component {
 

@@ -1,5 +1,5 @@
 import {Made} from "made.js";
-import {displayMessage} from "/imports/utils/messages";
+import {displayMessage} from "../utils/messages";
 
 import {
     MATERIALS_UPDATE_INDEX,

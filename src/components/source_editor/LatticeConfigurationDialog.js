@@ -5,7 +5,7 @@ import $ from 'jquery';
 
 import {ModalDialog} from "/imports/ui/exports";
 import {Made} from "made.js";
-import {deepClone} from "/imports/utils/index";
+import {deepClone} from "../../utils/index";
 import ToggleSwitch from "/imports/ui/components/form/ToggleSwitch";
 
 import {Material} from "../../../../../material";

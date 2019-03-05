@@ -1,5 +1,5 @@
 import {AccountsSelector} from "/imports/accounts/selector";
-import {exportToDisk} from "/imports/utils/downloader";
+import {exportToDisk} from "../utils/downloader";
 import {getInSetFromRoute} from "/imports/entity_sets/exports_client";
 
 import {setIsLoading} from "../actions";
