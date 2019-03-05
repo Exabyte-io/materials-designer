@@ -1,16 +1,15 @@
 import React from "react";
 import {mix} from "mixwith";
 import setClass from "classnames";
+import {MuiThemeProvider} from "material-ui-next/styles";
 
 import ItemsList from "./components/items_list/ItemsList";
 import SourceEditor from "./components/source_editor/SourceEditor";
+import {DarkMaterialUITheme} from "./components/include/material-ui/theme";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
 import {ThreeDEditorFullscreen} from "./components/3d_editor/ThreeDEditorFullscreen";
+import {FullscreenComponentMixin} from "./components/include/FullscreenComponentMixin";
 import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
-
-import {DarkMaterialUITheme} from "/imports/ui/exports";
-import {MuiThemeProvider} from "material-ui-next/styles";
-import {FullscreenComponentMixin} from "/imports/ui/exports";
 
 class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMixin) {
 
@@ -30,7 +29,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
 
     toggleFullscreen = () => {
         this.setState({isFullscreen: !this.state.isFullscreen})
-    }
+    };
 
     render() {
         return (

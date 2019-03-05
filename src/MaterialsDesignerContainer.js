@@ -1,27 +1,21 @@
 import _ from "underscore";
 import lodash from "lodash";
-import {connect} from "react-redux";
-import {createStore, applyMiddleware} from "redux";
+import {Made} from "made.js";
 import logger from "redux-logger";
+import {connect} from "react-redux";
 import {ActionCreators} from 'redux-undo';
-
-import {Material} from "../../../material";
-import {AccountsSelector} from "/imports/accounts/selector";
+import {createStore, applyMiddleware} from "redux";
 
 import MaterialsDesignerComponent from "./MaterialsDesigner";
 import {
-    updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial,
-    updateMaterialsIndex,
-    addMaterials, removeMaterials, exportMaterials, saveMaterials,
-    generateSupercellForOneMaterial, generateSurfaceForOneMaterial,
-    resetState,
+    updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
+    addMaterials, removeMaterials, exportMaterials, saveMaterials, generateSupercellForOneMaterial,
+    generateSurfaceForOneMaterial, resetState,
 } from "./actions";
 
 const initialState = () => {
-    const account = AccountsSelector.currentAccount();
-    const defaultMaterial = (account && account.defaultMaterial) || Material.createDefault();
     return {
-        materials: Array(1).fill(defaultMaterial),
+        materials: Array(1).fill(Made.Material(Made.defaultMaterialConfig)),
         index: 0,
         isLoading: false,
         isSetPublicVisible: account && account.serviceLevel.privateDataAllowed || false,

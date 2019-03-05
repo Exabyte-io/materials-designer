@@ -1,10 +1,10 @@
 import React from "react";
 import setClass from "classnames";
-import List, {ListItem, ListItemIcon, ListItemText} from "material-ui-next/List";
 import TextField from 'material-ui-next/TextField';
-import WidgetsIcon from 'material-ui-icons-next/Widgets';
 import CheckIcon from 'material-ui-icons-next/Check';
 import DeleteIcon from 'material-ui-icons-next/Delete';
+import WidgetsIcon from 'material-ui-icons-next/Widgets';
+import List, {ListItem, ListItemIcon, ListItemText} from "material-ui-next/List";
 
 import {ShowIf} from "../../utils/react/showif";
 

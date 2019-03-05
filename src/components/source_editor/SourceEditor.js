@@ -2,8 +2,8 @@ import React from 'react';
 import {$} from "meteor/jquery";
 import setClass from "classnames";
 
-import LatticeEditor from './Lattice';
 import BasisEditor from './Basis';
+import LatticeEditor from './Lattice';
 
 class SourceEditor extends React.Component {
 

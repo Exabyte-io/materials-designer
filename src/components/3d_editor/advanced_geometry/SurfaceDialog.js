@@ -1,6 +1,7 @@
 import React from "react";
 import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
-import {ModalDialog} from "/imports/ui/exports";
+
+import {ModalDialog} from "../../include/ModalDialog";
 
 class SurfaceDialog extends ModalDialog {
 

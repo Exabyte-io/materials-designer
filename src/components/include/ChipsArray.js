@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withStyles} from "material-ui-next/styles";
 import Chip from "material-ui-next/Chip";
-import Input, {InputLabel} from "material-ui-next/Input";
 import {FormControl} from 'material-ui-next/Form';
+import {withStyles} from "material-ui-next/styles";
+import Input, {InputLabel} from "material-ui-next/Input";
 
 const styles = theme => ({});
 

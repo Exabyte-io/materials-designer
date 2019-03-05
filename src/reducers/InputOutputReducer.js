@@ -1,9 +1,4 @@
-import {AccountsSelector} from "/imports/accounts/selector";
 import {exportToDisk} from "../utils/downloader";
-import {getInSetFromRoute} from "/imports/entity_sets/exports_client";
-
-import {setIsLoading} from "../actions";
-import {saveMaterialsWithConfirm} from "../../../save_with_alert";
 
 import {
     MATERIALS_SAVE,
@@ -11,47 +6,9 @@ import {
     MATERIALS_ADD,
     MATERIALS_REMOVE,
 } from "../actions";
-import Material from "../../../../material";
 
 function materialsSave(state, action) {
-
-    // if no set information provided in action, attempt to get it from route
-    const inSet = _.isEmpty(action.inSetConfig) ? getInSetFromRoute() : action.inSetConfig;
-
-    const materialsToSave = (action.useMultiple ? state.materials : [state.materials[state.index]]).map((m, idx) => {
-        m.setTags(action.tags);
-        m.setPublic(action.isPublic);
-
-        if (inSet._id) { // ignore empty inSet object
-            m.inSet = (m.inSet || []).concat({
-                ...inSet,
-                index: idx
-            });
-        }
-        return m;
-    });
-
-    const account = materialsToSave[0].owner || AccountsSelector.currentAccount();
-
-    saveMaterialsWithConfirm({
-        account: account,
-        materials: materialsToSave,
-        saveCallback: (err) => {
-            if (err) {
-                sAlert.error(err.reason || err.message);
-            } else {
-                action.dispatch(setIsLoading(false));
-                sAlert.success(`Operation successful.`);
-            }
-        },
-        noConfirmCallback: () => action.dispatch(setIsLoading(false))
-    });
-    // no longer consider material as updated after save
-    state.materials.forEach(m => delete m.isUpdated);
-    return Object.assign({}, state, {
-        isLoading: true,
-        materials: state.materials
-    });
+    return Object.assign({}, state, {materials: state.materials});
 }
 
 export function materialsAdd(state, action) {
