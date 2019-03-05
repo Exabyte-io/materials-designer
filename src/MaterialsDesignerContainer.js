@@ -16,6 +16,8 @@ import {
     generateSurfaceForOneMaterial, resetState,
 } from "./actions";
 
+import './stylesheets/designer.scss';
+
 const initialState = () => {
     return {
         // TODO: (account && account.defaultMaterial) || Material.createDefault();
