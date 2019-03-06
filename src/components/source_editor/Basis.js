@@ -35,6 +35,8 @@ class Basis extends React.Component {
             case Made.ATOMIC_COORD_UNITS.crystal:
                 material.toCrystal();
                 break;
+            default:
+                break;
         }
         this.reformatXYZText();
     }
@@ -47,7 +49,7 @@ class Basis extends React.Component {
                 xyz: materialXYZ
             })
         }
-    }
+    };
 
     handleMaterialTextareaChange(e) {
         const value = $(e.target).val();
