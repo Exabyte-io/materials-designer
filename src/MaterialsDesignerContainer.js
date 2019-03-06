@@ -16,7 +16,8 @@ import {
     generateSurfaceForOneMaterial, resetState,
 } from "./actions";
 
-import './stylesheets/designer.scss';
+import 'bootstrap/dist/css/bootstrap.css';
+import './stylesheets/main.scss';
 
 const initialState = () => {
     return {
