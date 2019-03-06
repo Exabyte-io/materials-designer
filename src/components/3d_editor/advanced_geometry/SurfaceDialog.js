@@ -21,7 +21,6 @@ class SurfaceDialog extends ModalDialog {
     }
 
     handleGenerateSurface() {
-        const array = [this.state.h, this.state.k, this.state.l];
         this.setState({
             message: '',
         }, () => {

@@ -28,7 +28,6 @@ import {
     BorderClear as SupercellIcon,
     LibraryAdd as CombinatorialSetIcon,
     SwapVert as InterpolatedSetIcon,
-    ViewStream as SurfaceIcon,
     Layers as SlabIcon,
     Timeline as PolymerIcon,
     DonutLarge as NanotubeIcon,
