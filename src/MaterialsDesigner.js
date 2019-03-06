@@ -61,6 +61,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 onAdd={this.props.onAdd}
                                 onExport={this.props.onExport}
                                 onSave={this.props.onSave}
+                                onExit={this.props.onExit}
 
                                 onGenerateSupercell={this.props.onGenerateSupercell}
                                 onGenerateSurface={this.props.onGenerateSurface}
@@ -131,6 +132,10 @@ MaterialsDesigner.propTypes = {
     onReset: React.PropTypes.func,
 
     onAdd: React.PropTypes.func,
+    onExport: React.PropTypes.func,
+    onSave: React.PropTypes.func,
+    onExit: React.PropTypes.func,
+
     onRemove: React.PropTypes.func,
 
 };

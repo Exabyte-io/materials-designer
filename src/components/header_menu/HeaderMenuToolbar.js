@@ -77,12 +77,7 @@ class HeaderMenuToolbar extends React.Component {
                     <ListItemIcon><SaveIcon/></ListItemIcon>
                     Save
                 </MenuItem>
-                <MenuItem onClick={() => {
-//                    Router.go('accountPage', {
-//                        accountSlug: AccountsSelector.currentAccount().slug,
-//                        tab: 'materials',
-//                    }, {query: getRouteQueryParametersFromInSet(getInSetFromRoute())});
-                }}>
+                <MenuItem onClick={this.props.onExit}>
                     <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                     Exit
                 </MenuItem>
@@ -146,7 +141,6 @@ class HeaderMenuToolbar extends React.Component {
                     Interpolated set
                 </MenuItem>
                 <MenuItem
-//                    disabled={!FeatureHandler.isAccessibleByCurrentAccount("SurfaceBuilder")}
                     onClick={() => this.setState({showSurfaceDialog: true})}>
                     <ListItemIcon><SlabIcon/></ListItemIcon>
                     Surface / slab
@@ -230,16 +224,16 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 {/*<MaterialsExplorerModal*/}
-                    {/*title="Import materials"*/}
-                    {/*show={this.state.showImportMaterialsDialog}*/}
-                    {/*hintText="Search materials by name, formula, symmetry..."*/}
-                    {/*modalId="material-add"*/}
-                    {/*backdropColor='dark'*/}
-                    {/*onHide={() => this.setState({showImportMaterialsDialog: false})}*/}
-                    {/*onSubmit={(materials) => {*/}
-                        {/*this.props.onAdd(materials);*/}
-                        {/*this.setState({showImportMaterialsDialog: false});*/}
-                    {/*}}*/}
+                {/*title="Import materials"*/}
+                {/*show={this.state.showImportMaterialsDialog}*/}
+                {/*hintText="Search materials by name, formula, symmetry..."*/}
+                {/*modalId="material-add"*/}
+                {/*backdropColor='dark'*/}
+                {/*onHide={() => this.setState({showImportMaterialsDialog: false})}*/}
+                {/*onSubmit={(materials) => {*/}
+                {/*this.props.onAdd(materials);*/}
+                {/*this.setState({showImportMaterialsDialog: false});*/}
+                {/*}}*/}
                 {/*/>*/}
 
 
@@ -266,37 +260,37 @@ class HeaderMenuToolbar extends React.Component {
 
                 {/* SelectSet Dialog */}
                 {/*<MaterialsExplorerModal*/}
-                    {/*title="Select material set"*/}
-                    {/*show={this.state.showSelectSetDialog}*/}
-                    {/*hintText="Search by name"*/}
-                    {/*modalId="materials-set-select"*/}
-                    {/*omitEntitySetFunctions={false}*/}
-                    {/*omitEntitySelection={true}*/}
-                    {/*omitEntitySetSelection={false}*/}
-                    {/*selectionLimit={1}*/}
-                    {/*onHide={() => this.setState({*/}
-                            {/*showSaveMaterialsDialog: true,*/}
-                        {/*},*/}
-                        {/*() => this.setState({showSelectSetDialog: false,})*/}
-                    {/*)}*/}
-                    {/*onSubmit={(entitySets) => {*/}
-                        {/*const materialSet = entitySets[0];*/}
-                        {/*if (entitySets.length > 1) {*/}
-                            {/*// throw error re-using generic message for workflows*/}
-{/*//                            sAlert.warning(displayMessage('workflow.errors.select.singleOnly'));*/}
-                            {/*return*/}
-                        {/*}*/}
-                        {/*if (!materialSet.isEntitySet) {*/}
-{/*//                            sAlert.warning(displayMessage('errors.notAnEntitySet'));*/}
-                            {/*return;*/}
-                        {/*}*/}
-                        {/*this.setState({*/}
-                                {/*showSelectSetDialog: false,*/}
-                                {/*entitySetClsInstance: materialSet,*/}
-                            {/*},*/}
-                            {/*() => this.setState({showSaveMaterialsDialog: true,})*/}
-                        {/*);*/}
-                    {/*}}*/}
+                {/*title="Select material set"*/}
+                {/*show={this.state.showSelectSetDialog}*/}
+                {/*hintText="Search by name"*/}
+                {/*modalId="materials-set-select"*/}
+                {/*omitEntitySetFunctions={false}*/}
+                {/*omitEntitySelection={true}*/}
+                {/*omitEntitySetSelection={false}*/}
+                {/*selectionLimit={1}*/}
+                {/*onHide={() => this.setState({*/}
+                {/*showSaveMaterialsDialog: true,*/}
+                {/*},*/}
+                {/*() => this.setState({showSelectSetDialog: false,})*/}
+                {/*)}*/}
+                {/*onSubmit={(entitySets) => {*/}
+                {/*const materialSet = entitySets[0];*/}
+                {/*if (entitySets.length > 1) {*/}
+                {/*// throw error re-using generic message for workflows*/}
+                {/*//                            sAlert.warning(displayMessage('workflow.errors.select.singleOnly'));*/}
+                {/*return*/}
+                {/*}*/}
+                {/*if (!materialSet.isEntitySet) {*/}
+                {/*//                            sAlert.warning(displayMessage('errors.notAnEntitySet'));*/}
+                {/*return;*/}
+                {/*}*/}
+                {/*this.setState({*/}
+                {/*showSelectSetDialog: false,*/}
+                {/*entitySetClsInstance: materialSet,*/}
+                {/*},*/}
+                {/*() => this.setState({showSaveMaterialsDialog: true,})*/}
+                {/*);*/}
+                {/*}}*/}
                 {/*/>*/}
 
                 <CombinatorialBasisDialog
@@ -346,9 +340,14 @@ HeaderMenuToolbar.propTypes = {
 
     onAdd: React.PropTypes.func,
     onExport: React.PropTypes.func,
+    onExit: React.PropTypes.func,
 
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
+};
+
+HeaderMenuToolbar.defaultProps = {
+    onExit: () => {console.log("pass onExit as prop")}
 };
 
 export default HeaderMenuToolbar;
