@@ -16,6 +16,7 @@ import {
     generateSurfaceForOneMaterial, resetState,
 } from "./actions";
 
+// bootstrap needs to be loaded first
 import 'bootstrap/dist/css/bootstrap.css';
 import './stylesheets/main.scss';
 
