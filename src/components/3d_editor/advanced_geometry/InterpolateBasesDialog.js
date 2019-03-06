@@ -4,7 +4,7 @@ import {Made} from "made.js";
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {ModalDialog} from '../../include/ModalDialog';
-import {displayMessage} from "../../../utils/messages";
+import {displayMessage} from "../../../i18n/messages";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
@@ -24,7 +24,7 @@ class InterpolateBasesDialog extends ModalDialog {
         const basis1 = nextProps.material.Basis;
         const basis2 = nextProps.material2.Basis;
         if (!_.isEqual(basis1.elementsArray, basis2.elementsArray)) {
-            this.setState({message: displayMessage('material.basis.elementsNotEqual')})
+            this.setState({message: displayMessage('basis.elementsNotEqual')})
         } else {
             // reset the message
             this.setState({message: ''})

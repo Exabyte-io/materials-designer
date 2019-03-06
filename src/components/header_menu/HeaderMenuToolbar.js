@@ -35,7 +35,7 @@ import {
 } from 'material-ui-icons-next';
 
 import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActivatedMenu";
-import {displayMessage} from "../../utils/messages";
+//import {displayMessage} from "../../i18n/messages";
 
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
