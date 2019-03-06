@@ -5,7 +5,7 @@ import setClass from 'classnames';
 import ExpandMoreIcon from 'material-ui-icons-next/ExpandMore';
 import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from 'material-ui-next/ExpansionPanel';
 
-import {displayMessage} from "../../utils/messages";
+import {displayMessage} from "../../i18n/messages";
 
 class Basis extends React.Component {
 
@@ -93,7 +93,7 @@ class Basis extends React.Component {
             if (!this.state.validated) {
                 this.setState({
                     validated: true,
-                    message: displayMessage('materialsDesigner.basisValidationSuccess')
+                    message: displayMessage('basis.validationSuccess')
                 });
             } else {
                 // already validated before -> remove message
@@ -102,7 +102,7 @@ class Basis extends React.Component {
         } catch (err) {
             this.setState({
                 validated: false,
-                message: displayMessage('materialsDesigner.basisValidationError')
+                message: displayMessage('basis.validationError')
             });
             return false;
         }
