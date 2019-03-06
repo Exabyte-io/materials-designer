@@ -1,4 +1,4 @@
-import {$} from "jquery";
+import $ from "jquery";
 import React from 'react';
 import {Made} from "made.js";
 import setClass from 'classnames';
