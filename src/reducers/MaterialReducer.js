@@ -24,7 +24,8 @@ function materialsUpdateOne(state, action) {
 function materialsCloneOne(state, action) {
     const materials = state.materials.slice(); // get copy of array
     const material = materials[state.index].clone();
-    material.cleanOnCopy();
+    // TODO: move it to webapp
+    // material.cleanOnCopy();
     material.name = "New Material";
     materials.push(material);
     return Object.assign({}, state, {materials});
