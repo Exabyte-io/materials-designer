@@ -26,12 +26,8 @@ import './stylesheets/main.scss';
 
 const initialState = () => {
     return {
-        // TODO: (account && account.defaultMaterial) || Material.createDefault();
-        materials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
         index: 0,
         isLoading: false,
-        // TODO: account && account.serviceLevel.privateDataAllowed
-        isSetPublicVisible: false,
     }
 };
 
@@ -44,7 +40,6 @@ const mapStateToProps = (state, ownProps) => {
         materials: state.materials,
         editable: lodash.get(state, 'editable', false),
         isLoading: state.isLoading,
-        isSetPublicVisible: state.isSetPublicVisible,
     }, ownProps.parentProps);
 };
 
@@ -82,9 +77,10 @@ export class MaterialsDesignerContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        const reducer = createMaterialsDesignerReducer(initialState());
-        // TODO: Meteor.settings.public.isProduction ? undefined
-        this.store = createStore(reducer, applyMiddleware(logger));
+        const initialState_ = initialState();
+        initialState_.materials = props.materials;
+        const reducer = createMaterialsDesignerReducer(initialState_);
+        this.store = createStore(reducer, props.applyMiddleware ? applyMiddleware(logger) : undefined);
         this.container = MaterialsDesignerContainerHelper;
     }
 
@@ -113,6 +109,13 @@ export class MaterialsDesignerContainer extends React.Component {
 
 MaterialsDesignerContainer.propTypes = {
     childrenProps: React.PropTypes.object,
+    isSetPublicVisible: React.PropTypes.bool,
+    applyMiddleware: React.PropTypes.bool,
+    materials: React.PropTypes.array,
 };
 
-MaterialsDesignerContainer.defaultProps = {};
+MaterialsDesignerContainer.defaultProps = {
+    isSetPublicVisible: false,
+    applyMiddleware: true,
+    materials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
+};

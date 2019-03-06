@@ -59,7 +59,7 @@ class InterpolateBasesDialog extends ModalDialog {
                 }
             );
             const newMaterial = new Made.Material(newMaterialConfig);
-            // TODO: move to webapp
+            // TODO by MM: move to webapp
             // newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
