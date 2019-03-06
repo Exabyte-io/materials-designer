@@ -1,5 +1,5 @@
 import lodash from "lodash";
-import sprintf from 'sprintf-js';
+import {sprintf} from 'sprintf-js';
 
 import en from './en/messages';
 
