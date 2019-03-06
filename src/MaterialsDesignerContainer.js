@@ -112,6 +112,9 @@ MaterialsDesignerContainer.propTypes = {
     isSetPublicVisible: React.PropTypes.bool,
     applyMiddleware: React.PropTypes.bool,
     materials: React.PropTypes.array,
+    onSave: React.PropTypes.array,
+    importModal: React.PropTypes.array,
+    saveActionDialog: React.PropTypes.array,
 };
 
 MaterialsDesignerContainer.defaultProps = {

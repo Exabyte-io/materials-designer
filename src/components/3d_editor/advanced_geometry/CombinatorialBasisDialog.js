@@ -77,8 +77,6 @@ class CombinatorialBasisDialog extends ModalDialog {
                 }
             );
             const newMaterial = new Made.Material(newMaterialConfig);
-            // TODO by MM: move to webapp
-            // newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
         // pass up the chain
