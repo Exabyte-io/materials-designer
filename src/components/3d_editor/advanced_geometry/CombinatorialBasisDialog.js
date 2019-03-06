@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'underscore';
 import {Made} from "made.js";
-//import {Meteor} from "meteor/meteor";
+import Alert from 'react-s-alert';
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {ModalDialog} from '../../include/ModalDialog';
@@ -39,7 +39,7 @@ class CombinatorialBasisDialog extends ModalDialog {
     assertCombinatorialBasesCount(bases) {
         const maxCombinatorialBasesCount = 100;
         if (bases.length > maxCombinatorialBasesCount) {
-//            sAlert.warning(displayMessage('materialsDesigner.combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
+            Alert.warning(displayMessage('materialsDesigner.combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
             return false;
         }
         return true;
