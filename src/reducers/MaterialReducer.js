@@ -1,4 +1,5 @@
 import {Made} from "made.js";
+import Alert from 'react-s-alert';
 import {displayMessage} from "../utils/messages";
 
 import {
@@ -55,7 +56,7 @@ function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio,
     const bulkExabyteId = material && (material.exabyteId);
 
     if (!(bulkId || bulkExabyteId)) {
-//        sAlert.warning(displayMessage('materialsDesigner.createSurface.noBulkId'), {timeout: 10000});
+        Alert.warning(displayMessage('materialsDesigner.createSurface.noBulkId'), {timeout: 10000});
     }
 
     Object.assign(slabConfig, {

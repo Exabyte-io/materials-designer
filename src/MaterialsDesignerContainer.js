@@ -2,9 +2,11 @@ import React from "react";
 import _ from "underscore";
 import lodash from "lodash";
 import {Made} from "made.js";
+import Alert from 'react-s-alert';
 import logger from "redux-logger";
 import {connect} from "react-redux";
 import {ActionCreators} from 'redux-undo';
+
 import {createStore, applyMiddleware} from "redux";
 
 import ReduxProvider from "./utils/react/provider";
@@ -18,6 +20,8 @@ import {
 
 // bootstrap needs to be loaded first
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
 import './stylesheets/main.scss';
 
 const initialState = () => {
@@ -87,11 +91,21 @@ export class MaterialsDesignerContainer extends React.Component {
     render() {
         const props = _.omit(this.props, "component");
         return (
-            <ReduxProvider
-                {...props}
-                container={this.container}
-                store={this.store}
-            />
+            <div>
+                <ReduxProvider
+                    {...props}
+                    container={this.container}
+                    store={this.store}
+                />
+                <Alert
+                    effect='stackslide'
+                    position='bottom-right'
+                    timeout={3000}
+                    html={false}
+                    stack={true}
+                    offset={0}
+                />
+            </div>
         )
     }
 
