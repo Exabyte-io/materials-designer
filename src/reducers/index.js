@@ -4,9 +4,9 @@ import {createReducer} from "../utils/react/reducer";
 import IsLoadingReducer from "../utils/redux/is_loading/reducer"
 import StateResetReducer from "../utils/redux/reset_state/reducer"
 
-import MaterialReducer from "./MaterialReducer";
+import MaterialReducer from "./Material";
+import InputOutputReducer from "./InputOutput";
 import {MATERIALS_UPDATE_INDEX} from "../actions";
-import InputOutputReducer from "./InputOutputReducer";
 
 export const createMaterialsDesignerReducer = function (initialState, externalReducer) {
     return undoable(

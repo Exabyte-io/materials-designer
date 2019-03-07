@@ -37,6 +37,7 @@ class CombinatorialBasisDialog extends ModalDialog {
     }
 
     assertCombinatorialBasesCount(bases) {
+        // TODO by MM:  Meteor.settings.public.maxCombinatorialBasesCount || 100
         const maxCombinatorialBasesCount = 100;
         if (bases.length > maxCombinatorialBasesCount) {
             Alert.warning(displayMessage('combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
@@ -77,6 +78,7 @@ class CombinatorialBasisDialog extends ModalDialog {
                 }
             );
             const newMaterial = new Made.Material(newMaterialConfig);
+            newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
         // pass up the chain

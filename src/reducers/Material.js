@@ -24,6 +24,7 @@ function materialsUpdateOne(state, action) {
 function materialsCloneOne(state, action) {
     const materials = state.materials.slice(); // get copy of array
     const material = materials[state.index].clone();
+    material.cleanOnCopy();
     material.name = "New Material";
     materials.push(material);
     return Object.assign({}, state, {materials});
@@ -31,7 +32,8 @@ function materialsCloneOne(state, action) {
 
 function materialsUpdateNameForOne(state, action) {
     const materials = state.materials.slice();  // get copy of array
-    const index = (!action.index && action.index !== 0) ? action.index : state.index;  // not passing index when modifying currently displayed material
+    // not passing index when modifying currently displayed material
+    const index = (!action.index && action.index !== 0) ? action.index : state.index;
     const material = state.materials[index];
     // TODO: figure out why material is undefined
     if (material) {
@@ -51,6 +53,7 @@ function materialsGenerateSupercellForOne(state, action) {
 }
 
 function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio, vx, vy, material}) {
+    // TODO by MM: move this into materialsSave outside of this package
     const bulkId = material && (material.id || material._id);
     const bulkExabyteId = material && (material.exabyteId);
 

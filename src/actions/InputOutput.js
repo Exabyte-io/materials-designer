@@ -2,10 +2,10 @@ import {safeMakeArrayIfNot} from "../utils/array";
 
 export const MATERIALS_SAVE = 'MATERIALS_SAVE';
 
-export function saveMaterials(dispatch, ...args) {
+export function saveMaterials(config, dispatch) {
     return {
         type: MATERIALS_SAVE,
-        args,
+        config,
         dispatch,
     }
 }
