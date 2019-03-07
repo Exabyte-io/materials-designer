@@ -304,8 +304,8 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
 
-    ImportModal: React.PropTypes.func,
-    SaveActionDialog: React.PropTypes.func,
+    ImportModal: React.PropTypes.object,
+    SaveActionDialog: React.PropTypes.object,
 };
 
 export default HeaderMenuToolbar;

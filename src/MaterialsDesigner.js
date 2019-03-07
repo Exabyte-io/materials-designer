@@ -137,8 +137,8 @@ MaterialsDesigner.propTypes = {
     onSave: React.PropTypes.func,
     onExit: React.PropTypes.func,
 
-    ImportModal: React.PropTypes.func,
-    SaveActionDialog: React.PropTypes.func,
+    ImportModal: React.PropTypes.object,
+    SaveActionDialog: React.PropTypes.object,
 
     onRemove: React.PropTypes.func,
 
