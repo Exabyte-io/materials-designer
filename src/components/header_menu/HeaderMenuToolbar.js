@@ -61,7 +61,7 @@ class HeaderMenuToolbar extends React.Component {
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
                 <MenuItem
-                    disabled={!Boolean(this.props.importModal)}
+                    disabled={!Boolean(this.props.ImportModal)}
                     onClick={() => this.setState({showImportMaterialsDialog: true})}>
                     <ListItemIcon><AddCircleIcon/></ListItemIcon>
                     Import
@@ -72,7 +72,7 @@ class HeaderMenuToolbar extends React.Component {
                     Export
                 </MenuItem>
                 <MenuItem
-                    disabled={!Boolean(this.props.saveActionDialog)}
+                    disabled={!Boolean(this.props.SaveActionDialog)}
                     onClick={() => this.setState({showSaveMaterialsDialog: true})}>
                     <ListItemIcon><SaveIcon/></ListItemIcon>
                     Save
@@ -225,8 +225,8 @@ class HeaderMenuToolbar extends React.Component {
                     onHide={() => this.setState({showSurfaceDialog: false})}
                 />
 
-                <ShowIf condition={Boolean(this.props.importModal)}>
-                    <this.props.importModal
+                <ShowIf condition={Boolean(this.props.ImportModal)}>
+                    <this.props.ImportModal
                         show={this.state.showImportMaterialsDialog}
                         onHide={() => this.setState({showImportMaterialsDialog: false})}
                         onSubmit={(materials) => {
@@ -243,8 +243,8 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={this.props.onExport}
                 />
 
-                <ShowIf condition={Boolean(this.props.saveActionDialog)}>
-                    <this.props.saveActionDialog
+                <ShowIf condition={Boolean(this.props.SaveActionDialog)}>
+                    <this.props.SaveActionDialog
                         show={this.state.showSaveMaterialsDialog}
                         material={this.props.material}
                         onClose={() => this.setState({showSaveMaterialsDialog: false})}
@@ -304,8 +304,8 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
 
-    importModal: React.PropTypes.func,
-    saveActionDialog: React.PropTypes.func,
+    ImportModal: React.PropTypes.func,
+    SaveActionDialog: React.PropTypes.func,
 };
 
 export default HeaderMenuToolbar;

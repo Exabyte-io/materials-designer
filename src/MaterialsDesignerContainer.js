@@ -18,12 +18,6 @@ import {
     generateSurfaceForOneMaterial, resetState,
 } from "./actions";
 
-// bootstrap needs to be loaded first
-import 'bootstrap/dist/css/bootstrap.css';
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
-import './stylesheets/main.scss';
-
 const initialState = () => {
     return {
         index: 0,
@@ -54,7 +48,7 @@ const mapDispatchToProps = (dispatch) => {
         onAdd: (materials, addAtIndex) => dispatch(addMaterials(materials, addAtIndex)),
         onRemove: (indices) => (dispatch(removeMaterials(indices))),
         onExport: (format, useMultiple) => (dispatch(exportMaterials(format, useMultiple))),
-        onSave: (...args) => (dispatch(saveMaterials(...args, dispatch))),
+        onSave: (...args) => (dispatch(saveMaterials(dispatch, ...args))),
 
         onGenerateSupercell: (matrix) => (dispatch(generateSupercellForOneMaterial(matrix))),
         onGenerateSurface: (config) => (dispatch(generateSurfaceForOneMaterial(config))),
@@ -78,8 +72,8 @@ export class MaterialsDesignerContainer extends React.Component {
     constructor(props) {
         super(props);
         const initialState_ = initialState();
-        initialState_.materials = props.materials;
-        const reducer = createMaterialsDesignerReducer(initialState_);
+        initialState_.materials = props.initialMaterials;
+        const reducer = createMaterialsDesignerReducer(initialState_, props.externalReducers);
         this.store = createStore(reducer, props.applyMiddleware ? applyMiddleware(logger) : undefined);
         this.container = MaterialsDesignerContainerHelper;
     }
@@ -109,16 +103,16 @@ export class MaterialsDesignerContainer extends React.Component {
 
 MaterialsDesignerContainer.propTypes = {
     childrenProps: React.PropTypes.object,
-    isSetPublicVisible: React.PropTypes.bool,
     applyMiddleware: React.PropTypes.bool,
-    materials: React.PropTypes.array,
-    onSave: React.PropTypes.array,
-    importModal: React.PropTypes.array,
-    saveActionDialog: React.PropTypes.array,
+    initialMaterials: React.PropTypes.array,
+    onExit: React.PropTypes.func,
+    ImportModal: React.PropTypes.func,
+    SaveActionDialog: React.PropTypes.func,
+    externalReducers: React.PropTypes.object,
 };
 
 MaterialsDesignerContainer.defaultProps = {
-    isSetPublicVisible: false,
     applyMiddleware: true,
-    materials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
+    externalReducers: {},
+    initialMaterials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
 };

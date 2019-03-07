@@ -16,6 +16,7 @@ export const createMaterialsDesignerReducer = function (initialState, externalRe
             IsLoadingReducer,
             InputOutputReducer,
             MaterialReducer,
+            externalReducer || {}
         ),
         {
             limit: 10,

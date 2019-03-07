@@ -45,7 +45,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                             {/* TODO: find out how to avoid passing material to header */}
                             <HeaderMenuToolbar
                                 isLoading={this.props.isLoading}
-                                isSetPublicVisible={this.props.isSetPublicVisible}
                                 material={this.props.material}
                                 materials={this.props.materials}
                                 index={this.props.index}
@@ -60,9 +59,11 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
 
                                 onAdd={this.props.onAdd}
                                 onExport={this.props.onExport}
-                                importModal={this.props.importModal}
                                 onSave={this.props.onSave}
                                 onExit={this.props.onExit}
+
+                                ImportModal={this.props.ImportModal}
+                                SaveActionDialog={this.props.SaveActionDialog}
 
                                 onGenerateSupercell={this.props.onGenerateSupercell}
                                 onGenerateSurface={this.props.onGenerateSurface}
@@ -110,7 +111,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
 MaterialsDesigner.propTypes = {
 
     isLoading: React.PropTypes.bool,
-    isSetPublicVisible: React.PropTypes.bool,
     showToolbar: React.PropTypes.bool,
 
     material: React.PropTypes.object.isRequired,
@@ -137,8 +137,8 @@ MaterialsDesigner.propTypes = {
     onSave: React.PropTypes.func,
     onExit: React.PropTypes.func,
 
-    importModal: React.PropTypes.func,
-    saveActionDialog: React.PropTypes.func,
+    ImportModal: React.PropTypes.func,
+    SaveActionDialog: React.PropTypes.func,
 
     onRemove: React.PropTypes.func,
 

@@ -2,15 +2,10 @@ import Alert from 'react-s-alert';
 import {exportToDisk} from "../utils/downloader";
 
 import {
-    MATERIALS_SAVE,
     MATERIALS_EXPORT,
     MATERIALS_ADD,
     MATERIALS_REMOVE,
 } from "../actions";
-
-function materialsSave(state, action) {
-    return Object.assign({}, state, {materials: state.materials});
-}
 
 export function materialsAdd(state, action) {
     const index = state.index || 0;
@@ -67,7 +62,6 @@ export function materialsExport(state, action) {
 export default {
     [MATERIALS_ADD]: materialsAdd,
     [MATERIALS_REMOVE]: materialsRemove,
-    [MATERIALS_SAVE]: materialsSave,
     [MATERIALS_EXPORT]: materialsExport,
 };
 
