@@ -1,30 +1,37 @@
+import React from "react";
 import _ from "underscore";
 import lodash from "lodash";
-import {connect} from "react-redux";
-import {createStore, applyMiddleware} from "redux";
+import {Made} from "made.js";
+import Alert from 'react-s-alert';
 import logger from "redux-logger";
+import {connect} from "react-redux";
 import {ActionCreators} from 'redux-undo';
 
-import {Material} from "../../../material";
-import {AccountsSelector} from "/imports/accounts/selector";
+import {createStore, applyMiddleware} from "redux";
 
+import ReduxProvider from "./utils/react/provider";
+import {createMaterialsDesignerReducer} from "./reducers";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
 import {
-    updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial,
-    updateMaterialsIndex,
-    addMaterials, removeMaterials, exportMaterials, saveMaterials,
-    generateSupercellForOneMaterial, generateSurfaceForOneMaterial,
-    resetState,
+    updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
+    addMaterials, removeMaterials, exportMaterials, saveMaterials, generateSupercellForOneMaterial,
+    generateSurfaceForOneMaterial, resetState,
 } from "./actions";
 
+// bootstrap needs to be loaded first
+import 'bootstrap/dist/css/bootstrap.css';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
+import './stylesheets/main.scss';
+
 const initialState = () => {
-    const account = AccountsSelector.currentAccount();
-    const defaultMaterial = (account && account.defaultMaterial) || Material.createDefault();
     return {
-        materials: Array(1).fill(defaultMaterial),
+        // TODO: (account && account.defaultMaterial) || Material.createDefault();
+        materials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
         index: 0,
         isLoading: false,
-        isSetPublicVisible: account && account.serviceLevel.privateDataAllowed || false,
+        // TODO: account && account.serviceLevel.privateDataAllowed
+        isSetPublicVisible: false,
     }
 };
 
@@ -71,27 +78,34 @@ const MaterialsDesignerContainerHelper = connect(
     mapDispatchToProps
 )(MaterialsDesignerComponent);
 
-import React from "react";
-import ReduxProvider from "./utils/react/provider";
-import {createMaterialsDesignerReducer} from "./reducers";
-
 export class MaterialsDesignerContainer extends React.Component {
 
     constructor(props) {
         super(props);
         const reducer = createMaterialsDesignerReducer(initialState());
-        this.store = createStore(reducer, Meteor.settings.public.isProduction ? undefined : applyMiddleware(logger));
+        // TODO: Meteor.settings.public.isProduction ? undefined
+        this.store = createStore(reducer, applyMiddleware(logger));
         this.container = MaterialsDesignerContainerHelper;
     }
 
     render() {
         const props = _.omit(this.props, "component");
         return (
-            <ReduxProvider
-                {...props}
-                container={this.container}
-                store={this.store}
-            />
+            <div>
+                <ReduxProvider
+                    {...props}
+                    container={this.container}
+                    store={this.store}
+                />
+                <Alert
+                    effect='stackslide'
+                    position='bottom-right'
+                    timeout={3000}
+                    html={false}
+                    stack={true}
+                    offset={0}
+                />
+            </div>
         )
     }
 
@@ -102,5 +116,3 @@ MaterialsDesignerContainer.propTypes = {
 };
 
 MaterialsDesignerContainer.defaultProps = {};
-
-export default MaterialsDesignerContainer;

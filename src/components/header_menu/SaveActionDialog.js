@@ -1,15 +1,10 @@
 import React from 'react';
-import {FormGroup, FormControl, FormControlLabel} from 'material-ui-next/Form';
-import TextField from 'material-ui-next/TextField';
-
-import {displayMessage} from "../../utils/messages";
-
 import Switch from 'material-ui-next/Switch';
-import ChipsArray from "../include/ChipsArray";
+import TextField from 'material-ui-next/TextField';
+import {FormGroup, FormControl, FormControlLabel} from 'material-ui-next/Form';
 
+import ChipsArray from "../include/ChipsArray";
 import ActionDialog from "../include/ActionDialog";
-import MaterialsExplorerModal from "../../../explorer/MaterialsExplorerModal";
-import HeaderMenuToolbar from "./HeaderMenuToolbar";
 
 class SaveActionDialog extends ActionDialog {
 
