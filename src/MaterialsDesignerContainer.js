@@ -1,17 +1,17 @@
 import React from "react";
 import _ from "underscore";
 import lodash from "lodash";
-import {Made} from "made.js";
 import Alert from 'react-s-alert';
 import logger from "redux-logger";
 import {connect} from "react-redux";
 import {ActionCreators} from 'redux-undo';
-
 import {createStore, applyMiddleware} from "redux";
 
+import {Material} from "./material";
 import ReduxProvider from "./utils/react/provider";
 import {createMaterialsDesignerReducer} from "./reducers";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
+
 import {
     updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
     addMaterials, removeMaterials, exportMaterials, saveMaterials, generateSupercellForOneMaterial,
@@ -72,7 +72,7 @@ export class MaterialsDesignerContainer extends React.Component {
     constructor(props) {
         super(props);
         const initialState_ = initialState();
-        initialState_.materials = props.initialMaterials;
+        initialState_.materials = props.initialMaterials.map(m => new Material(m.toJSON()));
         const externalReducers = props.materialsSave ? {[MATERIALS_SAVE]: props.materialsSave} : {};
         const reducer = createMaterialsDesignerReducer(initialState_, externalReducers);
         this.store = createStore(reducer, props.applyMiddleware ? applyMiddleware(logger) : undefined);
@@ -107,12 +107,12 @@ MaterialsDesignerContainer.propTypes = {
     applyMiddleware: React.PropTypes.bool,
     initialMaterials: React.PropTypes.array,
     onExit: React.PropTypes.func,
-    ImportModal: React.PropTypes.object,
-    SaveActionDialog: React.PropTypes.object,
-    materialsSave: React.PropTypes.object,
+    ImportModal: React.PropTypes.func,
+    SaveActionDialog: React.PropTypes.func,
+    materialsSave: React.PropTypes.func,
 };
 
 MaterialsDesignerContainer.defaultProps = {
     applyMiddleware: true,
-    initialMaterials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
+    initialMaterials: Array(1).fill(new Material()),
 };

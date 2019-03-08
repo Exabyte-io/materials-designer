@@ -4,6 +4,7 @@ import {Made} from "made.js";
 import Alert from 'react-s-alert';
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
+import {Material} from "../../../material";
 import {ModalDialog} from '../../include/ModalDialog';
 import {displayMessage} from "../../../i18n/messages";
 
@@ -77,7 +78,7 @@ class CombinatorialBasisDialog extends ModalDialog {
                     name: `${material.name} - ${basis.formula}`
                 }
             );
-            const newMaterial = new Made.Material(newMaterialConfig);
+            const newMaterial = new Material(newMaterialConfig);
             newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
@@ -88,7 +89,7 @@ class CombinatorialBasisDialog extends ModalDialog {
     _validateXYZ(value) {
         try {
             Made.parsers.xyz.validate(value);
-            // only show the success messsage first time after last failure
+            // only show the success message first time after last failure
             if (!this.state.validated) {
                 this.setState({
                     validated: true,

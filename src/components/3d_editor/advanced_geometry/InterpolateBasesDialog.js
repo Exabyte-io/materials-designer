@@ -3,6 +3,7 @@ import _ from "underscore";
 import {Made} from "made.js";
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
+import {Material} from "../../../material";
 import {ModalDialog} from '../../include/ModalDialog';
 import {displayMessage} from "../../../i18n/messages";
 
@@ -58,7 +59,7 @@ class InterpolateBasesDialog extends ModalDialog {
                     name: `${idx} - ${material.name} - ${newBasis.formula}`
                 }
             );
-            const newMaterial = new Made.Material(newMaterialConfig);
+            const newMaterial = new Material(newMaterialConfig);
             newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
