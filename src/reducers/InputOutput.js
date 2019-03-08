@@ -1,4 +1,4 @@
-import Alert from 'react-s-alert';
+import {Alert as sAlert} from 'react-s-alert';
 
 import {exportToDisk} from "../utils/downloader";
 import {MATERIALS_EXPORT, MATERIALS_ADD, MATERIALS_REMOVE, MATERIALS_SAVE} from "../actions";
@@ -27,14 +27,14 @@ export function materialsRemove(state, action) {
 
     // sanity check
     if (materials.length === 1) {
-        Alert.warning("Prevented remove action: only one material in set.");
+        sAlert.warning("Prevented remove action: only one material in set.");
         return state;
     }
     // remove elements at indices (array is modified in place => subtract idx within `each`)
     indices.forEach((indicesArrayElement, idx) => {
         const currentMaterial = materials[indicesArrayElement - idx];
         const formula = currentMaterial.formula;
-        Alert.success(`Removed material with index ${indicesArrayElement} and formula ${formula} from set.`);
+        sAlert.success(`Removed material with index ${indicesArrayElement} and formula ${formula} from set.`);
         materials.splice(indicesArrayElement - idx, 1);
         // lower the current index if it is above the deleted material's index
         if (index > 0) index = index - 1;

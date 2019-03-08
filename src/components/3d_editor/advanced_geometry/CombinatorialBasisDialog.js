@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'underscore';
 import {Made} from "made.js";
-import Alert from 'react-s-alert';
+import {Alert as sAlert} from 'react-s-alert';
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {Material} from "../../../material";
@@ -41,7 +41,7 @@ class CombinatorialBasisDialog extends ModalDialog {
         // TODO by MM:  Meteor.settings.public.maxCombinatorialBasesCount || 100
         const maxCombinatorialBasesCount = 100;
         if (bases.length > maxCombinatorialBasesCount) {
-            Alert.warning(displayMessage('combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
+            sAlert.warning(displayMessage('combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
             return false;
         }
         return true;

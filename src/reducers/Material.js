@@ -1,5 +1,5 @@
 import {Made} from "made.js";
-import Alert from 'react-s-alert';
+import {Alert as sAlert} from 'react-s-alert';
 
 import {Material} from "../material";
 import {displayMessage} from "../i18n/messages";
@@ -59,7 +59,7 @@ function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio,
     const bulkExabyteId = material && (material.exabyteId);
 
     if (!(bulkId || bulkExabyteId)) {
-        Alert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
+        sAlert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
     }
 
     Object.assign(slabConfig, {
