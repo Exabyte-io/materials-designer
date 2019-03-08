@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import React from "react";
 import {Made} from "made.js";
-import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
+import {ModalHeader} from "react-bootstrap";
 
 import {deepClone} from "../../utils/index";
 import ToggleSwitch from "../include/ToggleSwitch";
@@ -33,9 +33,7 @@ class LatticeConfigurationDialog extends React.Component {
 
     componentWillReceiveProps(newProps) {
         // update this component's state on props.material update
-        this.state = {
-            lattice: newProps.material.lattice
-        };
+        this.setState({lattice: newProps.material.lattice});
     }
 
     renderHeader() {
@@ -63,8 +61,8 @@ class LatticeConfigurationDialog extends React.Component {
     }
 
     isDisabled(param) {
-        const lattice = new Made.Lattice(this.state.lattice);
         // TODO: implement converter from primitive to conventional cells and re-enable editables
+        // const lattice = new Made.Lattice(this.state.lattice);
         return false // !lattice.editables[param];
     }
 
@@ -106,7 +104,7 @@ class LatticeConfigurationDialog extends React.Component {
         );
 
         // preserve basis if asked to do so (eg. when constructing a slab)
-        const newMaterial = new Material(newMaterialConfig);
+        const newMaterial = new Made.Material(newMaterialConfig);
         // assert basis is stored in 'crystal' units
         newMaterial.toCrystal();
         this.props.onUpdate(newMaterial);
@@ -253,7 +251,7 @@ class LatticeConfigurationDialog extends React.Component {
     }
 }
 
-LatticeConfigurationDialog.PropTypes = {
+LatticeConfigurationDialog.propTypes = {
     unitOptions: React.PropTypes.array.isRequired,
     typeOptions: React.PropTypes.object.isRequired,
     submitButtonTxt: React.PropTypes.string,

@@ -1,10 +1,11 @@
 import React from 'react';
+import _ from 'underscore';
 import {Made} from "made.js";
-import {Meteor} from "meteor/meteor";
+import Alert from 'react-s-alert';
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {ModalDialog} from '../../include/ModalDialog';
-import {displayMessage} from "../../../utils/messages";
+import {displayMessage} from "../../../i18n/messages";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
@@ -36,9 +37,9 @@ class CombinatorialBasisDialog extends ModalDialog {
     }
 
     assertCombinatorialBasesCount(bases) {
-        const maxCombinatorialBasesCount = Meteor.settings.public.maxCombinatorialBasesCount || 100;
+        const maxCombinatorialBasesCount = 100;
         if (bases.length > maxCombinatorialBasesCount) {
-            sAlert.warning(displayMessage('materialsDesigner.combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
+            Alert.warning(displayMessage('combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
             return false;
         }
         return true;
@@ -75,8 +76,9 @@ class CombinatorialBasisDialog extends ModalDialog {
                     name: `${material.name} - ${basis.formula}`
                 }
             );
-            const newMaterial = new Material(newMaterialConfig);
-            newMaterial.cleanOnCopy();
+            const newMaterial = new Made.Material(newMaterialConfig);
+            // TODO: move to webapp
+            // newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
         // pass up the chain
@@ -90,7 +92,7 @@ class CombinatorialBasisDialog extends ModalDialog {
             if (!this.state.validated) {
                 this.setState({
                     validated: true,
-                    message: displayMessage('materialsDesigner.basisValidationSuccess')
+                    message: displayMessage('basis.validationSuccess')
                 });
             } else {
                 // already validated before -> remove message
@@ -99,7 +101,7 @@ class CombinatorialBasisDialog extends ModalDialog {
         } catch (err) {
             this.setState({
                 validated: false,
-                message: displayMessage('materialsDesigner.basisValidationError')
+                message: displayMessage('basis.validationError')
             });
             return false;
         }
@@ -111,8 +113,10 @@ class CombinatorialBasisDialog extends ModalDialog {
             <ModalHeader className="bgm-dark" closeButton={true}>
                 <h4 className="modal-title">{this.props.title}
                     <a className="m-l-10 combinatorial-info"
-                        href="https://docs.exabyte.io/materials/combinatorial-sets/"
-                        target="_blank">
+                        href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <i className="zmdi zmdi-info"/>
                     </a>
                 </h4>
