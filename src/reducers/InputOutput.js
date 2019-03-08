@@ -1,4 +1,4 @@
-import {Alert as sAlert} from 'react-s-alert';
+import sAlert from 'react-s-alert';
 
 import {exportToDisk} from "../utils/downloader";
 import {MATERIALS_EXPORT, MATERIALS_ADD, MATERIALS_REMOVE, MATERIALS_SAVE} from "../actions";

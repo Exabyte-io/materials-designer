@@ -2,9 +2,9 @@ import React from "react";
 import _ from "underscore";
 import lodash from "lodash";
 import logger from "redux-logger";
+import sAlert from 'react-s-alert';
 import {connect} from "react-redux";
 import {ActionCreators} from 'redux-undo';
-import {Alert as sAlert} from 'react-s-alert';
 import {createStore, applyMiddleware} from "redux";
 
 import {Material} from "./material";
