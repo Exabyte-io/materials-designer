@@ -1,4 +1,3 @@
-import React from 'react';
 import {createMuiTheme} from 'material-ui-next/styles';
 
 // adopted from: https://material-ui-next.com/customization/themes/#theme-configuration-variables

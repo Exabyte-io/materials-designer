@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "underscore";
 import setClass from "classnames";
 import TextField from 'material-ui-next/TextField';
 import CheckIcon from 'material-ui-icons-next/Check';
@@ -58,7 +59,7 @@ class ItemsList extends React.Component {
     componentWillReceiveProps(newProps) {
         // needed to propagate updates to unit render from parent(s)
         if (this.state.index !== newProps.index) {
-            this.state.index = newProps.index;
+            this.setState({index: newProps.index});
         }
     }
 
