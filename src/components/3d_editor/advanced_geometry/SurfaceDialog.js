@@ -1,6 +1,7 @@
 import React from "react";
 import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
-import {ModalDialog} from "/imports/ui/exports";
+
+import {ModalDialog} from "../../include/ModalDialog";
 
 class SurfaceDialog extends ModalDialog {
 
@@ -20,7 +21,6 @@ class SurfaceDialog extends ModalDialog {
     }
 
     handleGenerateSurface() {
-        const array = [this.state.h, this.state.k, this.state.l];
         this.setState({
             message: '',
         }, () => {

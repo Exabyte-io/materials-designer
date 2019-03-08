@@ -1,28 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withStyles} from "material-ui-next/styles";
 import Chip from "material-ui-next/Chip";
-import Input, {InputLabel} from "material-ui-next/Input";
 import {FormControl} from 'material-ui-next/Form';
+import {withStyles} from "material-ui-next/styles";
+import Input, {InputLabel} from "material-ui-next/Input";
 
 const styles = theme => ({});
 
 class ChipsArray extends React.Component {
 
-    initState = (props = this.props) => this.state = {
-        data: props.data,
-        value: '',
-    };
-
     constructor(props) {
         super(props);
-        this.initState();
+        this.state = {
+            data: props.data,
+            value: '',
+        };
     }
 
     componentWillReceiveProps(newProps) {
         // reset the data in state without triggering re-render
         if (newProps.data !== this.props.data || newProps.data.length !== this.props.data.length) {
-            this.initState(newProps);
+            this.setState({data: newProps.data});
         }
     }
 

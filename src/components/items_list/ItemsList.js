@@ -1,12 +1,13 @@
 import React from "react";
+import _ from "underscore";
 import setClass from "classnames";
-import List, {ListItem, ListItemIcon, ListItemText} from "material-ui-next/List";
 import TextField from 'material-ui-next/TextField';
-import WidgetsIcon from 'material-ui-icons-next/Widgets';
 import CheckIcon from 'material-ui-icons-next/Check';
 import DeleteIcon from 'material-ui-icons-next/Delete';
+import WidgetsIcon from 'material-ui-icons-next/Widgets';
+import List, {ListItem, ListItemIcon, ListItemText} from "material-ui-next/List";
 
-import {ShowIf} from "/imports/utils/react/showif";
+import {ShowIf} from "../../utils/react/showif";
 
 class ItemsList extends React.Component {
 
@@ -58,7 +59,7 @@ class ItemsList extends React.Component {
     componentWillReceiveProps(newProps) {
         // needed to propagate updates to unit render from parent(s)
         if (this.state.index !== newProps.index) {
-            this.state.index = newProps.index;
+            this.setState({index: newProps.index});
         }
     }
 

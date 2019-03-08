@@ -23,7 +23,7 @@ class ActionDialog extends React.Component {
                 <DialogTitle>{this.title || this.props.title}</DialogTitle>
 
                 <DialogContent>
-                    {_.isFunction(this.renderContent) && this.renderContent() || this.props.children}
+                    {_.isFunction(this.renderContent) ? this.renderContent() : this.props.children}
                 </DialogContent>
 
                 <DialogActions>

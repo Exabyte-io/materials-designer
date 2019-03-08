@@ -4,13 +4,9 @@ import setClass from "classnames";
 import {ThreeDEditor} from "wave";
 import {Fullscreen,} from 'material-ui-icons-next';
 
-import {FullscreenComponentMixin} from "/imports/ui/exports";
+import {FullscreenComponentMixin} from "../include/FullscreenComponentMixin";
 
 export class ThreeDEditorFullscreen extends mix(ThreeDEditor).with(FullscreenComponentMixin) {
-
-    constructor(props) {
-        super(props);
-    }
 
     getExportToolbarItems() {
         const clsInstance = this;
