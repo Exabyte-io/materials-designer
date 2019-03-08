@@ -1,13 +1,11 @@
-import _ from "underscore";
 import React from 'react';
-import setClass from 'classnames';
+import _ from "underscore";
 import {Made} from "made.js";
-
+import setClass from 'classnames';
 import ExpandMoreIcon from 'material-ui-icons-next/ExpandMore';
 import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from 'material-ui-next/ExpansionPanel';
 
 import LatticeConfigurationDialog from './LatticeConfigurationDialog';
-
 
 class Lattice extends React.Component {
 
@@ -47,7 +45,10 @@ class Lattice extends React.Component {
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                     Crystal Lattice
                 </ExpansionPanelSummary>
-                <ExpansionPanelDetails style={{display: 'block', height: '100%'}}>
+                <ExpansionPanelDetails style={{
+                    display: 'block',
+                    height: '100%'
+                }}>
                     <LatticeConfigurationDialog
                         className="col-xs-12 p-0"
                         modalId="update-lattice"

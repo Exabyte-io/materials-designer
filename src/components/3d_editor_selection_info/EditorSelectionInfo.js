@@ -1,5 +1,4 @@
 import React from "react";
-import setClass from "classnames";
 
 class EditorSelectionInfo extends React.Component {
 

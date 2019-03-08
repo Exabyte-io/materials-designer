@@ -1,0 +1,128 @@
+//== Directory
+$fonts_dir: '../fonts/';
+
+// Exabyte colors
+$exablue: #0A3677;
+
+//$exablue_lighter: #3677d9;
+$exablue_lighter: lighten($exablue, 15%); // #1056be
+$exablue_header: rgba($exablue, 0.85);
+$exagray_light_darker: #eee;
+$exagray: #F4F4F4;
+$exagray_light: lighten($exagray, 15%);
+$exagray_lighter: lighten($exagray, 25%);
+$exagray_semi-transparent: rgba(101, 101, 101, 0.23);
+$exagray_dark: darken($exagray, 15%);
+$exagray_darker: #BDBDBD;
+$exagray_darker_2: #999;
+$exagray_darkest: #5e5e5e;
+$exagray_background: #edecec;
+
+// Adopted from http://byrushan.com/projects/ma/1-5-2/jquery/
+$brown: #795548;
+$pink: #e91e63;
+$purple: #9c27b0;
+$deeppurple: #673ab7;
+$lightblue: $exablue_lighter;
+//$lightblue: #03a9f4;
+$teal: #009688;
+$lightgreen: #8bc34a;
+$lime: #cddc39;
+$yellow: #ffeb3b;
+$amber: #ffc107;
+$deeporange: #ff5722;
+$b-gray: #9e9e9e;
+$bluegray: #607d8b;
+$indigo: #3f51b5;
+$white: #ffffff;
+$black: #000000;
+
+//== Colors
+// Bootstrap colors
+$info_color: #00bcd4;
+$info_color_hover: #008fa1;
+$info_color_light: #d9edf7;
+$primary_color: $exablue_lighter;
+//$primary_color: #2196f3;
+$primary_color_hover: #0c7cd5;
+$success_color: #4caf50;
+$success_color_hover: #3d8b40;
+$warning_color: #ff9800;
+$warning_color_hover: #cc7a00;
+$danger_color: #f44336;
+$danger_color_hover: #ea1c0d;
+$border_color: #f0f0f0;
+
+
+//## Gray colors.
+$wave-background: #202020;
+$gray-base: #000 !default;
+$gray-darkest: lighten($wave-background, 3%) !default; // #222
+$gray-darker: lighten($gray-base, 13.5%) !default; // #222
+$gray-dark: lighten($gray-base, 20%) !default; // #333
+$gray: lighten($gray-base, 33.5%) !default; // #555
+$gray-light: lighten($gray-base, 46.7%) !default; // #777
+$gray-lighter: lighten($gray-base, 66.7%) !default; // #777// #DCDCDC !default;
+$gray-blue: #9d9fa2;
+$gray-small-text-from-theme: #A9A9A9;
+$gray-blue-dark: #6a6c6f;
+
+//== Growl-animated
+$growl-info: $primary_color;
+$growl-success: $success_color;
+$growl-warning: $warning_color;
+$growl-error: $danger_color;
+
+
+//== Grid system
+//** Number of columns in the grid.
+$grid-columns: 12 !default;
+
+//== Application layout
+$header-height: 55px;
+$sidebar-width: 260px;
+$sidebarRight-width: 280px;
+
+//== Application color
+$app-border: #e4e5e7;
+
+//== Count for generic classes
+$generic-count: 10;
+
+//== Media queries breakpoints
+// Extra small screen / phone
+$screen-xs: 480px !default;
+
+// Small screen / tablet
+$screen-sm: 767px !default;
+
+// Medium screen / desktop
+$screen-md: 992px !default;
+
+// Large screen / wide desktop
+$screen-lg: 1200px !default;
+
+// Extra large screen / wide desktop
+$screen-xl-min: $screen-lg !default;
+$screen-xl-max: 1599px !default;
+
+// Super extra large screen / wide desktop
+$screen-xxl-min: 1600px !default;
+$screen-xxl-max: 2000px !default;
+
+//== Typography
+$font-family-roboto: roboto, sans-serif !default;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace !default;
+$font-family-base: $font-family-roboto !default;
+
+//= Radii
+$border-radius: 3px;
+
+// Account selector background
+$account_selector_bckgrd: $exagray_background;
+
+//= Z-index
+$modal-z-index: 1000000;
+$above-modal-z-index: $modal-z-index + 1;
+$below-modal-z-index: $modal-z-index - 1;
