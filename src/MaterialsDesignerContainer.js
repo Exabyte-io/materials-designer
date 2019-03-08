@@ -1,10 +1,10 @@
 import React from "react";
 import _ from "underscore";
 import lodash from "lodash";
-import Alert from 'react-s-alert';
 import logger from "redux-logger";
 import {connect} from "react-redux";
 import {ActionCreators} from 'redux-undo';
+import {Alert as sAlert} from 'react-s-alert';
 import {createStore, applyMiddleware} from "redux";
 
 import {Material} from "./material";
@@ -92,7 +92,7 @@ export class MaterialsDesignerContainer extends React.Component {
                     container={this.container}
                     store={this.store}
                 />
-                <Alert
+                <sAlert
                     effect='stackslide'
                     position='bottom-right'
                     timeout={3000}
