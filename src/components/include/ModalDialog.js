@@ -1,9 +1,9 @@
+import React from 'react';
 import setClass from "classnames";
-import React, {Component} from 'react';
 import elementClass from 'element-class';
 import {Modal, ModalHeader, ModalBody} from 'react-bootstrap';
 
-export class ModalDialog extends Component {
+export class ModalDialog extends React.Component {
 
     /**
      * @summary Rendering header in separate method, so subclasses can override it
