@@ -162,7 +162,7 @@ class HeaderMenuToolbar extends React.Component {
     renderHelpMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="Help">
-                <MenuItem disabled>
+                <MenuItem onClick={() => window.open("https://docs.exabyte.io/materials-designer/overview/", "_blank")}>
                     <ListItemIcon><HelpIcon/></ListItemIcon>
                     Documentation
                 </MenuItem>
