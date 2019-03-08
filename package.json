@@ -37,9 +37,7 @@
         "mixwith": "^0.1.1",
         "node-sass": "^4.11.0",
         "periodic-table": "file:/stack/lib/periodic-table",
-        "react": "^15.6.2",
         "react-bootstrap": "^0.30.7",
-        "react-dom": "^15.6.2",
         "react-full-screen": "^0.2.2",
         "react-jss": "^8.6.1",
         "react-redux": "^4.4.8",
@@ -54,7 +52,14 @@
         "underscore.string": "^3.3.4",
         "wave": "file:/stack/lib/wave"
     },
-    "devDependencies": {},
+    "peerDependencies": {
+        "react": "^15.6.2",
+        "react-dom": "^15.6.2"
+    },
+    "devDependencies": {
+        "react": "^15.6.2",
+        "react-dom": "^15.6.2"
+    },
     "eslintConfig": {
         "extends": "react-app"
     },
