@@ -12,6 +12,11 @@ import ReduxProvider from "./utils/react/provider";
 import {createMaterialsDesignerReducer} from "./reducers";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
+import "wave/lib/stylesheets/wave.css";
+
 import {
     updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
     addMaterials, removeMaterials, exportMaterials, saveMaterials, generateSupercellForOneMaterial,
