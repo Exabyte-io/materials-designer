@@ -5,10 +5,6 @@ import {Modal, ModalHeader, ModalBody} from 'react-bootstrap';
 
 export class ModalDialog extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     /**
      * @summary Rendering header in separate method, so subclasses can override it
      * @returns {ReactElement} the header element

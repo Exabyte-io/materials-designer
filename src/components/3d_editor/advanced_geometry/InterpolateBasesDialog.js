@@ -4,7 +4,7 @@ import {Made} from "made.js";
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {ModalDialog} from '../../include/ModalDialog';
-import {displayMessage} from "../../../utils/messages";
+import {displayMessage} from "../../../i18n/messages";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
@@ -24,7 +24,7 @@ class InterpolateBasesDialog extends ModalDialog {
         const basis1 = nextProps.material.Basis;
         const basis2 = nextProps.material2.Basis;
         if (!_.isEqual(basis1.elementsArray, basis2.elementsArray)) {
-            this.setState({message: displayMessage('material.basis.elementsNotEqual')})
+            this.setState({message: displayMessage('basis.elementsNotEqual')})
         } else {
             // reset the message
             this.setState({message: ''})
@@ -59,7 +59,8 @@ class InterpolateBasesDialog extends ModalDialog {
                 }
             );
             const newMaterial = new Made.Material(newMaterialConfig);
-            newMaterial.cleanOnCopy();
+            // TODO: move to webapp
+            // newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
         // pass up the chain and add materials with `atIndex = true`
@@ -71,8 +72,10 @@ class InterpolateBasesDialog extends ModalDialog {
             <ModalHeader className="bgm-dark" closeButton={true}>
                 <h4 className="modal-title">{this.props.title}
                     <a className="m-l-10 combinatorial-info"
-                        href="https://docs.exabyte.io/materials/combinatorial-sets/"
-                        target="_blank">
+                        href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <i className="zmdi zmdi-info"/>
                     </a>
                 </h4>

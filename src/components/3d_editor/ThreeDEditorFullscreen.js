@@ -8,10 +8,6 @@ import {FullscreenComponentMixin} from "../include/FullscreenComponentMixin";
 
 export class ThreeDEditorFullscreen extends mix(ThreeDEditor).with(FullscreenComponentMixin) {
 
-    constructor(props) {
-        super(props);
-    }
-
     getExportToolbarItems() {
         const clsInstance = this;
         return [

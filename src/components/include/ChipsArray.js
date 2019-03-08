@@ -9,20 +9,18 @@ const styles = theme => ({});
 
 class ChipsArray extends React.Component {
 
-    initState = (props = this.props) => this.state = {
-        data: props.data,
-        value: '',
-    };
-
     constructor(props) {
         super(props);
-        this.initState();
+        this.state = {
+            data: props.data,
+            value: '',
+        };
     }
 
     componentWillReceiveProps(newProps) {
         // reset the data in state without triggering re-render
         if (newProps.data !== this.props.data || newProps.data.length !== this.props.data.length) {
-            this.initState(newProps);
+            this.setState({data: newProps.data});
         }
     }
 

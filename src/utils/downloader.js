@@ -1,4 +1,4 @@
-import s from 'underscore.string';
+import {sprintf} from 'sprintf-js';
 
 /**
  * Exports and downloads the content.
@@ -9,6 +9,6 @@ import s from 'underscore.string';
 export const exportToDisk = function (content, name = 'file', extension = 'txt') {
     const pom = document.createElement('a');
     pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
-    pom.setAttribute('download', s.sprintf(`%s.${extension}`, name));
+    pom.setAttribute('download', sprintf(`%s.${extension}`, name));
     pom.click();
 };
