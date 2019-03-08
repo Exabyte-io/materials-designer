@@ -1,5 +1,6 @@
 import {Made} from "made.js";
-import {displayMessage} from "../utils/messages";
+import Alert from 'react-s-alert';
+import {displayMessage} from "../i18n/messages";
 
 import {
     MATERIALS_UPDATE_INDEX,
@@ -23,7 +24,8 @@ function materialsUpdateOne(state, action) {
 function materialsCloneOne(state, action) {
     const materials = state.materials.slice(); // get copy of array
     const material = materials[state.index].clone();
-    material.cleanOnCopy();
+    // TODO: move it to webapp
+    // material.cleanOnCopy();
     material.name = "New Material";
     materials.push(material);
     return Object.assign({}, state, {materials});
@@ -55,7 +57,7 @@ function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio,
     const bulkExabyteId = material && (material.exabyteId);
 
     if (!(bulkId || bulkExabyteId)) {
-//        sAlert.warning(displayMessage('materialsDesigner.createSurface.noBulkId'), {timeout: 10000});
+        Alert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
     }
 
     Object.assign(slabConfig, {

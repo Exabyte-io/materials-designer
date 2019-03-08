@@ -33,9 +33,7 @@ class LatticeConfigurationDialog extends React.Component {
 
     componentWillReceiveProps(newProps) {
         // update this component's state on props.material update
-        this.state = {
-            lattice: newProps.material.lattice
-        };
+        this.setState({lattice: newProps.material.lattice});
     }
 
     renderHeader() {
@@ -63,8 +61,8 @@ class LatticeConfigurationDialog extends React.Component {
     }
 
     isDisabled(param) {
-        const lattice = new Made.Lattice(this.state.lattice);
         // TODO: implement converter from primitive to conventional cells and re-enable editables
+        // const lattice = new Made.Lattice(this.state.lattice);
         return false // !lattice.editables[param];
     }
 
