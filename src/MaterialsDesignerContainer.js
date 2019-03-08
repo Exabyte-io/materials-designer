@@ -116,6 +116,7 @@ MaterialsDesignerContainer.propTypes = {
     ImportModal: React.PropTypes.func,
     SaveActionDialog: React.PropTypes.func,
     materialsSave: React.PropTypes.func,
+    maxCombinatorialBasesCount: React.PropTypes.number,
 };
 
 MaterialsDesignerContainer.defaultProps = {

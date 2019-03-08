@@ -7,6 +7,7 @@ import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 import {Material} from "../../../material";
 import {ModalDialog} from '../../include/ModalDialog';
 import {displayMessage} from "../../../i18n/messages";
+import {MaterialsDesignerContainer} from "../../../MaterialsDesignerContainer";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
@@ -38,8 +39,7 @@ class CombinatorialBasisDialog extends ModalDialog {
     }
 
     assertCombinatorialBasesCount(bases) {
-        // TODO by MM:  Meteor.settings.public.maxCombinatorialBasesCount || 100
-        const maxCombinatorialBasesCount = 100;
+        const maxCombinatorialBasesCount = this.props.maxCombinatorialBasesCount;
         if (bases.length > maxCombinatorialBasesCount) {
             NPMsAlert.warning(displayMessage('combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
             return false;
@@ -172,7 +172,12 @@ class CombinatorialBasisDialog extends ModalDialog {
 
 CombinatorialBasisDialog.PropTypes = {
     onSubmit: React.PropTypes.func,
-    material: React.PropTypes.object
+    material: React.PropTypes.object,
+    maxCombinatorialBasesCount: React.PropTypes.number,
+};
+
+MaterialsDesignerContainer.defaultProps = {
+    maxCombinatorialBasesCount: 100,
 };
 
 export default CombinatorialBasisDialog;

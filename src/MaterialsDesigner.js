@@ -67,6 +67,8 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
 
                                 onGenerateSupercell={this.props.onGenerateSupercell}
                                 onGenerateSurface={this.props.onGenerateSurface}
+
+                                maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
                             />
                             <div className="bgm-dark col-xs-12">
                                 <ItemsList
@@ -141,6 +143,8 @@ MaterialsDesigner.propTypes = {
     SaveActionDialog: React.PropTypes.func,
 
     onRemove: React.PropTypes.func,
+
+    maxCombinatorialBasesCount: React.PropTypes.number,
 
 };
 
