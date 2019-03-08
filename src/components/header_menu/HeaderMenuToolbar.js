@@ -265,6 +265,7 @@ class HeaderMenuToolbar extends React.Component {
                     title="Generate Combinatorial Set"
                     modalId="combinatorialSetModal"
                     show={this.state.showCombinatorialDialog}
+                    maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
                     backdropColor='dark'
                     material={this.props.material}
                     onHide={() => this.setState({showCombinatorialDialog: false})}
@@ -315,6 +316,8 @@ HeaderMenuToolbar.propTypes = {
 
     ImportModal: React.PropTypes.func,
     SaveActionDialog: React.PropTypes.func,
+
+    maxCombinatorialBasesCount: React.PropTypes.number,
 
 };
 
