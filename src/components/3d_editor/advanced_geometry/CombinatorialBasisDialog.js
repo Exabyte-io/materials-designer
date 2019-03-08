@@ -176,7 +176,7 @@ CombinatorialBasisDialog.PropTypes = {
     maxCombinatorialBasesCount: React.PropTypes.number,
 };
 
-MaterialsDesignerContainer.defaultProps = {
+CombinatorialBasisDialog.defaultProps = {
     maxCombinatorialBasesCount: 100,
 };
 
