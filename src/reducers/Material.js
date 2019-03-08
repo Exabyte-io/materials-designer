@@ -1,5 +1,5 @@
 import {Made} from "made.js";
-import {Alert as sAlert} from 'react-s-alert';
+import sAlert from 'react-s-alert';
 
 import {Material} from "../material";
 import {displayMessage} from "../i18n/messages";

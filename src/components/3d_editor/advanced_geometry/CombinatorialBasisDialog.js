@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'underscore';
 import {Made} from "made.js";
-import {Alert as sAlert} from 'react-s-alert';
+import sAlert from 'react-s-alert';
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {Material} from "../../../material";
