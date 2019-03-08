@@ -34,13 +34,13 @@ import {
 
 } from 'material-ui-icons-next';
 
+import {Material} from "../../material";
 import ExportActionDialog from "./ExportActionDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActivatedMenu";
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
-import {ShowIf} from "../../utils/react/showif";
 
 class HeaderMenuToolbar extends React.Component {
 
@@ -192,6 +192,31 @@ class HeaderMenuToolbar extends React.Component {
         )
     }
 
+    renderImportModal() {
+        return Boolean(this.props.ImportModal) ?
+            <this.props.ImportModal
+                show={this.state.showImportMaterialsDialog}
+                onHide={() => this.setState({showImportMaterialsDialog: false})}
+                onSubmit={(materials) => {
+                    materials = (materials || []).map.map(m => new Material(m.toJSON()));
+                    this.props.onAdd(materials);
+                    this.setState({showImportMaterialsDialog: false});
+                }}
+            />
+            : null;
+    }
+
+    renderSaveActionDialog() {
+        return Boolean(this.props.SaveActionDialog) ?
+            <this.props.SaveActionDialog
+                show={this.state.showSaveMaterialsDialog}
+                material={this.props.material}
+                onClose={() => this.setState({showSaveMaterialsDialog: false})}
+                onSubmit={this.props.onSave}
+            />
+            : null;
+    }
+
     render() {
         const style = {
             borderBottom: '1px solid',
@@ -225,16 +250,7 @@ class HeaderMenuToolbar extends React.Component {
                     onHide={() => this.setState({showSurfaceDialog: false})}
                 />
 
-                <ShowIf condition={Boolean(this.props.ImportModal)}>
-                    <this.props.ImportModal
-                        show={this.state.showImportMaterialsDialog}
-                        onHide={() => this.setState({showImportMaterialsDialog: false})}
-                        onSubmit={(materials) => {
-                            this.props.onAdd(materials);
-                            this.setState({showImportMaterialsDialog: false});
-                        }}
-                    />
-                </ShowIf>
+                {this.renderImportModal()}
 
 
                 <ExportActionDialog
@@ -243,14 +259,7 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={this.props.onExport}
                 />
 
-                <ShowIf condition={Boolean(this.props.SaveActionDialog)}>
-                    <this.props.SaveActionDialog
-                        show={this.state.showSaveMaterialsDialog}
-                        material={this.props.material}
-                        onClose={() => this.setState({showSaveMaterialsDialog: false})}
-                        onSubmit={this.props.onSave}
-                    />
-                </ShowIf>
+                {this.renderSaveActionDialog()}
 
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
@@ -304,8 +313,9 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
 
-    ImportModal: React.PropTypes.object,
-    SaveActionDialog: React.PropTypes.object,
+    ImportModal: React.PropTypes.func,
+    SaveActionDialog: React.PropTypes.func,
+
 };
 
 export default HeaderMenuToolbar;
