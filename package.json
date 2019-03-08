@@ -4,7 +4,7 @@
     "description": "Materials Designer",
     "scripts": {
         "start": "PORT=3001 react-scripts start",
-        "build": "react-scripts build",
+        "build": "babel --out-dir lib src; node-sass -r src/stylesheets -o lib/stylesheets",
         "postinstall": "babel --out-dir lib src; node-sass -r src/stylesheets -o lib/stylesheets"
     },
     "repository": {

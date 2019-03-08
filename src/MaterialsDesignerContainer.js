@@ -7,14 +7,15 @@ import NPMsAlert from 'react-s-alert';
 import {ActionCreators} from 'redux-undo';
 import {createStore, applyMiddleware} from "redux";
 
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
+import "wave/lib/stylesheets/wave.css";
+
 import {Material} from "./material";
 import ReduxProvider from "./utils/react/provider";
 import {createMaterialsDesignerReducer} from "./reducers";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
-
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
-import "wave/lib/stylesheets/wave.css";
+import {SAlertContentTmpl} from "./components/include/SAlertContentTmpl";
 
 import {
     updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
@@ -99,6 +100,7 @@ export class MaterialsDesignerContainer extends React.Component {
                     html={false}
                     stack={true}
                     offset={0}
+                    contentTemplate={SAlertContentTmpl}
                 />
             </div>
         )
