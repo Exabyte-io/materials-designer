@@ -1,14 +1,16 @@
 import {Made} from "made.js";
 import Alert from 'react-s-alert';
+
+import {Material} from "../material";
 import {displayMessage} from "../i18n/messages";
 
 import {
-    MATERIALS_UPDATE_INDEX,
-    MATERIALS_UPDATE_ONE,
     MATERIALS_CLONE_ONE,
+    MATERIALS_UPDATE_ONE,
+    MATERIALS_UPDATE_INDEX,
     MATERIALS_UPDATE_NAME_FOR_ONE,
-    MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
     MATERIALS_GENERATE_SURFACE_FOR_ONE,
+    MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
 } from "../actions";
 
 function materialsUpdateOne(state, action) {
@@ -48,12 +50,11 @@ function materialsGenerateSupercellForOne(state, action) {
     const matrixAsNestedArray = action.matrix;
     const material = state.materials[state.index];  // only using currently active material
     const supercellConfig = Made.tools.supercell.generateConfig(material, matrixAsNestedArray);
-    const supercell = new Made.Material(supercellConfig);
+    const supercell = new Material(supercellConfig);
     return materialsUpdateOne(state, Object.assign(action, {material: supercell}));
 }
 
 function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio, vx, vy, material}) {
-    // TODO by MM: move this into materialsSave outside of this package
     const bulkId = material && (material.id || material._id);
     const bulkExabyteId = material && (material.exabyteId);
 
@@ -90,7 +91,7 @@ function materialsGenerateSurfaceForOne(state, action) {
         material
     });
 
-    const newMaterial = new Made.Material(supercellConfig);
+    const newMaterial = new Material(supercellConfig);
     Made.tools.material.scaleOneLatticeVector(newMaterial, ["a", "b", "c"][outOfPlaneAxisIndex], 1 / (1 - vacuumRatio));
 
     return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
