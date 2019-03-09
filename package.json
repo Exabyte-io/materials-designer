@@ -3,15 +3,15 @@
     "version": "0.1.0",
     "description": "Materials Designer",
     "scripts": {
+        "postinstall": "npm run transpile",
         "start": "PORT=3001 react-scripts start",
-        "build": "babel --out-dir lib src; node-sass -r src/stylesheets -o lib/stylesheets",
-        "postinstall": "babel --out-dir lib src; node-sass -r src/stylesheets -o lib/stylesheets"
+        "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/Exabyte-io/materials-designer.git"
     },
-    "main": "lib/exports.js",
+    "main": "dist/exports.js",
     "author": "Exabyte Inc.",
     "bugs": {
         "url": "https://github.com/Exabyte-io/materials-designer/issues"
