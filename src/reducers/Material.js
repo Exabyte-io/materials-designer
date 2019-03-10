@@ -56,11 +56,7 @@ function materialsGenerateSupercellForOne(state, action) {
 
 function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio, vx, vy, material}) {
     const bulkId = material && (material.id || material._id);
-    const bulkExabyteId = material && (material.exabyteId);
-
-    if (!(bulkId || bulkExabyteId)) {
-        NPMsAlert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
-    }
+    if (!(bulkId)) NPMsAlert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
 
     Object.assign(slabConfig, {
         metadata: {
@@ -72,11 +68,9 @@ function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio,
             vacuumRatio,
             vx,
             vy,
-            bulkId,
-            bulkExabyteId,
+            bulkId
         }
     });
-    slabConfig.tags = [].concat(slabConfig.tags, "slab").filter(x => x);
 }
 
 function materialsGenerateSurfaceForOne(state, action) {
