@@ -96,7 +96,7 @@ class LatticeConfigurationDialog extends React.Component {
     }
 
     handleUpdateLattice() {
-        const oldMaterialCopy = new Material(this.props.material.clone());
+        const oldMaterialCopy = this.props.material.clone();
         this.state.preserveBasis ? oldMaterialCopy.toCartesian() : oldMaterialCopy.toCrystal();
 
         const newMaterialConfig = Object.assign({},
