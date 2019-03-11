@@ -5,13 +5,10 @@ import {Widget} from "./widget";
  */
 export class Page extends Widget {
 
-    // override upon inheritance for static routes.
-    get path() {return ""}
-
     /**
      * @summary Opens the page.
      */
-    open(path = this.path, forceLoad = false) {
+    open(path, forceLoad = false) {
         exabrowser.urlForceLoad(path, forceLoad);
         this.waitForVisible();
         this.waitForLoaderToDisappear();

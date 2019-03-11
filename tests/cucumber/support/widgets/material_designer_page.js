@@ -4,11 +4,11 @@ import {MaterialDesignerWidget} from "./material_designer_widget";
 
 export class MaterialDesignerPage extends Page {
 
-    constructor() {
-        super();
+    constructor(selector) {
+        super(selector);
         this.designerWidget = new MaterialDesignerWidget(SELECTORS.wrapper);
     }
 
 }
 
-export const materialDesignerPage = new MaterialDesignerPage();
+export const materialDesignerPage = new MaterialDesignerPage(SELECTORS.wrapper);

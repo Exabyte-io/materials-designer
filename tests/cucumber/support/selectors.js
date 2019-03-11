@@ -60,5 +60,10 @@ export const SELECTORS = {
             latticeOptionSelectorByNameSelect: (name) => `select[name="${name}"]`,
             latticeFormSaveButton: `button.save-lattice-config`,
         }
-    }
+    },
+    sAlertWidget: {
+        wrapper: ".alert.s-alert-box",
+        alertByType: (type) => `.alert-${type}`,
+        closeButton: 'button.close',
+    },
 };

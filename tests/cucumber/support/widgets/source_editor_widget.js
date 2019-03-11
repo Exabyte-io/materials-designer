@@ -6,7 +6,7 @@ import {SELECTORS} from "../selectors";
 class LatticeEditorWidget extends Widget {
     constructor(selector) {
         super(selector);
-        this._selectors = this.getWrappedSelectors(SELECTORS.materialDesignerWidget.sourceEditor.latticeEditor);
+        this._selectors = this.getWrappedSelectors(SELECTORS.sourceEditor.latticeEditor);
     }
 
     openLatticeForm() {
@@ -56,7 +56,7 @@ class LatticeEditorWidget extends Widget {
 class BasisEditorWidget extends Widget {
     constructor(selector) {
         super(selector);
-        this._selectors = this.getWrappedSelectors(SELECTORS.materialDesignerWidget.sourceEditor.basisEditor);
+        this._selectors = this.getWrappedSelectors(SELECTORS.sourceEditor.basisEditor);
     }
 
     // parse text from feature table to basis text in final form
@@ -90,7 +90,7 @@ class BasisEditorWidget extends Widget {
 export class SourceEditorWidget extends Widget {
     constructor(selector) {
         super(selector);
-        this.basisEditor = new BasisEditorWidget(SELECTORS.materialDesignerWidget.sourceEditor.basisEditor.wrapper);
-        this.latticeEditor = new LatticeEditorWidget(SELECTORS.materialDesignerWidget.sourceEditor.latticeEditor.wrapper);
+        this.basisEditor = new BasisEditorWidget(SELECTORS.sourceEditor.basisEditor.wrapper);
+        this.latticeEditor = new LatticeEditorWidget(SELECTORS.sourceEditor.latticeEditor.wrapper);
     }
 }

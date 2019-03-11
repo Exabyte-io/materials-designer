@@ -5,7 +5,7 @@ export class ItemsListWidget extends Widget {
 
     constructor(selector) {
         super(selector);
-        this._selectors = SELECTORS.materialDesignerWidget.itemsList;
+        this._selectors = SELECTORS.itemsList;
     }
 
     setItemName(itemIndex, name) {
