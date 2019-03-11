@@ -63,16 +63,18 @@ check_args $@
 SOURCE="${BASH_SOURCE[0]}"
 THIS_SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-cd ${THIS_SCRIPT_DIR}
-npm install
-
-export DEBUG="exachimp:*"
 export DEBUG_LEVEL=3
+export DEBUG="exachimp:*"
 
 TESTS_DIR="${THIS_SCRIPT_DIR}/tests"
 CUCUMBER_DIR="${TESTS_DIR}/cucumber"
 SUPPORT_DIR="${CUCUMBER_DIR}/support"
 SCREENSHOTS_DIR="${CUCUMBER_DIR}/screenshots"
+
+export ROOT_URL="${HOST}:${PORT}"
+
+cd ${TESTS_DIR}
+npm install
 
 rm -rf ${SCREENSHOTS_DIR}
 
@@ -80,12 +82,12 @@ rm -rf ${SCREENSHOTS_DIR}
 sed -ie 's/--debug/--inspect/g'  ${THIS_SCRIPT_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
 
 ${THIS_SCRIPT_DIR}/node_modules/.bin/chimp \
-    --ddp="${HOST}:${PORT}" \
+    --serverHost="${HOST}" \
+    --serverPort="${PORT}" \
     --path=${CUCUMBER_DIR}/features/$FEATURES -r=${SUPPORT_DIR} \
     --singleSnippetPerFile=1 \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
     --screenshotsPath=${SCREENSHOTS_DIR} \
     --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
     --browser=${BROWSER} \
-    --serverExecuteTimeout=60000 \
     ${OPTIONS}
