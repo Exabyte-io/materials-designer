@@ -79,9 +79,9 @@ npm install
 rm -rf ${SCREENSHOTS_DIR}
 
 # Hotfix: change node debug option in cucumber
-sed -ie 's/--debug/--inspect/g'  ${THIS_SCRIPT_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
+sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
 
-${THIS_SCRIPT_DIR}/node_modules/.bin/chimp \
+${TESTS_DIR}/node_modules/.bin/chimp \
     --serverHost="${HOST}" \
     --serverPort="${PORT}" \
     --path=${CUCUMBER_DIR}/features/$FEATURES -r=${SUPPORT_DIR} \
