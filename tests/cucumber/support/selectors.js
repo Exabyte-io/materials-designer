@@ -8,15 +8,6 @@ export const SELECTORS = {
         menuDialogByName: (name) => `[data-name="${name}"]`,
         menuDialogItemByNumber: (name, number) =>
             `.button-activated-menu[data-name="${name}-menu"] li[role="menuitem"]:nth-of-type(${number})`,
-        saveDialog: {
-            wrapper: "",
-            tagsSelectorInput: '[data-name="chips-array"] input',
-            isPublicTriggerCheckbox: '[data-name="is-public"]',
-            isPublicTriggerCheckboxInput: '[data-name="is-public"] input',
-            saveAllTriggerCheckbox: '[data-name="use-multiple"]',
-            selectMaterialsSetTextInput: '[placeholder="None selected"]',
-            materialsSetSelectExplorerWrapper: "#materials-set-select",
-        },
         supercellDialog: {
             wrapper: "#supercellModal",
             submitButton: "#make-supercell",
