@@ -1,7 +1,7 @@
 import assert from "assert";
+import {retry} from "../utils";
 import {Widget} from "../widget";
 import {SELECTORS} from "../selectors";
-import {retry} from "../utils";
 
 class LatticeEditorWidget extends Widget {
     constructor(selector) {
@@ -71,7 +71,6 @@ class BasisEditorWidget extends Widget {
         return exabrowser.getValue(this._selectors.basisTextArea);
     };
 
-
     setBasisUnits(unitsName) {
         this.waitForMaterialInit();
         exabrowser.scrollAndClick(this._selectors.basisUnitsByName(unitsName));
@@ -91,7 +90,7 @@ class BasisEditorWidget extends Widget {
 export class SourceEditorWidget extends Widget {
     constructor(selector) {
         super(selector);
-        this.latticeEditor = new LatticeEditorWidget(SELECTORS.materialDesignerWidget.sourceEditor.latticeEditor.wrapper);
         this.basisEditor = new BasisEditorWidget(SELECTORS.materialDesignerWidget.sourceEditor.basisEditor.wrapper);
+        this.latticeEditor = new LatticeEditorWidget(SELECTORS.materialDesignerWidget.sourceEditor.latticeEditor.wrapper);
     }
 }

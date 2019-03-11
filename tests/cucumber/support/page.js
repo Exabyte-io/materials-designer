@@ -6,7 +6,7 @@ import {Widget} from "./widget";
 export class Page extends Widget {
 
     // override upon inheritance for static routes.
-    get path() {}
+    get path() {return ""}
 
     /**
      * @summary Opens the page.
@@ -19,5 +19,4 @@ export class Page extends Widget {
 
     getUrl() {return exabrowser.getUrl()}
 
-    getEntityId() {return this.getUrl().split("/").slice(-1)[0]}
 }

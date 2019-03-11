@@ -1,7 +1,7 @@
+import {retry} from "../../utils";
+import {logger} from "../../logger";
+import {SELECTORS} from "../../selectors";
 import {AlertWidget} from "./alert_widget";
-import {SELECTORS} from "../../../../selectors";
-import {retry} from "../../../../utils";
-import {logger} from "../../../../logger";
 
 export class SAlertWidget extends AlertWidget {
 
