@@ -1,6 +1,4 @@
 import sleep from "sleep";
-import _ from "underscore";
-import assert from "assert";
 
 import {logger} from "../logger";
 
@@ -25,18 +23,6 @@ export function retry(fn, options = {}) {
         }
     }
     if (i >= retries) throw new Error('ERROR: Max retry count exceeded')
-}
-
-/**
- * @summary Waits for `server` object to initialize.
- */
-export function waitForServerExecute() {
-    retry(() => assert(server && _.isFunction(server.execute), 'server.execute is not a function'), {retries: 30});
-}
-
-export function serverExecute(fn, ...args) {
-    waitForServerExecute();
-    return server.execute(fn, ...args);
 }
 
 /**
