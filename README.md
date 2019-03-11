@@ -45,7 +45,12 @@ Open http://localhost:3001 to view the application in the browser.
 
 ## Tests
 
-TBA
+Start the application and then run one of the below commands to run the tests.
+
+```bash
+sh run-tests.sh                                                 # to run all the tests
+sh run-tests.sh -f=menu/advanced/create-supercell.feature       # to run an specific test
+```
 
 ## Architecture
 
