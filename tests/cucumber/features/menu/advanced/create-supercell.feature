@@ -8,4 +8,4 @@ Feature: User can create a supercell
       | supercell | Si 0 0 0;Si 0.25 0.25 0.25 | 2 0 0, 0 1 0, 0 0 1 |
     Then material with following data exists in state
       | path              | index   |
-      | si-supercell.json | $INT{0} |
+      | si-supercell.json | $INT{1} |
