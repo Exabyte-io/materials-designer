@@ -22,8 +22,6 @@ export class Material extends Made.Material {
         };
     }
 
-    unsetProp(name) {delete this._json[name]}
-
     cleanOnCopy() {
         ["_id"].forEach(p => this.unsetProp(p));
     }
