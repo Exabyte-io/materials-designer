@@ -73,7 +73,7 @@ export class MaterialsDesignerContainer extends React.Component {
     constructor(props) {
         super(props);
         const initialState_ = initialState();
-        initialState_.materials = props.initialMaterials.map(m => new Material(m.toJSON()));
+        initialState_.materials = props.initialMaterials;
         const externalReducers = props.materialsSave ? {[MATERIALS_SAVE]: props.materialsSave} : {};
         const reducer = createMaterialsDesignerReducer(initialState_, externalReducers);
         this.store = createStore(reducer, props.applyMiddleware ? applyMiddleware(logger) : undefined);

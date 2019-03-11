@@ -198,7 +198,6 @@ class HeaderMenuToolbar extends React.Component {
                 show={this.state.showImportMaterialsDialog}
                 onHide={() => this.setState({showImportMaterialsDialog: false})}
                 onSubmit={(materials) => {
-                    materials = (materials || []).map(m => new Material(m.toJSON()));
                     this.props.onAdd(materials);
                     this.setState({showImportMaterialsDialog: false});
                 }}
