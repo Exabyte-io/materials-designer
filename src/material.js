@@ -10,6 +10,10 @@ export class Material extends Made.Material {
 
     set id(id) {this.setProp('_id', id)}
 
+    get isUpdated() {return this.prop('isUpdated', false)}
+
+    set isUpdated(bool) {this.setProp('isUpdated', bool)}
+
     get metadata() {return this.prop('metadata', {})}
 
     set metadata(object) {this.setProp('metadata', object)}
