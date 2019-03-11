@@ -60,6 +60,7 @@ class InterpolateBasesDialog extends ModalDialog {
                 }
             );
             const newMaterial = new Material(newMaterialConfig);
+            newMaterial.isUpdated = true;
             newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });

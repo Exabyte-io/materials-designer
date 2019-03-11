@@ -11,6 +11,6 @@ export default function () {
         const materials = exabrowser.execute(() => {
             return window.$r.store.getState().present.materials.map(m => m.toJSON());
         }).value;
-        shallowDeepAlmostEqual(material, materials[config.index])
+        shallowDeepAlmostEqual(material, materials[config.index - 1]);
     });
 };
