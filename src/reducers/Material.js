@@ -28,6 +28,7 @@ function materialsCloneOne(state, action) {
     const material = materials[state.index].clone();
     material.cleanOnCopy();
     material.name = "New Material";
+    material.isUpdated = true;
     materials.push(material);
     return Object.assign({}, state, {materials});
 }
