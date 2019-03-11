@@ -8,7 +8,7 @@
 # Print usage
 #
 usage () {
-    echo "run-chimp.sh -h=HOST -p=PORT -f=FEATURES -o=OPTIONS"
+    echo "run-tests.sh -h=HOST -p=PORT -f=FEATURES -o=OPTIONS"
     exit 1
 }
 
