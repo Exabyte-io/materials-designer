@@ -8,11 +8,6 @@ var isFeatureStarted = false;
  */
 function setViewportSizeHook() {exabrowser.setViewportSize(SETTINGS.VIEWPORT_SIZE)}
 
-/**
- * @summary Makes sure user is logged out after test is done.
- */
-function logout() {exabrowser.urlForceLoad("logout")}
-
 /*
  * Hooks are run Before/After each scenario
  */
@@ -21,7 +16,6 @@ export default function () {
         if (!isFeatureStarted) {
             initializeExaBrowserHook(); // KEEP THIS FIRST!
             setViewportSizeHook();
-            logout();
         }
         isFeatureStarted = true;
     });
