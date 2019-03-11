@@ -76,16 +76,15 @@ SCREENSHOTS_DIR="${TESTS_DIR}/.screenshots"
 
 rm -rf ${SCREENSHOTS_DIR}
 
-
 # Hotfix: change node debug option in cucumber
 sed -ie 's/--debug/--inspect/g'  ${THIS_SCRIPT_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
 
-./node_modules/.bin/chimp \
+${THIS_SCRIPT_DIR}/node_modules/.bin/chimp \
     --ddp="${HOST}:${PORT}" \
     --path=${CUCUMBER_DIR}/features/$FEATURES -r=${SUPPORT_DIR} \
     --singleSnippetPerFile=1 \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
-    --screenshotsPath=${${SCREENSHOTS_DIR}} \
+    --screenshotsPath=${SCREENSHOTS_DIR} \
     --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
     --browser=${BROWSER} \
     --serverExecuteTimeout=60000 \
