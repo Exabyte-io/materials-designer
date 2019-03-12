@@ -6,7 +6,31 @@ This a standalone react/redux application for atomistic material structures desi
 
 As below:
 
-- TBA
+- Input/Output Menu
+    - Export materials in JSON/POSCAR formats
+- Edit Menu
+    - Undo/Redo/Reset/Clone operations
+- View
+    - Fullscreen mode
+- Advanced Menu
+    - Creating supercell
+    - Creating combinatorial set
+    - Creating interpolated set
+    - Creating surface/slab
+- Basis Editor
+    - Adding/Removing/Modifying sites
+    - Adding/Removing/Modifying atomic constraints
+    - Switching Crystal/Cartesian units
+- Lattice Editor
+    - Adjusting lattice units/types/parameters
+
+- 3D Editor
+    - Visualizing materials
+        - Rotation
+        - Repetition/Radius
+        - Toggle axes
+    - Adjusting materials
+        - add/remove/select atoms
 
 ## Installation
 
@@ -70,6 +94,7 @@ As explained here in [Confluence documentation](https://exabyte.atlassian.net/wi
 
 Desirable features for implementation:
 
+- Add tests for all the functionality listed above. We only tests advanced operations at current.
 - TBA
 
 ## Links
