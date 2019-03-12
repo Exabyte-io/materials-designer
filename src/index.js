@@ -11,4 +11,4 @@ import "./stylesheets/main.scss";
 import {MaterialsDesignerContainer} from './MaterialsDesignerContainer';
 
 // Store component reference in window to access it in console for debugging/tests purposes
-window.$r = ReactDOM.render(<MaterialsDesignerContainer/>, document.getElementById('root'));
+window.MDContainer = ReactDOM.render(<MaterialsDesignerContainer/>, document.getElementById('root'));
