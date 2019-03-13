@@ -3,7 +3,7 @@ import Select from 'material-ui-next/Select';
 import {FormControl} from 'material-ui-next/Form';
 import Input, {InputLabel} from 'material-ui-next/Input';
 
-import ActionDialog from "../include/ActionDialog";
+import {ActionDialog} from "../include/ActionDialog";
 
 class ExportActionDialog extends ActionDialog {
 

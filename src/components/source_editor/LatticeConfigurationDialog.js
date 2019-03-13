@@ -3,6 +3,7 @@ import React from "react";
 import {Made} from "made.js";
 import {ModalHeader} from "react-bootstrap";
 
+import {Material} from "../../material";
 import {deepClone} from "../../utils/index";
 import ToggleSwitch from "../include/ToggleSwitch";
 
@@ -95,7 +96,7 @@ class LatticeConfigurationDialog extends React.Component {
     }
 
     handleUpdateLattice() {
-        const oldMaterialCopy = new Made.Material(this.props.material.clone());
+        const oldMaterialCopy = new Material(this.props.material.clone());
         this.state.preserveBasis ? oldMaterialCopy.toCartesian() : oldMaterialCopy.toCrystal();
 
         const newMaterialConfig = Object.assign({},
@@ -104,7 +105,7 @@ class LatticeConfigurationDialog extends React.Component {
         );
 
         // preserve basis if asked to do so (eg. when constructing a slab)
-        const newMaterial = new Made.Material(newMaterialConfig);
+        const newMaterial = new Material(newMaterialConfig);
         // assert basis is stored in 'crystal' units
         newMaterial.toCrystal();
         this.props.onUpdate(newMaterial);
@@ -253,7 +254,7 @@ class LatticeConfigurationDialog extends React.Component {
 
 LatticeConfigurationDialog.propTypes = {
     unitOptions: React.PropTypes.array.isRequired,
-    typeOptions: React.PropTypes.object.isRequired,
+    typeOptions: React.PropTypes.array.isRequired,
     submitButtonTxt: React.PropTypes.string,
     material: React.PropTypes.object,
     onUpdate: React.PropTypes.func.isRequired
