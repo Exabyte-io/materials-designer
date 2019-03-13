@@ -9,7 +9,7 @@ const paperStyle = {
     top: "20%"
 };
 
-class ActionDialog extends React.Component {
+export class ActionDialog extends React.Component {
 
     render() {
         return (
@@ -46,5 +46,3 @@ ActionDialog.propTypes = {
     onClose: PropTypes.func,
     onSubmit: PropTypes.func,
 };
-
-export default ActionDialog;

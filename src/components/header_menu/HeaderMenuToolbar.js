@@ -34,16 +34,13 @@ import {
 
 } from 'material-ui-icons-next';
 
-import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActivatedMenu";
-//import {displayMessage} from "../../i18n/messages";
-
-import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
-import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
-import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
-import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
-//import MaterialsExplorerModal from "../../../explorer/MaterialsExplorerModal";
+import {Material} from "../../material";
 import ExportActionDialog from "./ExportActionDialog";
-import SaveActionDialog from "./SaveActionDialog";
+import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
+import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
+import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActivatedMenu";
+import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
+import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
 
 class HeaderMenuToolbar extends React.Component {
 
@@ -57,32 +54,32 @@ class HeaderMenuToolbar extends React.Component {
             showSaveMaterialsDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
-            showSelectSetDialog: false,
-            entitySetClsInstance: undefined, // intentionally undefined initially
         };
     }
 
     renderIOMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
-                <MenuItem onClick={() => this.setState({showImportMaterialsDialog: true})}>
+                <MenuItem
+                    disabled={!Boolean(this.props.ImportModal)}
+                    onClick={() => this.setState({showImportMaterialsDialog: true})}>
                     <ListItemIcon><AddCircleIcon/></ListItemIcon>
                     Import
                 </MenuItem>
-                <MenuItem onClick={() => this.setState({showExportMaterialsDialog: true})}>
+                <MenuItem
+                    onClick={() => this.setState({showExportMaterialsDialog: true})}>
                     <ListItemIcon><FileDownloadIcon/></ListItemIcon>
                     Export
                 </MenuItem>
-                <MenuItem onClick={() => this.setState({showSaveMaterialsDialog: true})}>
+                <MenuItem
+                    disabled={!Boolean(this.props.SaveActionDialog)}
+                    onClick={() => this.setState({showSaveMaterialsDialog: true})}>
                     <ListItemIcon><SaveIcon/></ListItemIcon>
                     Save
                 </MenuItem>
-                <MenuItem onClick={() => {
-//                    Router.go('accountPage', {
-//                        accountSlug: AccountsSelector.currentAccount().slug,
-//                        tab: 'materials',
-//                    }, {query: getRouteQueryParametersFromInSet(getInSetFromRoute())});
-                }}>
+                <MenuItem
+                    disabled={!Boolean(this.props.onExit)}
+                    onClick={this.props.onExit}>
                     <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                     Exit
                 </MenuItem>
@@ -146,7 +143,6 @@ class HeaderMenuToolbar extends React.Component {
                     Interpolated set
                 </MenuItem>
                 <MenuItem
-//                    disabled={!FeatureHandler.isAccessibleByCurrentAccount("SurfaceBuilder")}
                     onClick={() => this.setState({showSurfaceDialog: true})}>
                     <ListItemIcon><SlabIcon/></ListItemIcon>
                     Surface / slab
@@ -196,6 +192,31 @@ class HeaderMenuToolbar extends React.Component {
         )
     }
 
+    renderImportModal() {
+        return Boolean(this.props.ImportModal) ?
+            <this.props.ImportModal
+                show={this.state.showImportMaterialsDialog}
+                onHide={() => this.setState({showImportMaterialsDialog: false})}
+                onSubmit={(materials) => {
+                    materials = (materials || []).map.map(m => new Material(m.toJSON()));
+                    this.props.onAdd(materials);
+                    this.setState({showImportMaterialsDialog: false});
+                }}
+            />
+            : null;
+    }
+
+    renderSaveActionDialog() {
+        return Boolean(this.props.SaveActionDialog) ?
+            <this.props.SaveActionDialog
+                show={this.state.showSaveMaterialsDialog}
+                material={this.props.material}
+                onClose={() => this.setState({showSaveMaterialsDialog: false})}
+                onSubmit={this.props.onSave}
+            />
+            : null;
+    }
+
     render() {
         const style = {
             borderBottom: '1px solid',
@@ -229,18 +250,7 @@ class HeaderMenuToolbar extends React.Component {
                     onHide={() => this.setState({showSurfaceDialog: false})}
                 />
 
-                {/*<MaterialsExplorerModal*/}
-                    {/*title="Import materials"*/}
-                    {/*show={this.state.showImportMaterialsDialog}*/}
-                    {/*hintText="Search materials by name, formula, symmetry..."*/}
-                    {/*modalId="material-add"*/}
-                    {/*backdropColor='dark'*/}
-                    {/*onHide={() => this.setState({showImportMaterialsDialog: false})}*/}
-                    {/*onSubmit={(materials) => {*/}
-                        {/*this.props.onAdd(materials);*/}
-                        {/*this.setState({showImportMaterialsDialog: false});*/}
-                    {/*}}*/}
-                {/*/>*/}
+                {this.renderImportModal()}
 
 
                 <ExportActionDialog
@@ -249,60 +259,13 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={this.props.onExport}
                 />
 
-                <SaveActionDialog
-                    show={this.state.showSaveMaterialsDialog}
-                    tags={this.props.material.tags}
-                    isPublic={this.props.material.isPublic}
-                    isSetPublicVisible={this.props.isSetPublicVisible}
-                    onClose={() => this.setState({showSaveMaterialsDialog: false})}
-                    onSubmit={this.props.onSave}
-                    entitySetClsInstance={this.state.entitySetClsInstance}
-                    onShowSelectStateDialog={() => this.setState({
-                            showSaveMaterialsDialog: false,
-                        },
-                        () => this.setState({showSelectSetDialog: true,})
-                    )}
-                />
-
-                {/* SelectSet Dialog */}
-                {/*<MaterialsExplorerModal*/}
-                    {/*title="Select material set"*/}
-                    {/*show={this.state.showSelectSetDialog}*/}
-                    {/*hintText="Search by name"*/}
-                    {/*modalId="materials-set-select"*/}
-                    {/*omitEntitySetFunctions={false}*/}
-                    {/*omitEntitySelection={true}*/}
-                    {/*omitEntitySetSelection={false}*/}
-                    {/*selectionLimit={1}*/}
-                    {/*onHide={() => this.setState({*/}
-                            {/*showSaveMaterialsDialog: true,*/}
-                        {/*},*/}
-                        {/*() => this.setState({showSelectSetDialog: false,})*/}
-                    {/*)}*/}
-                    {/*onSubmit={(entitySets) => {*/}
-                        {/*const materialSet = entitySets[0];*/}
-                        {/*if (entitySets.length > 1) {*/}
-                            {/*// throw error re-using generic message for workflows*/}
-{/*//                            sAlert.warning(displayMessage('workflow.errors.select.singleOnly'));*/}
-                            {/*return*/}
-                        {/*}*/}
-                        {/*if (!materialSet.isEntitySet) {*/}
-{/*//                            sAlert.warning(displayMessage('errors.notAnEntitySet'));*/}
-                            {/*return;*/}
-                        {/*}*/}
-                        {/*this.setState({*/}
-                                {/*showSelectSetDialog: false,*/}
-                                {/*entitySetClsInstance: materialSet,*/}
-                            {/*},*/}
-                            {/*() => this.setState({showSaveMaterialsDialog: true,})*/}
-                        {/*);*/}
-                    {/*}}*/}
-                {/*/>*/}
+                {this.renderSaveActionDialog()}
 
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
                     modalId="combinatorialSetModal"
                     show={this.state.showCombinatorialDialog}
+                    maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
                     backdropColor='dark'
                     material={this.props.material}
                     onHide={() => this.setState({showCombinatorialDialog: false})}
@@ -346,9 +309,16 @@ HeaderMenuToolbar.propTypes = {
 
     onAdd: React.PropTypes.func,
     onExport: React.PropTypes.func,
+    onExit: React.PropTypes.func,
 
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
+
+    ImportModal: React.PropTypes.func,
+    SaveActionDialog: React.PropTypes.func,
+
+    maxCombinatorialBasesCount: React.PropTypes.number,
+
 };
 
 export default HeaderMenuToolbar;

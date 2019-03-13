@@ -1,11 +1,13 @@
 import React from 'react';
 import _ from 'underscore';
 import {Made} from "made.js";
-import Alert from 'react-s-alert';
+import NPMsAlert from 'react-s-alert';
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
+import {Material} from "../../../material";
 import {ModalDialog} from '../../include/ModalDialog';
 import {displayMessage} from "../../../i18n/messages";
+import {MaterialsDesignerContainer} from "../../../MaterialsDesignerContainer";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
@@ -37,9 +39,9 @@ class CombinatorialBasisDialog extends ModalDialog {
     }
 
     assertCombinatorialBasesCount(bases) {
-        const maxCombinatorialBasesCount = 100;
+        const maxCombinatorialBasesCount = this.props.maxCombinatorialBasesCount;
         if (bases.length > maxCombinatorialBasesCount) {
-            Alert.warning(displayMessage('combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
+            NPMsAlert.warning(displayMessage('combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
             return false;
         }
         return true;
@@ -76,9 +78,8 @@ class CombinatorialBasisDialog extends ModalDialog {
                     name: `${material.name} - ${basis.formula}`
                 }
             );
-            const newMaterial = new Made.Material(newMaterialConfig);
-            // TODO: move to webapp
-            // newMaterial.cleanOnCopy();
+            const newMaterial = new Material(newMaterialConfig);
+            newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
         });
         // pass up the chain
@@ -88,7 +89,7 @@ class CombinatorialBasisDialog extends ModalDialog {
     _validateXYZ(value) {
         try {
             Made.parsers.xyz.validate(value);
-            // only show the success messsage first time after last failure
+            // only show the success message first time after last failure
             if (!this.state.validated) {
                 this.setState({
                     validated: true,
@@ -171,7 +172,12 @@ class CombinatorialBasisDialog extends ModalDialog {
 
 CombinatorialBasisDialog.PropTypes = {
     onSubmit: React.PropTypes.func,
-    material: React.PropTypes.object
+    material: React.PropTypes.object,
+    maxCombinatorialBasesCount: React.PropTypes.number,
+};
+
+CombinatorialBasisDialog.defaultProps = {
+    maxCombinatorialBasesCount: 100,
 };
 
 export default CombinatorialBasisDialog;

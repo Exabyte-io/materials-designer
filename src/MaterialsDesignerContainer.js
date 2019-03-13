@@ -1,37 +1,32 @@
 import React from "react";
 import _ from "underscore";
 import lodash from "lodash";
-import {Made} from "made.js";
-import Alert from 'react-s-alert';
 import logger from "redux-logger";
 import {connect} from "react-redux";
+import NPMsAlert from 'react-s-alert';
 import {ActionCreators} from 'redux-undo';
-
 import {createStore, applyMiddleware} from "redux";
 
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
+import "wave/lib/stylesheets/wave.css";
+
+import {Material} from "./material";
 import ReduxProvider from "./utils/react/provider";
 import {createMaterialsDesignerReducer} from "./reducers";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
+import {SAlertContentTmpl} from "./components/include/SAlertContentTmpl";
+
 import {
     updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
     addMaterials, removeMaterials, exportMaterials, saveMaterials, generateSupercellForOneMaterial,
-    generateSurfaceForOneMaterial, resetState,
+    generateSurfaceForOneMaterial, resetState, MATERIALS_SAVE,
 } from "./actions";
-
-// bootstrap needs to be loaded first
-import 'bootstrap/dist/css/bootstrap.css';
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
-import './stylesheets/main.scss';
 
 const initialState = () => {
     return {
-        // TODO: (account && account.defaultMaterial) || Material.createDefault();
-        materials: Array(1).fill(new Made.Material(Made.defaultMaterialConfig)),
         index: 0,
         isLoading: false,
-        // TODO: account && account.serviceLevel.privateDataAllowed
-        isSetPublicVisible: false,
     }
 };
 
@@ -44,7 +39,6 @@ const mapStateToProps = (state, ownProps) => {
         materials: state.materials,
         editable: lodash.get(state, 'editable', false),
         isLoading: state.isLoading,
-        isSetPublicVisible: state.isSetPublicVisible,
     }, ownProps.parentProps);
 };
 
@@ -59,7 +53,7 @@ const mapDispatchToProps = (dispatch) => {
         onAdd: (materials, addAtIndex) => dispatch(addMaterials(materials, addAtIndex)),
         onRemove: (indices) => (dispatch(removeMaterials(indices))),
         onExport: (format, useMultiple) => (dispatch(exportMaterials(format, useMultiple))),
-        onSave: (...args) => (dispatch(saveMaterials(...args, dispatch))),
+        onSave: (config) => (dispatch(saveMaterials(config, dispatch))),
 
         onGenerateSupercell: (matrix) => (dispatch(generateSupercellForOneMaterial(matrix))),
         onGenerateSurface: (config) => (dispatch(generateSurfaceForOneMaterial(config))),
@@ -82,9 +76,11 @@ export class MaterialsDesignerContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        const reducer = createMaterialsDesignerReducer(initialState());
-        // TODO: Meteor.settings.public.isProduction ? undefined
-        this.store = createStore(reducer, applyMiddleware(logger));
+        const initialState_ = initialState();
+        initialState_.materials = props.initialMaterials.map(m => new Material(m.toJSON()));
+        const externalReducers = props.materialsSave ? {[MATERIALS_SAVE]: props.materialsSave} : {};
+        const reducer = createMaterialsDesignerReducer(initialState_, externalReducers);
+        this.store = createStore(reducer, props.applyMiddleware ? applyMiddleware(logger) : undefined);
         this.container = MaterialsDesignerContainerHelper;
     }
 
@@ -97,13 +93,14 @@ export class MaterialsDesignerContainer extends React.Component {
                     container={this.container}
                     store={this.store}
                 />
-                <Alert
+                <NPMsAlert
                     effect='stackslide'
                     position='bottom-right'
                     timeout={3000}
                     html={false}
                     stack={true}
                     offset={0}
+                    contentTemplate={SAlertContentTmpl}
                 />
             </div>
         )
@@ -113,6 +110,16 @@ export class MaterialsDesignerContainer extends React.Component {
 
 MaterialsDesignerContainer.propTypes = {
     childrenProps: React.PropTypes.object,
+    applyMiddleware: React.PropTypes.bool,
+    initialMaterials: React.PropTypes.array,
+    onExit: React.PropTypes.func,
+    ImportModal: React.PropTypes.func,
+    SaveActionDialog: React.PropTypes.func,
+    materialsSave: React.PropTypes.func,
+    maxCombinatorialBasesCount: React.PropTypes.number,
 };
 
-MaterialsDesignerContainer.defaultProps = {};
+MaterialsDesignerContainer.defaultProps = {
+    applyMiddleware: true,
+    initialMaterials: Array(1).fill(new Material()),
+};

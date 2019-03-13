@@ -1,14 +1,16 @@
 import {Made} from "made.js";
-import Alert from 'react-s-alert';
+import NPMsAlert from 'react-s-alert';
+
+import {Material} from "../material";
 import {displayMessage} from "../i18n/messages";
 
 import {
-    MATERIALS_UPDATE_INDEX,
-    MATERIALS_UPDATE_ONE,
     MATERIALS_CLONE_ONE,
+    MATERIALS_UPDATE_ONE,
+    MATERIALS_UPDATE_INDEX,
     MATERIALS_UPDATE_NAME_FOR_ONE,
-    MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
     MATERIALS_GENERATE_SURFACE_FOR_ONE,
+    MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
 } from "../actions";
 
 function materialsUpdateOne(state, action) {
@@ -24,8 +26,7 @@ function materialsUpdateOne(state, action) {
 function materialsCloneOne(state, action) {
     const materials = state.materials.slice(); // get copy of array
     const material = materials[state.index].clone();
-    // TODO: move it to webapp
-    // material.cleanOnCopy();
+    material.cleanOnCopy();
     material.name = "New Material";
     materials.push(material);
     return Object.assign({}, state, {materials});
@@ -33,7 +34,8 @@ function materialsCloneOne(state, action) {
 
 function materialsUpdateNameForOne(state, action) {
     const materials = state.materials.slice();  // get copy of array
-    const index = (!action.index && action.index !== 0) ? action.index : state.index;  // not passing index when modifying currently displayed material
+    // not passing index when modifying currently displayed material
+    const index = (!action.index && action.index !== 0) ? action.index : state.index;
     const material = state.materials[index];
     // TODO: figure out why material is undefined
     if (material) {
@@ -48,7 +50,7 @@ function materialsGenerateSupercellForOne(state, action) {
     const matrixAsNestedArray = action.matrix;
     const material = state.materials[state.index];  // only using currently active material
     const supercellConfig = Made.tools.supercell.generateConfig(material, matrixAsNestedArray);
-    const supercell = new Made.Material(supercellConfig);
+    const supercell = new Material(supercellConfig);
     return materialsUpdateOne(state, Object.assign(action, {material: supercell}));
 }
 
@@ -57,7 +59,7 @@ function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio,
     const bulkExabyteId = material && (material.exabyteId);
 
     if (!(bulkId || bulkExabyteId)) {
-        Alert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
+        NPMsAlert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
     }
 
     Object.assign(slabConfig, {
@@ -89,7 +91,7 @@ function materialsGenerateSurfaceForOne(state, action) {
         material
     });
 
-    const newMaterial = new Made.Material(supercellConfig);
+    const newMaterial = new Material(supercellConfig);
     Made.tools.material.scaleOneLatticeVector(newMaterial, ["a", "b", "c"][outOfPlaneAxisIndex], 1 / (1 - vacuumRatio));
 
     return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
