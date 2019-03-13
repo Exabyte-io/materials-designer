@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from "underscore";
-import {Made} from "made.js";
+import {Made} from "@exabyte-io/made.js";
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {Material} from "../../../material";
