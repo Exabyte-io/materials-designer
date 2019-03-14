@@ -1,21 +1,21 @@
 {
-    "name": "materials-designer",
-    "version": "0.1.0",
+    "name": "@exabyte-io/materials-designer.js",
+    "version": "1.0.0",
     "description": "Materials Designer",
     "scripts": {
         "start": "PORT=3001 react-scripts start",
-        "build": "babel --out-dir lib src; node-sass -r src/stylesheets -o lib/stylesheets",
-        "postinstall": "babel --out-dir lib src; node-sass -r src/stylesheets -o lib/stylesheets"
+        "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/Exabyte-io/materials-designer.git"
     },
-    "main": "lib/exports.js",
+    "main": "dist/exports.js",
     "author": "Exabyte Inc.",
     "bugs": {
         "url": "https://github.com/Exabyte-io/materials-designer/issues"
     },
+    "license": "Apache-2.0",
     "homepage": "https://github.com/Exabyte-io/materials-designer",
     "dependencies": {
         "@babel/cli": "7.0.0",
@@ -30,13 +30,13 @@
         "element-class": "^0.2.2",
         "jquery": "^1.11.2",
         "lodash": "^4.17.4",
-        "made.js": "file:/stack/lib/made-js",
+        "@exabyte-io/made.js": "1.0.1",
+        "@exabyte-io/wave.js": "1.0.4",
         "material-ui-icons-next": "^1.0.0-beta.17-next",
         "material-ui-next": "^1.0.0-beta.38",
         "mathjs": "^3.9.0",
         "mixwith": "^0.1.1",
         "node-sass": "^4.11.0",
-        "periodic-table": "file:/stack/lib/periodic-table",
         "react-bootstrap": "^0.30.7",
         "react-full-screen": "^0.2.2",
         "react-jss": "^8.6.1",
@@ -49,8 +49,7 @@
         "redux-undo": "^1.0.0-beta9-9-7",
         "sprintf-js": "^1.1.2",
         "underscore": "^1.8.3",
-        "underscore.string": "^3.3.4",
-        "wave": "file:/stack/lib/wave"
+        "underscore.string": "^3.3.4"
     },
     "peerDependencies": {
         "react": "^15.6.2",

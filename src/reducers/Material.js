@@ -1,5 +1,5 @@
-import {Made} from "made.js";
 import NPMsAlert from 'react-s-alert';
+import {Made} from "@exabyte-io/made.js";
 
 import {Material} from "../material";
 import {displayMessage} from "../i18n/messages";
@@ -28,6 +28,7 @@ function materialsCloneOne(state, action) {
     const material = materials[state.index].clone();
     material.cleanOnCopy();
     material.name = "New Material";
+    material.isUpdated = true;
     materials.push(material);
     return Object.assign({}, state, {materials});
 }
@@ -56,11 +57,7 @@ function materialsGenerateSupercellForOne(state, action) {
 
 function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio, vx, vy, material}) {
     const bulkId = material && (material.id || material._id);
-    const bulkExabyteId = material && (material.exabyteId);
-
-    if (!(bulkId || bulkExabyteId)) {
-        NPMsAlert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
-    }
+    if (!(bulkId)) NPMsAlert.warning(displayMessage('surface.noBulkId'), {timeout: 10000});
 
     Object.assign(slabConfig, {
         metadata: {
@@ -72,11 +69,9 @@ function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio,
             vacuumRatio,
             vx,
             vy,
-            bulkId,
-            bulkExabyteId,
+            bulkId
         }
     });
-    slabConfig.tags = [].concat(slabConfig.tags, "slab").filter(x => x);
 }
 
 function materialsGenerateSurfaceForOne(state, action) {

@@ -34,7 +34,6 @@ import {
 
 } from 'material-ui-icons-next';
 
-import {Material} from "../../material";
 import ExportActionDialog from "./ExportActionDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
@@ -162,7 +161,7 @@ class HeaderMenuToolbar extends React.Component {
     renderHelpMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="Help">
-                <MenuItem disabled>
+                <MenuItem onClick={() => window.open("https://docs.exabyte.io/materials-designer/overview/", "_blank")}>
                     <ListItemIcon><HelpIcon/></ListItemIcon>
                     Documentation
                 </MenuItem>
@@ -198,7 +197,6 @@ class HeaderMenuToolbar extends React.Component {
                 show={this.state.showImportMaterialsDialog}
                 onHide={() => this.setState({showImportMaterialsDialog: false})}
                 onSubmit={(materials) => {
-                    materials = (materials || []).map.map(m => new Material(m.toJSON()));
                     this.props.onAdd(materials);
                     this.setState({showImportMaterialsDialog: false});
                 }}

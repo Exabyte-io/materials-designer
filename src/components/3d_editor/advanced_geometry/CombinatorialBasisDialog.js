@@ -1,13 +1,12 @@
 import React from 'react';
 import _ from 'underscore';
-import {Made} from "made.js";
 import NPMsAlert from 'react-s-alert';
+import {Made} from "@exabyte-io/made.js";
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
 import {Material} from "../../../material";
 import {ModalDialog} from '../../include/ModalDialog';
 import {displayMessage} from "../../../i18n/messages";
-import {MaterialsDesignerContainer} from "../../../MaterialsDesignerContainer";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
