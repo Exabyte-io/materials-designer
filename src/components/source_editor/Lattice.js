@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from "underscore";
-import {Made} from "made.js";
 import setClass from 'classnames';
+import {Made} from "@exabyte-io/made.js";
 import ExpandMoreIcon from 'material-ui-icons-next/ExpandMore';
 import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from 'material-ui-next/ExpansionPanel';
 

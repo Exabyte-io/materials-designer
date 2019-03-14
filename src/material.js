@@ -1,4 +1,4 @@
-import {Made} from "made.js";
+import {Made} from "@exabyte-io/made.js";
 
 export class Material extends Made.Material {
 

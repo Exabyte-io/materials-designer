@@ -40,15 +40,6 @@ Materials Designer can be installed from source as follow:
 git clone git@github.com:Exabyte-io/materials-designer.git
 cd materials-designer
 
-cd /stack/lib/wave
-npm install --no-save
-cd -
-
-# Fix Wave runtime-corejs symlink
-cd /stack/lib/wave/node_modules/@babel/runtime
-ln -sf ../runtime-corejs2/core-js .
-cd -
-
 npm install --no-save
 
 # Fix materials-designer runtime-corejs symlink
