@@ -4,7 +4,7 @@ import {SELECTORS} from "../../selectors";
 export class SupercellDialogWidget extends Widget {
     constructor(selector) {
         super(selector);
-        this._selectors = this.getWrappedSelectors(SELECTORS.materialDesignerWidget.headerMenu.supercellDialog);
+        this._selectors = this.getWrappedSelectors(SELECTORS.headerMenu.supercellDialog);
     }
 
     /**

@@ -1,4 +1,4 @@
-import {Made} from "made.js";
+import {Made} from "@exabyte-io/made.js";
 
 export class Material extends Made.Material {
 
@@ -9,6 +9,10 @@ export class Material extends Made.Material {
     get id() {return this.prop('_id', '')}
 
     set id(id) {this.setProp('_id', id)}
+
+    get isUpdated() {return this.prop('isUpdated', false)}
+
+    set isUpdated(bool) {this.setProp('isUpdated', bool)}
 
     get metadata() {return this.prop('metadata', {})}
 

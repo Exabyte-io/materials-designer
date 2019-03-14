@@ -7,6 +7,5 @@ export const SETTINGS = {
         width: 1200,
         height: 900
     },
-    DOMAIN: "exabyte.io",
     DOWNLOAD_PATH: `${process.env.HOME}/Downloads`, // chrome default download directory
 };
