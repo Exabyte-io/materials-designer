@@ -5,9 +5,10 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
-import "wave/dist/stylesheets/wave.css";
+import "@exabyte-io/wave.js/dist/stylesheets/wave.css";
 import "./stylesheets/main.scss";
 
 import {MaterialsDesignerContainer} from './MaterialsDesignerContainer';
 
-ReactDOM.render(<MaterialsDesignerContainer/>, document.getElementById('root'));
+// Store component reference in window to access it in console for debugging/tests purposes
+window.MDContainer = ReactDOM.render(<MaterialsDesignerContainer/>, document.getElementById('root'));

@@ -34,7 +34,6 @@ import {
 
 } from 'material-ui-icons-next';
 
-import {Material} from "../../material";
 import ExportActionDialog from "./ExportActionDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
