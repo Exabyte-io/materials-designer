@@ -1,4 +1,4 @@
-import {Made} from "made.js";
+import {Made} from "@exabyte-io/made.js";
 
 export class Material extends Made.Material {
 
@@ -10,11 +10,9 @@ export class Material extends Made.Material {
 
     set id(id) {this.setProp('_id', id)}
 
-    get exabyteId() {return this.prop('exabyteId')}
+    get isUpdated() {return this.prop('isUpdated', false)}
 
-    get tags() {return this.prop('tags', [])}
-
-    set tags(array) {this.setProp('tags', array)}
+    set isUpdated(bool) {this.setProp('isUpdated', bool)}
 
     get metadata() {return this.prop('metadata', {})}
 
@@ -24,17 +22,11 @@ export class Material extends Made.Material {
         return {
             ...super.toJSON(),
             _id: this.id,
-            tags: this.tags,
-            metadata: this.metadata,
-            exabyteId: this.exabyteId
+            metadata: this.metadata
         };
     }
 
-    unsetProp(name) {delete this._json[name]}
-
     cleanOnCopy() {
-        [
-            "_id",
-        ].forEach(p => this.unsetProp(p));
+        ["_id"].forEach(p => this.unsetProp(p));
     }
 }

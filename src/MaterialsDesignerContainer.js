@@ -7,10 +7,6 @@ import NPMsAlert from 'react-s-alert';
 import {ActionCreators} from 'redux-undo';
 import {createStore, applyMiddleware} from "redux";
 
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
-import "wave/lib/stylesheets/wave.css";
-
 import {Material} from "./material";
 import ReduxProvider from "./utils/react/provider";
 import {createMaterialsDesignerReducer} from "./reducers";
@@ -77,7 +73,7 @@ export class MaterialsDesignerContainer extends React.Component {
     constructor(props) {
         super(props);
         const initialState_ = initialState();
-        initialState_.materials = props.initialMaterials.map(m => new Material(m.toJSON()));
+        initialState_.materials = props.initialMaterials;
         const externalReducers = props.materialsSave ? {[MATERIALS_SAVE]: props.materialsSave} : {};
         const reducer = createMaterialsDesignerReducer(initialState_, externalReducers);
         this.store = createStore(reducer, props.applyMiddleware ? applyMiddleware(logger) : undefined);

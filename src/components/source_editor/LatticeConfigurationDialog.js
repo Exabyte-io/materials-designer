@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import React from "react";
-import {Made} from "made.js";
+import {Made} from "@exabyte-io/made.js";
 import {ModalHeader} from "react-bootstrap";
 
 import {Material} from "../../material";
@@ -96,7 +96,7 @@ class LatticeConfigurationDialog extends React.Component {
     }
 
     handleUpdateLattice() {
-        const oldMaterialCopy = new Material(this.props.material.clone());
+        const oldMaterialCopy = this.props.material.clone();
         this.state.preserveBasis ? oldMaterialCopy.toCartesian() : oldMaterialCopy.toCrystal();
 
         const newMaterialConfig = Object.assign({},
