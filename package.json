@@ -1,0 +1,72 @@
+{
+    "name": "@exabyte-io/materials-designer.js",
+    "version": "1.0.0",
+    "description": "Materials Designer",
+    "scripts": {
+        "postinstall": "npm run transpile",
+        "start": "PORT=3001 react-scripts start",
+        "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Exabyte-io/materials-designer.git"
+    },
+    "main": "dist/exports.js",
+    "author": "Exabyte Inc.",
+    "bugs": {
+        "url": "https://github.com/Exabyte-io/materials-designer/issues"
+    },
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/Exabyte-io/materials-designer",
+    "dependencies": {
+        "@babel/cli": "7.0.0",
+        "@babel/core": "7.0.0",
+        "@babel/plugin-proposal-class-properties": "7.0.0",
+        "@babel/polyfill": "7.0.0",
+        "@babel/preset-env": "7.0.0",
+        "@babel/preset-react": "7.0.0",
+        "@babel/runtime-corejs2": "^7.0.0",
+        "bootstrap": "^3.3.7",
+        "classnames": "^2.2.5",
+        "element-class": "^0.2.2",
+        "jquery": "^1.11.2",
+        "lodash": "^4.17.4",
+        "@exabyte-io/made.js": "1.0.1",
+        "@exabyte-io/wave.js": "1.0.4",
+        "material-ui-icons-next": "^1.0.0-beta.17-next",
+        "material-ui-next": "^1.0.0-beta.38",
+        "mathjs": "^3.9.0",
+        "mixwith": "^0.1.1",
+        "node-sass": "^4.11.0",
+        "react-bootstrap": "^0.30.7",
+        "react-full-screen": "^0.2.2",
+        "react-jss": "^8.6.1",
+        "react-redux": "^4.4.8",
+        "react-s-alert": "^1.4.1",
+        "react-scripts": "2.1.5",
+        "redux": "^3.6.0",
+        "redux-batched-subscribe": "^0.1.6",
+        "redux-logger": "^3.0.6",
+        "redux-undo": "^1.0.0-beta9-9-7",
+        "sprintf-js": "^1.1.2",
+        "underscore": "^1.8.3",
+        "underscore.string": "^3.3.4"
+    },
+    "peerDependencies": {
+        "react": "^15.6.2",
+        "react-dom": "^15.6.2"
+    },
+    "devDependencies": {
+        "react": "^15.6.2",
+        "react-dom": "^15.6.2"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
+}
