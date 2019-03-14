@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import React from "react";
-import {Made} from "made.js";
+import {Made} from "@exabyte-io/made.js";
 import {ModalHeader} from "react-bootstrap";
 
 import {Material} from "../../material";

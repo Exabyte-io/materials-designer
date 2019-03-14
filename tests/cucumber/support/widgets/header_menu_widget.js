@@ -4,7 +4,7 @@ import {SELECTORS} from "../selectors";
 export class HeaderMenuWidget extends Widget {
     constructor(selector) {
         super(selector);
-        this._selectors = this.getWrappedSelectors(SELECTORS.materialDesignerWidget.headerMenu);
+        this._selectors = this.getWrappedSelectors(SELECTORS.headerMenu);
     }
 
     openMenuDialog(menuName) {

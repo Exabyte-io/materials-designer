@@ -6,6 +6,5 @@ export default function () {
         const materialsDesigner = materialDesignerPage.designerWidget;
         const rows = parseTable(table, this);
         materialsDesigner.createMultipleMaterials(rows);
-        materialsDesigner.exit();
     });
 };

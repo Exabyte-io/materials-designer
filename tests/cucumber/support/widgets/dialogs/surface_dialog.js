@@ -4,7 +4,7 @@ import {SELECTORS} from "../../selectors";
 export class SurfaceDialogWidget extends Widget {
     constructor(selector) {
         super(selector);
-        this.selectors = this.getWrappedSelectors(SELECTORS.materialDesignerWidget.headerMenu.surfaceDialog);
+        this.selectors = this.getWrappedSelectors(SELECTORS.headerMenu.surfaceDialog);
     }
 
     generateSurface({h, k, l, thickness, vacuumRatio, vx, vy}) {
