@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Materials Designer",
     "scripts": {
+        "postinstall": "npm run transpile",
         "start": "PORT=3001 react-scripts start",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets"
     },
