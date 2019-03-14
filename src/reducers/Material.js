@@ -1,5 +1,5 @@
-import {Made} from "made.js";
 import NPMsAlert from 'react-s-alert';
+import {Made} from "@exabyte-io/made.js";
 
 import {Material} from "../material";
 import {displayMessage} from "../i18n/messages";
