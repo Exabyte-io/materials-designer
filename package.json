@@ -1,6 +1,6 @@
 {
     "name": "@exabyte-io/materials-designer.js",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Materials Designer",
     "scripts": {
         "postinstall": "npm run transpile",
