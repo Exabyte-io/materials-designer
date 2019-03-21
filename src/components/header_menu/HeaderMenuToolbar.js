@@ -158,20 +158,19 @@ class HeaderMenuToolbar extends React.Component {
         );
     }
 
+    openPageByURL(url) {window.open(url, "_blank")}
+
     renderHelpMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="Help">
-                <MenuItem onClick={() => window.open("https://docs.exabyte.io/materials-designer/overview/", "_blank")}>
+                <MenuItem onClick={() => this.openPageByURL("https://docs.exabyte.io/materials-designer/overview/")}>
                     <ListItemIcon><HelpIcon/></ListItemIcon>
                     Documentation
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem
+                    onClick={() => this.openPageByURL("https://docs.exabyte.io/tutorials/materials/overview/")}>
                     <ListItemIcon><AssignmentIcon/></ListItemIcon>
                     Tutorials
-                </MenuItem>
-                <MenuItem disabled>
-                    <ListItemIcon><ContactsIcon/></ListItemIcon>
-                    Contact
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
