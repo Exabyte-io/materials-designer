@@ -6,6 +6,7 @@ import Divider from 'material-ui-next/Divider';
 import {MenuItem} from 'material-ui-next/Menu';
 import {ListItemIcon} from 'material-ui-next/List';
 import IconButton from 'material-ui-next/IconButton';
+import {ThreejsEditorModal} from "@exabyte-io/wave.js";
 
 import {
     Check as CheckIcon,
@@ -21,7 +22,6 @@ import {
     FullscreenExit as FullscreenExitIcon,
 
     Help as HelpIcon,
-    Contacts as ContactsIcon,
     Assignment as AssignmentIcon,
 
     // TODO: rename other menu icons similarly
@@ -31,6 +31,8 @@ import {
     Layers as SlabIcon,
     Timeline as PolymerIcon,
     DonutLarge as NanotubeIcon,
+
+    ThreeDRotation as ThreeDEditorIcon,
 
 } from 'material-ui-icons-next';
 
@@ -53,6 +55,7 @@ class HeaderMenuToolbar extends React.Component {
             showSaveMaterialsDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
+            showThreejsEditorModal: false,
         };
     }
 
@@ -101,13 +104,13 @@ class HeaderMenuToolbar extends React.Component {
     renderViewMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="View">
-                <MenuItem disabled>
-                    <ListItemIcon><CheckIcon/></ListItemIcon>
-                    Sidebar
+                <MenuItem onClick={() => this.setState({showThreejsEditorModal: true})}>
+                    <ListItemIcon><ThreeDEditorIcon/></ListItemIcon>
+                    Multi-Material 3D Editor
                 </MenuItem>
                 <MenuItem disabled>
                     <ListItemIcon><CheckIcon/></ListItemIcon>
-                    3D Editor
+                    Sidebar
                 </MenuItem>
                 <MenuItem disabled>
                     <ListItemIcon><CheckIcon/></ListItemIcon>
@@ -215,81 +218,96 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     render() {
-        const style = {
-            borderBottom: '1px solid',
-        };
-        return (
-            <Toolbar
-                className={setClass(this.props.className, "materials-designer-header-menu")}
-                style={style}
-            >
+        if (this.state.showThreejsEditorModal) {
+            return <ThreejsEditorModal
+                show={this.state.showThreejsEditorModal}
+                onHide={(material) => {
+                    this.setState({showThreejsEditorModal: !this.state.showThreejsEditorModal});
+                    if (material) {
+                        material.isUpdated = true; // to show it as new (yellow color)
+                        this.props.onAdd(material);
+                    }
+                }}
+                materials={this.props.materials}
+                modalId="threejs-editor"
+            />
 
-                {this.renderIOMenu()}
-                {this.renderEditMenu()}
-                {this.renderViewMenu()}
-                {this.renderAdvancedMenu()}
-                {this.renderHelpMenu()}
-                {this.renderSpinner()}
+        } else {
 
-                <SupercellDialog
-                    show={this.state.showSupercellDialog}
-                    modalId="supercellModal"
-                    backdropColor='dark'
-                    onSubmit={this.props.onGenerateSupercell}
-                    onHide={() => this.setState({showSupercellDialog: false})}
-                />
+            const style = {borderBottom: '1px solid'};
+            return (
+                <Toolbar
+                    className={setClass(this.props.className, "materials-designer-header-menu")}
+                    style={style}
+                >
 
-                <SurfaceDialog
-                    show={this.state.showSurfaceDialog}
-                    modalId="surfaceModal"
-                    backdropColor='dark'
-                    onSubmit={this.props.onGenerateSurface}
-                    onHide={() => this.setState({showSurfaceDialog: false})}
-                />
+                    {this.renderIOMenu()}
+                    {this.renderEditMenu()}
+                    {this.renderViewMenu()}
+                    {this.renderAdvancedMenu()}
+                    {this.renderHelpMenu()}
+                    {this.renderSpinner()}
 
-                {this.renderImportModal()}
+                    <SupercellDialog
+                        show={this.state.showSupercellDialog}
+                        modalId="supercellModal"
+                        backdropColor='dark'
+                        onSubmit={this.props.onGenerateSupercell}
+                        onHide={() => this.setState({showSupercellDialog: false})}
+                    />
+
+                    <SurfaceDialog
+                        show={this.state.showSurfaceDialog}
+                        modalId="surfaceModal"
+                        backdropColor='dark'
+                        onSubmit={this.props.onGenerateSurface}
+                        onHide={() => this.setState({showSurfaceDialog: false})}
+                    />
+
+                    {this.renderImportModal()}
 
 
-                <ExportActionDialog
-                    show={this.state.showExportMaterialsDialog}
-                    onClose={() => this.setState({showExportMaterialsDialog: false})}
-                    onSubmit={this.props.onExport}
-                />
+                    <ExportActionDialog
+                        show={this.state.showExportMaterialsDialog}
+                        onClose={() => this.setState({showExportMaterialsDialog: false})}
+                        onSubmit={this.props.onExport}
+                    />
 
-                {this.renderSaveActionDialog()}
+                    {this.renderSaveActionDialog()}
 
-                <CombinatorialBasisDialog
-                    title="Generate Combinatorial Set"
-                    modalId="combinatorialSetModal"
-                    show={this.state.showCombinatorialDialog}
-                    maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
-                    backdropColor='dark'
-                    material={this.props.material}
-                    onHide={() => this.setState({showCombinatorialDialog: false})}
-                    onSubmit={(...args) => {
-                        this.props.onAdd(...args);
-                        this.setState({showCombinatorialDialog: false});
-                    }}
-                />
+                    <CombinatorialBasisDialog
+                        title="Generate Combinatorial Set"
+                        modalId="combinatorialSetModal"
+                        show={this.state.showCombinatorialDialog}
+                        maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
+                        backdropColor='dark'
+                        material={this.props.material}
+                        onHide={() => this.setState({showCombinatorialDialog: false})}
+                        onSubmit={(...args) => {
+                            this.props.onAdd(...args);
+                            this.setState({showCombinatorialDialog: false});
+                        }}
+                    />
 
-                <InterpolateBasesDialog
-                    title="Generate Interpolated Set"
-                    modalId="interpolatedSetModal"
-                    show={this.state.showInterpolateDialog}
-                    backdropColor='dark'
-                    material={this.props.material}
-                    material2={this.props.materials[
-                        (this.props.index + 1 === this.props.materials.length) ? 0 : this.props.index + 1
-                        ]}
-                    onHide={() => this.setState({showInterpolateDialog: false})}
-                    onSubmit={(...args) => {
-                        this.props.onAdd(...args);
-                        this.setState({showInterpolateDialog: false});
-                    }}
-                />
+                    <InterpolateBasesDialog
+                        title="Generate Interpolated Set"
+                        modalId="interpolatedSetModal"
+                        show={this.state.showInterpolateDialog}
+                        backdropColor='dark'
+                        material={this.props.material}
+                        material2={this.props.materials[
+                            (this.props.index + 1 === this.props.materials.length) ? 0 : this.props.index + 1
+                            ]}
+                        onHide={() => this.setState({showInterpolateDialog: false})}
+                        onSubmit={(...args) => {
+                            this.props.onAdd(...args);
+                            this.setState({showInterpolateDialog: false});
+                        }}
+                    />
 
-            </Toolbar>
-        )
+                </Toolbar>
+            )
+        }
     }
 }
 
