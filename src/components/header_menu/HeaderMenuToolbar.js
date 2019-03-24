@@ -217,98 +217,98 @@ class HeaderMenuToolbar extends React.Component {
             : null;
     }
 
-    render() {
-        if (this.state.showThreejsEditorModal) {
-            return <ThreejsEditorModal
-                show={this.state.showThreejsEditorModal}
-                onHide={(material) => {
-                    this.setState({showThreejsEditorModal: !this.state.showThreejsEditorModal});
-                    if (material) {
-                        material.isUpdated = true; // to show it as new (yellow color)
-                        this.props.onAdd(material);
-                    }
-                }}
-                materials={this.props.materials}
-                modalId="threejs-editor"
-            />
-
-        } else {
-
-            const style = {borderBottom: '1px solid'};
-            return (
-                <Toolbar
-                    className={setClass(this.props.className, "materials-designer-header-menu")}
-                    style={style}
-                >
-
-                    {this.renderIOMenu()}
-                    {this.renderEditMenu()}
-                    {this.renderViewMenu()}
-                    {this.renderAdvancedMenu()}
-                    {this.renderHelpMenu()}
-                    {this.renderSpinner()}
-
-                    <SupercellDialog
-                        show={this.state.showSupercellDialog}
-                        modalId="supercellModal"
-                        backdropColor='dark'
-                        onSubmit={this.props.onGenerateSupercell}
-                        onHide={() => this.setState({showSupercellDialog: false})}
-                    />
-
-                    <SurfaceDialog
-                        show={this.state.showSurfaceDialog}
-                        modalId="surfaceModal"
-                        backdropColor='dark'
-                        onSubmit={this.props.onGenerateSurface}
-                        onHide={() => this.setState({showSurfaceDialog: false})}
-                    />
-
-                    {this.renderImportModal()}
-
-
-                    <ExportActionDialog
-                        show={this.state.showExportMaterialsDialog}
-                        onClose={() => this.setState({showExportMaterialsDialog: false})}
-                        onSubmit={this.props.onExport}
-                    />
-
-                    {this.renderSaveActionDialog()}
-
-                    <CombinatorialBasisDialog
-                        title="Generate Combinatorial Set"
-                        modalId="combinatorialSetModal"
-                        show={this.state.showCombinatorialDialog}
-                        maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
-                        backdropColor='dark'
-                        material={this.props.material}
-                        onHide={() => this.setState({showCombinatorialDialog: false})}
-                        onSubmit={(...args) => {
-                            this.props.onAdd(...args);
-                            this.setState({showCombinatorialDialog: false});
-                        }}
-                    />
-
-                    <InterpolateBasesDialog
-                        title="Generate Interpolated Set"
-                        modalId="interpolatedSetModal"
-                        show={this.state.showInterpolateDialog}
-                        backdropColor='dark'
-                        material={this.props.material}
-                        material2={this.props.materials[
-                            (this.props.index + 1 === this.props.materials.length) ? 0 : this.props.index + 1
-                            ]}
-                        onHide={() => this.setState({showInterpolateDialog: false})}
-                        onSubmit={(...args) => {
-                            this.props.onAdd(...args);
-                            this.setState({showInterpolateDialog: false});
-                        }}
-                    />
-
-                </Toolbar>
-            )
-        }
+    renderThreejsEditorModal() {
+        return <ThreejsEditorModal
+            show={this.state.showThreejsEditorModal}
+            onHide={(material) => {
+                this.setState({showThreejsEditorModal: !this.state.showThreejsEditorModal});
+                if (material) {
+                    material.isUpdated = true; // to show it as new (yellow color)
+                    this.props.onAdd(material);
+                }
+            }}
+            materials={this.props.materials}
+            modalId="threejs-editor"
+        />
     }
+
+    render() {
+        if (this.state.showThreejsEditorModal) return this.renderThreejsEditorModal();
+        const style = {borderBottom: '1px solid'};
+        return (
+            <Toolbar
+                className={setClass(this.props.className, "materials-designer-header-menu")}
+                style={style}
+            >
+
+                {this.renderIOMenu()}
+                {this.renderEditMenu()}
+                {this.renderViewMenu()}
+                {this.renderAdvancedMenu()}
+                {this.renderHelpMenu()}
+                {this.renderSpinner()}
+
+                <SupercellDialog
+                    show={this.state.showSupercellDialog}
+                    modalId="supercellModal"
+                    backdropColor='dark'
+                    onSubmit={this.props.onGenerateSupercell}
+                    onHide={() => this.setState({showSupercellDialog: false})}
+                />
+
+                <SurfaceDialog
+                    show={this.state.showSurfaceDialog}
+                    modalId="surfaceModal"
+                    backdropColor='dark'
+                    onSubmit={this.props.onGenerateSurface}
+                    onHide={() => this.setState({showSurfaceDialog: false})}
+                />
+
+                {this.renderImportModal()}
+
+
+                <ExportActionDialog
+                    show={this.state.showExportMaterialsDialog}
+                    onClose={() => this.setState({showExportMaterialsDialog: false})}
+                    onSubmit={this.props.onExport}
+                />
+
+                {this.renderSaveActionDialog()}
+
+                <CombinatorialBasisDialog
+                    title="Generate Combinatorial Set"
+                    modalId="combinatorialSetModal"
+                    show={this.state.showCombinatorialDialog}
+                    maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
+                    backdropColor='dark'
+                    material={this.props.material}
+                    onHide={() => this.setState({showCombinatorialDialog: false})}
+                    onSubmit={(...args) => {
+                        this.props.onAdd(...args);
+                        this.setState({showCombinatorialDialog: false});
+                    }}
+                />
+
+                <InterpolateBasesDialog
+                    title="Generate Interpolated Set"
+                    modalId="interpolatedSetModal"
+                    show={this.state.showInterpolateDialog}
+                    backdropColor='dark'
+                    material={this.props.material}
+                    material2={this.props.materials[
+                        (this.props.index + 1 === this.props.materials.length) ? 0 : this.props.index + 1
+                        ]}
+                    onHide={() => this.setState({showInterpolateDialog: false})}
+                    onSubmit={(...args) => {
+                        this.props.onAdd(...args);
+                        this.setState({showInterpolateDialog: false});
+                    }}
+                />
+
+            </Toolbar>
+        )
+    }
+}
 }
 
 HeaderMenuToolbar.propTypes = {
