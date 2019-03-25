@@ -234,11 +234,10 @@ class HeaderMenuToolbar extends React.Component {
 
     render() {
         if (this.state.showThreejsEditorModal) return this.renderThreejsEditorModal();
-        const style = {borderBottom: '1px solid'};
         return (
             <Toolbar
                 className={setClass(this.props.className, "materials-designer-header-menu")}
-                style={style}
+                style={{borderBottom: '1px solid'}}
             >
 
                 {this.renderIOMenu()}
@@ -308,7 +307,6 @@ class HeaderMenuToolbar extends React.Component {
             </Toolbar>
         )
     }
-}
 }
 
 HeaderMenuToolbar.propTypes = {
