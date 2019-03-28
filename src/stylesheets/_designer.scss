@@ -235,19 +235,6 @@ textarea.form-control.material-textarea {
     height: 100vmin;
 }
 
-.three-renderer {
-    canvas:first-child {
-        position: absolute;
-        right: 10px;
-    }
-
-    .three-renderer-selection {
-        position: absolute;
-        background: rgba(255, 255, 255, 0.4);
-        visibility: hidden;
-    }
-}
-
 $header-menu-height: 64px;
 $editor-info-height: 41px;
 $materials-designer-height: 65vmin;

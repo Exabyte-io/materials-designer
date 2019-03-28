@@ -6,6 +6,7 @@ import Divider from 'material-ui-next/Divider';
 import {MenuItem} from 'material-ui-next/Menu';
 import {ListItemIcon} from 'material-ui-next/List';
 import IconButton from 'material-ui-next/IconButton';
+import {ThreejsEditorModal} from "@exabyte-io/wave.js";
 
 import {
     Check as CheckIcon,
@@ -21,7 +22,6 @@ import {
     FullscreenExit as FullscreenExitIcon,
 
     Help as HelpIcon,
-    Contacts as ContactsIcon,
     Assignment as AssignmentIcon,
 
     // TODO: rename other menu icons similarly
@@ -31,6 +31,8 @@ import {
     Layers as SlabIcon,
     Timeline as PolymerIcon,
     DonutLarge as NanotubeIcon,
+
+    ThreeDRotation as ThreeDEditorIcon,
 
 } from 'material-ui-icons-next';
 
@@ -53,6 +55,7 @@ class HeaderMenuToolbar extends React.Component {
             showSaveMaterialsDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
+            showThreejsEditorModal: false,
         };
     }
 
@@ -101,13 +104,13 @@ class HeaderMenuToolbar extends React.Component {
     renderViewMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="View">
-                <MenuItem disabled>
-                    <ListItemIcon><CheckIcon/></ListItemIcon>
-                    Sidebar
+                <MenuItem onClick={() => this.setState({showThreejsEditorModal: true})}>
+                    <ListItemIcon><ThreeDEditorIcon/></ListItemIcon>
+                    Multi-Material 3D Editor
                 </MenuItem>
                 <MenuItem disabled>
                     <ListItemIcon><CheckIcon/></ListItemIcon>
-                    3D Editor
+                    Sidebar
                 </MenuItem>
                 <MenuItem disabled>
                     <ListItemIcon><CheckIcon/></ListItemIcon>
@@ -158,20 +161,19 @@ class HeaderMenuToolbar extends React.Component {
         );
     }
 
+    openPageByURL(url) {window.open(url, "_blank")}
+
     renderHelpMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="Help">
-                <MenuItem onClick={() => window.open("https://docs.exabyte.io/materials-designer/overview/", "_blank")}>
+                <MenuItem onClick={() => this.openPageByURL("https://docs.exabyte.io/materials-designer/overview/")}>
                     <ListItemIcon><HelpIcon/></ListItemIcon>
                     Documentation
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem
+                    onClick={() => this.openPageByURL("https://docs.exabyte.io/tutorials/materials/overview/")}>
                     <ListItemIcon><AssignmentIcon/></ListItemIcon>
                     Tutorials
-                </MenuItem>
-                <MenuItem disabled>
-                    <ListItemIcon><ContactsIcon/></ListItemIcon>
-                    Contact
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
@@ -215,14 +217,27 @@ class HeaderMenuToolbar extends React.Component {
             : null;
     }
 
+    renderThreejsEditorModal() {
+        return <ThreejsEditorModal
+            show={this.state.showThreejsEditorModal}
+            onHide={(material) => {
+                this.setState({showThreejsEditorModal: !this.state.showThreejsEditorModal});
+                if (material) {
+                    material.isUpdated = true; // to show it as new (yellow color)
+                    this.props.onAdd(material);
+                }
+            }}
+            materials={this.props.materials}
+            modalId="threejs-editor"
+        />
+    }
+
     render() {
-        const style = {
-            borderBottom: '1px solid',
-        };
+        if (this.state.showThreejsEditorModal) return this.renderThreejsEditorModal();
         return (
             <Toolbar
                 className={setClass(this.props.className, "materials-designer-header-menu")}
-                style={style}
+                style={{borderBottom: '1px solid'}}
             >
 
                 {this.renderIOMenu()}
