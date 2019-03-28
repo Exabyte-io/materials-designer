@@ -1,6 +1,6 @@
 {
     "name": "@exabyte-io/materials-designer.js",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Materials Designer",
     "scripts": {
         "postinstall": "npm run transpile",
@@ -31,8 +31,8 @@
         "element-class": "^0.2.2",
         "jquery": "^1.11.2",
         "lodash": "^4.17.4",
-        "@exabyte-io/made.js": "1.0.1",
-        "@exabyte-io/wave.js": "1.0.4",
+        "@exabyte-io/made.js": "2.0.0",
+        "@exabyte-io/wave.js": "2.0.1",
         "material-ui-icons-next": "^1.0.0-beta.17-next",
         "material-ui-next": "^1.0.0-beta.38",
         "mathjs": "^3.9.0",
