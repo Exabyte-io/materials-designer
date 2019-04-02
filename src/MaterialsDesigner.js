@@ -89,6 +89,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     className="col-md-6 p-0"
                                     editable={true}
                                     material={this.props.material}
+                                    isConventionalCellShown={this.props.isConventionalCellShown}
                                     onUpdate={this.props.onUpdate}
                                 />
                             </div>
@@ -116,6 +117,7 @@ MaterialsDesigner.propTypes = {
     showToolbar: React.PropTypes.bool,
 
     material: React.PropTypes.object.isRequired,
+    isConventionalCellShown: React.PropTypes.bool,
 
     materials: React.PropTypes.array,
     index: React.PropTypes.number,
