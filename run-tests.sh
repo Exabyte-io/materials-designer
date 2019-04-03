@@ -77,6 +77,11 @@ cd ${TESTS_DIR}
 source /root/.nvm/nvm.sh
 npm install
 
+# chimp installs the latest version of chromeDriver which does not work, hence the below.
+cd node_modules/chimp
+npm install chromedriver@2.35
+cd -
+
 rm -rf ${SCREENSHOTS_DIR}
 
 # Hotfix: change node debug option in cucumber
@@ -90,5 +95,8 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
     --screenshotsPath=${SCREENSHOTS_DIR} \
     --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
-    --browser=${BROWSER} \
+    --webdriverio.desiredCapabilities.browserName="chrome" \
+    --webdriverio.deprecationWarnings=false \
+    --webdriverio.desiredCapabilities.chromeOptions.binary=${BROWSER}
+    --webdriverio.logLevel="silent" \
     ${OPTIONS}
