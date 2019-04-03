@@ -74,6 +74,7 @@ SCREENSHOTS_DIR="${CUCUMBER_DIR}/screenshots"
 export ROOT_URL="${HOST}:${PORT}"
 
 cd ${TESTS_DIR}
+source /root/.nvm/nvm.sh
 npm install
 
 rm -rf ${SCREENSHOTS_DIR}
