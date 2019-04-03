@@ -34,6 +34,7 @@ export class ThreeDEditorFullscreen extends mix(ThreeDEditor).with(FullscreenCom
 
 ThreeDEditorFullscreen.propTypes = {
     material: React.PropTypes.object,
+    isConventionalCellShown: React.PropTypes.bool,
     onUpdate: React.PropTypes.func,
     editable: React.PropTypes.bool
 };

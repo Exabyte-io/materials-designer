@@ -113,6 +113,7 @@ MaterialsDesignerContainer.propTypes = {
     SaveActionDialog: React.PropTypes.func,
     materialsSave: React.PropTypes.func,
     maxCombinatorialBasesCount: React.PropTypes.number,
+    isConventionalCellShown: React.PropTypes.bool,
 };
 
 MaterialsDesignerContainer.defaultProps = {
