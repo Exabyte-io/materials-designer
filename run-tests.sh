@@ -23,7 +23,7 @@ check_args () {
     PORT="3001"
     FEATURES="/"
     OPTIONS=""
-    CHROME_BINARY="chrome"
+    BROWSER="chrome"
     for i in "$@"
     do
         case $i in
@@ -43,8 +43,8 @@ check_args () {
                 OPTIONS="${i#*=} ${OPTIONS}"
                 shift
             ;;
-            -b=*|--chrome-binary=*)
-                CHROME_BINARY="${i#*=}"
+            -b=*|--browser=*)
+                BROWSER="${i#*=}"
                 shift
             ;;
             *)
@@ -74,7 +74,7 @@ SCREENSHOTS_DIR="${CUCUMBER_DIR}/screenshots"
 export ROOT_URL="${HOST}:${PORT}"
 
 cd ${TESTS_DIR}
-source /root/.nvm/nvm.sh
+source ~/.nvm/nvm.sh
 npm install
 
 # chimp installs the latest version of chromeDriver which does not work, hence the below.
@@ -95,8 +95,7 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
     --screenshotsPath=${SCREENSHOTS_DIR} \
     --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
-    --webdriverio.desiredCapabilities.browserName="chrome" \
+    --browser=${BROWSER} \
     --webdriverio.deprecationWarnings=false \
-    --webdriverio.desiredCapabilities.chromeOptions.binary=${CHROME_BINARY} \
     --webdriverio.logLevel="silent" \
     ${OPTIONS}
