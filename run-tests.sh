@@ -23,7 +23,7 @@ check_args () {
     PORT="3001"
     FEATURES="/"
     OPTIONS=""
-    BROWSER="chrome"
+    CHROME_BINARY="chrome"
     for i in "$@"
     do
         case $i in
@@ -43,8 +43,8 @@ check_args () {
                 OPTIONS="${i#*=} ${OPTIONS}"
                 shift
             ;;
-            -b=*|--browser=*)
-                BROWSER="${i#*=}"
+            -b=*|--chrome-binary=*)
+                CHROME_BINARY="${i#*=}"
                 shift
             ;;
             *)
@@ -97,6 +97,6 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
     --webdriverio.desiredCapabilities.browserName="chrome" \
     --webdriverio.deprecationWarnings=false \
-    --webdriverio.desiredCapabilities.chromeOptions.binary=${BROWSER}
+    --webdriverio.desiredCapabilities.chromeOptions.binary=${CHROME_BINARY}
     --webdriverio.logLevel="silent" \
     ${OPTIONS}
