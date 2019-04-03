@@ -97,6 +97,6 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
     --webdriverio.desiredCapabilities.browserName="chrome" \
     --webdriverio.deprecationWarnings=false \
-    --webdriverio.desiredCapabilities.chromeOptions.binary=${CHROME_BINARY}
+    --webdriverio.desiredCapabilities.chromeOptions.binary=${CHROME_BINARY} \
     --webdriverio.logLevel="silent" \
     ${OPTIONS}
