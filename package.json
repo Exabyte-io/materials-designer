@@ -1,10 +1,11 @@
 {
     "name": "@exabyte-io/materials-designer",
-    "version": "2.0.4",
+    "version": "2.0.6",
     "description": "Materials Designer",
     "scripts": {
         "start": "PORT=3001 react-scripts start",
-        "prepublishOnly": "rm -rf dist; npm run transpile",
+        "prepublishOnly": "rm -rf dist; npm run transpile;npm run transpile-tests",
+        "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets"
     },
     "repository": {
