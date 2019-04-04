@@ -57,4 +57,8 @@ export const SELECTORS = {
         alertByType: (type) => `.alert-${type}`,
         closeButton: 'button.close',
     },
+    threeJSEditorWidget: {
+        wrapper: "#threejs-editor"
+    },
+    modalBackdrop: '.modal-backdrop.fade',
 };
