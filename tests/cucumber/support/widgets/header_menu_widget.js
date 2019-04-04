@@ -1,3 +1,4 @@
+import {retry} from "../utils";
 import {Widget} from "../widget";
 import {SELECTORS} from "../selectors";
 
@@ -12,7 +13,10 @@ export class HeaderMenuWidget extends Widget {
     }
 
     selectMenuItem(menuName, itemNumber) {
-        exabrowser.scrollAndClick(this._selectors.menuDialogItemByNumber(menuName, itemNumber));
+        // retry due to animation
+        retry(() => {
+            exabrowser.scrollAndClick(this._selectors.menuDialogItemByNumber(menuName, itemNumber));
+        }, {retries: 5});
     }
 
     selectMenuItemByNameAndItemNumber(menuName, itemNumber) {
