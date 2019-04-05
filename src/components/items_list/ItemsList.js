@@ -82,7 +82,7 @@ class ItemsList extends React.Component {
         const selectHandler = () => this.props.onItemClick(index);
         const isBeingEdited = (this.state.editedIndex === index);
         return (
-            <ListItem button dense className={setClass(
+            <ListItem key={index} button dense className={setClass(
                 {"active": this.props.index === index},
                 {"updated": entity.isUpdated || isBeingEdited}
             )}>
@@ -115,7 +115,7 @@ class ItemsList extends React.Component {
 
                 />
 
-                <ListItemIcon className="icon-button-delete" button onClick={() => this.props.onRemove(index)}>
+                <ListItemIcon className="icon-button-delete" onClick={() => this.props.onRemove(index)}>
                     <DeleteIcon/>
                 </ListItemIcon>
 
