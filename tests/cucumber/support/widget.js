@@ -17,9 +17,9 @@ export class Widget {
     /**
      * @summary Waits for the loader inside the widget to disappear.
      */
-    waitForLoaderToDisappear() {exabrowser.waitForDisappear(this.getWrappedSelector('img.spinner'))};
+    waitForLoaderToDisappear() {exabrowser.waitForDisappear(this.getWrappedSelector('div.spinner'))};
 
-    waitForLoaderToBeVisible(ms) {exabrowser.waitForVisible(this.getWrappedSelector('img.spinner'), {ms})};
+    waitForLoaderToBeVisible(ms) {exabrowser.waitForVisible(this.getWrappedSelector('div.spinner'), {ms})};
 
     /**
      * Waits for the loader to become visible. Safely pass if the loader is quickly gone and is not caught.
