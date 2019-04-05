@@ -4,6 +4,7 @@ import {ItemsListWidget} from "./items_list_widget";
 import {SAlertWidget} from "./alert/s_alert_widget";
 import {HeaderMenuWidget} from "./header_menu_widget";
 import {SourceEditorWidget} from "./source_editor_widget";
+import {ThreeJSEditorWidget} from "./threejs_editor_widget";
 import {SurfaceDialogWidget} from "./dialogs/surface_dialog";
 import {SupercellDialogWidget} from "./dialogs/supercell_dialog";
 import {InterpolatedSetDialogWidget} from "./dialogs/interpolated_set_dialog";
@@ -18,6 +19,7 @@ export class MaterialDesignerWidget extends Widget {
         this.surfaceDialog = new SurfaceDialogWidget(SELECTORS.headerMenu.surfaceDialog.wrapper);
         this.supercellDialog = new SupercellDialogWidget(SELECTORS.headerMenu.supercellDialog.wrapper);
         this.interpolatedSetDialog = new InterpolatedSetDialogWidget(SELECTORS.headerMenu.interpolatedSetDialog.wrapper);
+        this.threeJSEditorWidget = new ThreeJSEditorWidget(SELECTORS.threeJSEditorWidget.wrapper);
     }
 
     openSupercellDialog() {this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 1)}
