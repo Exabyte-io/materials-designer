@@ -36,6 +36,7 @@ import {
 
 } from 'material-ui-icons-next';
 
+import {Material} from "../../material";
 import ExportActionDialog from "./ExportActionDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
@@ -223,8 +224,11 @@ class HeaderMenuToolbar extends React.Component {
             onHide={(material) => {
                 this.setState({showThreejsEditorModal: !this.state.showThreejsEditorModal});
                 if (material) {
-                    material.isUpdated = true; // to show it as new (yellow color)
-                    this.props.onAdd(material);
+                    // convert made material to MD material
+                    const config = material.toJSON();
+                    const newMaterial = new Material(config);
+                    newMaterial.isUpdated = true; // to show it as new (yellow color)
+                    this.props.onAdd(newMaterial);
                 }
             }}
             materials={this.props.materials}
