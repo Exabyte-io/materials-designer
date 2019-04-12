@@ -99,8 +99,6 @@ function materialsSetBoundaryConditionsForOne(state, action) {
         boundaryConditions: {
             type: action.boundaryType,
             offset: action.boundaryOffset,
-            electricField: action.electricField,
-            targetFermiEnergy: action.targetFermiEnergy,
         }
     });
     return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));

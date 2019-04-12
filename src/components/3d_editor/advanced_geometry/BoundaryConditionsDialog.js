@@ -22,8 +22,6 @@ export class BoundaryConditionsDialog extends ModalDialog {
         this.state = {
             boundaryType: this.props.material.boundaryConditions.type || "pbc",
             boundaryOffset: this.props.material.boundaryConditions.offset || 0,
-            electricField: this.props.material.boundaryConditions.electricField || 0,
-            targetFermiEnergy: this.props.material.boundaryConditions.targetFermiEnergy || 0,
         };
 
     }
@@ -75,30 +73,6 @@ export class BoundaryConditionsDialog extends ModalDialog {
                                     min="0"
                                     value={this.state.boundaryOffset}
                                     onChange={e => this.setState({boundaryOffset: parseFloat(e.target.value)})}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-6 form-group fg-float" data-tid="electric-field">
-                            <div className="fg-line ">
-                                <label>Electric Field (Ry/a.u.)</label>
-                                <input
-                                    type="number"
-                                    className="form-control fg-input"
-                                    min="0"
-                                    value={this.state.electricField}
-                                    onChange={e => this.setState({electricField: parseFloat(e.target.value)})}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-6 form-group fg-float" data-tid="target-fermi-energy">
-                            <div className="fg-line ">
-                                <label>Target Fermi Energy (Ry)</label>
-                                <input
-                                    type="number"
-                                    className="form-control fg-input"
-                                    min="0"
-                                    value={this.state.targetFermiEnergy}
-                                    onChange={e => this.setState({targetFermiEnergy: parseFloat(e.target.value)})}
                                 />
                             </div>
                         </div>
