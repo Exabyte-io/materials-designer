@@ -66,7 +66,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
                         </div>
                         <div className="col-xs-6 form-group fg-float" data-tid="offset">
                             <div className="fg-line ">
-                                <label>Offset (a.u.)</label>
+                                <label>Offset (A)</label>
                                 <input
                                     type="number"
                                     className="form-control fg-input"
