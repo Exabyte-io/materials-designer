@@ -68,7 +68,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
                         </div>
                         <div className="col-xs-6 form-group fg-float" data-tid="offset">
                             <div className="fg-line ">
-                                <label>Offset</label>
+                                <label>Offset (a.u.)</label>
                                 <input
                                     type="number"
                                     className="form-control fg-input"
@@ -80,7 +80,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
                         </div>
                         <div className="col-xs-6 form-group fg-float" data-tid="electric-field">
                             <div className="fg-line ">
-                                <label>Electric Field</label>
+                                <label>Electric Field (Ry/a.u.)</label>
                                 <input
                                     type="number"
                                     className="form-control fg-input"
@@ -92,7 +92,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
                         </div>
                         <div className="col-xs-6 form-group fg-float" data-tid="target-fermi-energy">
                             <div className="fg-line ">
-                                <label>Target Fermi Energy</label>
+                                <label>Target Fermi Energy (Ry)</label>
                                 <input
                                     type="number"
                                     className="form-control fg-input"
