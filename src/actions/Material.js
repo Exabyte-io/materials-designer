@@ -41,7 +41,7 @@ export function generateSurfaceForOneMaterial(config) {
     return {
         type: MATERIALS_GENERATE_SURFACE_FOR_ONE,
         ...config,
-}
+    }
 }
 
 export const MATERIALS_UPDATE_INDEX = 'MATERIALS_UPDATE_INDEX';
@@ -50,5 +50,14 @@ export function updateMaterialsIndex(newIndex) {
     return {
         type: MATERIALS_UPDATE_INDEX,
         index: newIndex
+    }
+}
+
+export const MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE = 'MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE';
+
+export function setBoundaryConditionsForOneMaterial(config) {
+    return {
+        type: MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE,
+        ...config,
     }
 }

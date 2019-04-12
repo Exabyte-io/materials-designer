@@ -34,6 +34,8 @@ import {
 
     ThreeDRotation as ThreeDEditorIcon,
 
+    Directions as BoundaryConditionsIcon,
+
 } from 'material-ui-icons-next';
 
 import {Material} from "../../material";
@@ -43,6 +45,7 @@ import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActivatedMenu";
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
+import {BoundaryConditionsDialog} from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
 
 class HeaderMenuToolbar extends React.Component {
 
@@ -57,6 +60,7 @@ class HeaderMenuToolbar extends React.Component {
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
+            showBoundaryConditionsDialog: false,
         };
     }
 
@@ -149,6 +153,11 @@ class HeaderMenuToolbar extends React.Component {
                     onClick={() => this.setState({showSurfaceDialog: true})}>
                     <ListItemIcon><SlabIcon/></ListItemIcon>
                     Surface / slab
+                </MenuItem>
+                <MenuItem
+                    onClick={() => this.setState({showBoundaryConditionsDialog: true})}>
+                    <ListItemIcon><BoundaryConditionsIcon/></ListItemIcon>
+                    Boundary Conditions
                 </MenuItem>
                 <MenuItem disabled>
                     <ListItemIcon><PolymerIcon/></ListItemIcon>
@@ -267,6 +276,15 @@ class HeaderMenuToolbar extends React.Component {
                     onHide={() => this.setState({showSurfaceDialog: false})}
                 />
 
+                <BoundaryConditionsDialog
+                    show={this.state.showBoundaryConditionsDialog}
+                    modalId="BoundaryConditionsModal"
+                    backdropColor='dark'
+                    material={this.props.material}
+                    onSubmit={this.props.onSetBoundaryConditions}
+                    onHide={() => this.setState({showBoundaryConditionsDialog: false})}
+                />
+
                 {this.renderImportModal()}
 
 
@@ -330,6 +348,7 @@ HeaderMenuToolbar.propTypes = {
 
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
+    onSetBoundaryConditions: React.PropTypes.func,
 
     ImportModal: React.PropTypes.func,
     SaveActionDialog: React.PropTypes.func,
