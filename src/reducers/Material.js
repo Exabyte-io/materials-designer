@@ -11,6 +11,7 @@ import {
     MATERIALS_UPDATE_NAME_FOR_ONE,
     MATERIALS_GENERATE_SURFACE_FOR_ONE,
     MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
+    MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE,
 } from "../actions";
 
 function materialsUpdateOne(state, action) {
@@ -92,6 +93,19 @@ function materialsGenerateSurfaceForOne(state, action) {
     return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
 }
 
+function materialsSetBoundaryConditionsForOne(state, action) {
+    const newMaterial = state.materials[state.index].clone();
+    newMaterial.metadata = Object.assign({}, newMaterial.metadata, {
+        boundaryConditions: {
+            type: action.boundaryType,
+            offset: action.boundaryOffset,
+            electricField: action.electricField,
+            targetFermiEnergy: action.targetFermiEnergy,
+        }
+    });
+    return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
+}
+
 export function materialsUpdateIndex(state, action) {
     return Object.assign({}, state, {index: action.index});
 }
@@ -103,4 +117,5 @@ export default {
     [MATERIALS_UPDATE_NAME_FOR_ONE]: materialsUpdateNameForOne,
     [MATERIALS_GENERATE_SUPERCELL_FOR_ONE]: materialsGenerateSupercellForOne,
     [MATERIALS_GENERATE_SURFACE_FOR_ONE]: materialsGenerateSurfaceForOne,
+    [MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE]: materialsSetBoundaryConditionsForOne,
 };
