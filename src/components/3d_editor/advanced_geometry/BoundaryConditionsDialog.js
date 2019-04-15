@@ -1,14 +1,8 @@
 import React from "react";
+import {BOUNDARY_CONDITIONS} from "@exabyte-io/wave.js/dist/enums";
 import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
 
 import {ModalDialog} from "../../include/ModalDialog";
-
-const BOUNDARY_TYPES = {
-    "pbc": "Periodic Boundary Condition (pbc)",
-    "bc1": "Vacuum-slab-Vacuum (bc1)",
-    "bc2": "Metal-Slab-Metal (bc2)",
-    "bc3": "Vacuum-Slab-Metal (bc3)",
-};
 
 export class BoundaryConditionsDialog extends ModalDialog {
 
@@ -42,9 +36,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
     }
 
     getBoundaryTypeOptions() {
-        return Object.keys(BOUNDARY_TYPES).map((key) => {
-            return <option key={key} value={key}>{BOUNDARY_TYPES[key]}</option>
-        })
+        return BOUNDARY_CONDITIONS.map(e => <option key={e.type} value={e.type}>{e.name}</option>)
     }
 
     renderBody() {
