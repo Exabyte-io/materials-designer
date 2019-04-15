@@ -95,8 +95,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     boundaryConditions={this.props.material.boundaryConditions}
                                     onUpdate={(material) => {
                                         // convert made material to MD material and re-set metadata
-                                        const config = material.toJSON();
-                                        const newMaterial = new Material(config);
+                                        const newMaterial = Material.createFromMadeMaterial(material);
                                         newMaterial.metadata = this.props.material.metadata || {};
                                         this.props.onUpdate(newMaterial);
                                     }}
