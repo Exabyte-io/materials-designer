@@ -29,4 +29,11 @@ export class Material extends Made.Material {
     cleanOnCopy() {
         ["_id"].forEach(p => this.unsetProp(p));
     }
+
+    get boundaryConditions() {return this.metadata.boundaryConditions || {}}
+
+    static createFromMadeMaterial(material) {
+        const config = material.toJSON();
+        return new Material(config);
+    }
 }

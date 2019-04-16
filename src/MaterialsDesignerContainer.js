@@ -16,7 +16,7 @@ import {SAlertContentTmpl} from "./components/include/SAlertContentTmpl";
 import {
     updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
     addMaterials, removeMaterials, exportMaterials, saveMaterials, generateSupercellForOneMaterial,
-    generateSurfaceForOneMaterial, resetState, MATERIALS_SAVE,
+    generateSurfaceForOneMaterial, resetState, MATERIALS_SAVE, setBoundaryConditionsForOneMaterial,
 } from "./actions";
 
 const initialState = () => {
@@ -53,6 +53,7 @@ const mapDispatchToProps = (dispatch) => {
 
         onGenerateSupercell: (matrix) => (dispatch(generateSupercellForOneMaterial(matrix))),
         onGenerateSurface: (config) => (dispatch(generateSurfaceForOneMaterial(config))),
+        onSetBoundaryConditions: (config) => (dispatch(setBoundaryConditionsForOneMaterial(config))),
 
         // Undo-Redo
         onUndo: () => dispatch(ActionCreators.undo()),
@@ -113,7 +114,7 @@ MaterialsDesignerContainer.propTypes = {
     SaveActionDialog: React.PropTypes.func,
     materialsSave: React.PropTypes.func,
     maxCombinatorialBasesCount: React.PropTypes.number,
-    isConventionalCellShown: React.PropTypes.bool,
+    isConventionalCellShown: React.PropTypes.bool
 };
 
 MaterialsDesignerContainer.defaultProps = {

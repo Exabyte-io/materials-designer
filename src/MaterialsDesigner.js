@@ -3,6 +3,7 @@ import {mix} from "mixwith";
 import setClass from "classnames";
 import {MuiThemeProvider} from "material-ui-next/styles";
 
+import {Material} from "./material";
 import ItemsList from "./components/items_list/ItemsList";
 import SourceEditor from "./components/source_editor/SourceEditor";
 import {DarkMaterialUITheme} from "./components/include/material-ui/theme";
@@ -67,6 +68,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
 
                                 onGenerateSupercell={this.props.onGenerateSupercell}
                                 onGenerateSurface={this.props.onGenerateSurface}
+                                onSetBoundaryConditions={this.props.onSetBoundaryConditions}
 
                                 maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
                             />
@@ -90,7 +92,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     editable={true}
                                     material={this.props.material}
                                     isConventionalCellShown={this.props.isConventionalCellShown}
-                                    onUpdate={this.props.onUpdate}
+                                    boundaryConditions={this.props.material.boundaryConditions}
+                                    onUpdate={(material) => {
+                                        // convert made material to MD material and re-set metadata
+                                        const newMaterial = Material.createFromMadeMaterial(material);
+                                        newMaterial.metadata = this.props.material.metadata || {};
+                                        this.props.onUpdate(newMaterial);
+                                    }}
                                 />
                             </div>
                             <div className="bgm-dark col-xs-12 p-0"
@@ -130,6 +138,7 @@ MaterialsDesigner.propTypes = {
     // Toolbar
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
+    onSetBoundaryConditions: React.PropTypes.func,
 
     // Undo-Redo
     onUndo: React.PropTypes.func,

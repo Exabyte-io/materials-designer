@@ -8,6 +8,7 @@ import {ThreeJSEditorWidget} from "./threejs_editor_widget";
 import {SurfaceDialogWidget} from "./dialogs/surface_dialog";
 import {SupercellDialogWidget} from "./dialogs/supercell_dialog";
 import {InterpolatedSetDialogWidget} from "./dialogs/interpolated_set_dialog";
+import {BoundaryConditionsDialogWidget} from "./dialogs/boundary_conditions_dialog";
 
 export class MaterialDesignerWidget extends Widget {
     constructor(selector) {
@@ -20,6 +21,7 @@ export class MaterialDesignerWidget extends Widget {
         this.supercellDialog = new SupercellDialogWidget(SELECTORS.headerMenu.supercellDialog.wrapper);
         this.interpolatedSetDialog = new InterpolatedSetDialogWidget(SELECTORS.headerMenu.interpolatedSetDialog.wrapper);
         this.threeJSEditorWidget = new ThreeJSEditorWidget(SELECTORS.threeJSEditorWidget.wrapper);
+        this.boundaryConditionsDialog = new BoundaryConditionsDialogWidget(SELECTORS.headerMenu.boundaryConditionsDialog.wrapper);
     }
 
     openSupercellDialog() {this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 1)}
@@ -49,6 +51,14 @@ export class MaterialDesignerWidget extends Widget {
         this.openSurfaceDialog();
         this.surfaceDialog.generateSurface(config);
         this.surfaceDialog.submit()
+    }
+
+    openBoundaryConditionsDialog() {this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 5)}
+
+    addBoundaryConditions(config) {
+        this.openBoundaryConditionsDialog();
+        this.boundaryConditionsDialog.addBoundaryConditions(config);
+        this.boundaryConditionsDialog.submit()
     }
 
     openInterpolateSetDialog() {this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 3)}
