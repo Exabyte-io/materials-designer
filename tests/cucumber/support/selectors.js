@@ -28,6 +28,12 @@ export const SELECTORS = {
             vacuumRatio: '[data-tid="vacuum-ratio"] input',
             vx: '[data-tid="vx"] input',
             vy: '[data-tid="vy"] input',
+        },
+        boundaryConditionsDialog: {
+            wrapper: "#BoundaryConditionsModal",
+            submitButton: "#boundary-conditions-submit",
+            type: '[data-tid="type"] select',
+            offset: '[data-tid="offset"] input',
         }
     },
     itemsList: {
