@@ -1,6 +1,8 @@
 # Materials Designer
 
-This a standalone react/redux application for atomistic material structures design.
+This a standalone react/redux application for atomistic material structures design. Used within the Exabyte.io platform as explained in the corresponding part of its documentatation [here](https://docs.exabyte.io/materials-designer/overview/).
+
+![Materials Designer in action](https://docs.exabyte.io/images/materials-designer/CreateMaterialSupercell.gif "Materials Designer in action")
 
 ## Functionality
 
