@@ -71,10 +71,16 @@ sh run-tests.sh -f=menu/advanced/create-supercell.feature       # to run an spec
 
 ### TODO list
 
-Desirable features for implementation:
+Desirable features/fixes for implementation:
 
-- Add tests for all the functionality listed above. We only tests advanced operations at current.
-- TBA
+- add tests for all the functionality listed above. We only tests advanced operations at current.
+- switch color back to white when the material is back to original after editing
+- add logic for Interstitials, Vacancy concentrations in combinatorial sets
+- fix modal dialog exceptions for AdvancedGeometryDialog
+- add line numbers to SourceEditor
+- remove updateIndex action when index is the same
+- show the total number of materials in set and the current index
+- fix fullscreen support
 
 ## Links
 
