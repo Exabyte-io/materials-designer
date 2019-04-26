@@ -1,6 +1,6 @@
 {
     "name": "@exabyte-io/materials-designer",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "description": "Materials Designer",
     "scripts": {
         "start": "PORT=3001 react-scripts start",
