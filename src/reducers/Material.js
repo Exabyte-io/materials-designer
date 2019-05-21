@@ -78,8 +78,8 @@ function _setMetadataForSlabConfig(slabConfig, {h, k, l, thickness, vacuumRatio,
 function materialsGenerateSurfaceForOne(state, action) {
     const material = state.materials[state.index];  // only using currently active material
 
-    const {h, k, l, thickness, vacuumRatio, vx, vy} = action;
-    const supercellConfig = Made.tools.surface.generateConfig(material, [h, k, l], thickness, vx, vy);
+    const {h, k, l, thickness, vacuumRatio, vx, vy, displacementFactor} = action;
+    const supercellConfig = Made.tools.surface.generateConfig(material, [h, k, l], thickness, vx, vy, displacementFactor);
     const outOfPlaneAxisIndex = supercellConfig.outOfPlaneAxisIndex;
 
     _setMetadataForSlabConfig(supercellConfig, {

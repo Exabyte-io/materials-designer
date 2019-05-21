@@ -15,6 +15,7 @@ class SurfaceDialog extends ModalDialog {
             vacuumRatio: 0.80,
             vx: 1,
             vy: 1,
+            displacementFactor: 10,
             message: ''
         };
         this.handleGenerateSurface = this.handleGenerateSurface.bind(this);
@@ -96,7 +97,7 @@ class SurfaceDialog extends ModalDialog {
                             </div>
                         </div>
 
-                        <div className="col-xs-6 form-group fg-float" data-tid="vx">
+                        <div className="col-xs-4 form-group fg-float" data-tid="vx">
                             <div className="fg-line ">
                                 <label>Supercell dimension x</label>
                                 <input
@@ -107,13 +108,24 @@ class SurfaceDialog extends ModalDialog {
                             </div>
                         </div>
 
-                        <div className="col-xs-6 form-group fg-float" data-tid="vy">
+                        <div className="col-xs-4 form-group fg-float" data-tid="vy">
                             <div className="fg-line ">
                                 <label>Supercell dimension y</label>
                                 <input
                                     type="number" className="form-control fg-input m21" step="1" min="1"
                                     value={this.state.vy}
                                     onChange={e => this.setState({vy: parseFloat(e.target.value)})}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="col-xs-4 form-group fg-float" data-tid="displacement-factor">
+                            <div className="fg-line ">
+                                <label>Displacement factor</label>
+                                <input
+                                    type="number" className="form-control fg-input m21" step="1" min="1"
+                                    value={this.state.displacementFactor}
+                                    onChange={e => this.setState({displacementFactor: parseInt(e.target.value)})}
                                 />
                             </div>
                         </div>
