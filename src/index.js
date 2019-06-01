@@ -10,5 +10,12 @@ import "./stylesheets/main.scss";
 
 import {MaterialsDesignerContainer} from './MaterialsDesignerContainer';
 
-// Store component reference in window to access it in console for debugging/tests purposes
-window.MDContainer = ReactDOM.render(<MaterialsDesignerContainer/>, document.getElementById('root'));
+/*
+ * Set timeout to ensure Codemirror CSS is loaded: https://github.com/graphql/graphiql/issues/33#issuecomment-318188555
+ * CSS is loaded in the component using CodeMirror (eg. `Basis`).
+ */
+setTimeout(() => {
+        // Store component reference in window to access it in console for debugging/tests purposes
+        window.MDContainer = ReactDOM.render(<MaterialsDesignerContainer/>, document.getElementById('root'));
+    }, 0
+);
