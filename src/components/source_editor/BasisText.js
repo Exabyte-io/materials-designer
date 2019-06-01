@@ -59,7 +59,12 @@ class BasisText extends React.Component {
         if (!this.state.manualEditStarted && this.state.content !== newContent) {
             // NOTE: from v 1.0.0 ReactCodeMirror is not handling the content updates properly (thus use v0.3.0)
             // https://github.com/JedWatson/react-codemirror/issues/106
-            this.setState({content: newContent})
+            this.setState({
+                content: newContent,
+                // assuming that the content passed here is safe and valid
+                message: "",
+                isContentValidated: true,
+            })
         }
     };
 
