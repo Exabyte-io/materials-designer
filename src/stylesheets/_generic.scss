@@ -1,0 +1,55 @@
+$generic-count: 10;
+
+/*
+ * Generate Margin Classes
+ * margin, margin-top, margin-bottom, margin-left, margin-right
+ */
+
+@for $i from 0 through $generic-count {
+    .m-#{$i * 5} {
+        margin: $i * 5px !important;
+    }
+
+    .m-t-#{$i * 5} {
+        margin-top: $i * 5px !important;
+    }
+
+    .m-b-#{$i * 5} {
+        margin-bottom: $i * 5px !important;
+    }
+
+    .m-l-#{$i * 5} {
+        margin-left: $i * 5px !important;
+    }
+
+    .m-r-#{$i * 5} {
+        margin-right: $i * 5px !important;
+    }
+}
+
+/*
+ * Generate Padding Classes
+ * padding, padding-top, padding-bottom, padding-left, padding-right
+ */
+
+@for $i from 0 through $generic-count {
+    .p-#{$i * 5} {
+        padding: $i * 5px !important;
+    }
+
+    .p-t-#{$i * 5} {
+        padding-top: $i * 5px !important;
+    }
+
+    .p-b-#{$i * 5} {
+        padding-bottom: $i * 5px !important;
+    }
+
+    .p-l-#{$i * 5} {
+        padding-left: $i * 5px !important;
+    }
+
+    .p-r-#{$i * 5} {
+        padding-right: $i * 5px !important;
+    }
+}
