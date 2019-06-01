@@ -75,7 +75,7 @@ class Basis extends React.Component {
             <div className="bgm-dark basis-options btn-group btn-group-justified"
                 data-toggle="buttons"
                 id="basis-options"
-                ref={(e) => {this.basisOptions = e}}>
+            >
                 {this.renderBasisUnitsLabel(Made.ATOMIC_COORD_UNITS.crystal)}
                 {this.renderBasisUnitsLabel(Made.ATOMIC_COORD_UNITS.cartesian)}
             </div>
