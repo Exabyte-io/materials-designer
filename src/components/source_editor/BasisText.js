@@ -1,5 +1,6 @@
 import _ from "underscore";
 import React from 'react';
+import setClass from 'classnames';
 import {Made} from "@exabyte-io/made.js";
 
 import {displayMessage} from "../../i18n/messages";
@@ -72,12 +73,9 @@ class BasisText extends React.Component {
 
     render() {
         return (
-            <div className="xyz"
-                style={{
-                    height: '100%',
-                }}>
-                <div id="basis-xyz" style={{height: '100%'}}>
-                    <CodeMirror className="material-textarea"
+            <div className={setClass("xyz", this.props.className || "")}>
+                <div id="basis-xyz">
+                    <CodeMirror className="xyz-codemirror"
                         value={this.state.content}
                         onFocusChange={(isFocused) => {
                             if (isFocused) {
