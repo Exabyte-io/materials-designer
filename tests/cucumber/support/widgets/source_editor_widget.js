@@ -1,5 +1,3 @@
-import assert from "assert";
-import {retry} from "../utils";
 import {Widget} from "../widget";
 import {SELECTORS} from "../selectors";
 
@@ -66,9 +64,26 @@ class BasisEditorWidget extends Widget {
 
     }
 
+    getCodeMirrorContent(editorId) {
+        return exabrowser.execute((editorId) => {
+            const element = document.getElementById(editorId);
+            return element.getElementsByClassName('CodeMirror')[0].CodeMirror.getValue();
+        }, editorId).value;
+    }
+
+    setCodeMirrorContent(editorId, content, preserveExistingContent = false) {
+        exabrowser.execute((editorId, content, preserveExistingContent) => {
+            const element = document.getElementById(editorId);
+            const codeMirror = element.getElementsByClassName('CodeMirror')[0].CodeMirror;
+            codeMirror.setValue(preserveExistingContent ? codeMirror.getValue() + "\n" + content : content);
+            // undo-redo is required to trigger changes for ReactCodeMirror component
+            codeMirror.execCommand('undo');
+            codeMirror.execCommand('redo');
+        }, editorId, content, preserveExistingContent);
+    }
+
     getBasisText() {
-        exabrowser.waitForVisible(this._selectors.basisTextArea);
-        return exabrowser.getValue(this._selectors.basisTextArea);
+        return this.getCodeMirrorContent(SELECTORS.sourceEditor.basisEditor.basisTextArea);
     };
 
     setBasisUnits(unitsName) {
@@ -77,13 +92,9 @@ class BasisEditorWidget extends Widget {
     }
 
     setBasis(basisTextInTable) {
+        const clsInstance = this;
         const basisText = this._parseTableTextToBasisString(basisTextInTable);
-        exabrowser.waitForVisible(this._selectors.basisTextArea);
-        // TODO: retry functionality is legacy, find out how to avoid
-        retry(() => {
-            exabrowser.setValue(this._selectors.basisTextArea, basisText);
-            assert.equal(this.getBasisText(), basisText);
-        });
+        clsInstance.setCodeMirrorContent(SELECTORS.sourceEditor.basisEditor.basisTextArea, basisText);
     }
 }
 
