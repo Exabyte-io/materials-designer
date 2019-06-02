@@ -7,6 +7,8 @@ import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 import {Material} from "../../../material";
 import {ModalDialog} from '../../include/ModalDialog';
 import {displayMessage} from "../../../i18n/messages";
+import BasisText from "../../source_editor/BasisText";
+import {ShowIf} from "../../../utils/react/showif";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
@@ -15,25 +17,15 @@ class CombinatorialBasisDialog extends ModalDialog {
     constructor(props) {
         super(props);
         this.state = {
-            validated: true,
-            message: '',
             xyz: this.props.material.getBasisAsXyz(),
-            manualEditStarted: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
-
-    componentWillReceiveProps(newProps) {
-        this.setState({xyz: newProps.material.getBasisAsXyz()});
-    }
-
-    handleChange(event) {
+    
+    handleChange(content) {
         // update the input field immediately on typing
-        const value = event.target.value;
-        this.setState({xyz: value}, () => {
-            this._validateXYZ(value)
-        });
+        this.setState({xyz: content});
 
     }
 
@@ -48,11 +40,10 @@ class CombinatorialBasisDialog extends ModalDialog {
 
     handleSubmit() {
 
-        // TODO: 1. move the logic for combinatorial set generation to Made;
-        // TODO 2. avoid modifying materials directly inside this component move the below logic to reducer
+        if (!this.BasisTextComponent.state.isContentValidated) return; // don't proceed if cannot validate xyz
         const _xyzText = this.state.xyz;
         const material = this.props.material;
-        if (!this._validateXYZ(_xyzText)) return; // don't proceed if cannot validate xyz
+        // TODO: avoid modifying materials directly inside this component move the below logic to reducer
 
         // create combinatorial set from a given basis
         const newBases = new Made.parsers.xyz.CombinatorialBasis(_xyzText).allBasisConfigs;
@@ -85,29 +76,6 @@ class CombinatorialBasisDialog extends ModalDialog {
         this.props.onSubmit(newMaterials);
     }
 
-    _validateXYZ(value) {
-        try {
-            Made.parsers.xyz.validate(value);
-            // only show the success message first time after last failure
-            if (!this.state.validated) {
-                this.setState({
-                    validated: true,
-                    message: displayMessage('basis.validationSuccess')
-                });
-            } else {
-                // already validated before -> remove message
-                this.setState({message: ''});
-            }
-        } catch (err) {
-            this.setState({
-                validated: false,
-                message: displayMessage('basis.validationError')
-            });
-            return false;
-        }
-        return true;
-    }
-
     renderHeader() {
         return (
             <ModalHeader className="bgm-dark" closeButton={true}>
@@ -127,46 +95,25 @@ class CombinatorialBasisDialog extends ModalDialog {
     renderBody() {
         return (
             <ModalBody className="bgm-dark">
-                <div className="xyz"
-                    style={{minHeight: '65vmin'}}>
-                    <textarea name="basis-xyz"
-                        style={{height: '60vmin'}}
-                        className="material-textarea form-control fg-input"
-                        onFocus={() => {
-                            this.setState({manualEditStarted: true});
-                        }}
-                        onBlur={(e) => {
-                            this.setState({manualEditStarted: false});
-                        }}
-                        value={this.state.xyz}
-                        onChange={this.handleChange}
-                    >
-                     </textarea>
-                    <div className="row m-t-10">
-                        <div className="col-md-12">
-                            <button id="generate-combinatorial" className="btn btn-custom btn-block"
-                                onClick={this.handleSubmit}>Generate Combinatorial Set
-                            </button>
-                        </div>
+                <BasisText
+                    ref={(el) => {this.BasisTextComponent = el}}
+                    className="combinatorial-basis"
+                    content={this.state.xyz}
+                    onChange={this.handleChange}
+                />
+
+                <div className="row m-t-10">
+                    <div className="col-md-12">
+                        <button id="generate-combinatorial" className="btn btn-custom btn-block"
+                            onClick={this.handleSubmit}>Generate Combinatorial Set
+                        </button>
                     </div>
                 </div>
             </ModalBody>
         );
     }
 
-    renderFooter() {
-        return (
-            <ModalFooter className="bgm-dark">
-                <div className="row">
-                    <div className="col-md-12 text-center">
-                        <span className={this.state.validated ? "text-success" : "text-danger"}>
-                            {this.state.message}
-                            </span>
-                    </div>
-                </div>
-            </ModalFooter>
-        )
-    }
+    renderFooter() {return null}
 }
 
 CombinatorialBasisDialog.PropTypes = {

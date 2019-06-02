@@ -3,11 +3,11 @@ import _ from "underscore";
 import {Made} from "@exabyte-io/made.js";
 import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
 
+import {ShowIf} from "../../../utils/react/showif";
 import {Material} from "../../../material";
 import {ModalDialog} from '../../include/ModalDialog';
 import {displayMessage} from "../../../i18n/messages";
-
-// TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
+import BasisText from "../../source_editor/BasisText";
 
 class InterpolateBasesDialog extends ModalDialog {
 
@@ -85,6 +85,7 @@ class InterpolateBasesDialog extends ModalDialog {
     }
 
     renderBody() {
+        const xyzContent = [this.props.material, this.props.material2][this.state.materialIndex].getBasisAsXyz();
         return (
             <ModalBody className="bgm-dark">
                 <div className="xyz"
@@ -118,20 +119,17 @@ class InterpolateBasesDialog extends ModalDialog {
                         </div>
                     </div>
 
+                    <BasisText
+                        readOnly={true}
+                        ref={(el) => {this.BasisTextComponent = el}}
+                        className="col-xs-12 interpolated-bases"
+                        content={xyzContent}
+                    />
 
-                    <textarea name="basis-xyz"
-                        style={{height: '60vmin'}}
-                        className="material-textarea form-control fg-input"
-                        value={[this.props.material, this.props.material2][this.state.materialIndex].getBasisAsXyz()}
-                        disabled={true}
-                    >
-                     </textarea>
-                    <div className="row m-t-10">
-                        <div className="col-md-12">
-                            <button id="generate-interpolated-set" className="btn btn-custom btn-block"
-                                onClick={this.handleSubmit}>Generate Interpolated Set
-                            </button>
-                        </div>
+                    <div className="col-xs-12 m-t-15">
+                        <button id="generate-interpolated-set" className="btn btn-custom btn-block"
+                            onClick={this.handleSubmit}>Generate Interpolated Set
+                        </button>
                     </div>
                 </div>
             </ModalBody>
@@ -140,15 +138,17 @@ class InterpolateBasesDialog extends ModalDialog {
 
     renderFooter() {
         return (
-            <ModalFooter className="bgm-dark">
-                <div className="row">
-                    <div className="col-md-12 text-center">
+            <ShowIf condition={Boolean(this.state.message)}>
+                <ModalFooter className="bgm-dark">
+                    <div className="row">
+                        <div className="col-md-12 text-center">
                         <span className={this.state.validated ? "text-success" : "text-danger"}>
                             {this.state.message}
                             </span>
+                        </div>
                     </div>
-                </div>
-            </ModalFooter>
+                </ModalFooter>
+            </ShowIf>
         )
     }
 }
