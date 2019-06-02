@@ -1,6 +1,6 @@
 {
     "name": "@exabyte-io/materials-designer",
-    "version": "3.1.4",
+    "version": "3.2.0",
     "description": "Materials Designer",
     "scripts": {
         "start": "PORT=3001 react-scripts start",
@@ -32,7 +32,7 @@
         "element-class": "^0.2.2",
         "jquery": "^3.0.0",
         "lodash": "^4.17.4",
-        "@exabyte-io/made.js": "2.0.9",
+        "@exabyte-io/made.js": "2.1.0",
         "@exabyte-io/wave.js": "3.1.3",
         "material-ui-icons-next": "^1.0.0-beta.17-next",
         "material-ui-next": "^1.0.0-beta.38",
