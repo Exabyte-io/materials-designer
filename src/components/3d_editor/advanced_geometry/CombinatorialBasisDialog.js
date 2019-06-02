@@ -2,13 +2,12 @@ import React from 'react';
 import _ from 'underscore';
 import NPMsAlert from 'react-s-alert';
 import {Made} from "@exabyte-io/made.js";
-import {ModalHeader, ModalBody, ModalFooter} from 'react-bootstrap';
+import {ModalHeader, ModalBody} from 'react-bootstrap';
 
 import {Material} from "../../../material";
 import {ModalDialog} from '../../include/ModalDialog';
 import {displayMessage} from "../../../i18n/messages";
 import BasisText from "../../source_editor/BasisText";
-import {ShowIf} from "../../../utils/react/showif";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
@@ -22,7 +21,7 @@ class CombinatorialBasisDialog extends ModalDialog {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
-    
+
     handleChange(content) {
         // update the input field immediately on typing
         this.setState({xyz: content});

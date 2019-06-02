@@ -46,7 +46,7 @@ export const SELECTORS = {
         wrapper: "",
         basisEditor: {
             wrapper: "",
-            basisTextArea: 'textarea[name="basis-xyz"]',
+            basisTextArea: 'basis-xyz',
             basisUnitsByName: (name) => `#basis-units-' + ${name}`
         },
         latticeEditor: {
