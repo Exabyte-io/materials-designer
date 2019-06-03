@@ -81,6 +81,7 @@ class BasisText extends React.Component {
             <div className={setClass("xyz", this.props.className || "")}>
                 <div id="basis-xyz">
                     <CodeMirror className="xyz-codemirror"
+                        ref={(el) => this.codeMirrorComponent = el}
                         value={this.state.content}
                         onFocusChange={(isFocused) => {
                             if (isFocused) {
