@@ -12,12 +12,13 @@ import {
     Check as CheckIcon,
     Undo as UndoIcon,
     Redo as RedoIcon,
+    FormatShapes as ConventionalCellIcon,
+    Collections as CloneIcon,
     Close as CloseIcon,
     AddCircle as AddCircleIcon,
     FileDownload as FileDownloadIcon,
     Save as SaveIcon,
     ExitToApp as ExitToAppIcon,
-    Collections as CollectionsIcon,
     Fullscreen as FullscreenIcon,
     FullscreenExit as FullscreenExitIcon,
 
@@ -64,6 +65,11 @@ class HeaderMenuToolbar extends React.Component {
         };
     }
 
+    _handleConventionalCellSelect = () => {
+        const newMaterial = this.props.material.getACopyWithConventionalCell();
+        return this.props.onUpdate(newMaterial, this.props.index);
+    };
+
     renderIOMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
@@ -101,7 +107,9 @@ class HeaderMenuToolbar extends React.Component {
                 <MenuItem onClick={this.props.onRedo}><ListItemIcon><RedoIcon/></ListItemIcon>Redo</MenuItem>
                 <MenuItem onClick={this.props.onReset}><ListItemIcon><CloseIcon/></ListItemIcon>Reset</MenuItem>
                 <Divider/>
-                <MenuItem onClick={this.props.onClone}><ListItemIcon><CollectionsIcon/></ListItemIcon>Clone</MenuItem>
+                <MenuItem onClick={this.props.onClone}><ListItemIcon><CloneIcon/></ListItemIcon>Clone</MenuItem>
+                <Divider/>
+                <MenuItem onClick={this._handleConventionalCellSelect}><ListItemIcon><ConventionalCellIcon/></ListItemIcon>Use Conventional Cell</MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
     }
@@ -333,6 +341,7 @@ class HeaderMenuToolbar extends React.Component {
 HeaderMenuToolbar.propTypes = {
     isLoading: React.PropTypes.bool,
     material: React.PropTypes.object,
+    index: React.PropTypes.number,
 
     onUpdate: React.PropTypes.func,
 

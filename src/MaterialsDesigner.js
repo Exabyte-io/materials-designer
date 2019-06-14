@@ -58,6 +58,8 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 onReset={this.props.onReset}
                                 onClone={this.props.onClone}
 
+                                onUpdate={this.props.onUpdate}
+
                                 onAdd={this.props.onAdd}
                                 onExport={this.props.onExport}
                                 onSave={this.props.onSave}
