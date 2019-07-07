@@ -1,6 +1,6 @@
 {
     "name": "@exabyte-io/materials-designer",
-    "version": "3.2.3",
+    "version": "3.2.4",
     "description": "Materials Designer",
     "scripts": {
         "start": "PORT=3001 react-scripts start",
@@ -27,8 +27,8 @@
         "@babel/preset-env": "7.0.0",
         "@babel/preset-react": "7.0.0",
         "@babel/runtime-corejs2": "^7.0.0",
-        "@exabyte-io/made.js": "2.1.1",
-        "@exabyte-io/wave.js": "3.1.4",
+        "@exabyte-io/made.js": "2.1.2",
+        "@exabyte-io/wave.js": "3.1.5",
         "bootstrap": "^3.3.7",
         "classnames": "^2.2.5",
         "codemirror": "^5.47.0",
