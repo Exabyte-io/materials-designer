@@ -82,6 +82,10 @@ Desirable features/fixes for implementation:
 - show the total number of materials in set and the current index
 - fix fullscreen support
 
+## Dependencies
+
+This package depends on [Made.js](https://github.com/Exabyte-io/made.js) and [Wave.js](https://github.com/Exabyte-io/wave.js). See [package.json](package.json) for the full list.
+
 ## Links
 
 1. [Create React App, GitHub Repository](https://github.com/facebook/create-react-app)
