@@ -271,7 +271,7 @@ class HeaderMenuToolbar extends React.Component {
                 }
             }}
             materials={this.props.materials}
-            modalId="threejs-editor"
+            modalId="threejs-mol-editor"
         />
     }
 
