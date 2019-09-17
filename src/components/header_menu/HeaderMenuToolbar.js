@@ -171,10 +171,6 @@ class HeaderMenuToolbar extends React.Component {
                 </MenuItem>
                 <MenuItem onClick={() => this.setState({showThreejsMolEditorModal: true})}>
                     <ListItemIcon><PolymerIcon/></ListItemIcon>
-                    Molecule
-                </MenuItem>
-                <MenuItem disabled>
-                    <ListItemIcon><PolymerIcon/></ListItemIcon>
                     Polymer
                 </MenuItem>
                 <MenuItem disabled>
