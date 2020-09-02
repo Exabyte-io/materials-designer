@@ -215,7 +215,7 @@ export class ExaBrowser {
         const bsp = new Array(len).fill('Backspace');
         this.setValue(selector, bsp);
 
-        this.setValue(selector, name);
+        this.setValue(selector, value);
     }
 
     elementIdElementValue(...args) {
