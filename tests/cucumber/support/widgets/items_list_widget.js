@@ -12,14 +12,7 @@ export class ItemsListWidget extends Widget {
         const selector = this.getSelectorPerItem(itemIndex, this._selectors.nameInput);
         exabrowser.waitForValue(selector);
         this.selectItemByIndex(itemIndex);
-
-        // Clear the field first
-        // see: https://github.com/webdriverio/webdriverio/issues/1140#issuecomment-449027183
-        const len = exabrowser.getValue(selector).length;
-        const bsp = new Array(len).fill('Backspace');
-        exabrowser.setValue(selector, bsp);
-
-        exabrowser.setValue(selector, name);
+        exabrowser.setValueWithBackspaceClear(selector, name);
         // TODO: remove the need for pause below
         exabrowser.pause(1000);
     };

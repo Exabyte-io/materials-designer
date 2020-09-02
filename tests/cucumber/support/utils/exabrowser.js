@@ -204,6 +204,20 @@ export class ExaBrowser {
         }, clickSelector, animationSelector);
     }
 
+    /**
+     * @summary Clear the field, and then set its value
+     * see: https://github.com/webdriverio/webdriverio/issues/1140#issuecomment-449027183
+     * @param selector {String} CSS selector for the field in question
+     * @param value {String} The final value to be left in the field
+     */
+    setValueWithBackspaceClear(selector, value ) {
+        const len = this.getValue(selector).length;
+        const bsp = new Array(len).fill('Backspace');
+        this.setValue(selector, bsp);
+
+        this.setValue(selector, name);
+    }
+
     elementIdElementValue(...args) {
         return browser.elementIdElement(...args).value;
     }
