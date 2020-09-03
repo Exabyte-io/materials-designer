@@ -12,7 +12,7 @@ export class ItemsListWidget extends Widget {
         const selector = this.getSelectorPerItem(itemIndex, this._selectors.nameInput);
         exabrowser.waitForValue(selector);
         this.selectItemByIndex(itemIndex);
-        exabrowser.setValue(selector, name);
+        exabrowser.setValueWithBackspaceClear(selector, name);
         // TODO: remove the need for pause below
         exabrowser.pause(1000);
     };
