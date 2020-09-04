@@ -211,10 +211,9 @@ export class ExaBrowser {
      * @param value {String} The final value to be left in the field
      */
     setValueWithBackspaceClear(selector, value) {
-        const len = this.getValue(selector).length;
-        const bsp = new Array(len).fill('Backspace');
-        this.setValue(selector, bsp);
-
+        const existingValueLength = this.getValue(selector).length;
+        const backspaceArray = new Array(existingValueLength).fill('Backspace');
+        this.setValue(selector, backspaceArray);
         this.setValue(selector, value);
     }
 
