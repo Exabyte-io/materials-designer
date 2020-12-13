@@ -14,7 +14,7 @@ export function materialsAdd(state, action) {
         state.materials.slice(0, index + 1).concat(actionMaterials).concat(state.materials.slice(index + 1))
         :
         state.materials.concat(actionMaterials);
-    return Object.assign({}, state, {materials: newMaterials});
+    return Object.assign({}, state, {materials: newMaterials, index: index + 1});
 }
 
 export function materialsRemove(state, action) {

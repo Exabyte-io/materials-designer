@@ -12,6 +12,8 @@ import {ThreeDEditorFullscreen} from "./components/3d_editor/ThreeDEditorFullscr
 import {FullscreenComponentMixin} from "./components/include/FullscreenComponentMixin";
 import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
 
+import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
+
 class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMixin) {
 
     constructor(props) {
@@ -65,7 +67,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 onSave={this.props.onSave}
                                 onExit={this.props.onExit}
 
-                                ImportModal={this.props.ImportModal}
+                                ImportModal={this.props.ImportModal || DefaultImportModalDialog}
                                 SaveActionDialog={this.props.SaveActionDialog}
 
                                 onGenerateSupercell={this.props.onGenerateSupercell}
