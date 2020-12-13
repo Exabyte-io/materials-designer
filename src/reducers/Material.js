@@ -34,6 +34,16 @@ function materialsCloneOne(state, action) {
     return Object.assign({}, state, {materials});
 }
 
+function materialsInsertOne(state, action) {
+    const materials = state.materials.slice(); // get copy of array
+    const material = action.material.clone();  // clone material to assert props re-render
+    material.cleanOnCopy();
+    material.name = "New Material";
+    material.isUpdated = true;
+    materials.push(material);
+    return Object.assign({}, state, {materials});
+}
+
 function materialsUpdateNameForOne(state, action) {
     const materials = state.materials.slice();  // get copy of array
     // not passing index when modifying currently displayed material
@@ -79,6 +89,34 @@ function materialsGenerateSurfaceForOne(state, action) {
     const material = state.materials[state.index];  // only using currently active material
 
     const {h, k, l, thickness, vacuumRatio, vx, vy} = action;
+
+    const builder = new Made.SlabModelBuilder(material);
+    const slabModels = builder.build(h, k, l);
+    const newMaterials = [];
+    for (const slabModel of slabModels) {
+        const elements = [];
+        const coordinates = [];
+        for (const i in slabModel.cell.atoms) {
+            const entry = slabModel.cell.atoms[i];
+            elements.push({id: parseInt(i) + 1, value: entry.name });
+            coordinates.push({id: parseInt(i) + 1, value: [entry.x, entry.y, entry.z]});
+        }
+
+        const config = { name: 'Silicon FCC',
+            basis: { elements: elements, coordinates: coordinates, units: Made.ATOMIC_COORD_UNITS.crystal },
+            lattice: {
+                type: slabModel.latticeType,
+                a:slabModel.lattConst[0], b:slabModel.lattConst[1], c:slabModel.lattConst[2],
+                alpha : slabModel.lattConst[3], beta:slabModel.lattConst[4], gamma:slabModel.lattConst[5],
+                units: {
+                    length: 'angstrom',
+                    angle: 'degree'
+        } } };
+
+        const mat = new Material(config);
+        newMaterials.push(mat);
+    }
+
     const supercellConfig = Made.tools.surface.generateConfig(material, [h, k, l], thickness, vx, vy);
     const outOfPlaneAxisIndex = supercellConfig.outOfPlaneAxisIndex;
 
@@ -90,7 +128,12 @@ function materialsGenerateSurfaceForOne(state, action) {
     const newMaterial = new Material(supercellConfig);
     Made.tools.material.scaleOneLatticeVector(newMaterial, ["a", "b", "c"][outOfPlaneAxisIndex], 1 / (1 - vacuumRatio));
 
-    return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
+    for(const newMaterial of newMaterials) {
+        const ret = materialsInsertOne(state, Object.assign(action, {material: newMaterial}));
+        state.materials = ret.materials;
+    }
+
+    return materialsInsertOne(state, Object.assign(action, {material: newMaterial}));
 }
 
 function materialsSetBoundaryConditionsForOne(state, action) {

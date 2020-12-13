@@ -7,6 +7,7 @@ import {MenuItem} from 'material-ui-next/Menu';
 import {ListItemIcon} from 'material-ui-next/List';
 import IconButton from 'material-ui-next/IconButton';
 import {ThreejsEditorModal} from "@exabyte-io/wave.js";
+import {ThreejsMolEditorModal} from "@exabyte-io/wave.js";
 
 import {
     Check as CheckIcon,
@@ -61,6 +62,7 @@ class HeaderMenuToolbar extends React.Component {
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
+            showThreejsMolEditorModal: false,
             showBoundaryConditionsDialog: false,
         };
     }
@@ -167,7 +169,7 @@ class HeaderMenuToolbar extends React.Component {
                     <ListItemIcon><BoundaryConditionsIcon/></ListItemIcon>
                     Boundary Conditions
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem onClick={() => this.setState({showThreejsMolEditorModal: true})}>
                     <ListItemIcon><PolymerIcon/></ListItemIcon>
                     Polymer
                 </MenuItem>
@@ -252,8 +254,26 @@ class HeaderMenuToolbar extends React.Component {
         />
     }
 
+    renderThreejsMolEditorModal() {
+        return <ThreejsMolEditorModal
+            show={this.state.showThreejsMolEditorModal}
+            onHide={(material) => {
+                this.setState({showThreejsMolEditorModal: !this.state.showThreejsMolEditorModal});
+                if (material) {
+                    // convert made material to MD material
+                    const newMaterial = Material.createFromMadeMaterial(material);
+                    newMaterial.isUpdated = true; // to show it as new (yellow color)
+                    this.props.onAdd(newMaterial);
+                }
+            }}
+            materials={this.props.materials}
+            modalId="threejs-mol-editor"
+        />
+    }
+
     render() {
         if (this.state.showThreejsEditorModal) return this.renderThreejsEditorModal();
+        if (this.state.showThreejsMolEditorModal) return this.renderThreejsMolEditorModal();
         return (
             <Toolbar
                 className={setClass(this.props.className, "materials-designer-header-menu")}
