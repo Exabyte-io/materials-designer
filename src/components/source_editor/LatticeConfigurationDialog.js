@@ -24,6 +24,7 @@ class LatticeConfigurationDialog extends React.Component {
             lattice: this.props.material.lattice,
             // used to preserve Basis in Angstroms
             preserveBasis: false,
+            isNonPeriodic: false,
         };
 
         this.handleUpdateLattice = this.handleUpdateLattice.bind(this);
@@ -41,6 +42,15 @@ class LatticeConfigurationDialog extends React.Component {
         return (
             <ModalHeader className="bgm-dark" closeButton={true}>
                 <h4 className="modal-title">Crystal Lattice (Primitive)</h4>
+                <div className="col-xs-12 p-0">
+                    <ToggleSwitch
+                        color="blue" title="Non-Periodic"
+                        class="pull-left"
+                        onStateChange={() => this.setState({isNonPeriodic: !this.state.isNonPeriodic})}
+                        checked={this.state.isNonPeriodic}
+                        id="access-level"
+                    />
+                </div>
             </ModalHeader>
         )
     }
@@ -108,6 +118,10 @@ class LatticeConfigurationDialog extends React.Component {
         const newMaterial = new Material(newMaterialConfig);
         // assert basis is stored in 'crystal' units
         newMaterial.toCrystal();
+
+        // update to non-periodic if asked to do so
+        this.state.isNonPeriodic ? newMaterial.toCartesian() : newMaterial.toCrystal();
+        newMaterial.updateIsNonPeriodic(this.state.isNonPeriodic);
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
     }
