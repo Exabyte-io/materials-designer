@@ -42,15 +42,6 @@ class LatticeConfigurationDialog extends React.Component {
         return (
             <ModalHeader className="bgm-dark" closeButton={true}>
                 <h4 className="modal-title">Crystal Lattice (Primitive)</h4>
-                <div className="col-xs-12 p-0">
-                    <ToggleSwitch
-                        color="blue" title="Non-Periodic"
-                        class="pull-left"
-                        onStateChange={() => this.setState({isNonPeriodic: !this.state.isNonPeriodic})}
-                        checked={this.state.isNonPeriodic}
-                        id="access-level"
-                    />
-                </div>
             </ModalHeader>
         )
     }
@@ -241,17 +232,30 @@ class LatticeConfigurationDialog extends React.Component {
     renderFooter() {
         return (
             <div className="col-xs-12 p-0">
-                <ToggleSwitch
-                    color="blue" title="Preserve Basis"
-                    class="pull-left"
-                    onStateChange={() => this.setState({preserveBasis: !this.state.preserveBasis})}
-                    checked={this.state.preserveBasis}
-                    id="access-level"
-                />
-                <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
-                    onClick={this.handleUpdateLattice}>
-                    {this.props.submitButtonTxt || "Apply Edits"}
-                </button>
+                <div className="col-xs-4 p-25">
+                    <ToggleSwitch
+                        color="blue" title="Preserve Basis"
+                        class="pull-left"
+                        onStateChange={() => this.setState({preserveBasis: !this.state.preserveBasis})}
+                        checked={this.state.preserveBasis}
+                        id="access-level"
+                    />
+                </div>
+                <div className="col-xs-4 p-25">
+                    <ToggleSwitch
+                        color="blue" title="Non-Periodic"
+                        class="pull-left"
+                        onStateChange={() => this.setState({isNonPeriodic: !this.state.isNonPeriodic})}
+                        checked={this.state.isNonPeriodic}
+                        id="access-level"
+                    />
+                </div>
+                <div className="col-xs-4">
+                    <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
+                            onClick={this.handleUpdateLattice}>
+                        {this.props.submitButtonTxt || "Apply Edits"}
+                    </button>
+                </div>
             </div>
         )
     }
