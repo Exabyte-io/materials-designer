@@ -5,7 +5,6 @@
     "scripts": {
         "start": "PORT=3001 react-scripts start",
         "prepublishOnly": "rm -rf dist; npm run transpile;npm run transpile-tests",
-        "postinstall": "npm run transpile",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets"
     },
@@ -22,12 +21,13 @@
     "homepage": "https://github.com/Exabyte-io/materials-designer",
     "dependencies": {
         "@babel/cli": "7.0.0",
-        "@babel/core": "7.0.0",
+        "@babel/core": "^7.1.0",
         "@babel/plugin-proposal-class-properties": "7.0.0",
         "@babel/polyfill": "7.0.0",
-        "@babel/preset-env": "7.0.0",
+        "@babel/preset-env": "^7.1.0",
         "@babel/preset-react": "7.0.0",
-        "@babel/runtime-corejs2": "^7.0.0",
+        "@babel/runtime": "^7.5.0",
+        "@babel/runtime-corejs2": "^7.5.0",
         "@exabyte-io/made.js": "2.1.2",
         "@exabyte-io/wave.js": "3.1.5",
         "bootstrap": "^3.3.7",
@@ -61,6 +61,7 @@
         "react-dom": "^15.6.2"
     },
     "devDependencies": {
+        "babel-preset-react-app": "^9.1.2",
         "react": "^15.6.2",
         "react-dom": "^15.6.2"
     },
