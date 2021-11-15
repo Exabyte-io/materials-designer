@@ -1,6 +1,9 @@
 import $ from 'jquery';
+import math from "mathjs";
 import React from "react";
 import {Made} from "@exabyte-io/made.js";
+// TODO: How can we import the app setting value???
+// import {appSettings} from "@exabyte-io/web-app/src/exabyte/imports/app_settings/settings";
 import {ModalHeader} from "react-bootstrap";
 
 import {Material} from "../../material";
@@ -111,10 +114,34 @@ class LatticeConfigurationDialog extends React.Component {
         newMaterial.toCrystal();
 
         // update to non-periodic if asked to do so
-        this.state.isNonPeriodic ? newMaterial.toCartesian() : newMaterial.toCrystal();
-        newMaterial.updateIsNonPeriodic(this.state.isNonPeriodic);
+        if (this.state.isNonPeriodic) {
+            const oldBasis = this.props.material.basis;
+            const newBasis = new Made.Basis(oldBasis);
+            // TODO: swap out hardcoded scaling factor for appSettings scaling factor
+            const scalingFactor = 2.0;
+            let maxPairwiseDistance = newBasis.maxPairwiseDistance;
+            if (maxPairwiseDistance === 0) {maxPairwiseDistance = 2;}
+            const newLattice = new Made.Lattice({
+                a: Made.math.precise(maxPairwiseDistance * scalingFactor),
+                type: 'CUB'
+            });
+
+            newMaterial.lattice = newLattice;
+            newMaterial.basis = this.handleNonPeriodicBasisUpdate(newBasis, newLattice);
+            newMaterial.updateIsNonPeriodic(this.state.isNonPeriodic);
+        }
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
+    }
+
+    handleNonPeriodicBasisUpdate(newBasis, newLattice) {
+        // Basis changes - Do we want to include these here?
+        const centerOfCoordinates = newBasis.centerOfCoordinatesPoint;
+        const centerOfLattice = math.multiply(0.5, newLattice.vectorArrays.reduce((a, b) => math.add(a, b)));
+        const translationVector = math.subtract(centerOfLattice, centerOfCoordinates);
+        newBasis.translateByVector(translationVector);
+        newBasis.cell = newLattice.vectorArrays;
+        return newBasis;
     }
 
     renderBody() {
