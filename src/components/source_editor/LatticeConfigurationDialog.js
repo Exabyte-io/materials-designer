@@ -131,16 +131,6 @@ class LatticeConfigurationDialog extends React.Component {
         this.props.onSubmit();
     }
 
-    handleNonPeriodicBasisUpdate(newBasis, newLattice) {
-        // Basis changes - Do we want to include these here?
-        const centerOfCoordinates = newBasis.centerOfCoordinatesPoint;
-        const centerOfLattice = math.multiply(0.5, newLattice.vectorArrays.reduce((a, b) => math.add(a, b)));
-        const translationVector = math.subtract(centerOfLattice, centerOfCoordinates);
-        newBasis.translateByVector(translationVector);
-        newBasis.cell = newLattice.vectorArrays;
-        return newBasis;
-    }
-
     renderBody() {
         return (
             <div className="crystal-lattice-config">
