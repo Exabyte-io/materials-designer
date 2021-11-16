@@ -2,13 +2,12 @@ import $ from 'jquery';
 import math from "mathjs";
 import React from "react";
 import {Made} from "@exabyte-io/made.js";
-// TODO: How can we import the app setting value???
-// import {appSettings} from "@exabyte-io/web-app/src/exabyte/imports/app_settings/settings";
 import {ModalHeader} from "react-bootstrap";
 
 import {Material} from "../../material";
 import {deepClone} from "../../utils/index";
 import ToggleSwitch from "../include/ToggleSwitch";
+import {nonPeriodicLatticeScalingFactor} from "./Lattice";
 
 /**
  * @summary Crystal Lattice configuration dialog.
@@ -115,20 +114,18 @@ class LatticeConfigurationDialog extends React.Component {
 
         // update to non-periodic if asked to do so
         if (this.state.isNonPeriodic) {
-            const oldBasis = this.props.material.basis;
-            const newBasis = new Made.Basis(oldBasis);
-            // TODO: swap out hardcoded scaling factor for appSettings scaling factor
-            const scalingFactor = 2.0;
+            const newBasis = new Made.Basis({
+                elements: this.props.material.basis.elements,
+                coordinates: this.props.material.basis.coordinates,
+            });
             let maxPairwiseDistance = newBasis.maxPairwiseDistance;
             if (maxPairwiseDistance === 0) {maxPairwiseDistance = 2;}
             const newLattice = new Made.Lattice({
-                a: Made.math.precise(maxPairwiseDistance * scalingFactor),
+                a: Made.math.precise(maxPairwiseDistance * nonPeriodicLatticeScalingFactor),
                 type: 'CUB'
             });
-
             newMaterial.lattice = newLattice;
-            newMaterial.basis = this.handleNonPeriodicBasisUpdate(newBasis, newLattice);
-            newMaterial.updateIsNonPeriodic(this.state.isNonPeriodic);
+            newMaterial.isNonPeriodic = this.state.isNonPeriodic;
         }
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
