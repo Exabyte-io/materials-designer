@@ -1,7 +1,6 @@
 {
     "presets": [
         [
-
             "@babel/preset-env",
             {
                 "targets": {
@@ -10,12 +9,6 @@
             }
         ],
         "@babel/preset-react",
-        [
-            "react-app",
-            {
-                "absoluteRuntime": false
-            }
-        ]
     ],
     "plugins": [
         "@babel/plugin-proposal-class-properties"
