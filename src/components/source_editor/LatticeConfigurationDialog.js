@@ -98,6 +98,19 @@ class LatticeConfigurationDialog extends React.Component {
         this.setState({lattice: newLattice});
     }
 
+    handleNonPeriodicLatticeUpdate(newMaterial) {
+        const newBasis = new Made.Basis({
+                elements: newMaterial.basis.elements,
+                coordinates: newMaterial.basis.coordinates,
+            });
+            let maxPairwiseDistance = newBasis.maxPairwiseDistance;
+            const newLattice = new Made.Lattice({
+                a: Made.math.precise(maxPairwiseDistance * nonPeriodicLatticeScalingFactor),
+                type: 'CUB'
+            });
+            return newLattice
+    }
+
     handleUpdateLattice() {
         const oldMaterialCopy = this.props.material.clone();
         this.state.preserveBasis ? oldMaterialCopy.toCartesian() : oldMaterialCopy.toCrystal();
@@ -114,16 +127,7 @@ class LatticeConfigurationDialog extends React.Component {
 
         // update to non-periodic if asked to do so
         if (this.state.isNonPeriodic) {
-            const newBasis = new Made.Basis({
-                elements: this.props.material.basis.elements,
-                coordinates: this.props.material.basis.coordinates,
-            });
-            let maxPairwiseDistance = newBasis.maxPairwiseDistance;
-            if (maxPairwiseDistance === 0) {maxPairwiseDistance = 2;}
-            const newLattice = new Made.Lattice({
-                a: Made.math.precise(maxPairwiseDistance * nonPeriodicLatticeScalingFactor),
-                type: 'CUB'
-            });
+            const newLattice = this.handleNonPeriodicLatticeUpdate(newMaterial)
             newMaterial.lattice = newLattice;
             newMaterial.isNonPeriodic = this.state.isNonPeriodic;
         }
