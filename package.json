@@ -7,7 +7,7 @@
         "prepublishOnly": "rm -rf dist; npm run transpile;npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
-        "postinstall": "./core-js-fix.sh"
+        "postinstall": "./core-js-fix.sh; npm run transpile"
     },
     "repository": {
         "type": "git",
