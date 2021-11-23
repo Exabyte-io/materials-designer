@@ -7,7 +7,7 @@ import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from 'mat
 
 import LatticeConfigurationDialog from './LatticeConfigurationDialog';
 
-export const nonPeriodicLatticeScalingFactor = 2.0;
+export const nonPeriodicLatticeAdditiveValue = 4.0;
 
 class Lattice extends React.Component {
 

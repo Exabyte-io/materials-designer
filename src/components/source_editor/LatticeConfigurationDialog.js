@@ -119,9 +119,8 @@ class LatticeConfigurationDialog extends React.Component {
                 coordinates: this.props.material.basis.coordinates,
             });
             let maxPairwiseDistance = newBasis.maxPairwiseDistance;
-            if (maxPairwiseDistance === 0) {maxPairwiseDistance = 2;}
             const newLattice = new Made.Lattice({
-                a: Made.math.precise(maxPairwiseDistance * nonPeriodicLatticeScalingFactor),
+                a: Made.math.precise(maxPairwiseDistance + nonPeriodicLatticeAdditiveValue),
                 type: 'CUB'
             });
             newMaterial.lattice = newLattice;
