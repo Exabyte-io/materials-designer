@@ -7,7 +7,6 @@ import {ModalHeader} from "react-bootstrap";
 import {Material} from "../../material";
 import {deepClone} from "../../utils/index";
 import ToggleSwitch from "../include/ToggleSwitch";
-import {nonPeriodicLatticeScalingFactor} from "./Lattice";
 
 /**
  * @summary Crystal Lattice configuration dialog.
@@ -120,7 +119,7 @@ class LatticeConfigurationDialog extends React.Component {
             });
             let maxPairwiseDistance = newBasis.maxPairwiseDistance;
             const newLattice = new Made.Lattice({
-                a: Made.math.precise(maxPairwiseDistance + nonPeriodicLatticeAdditiveValue),
+                a: Made.math.precise(maxPairwiseDistance + Made.nonPeriodicLatticeAdditiveValue),
                 type: 'CUB'
             });
             newMaterial.lattice = newLattice;
