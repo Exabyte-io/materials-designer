@@ -177,7 +177,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 <label className="fg-label">Lattice 'a'</label>
                                 <div className="fg-line">
                                     <input type="number" name="a" className="form-control fc-alt fg-input" min="0"
-                                        step="0.05" disabled={this.isDisabled('a')}
+                                        step="0.05"
                                         disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.a}
                                         onChange={this.handleLatticeInputChanged}/>
