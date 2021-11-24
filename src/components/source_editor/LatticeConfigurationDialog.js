@@ -112,11 +112,26 @@ class LatticeConfigurationDialog extends React.Component {
 
         // update to non-periodic if asked to do so
         this.state.isNonPeriodic ? newMaterial.toCartesian() : newMaterial.toCrystal();
-        newMaterial.updateIsNonPeriodic(this.state.isNonPeriodic);
+        newMaterial.isNonPeriodic = this.state.isNonPeriodic;
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
     }
 
+    renderNonPeriodicSwitch() {
+        return (
+            <div className="col-xs-12 p-0">
+                <div className="col-xs-12 p-25">
+                    <ToggleSwitch
+                        color="blue" title="Non-Periodic"
+                        class="pull-left"
+                        onStateChange={() => this.setState({isNonPeriodic: !this.state.isNonPeriodic})}
+                        checked={this.state.isNonPeriodic}
+                        id="access-level"
+                    />
+                </div>
+            </div>
+        )
+    }
     renderBody() {
         return (
             <div className="crystal-lattice-config">
@@ -232,7 +247,7 @@ class LatticeConfigurationDialog extends React.Component {
     renderFooter() {
         return (
             <div className="col-xs-12 p-0">
-                <div className="col-xs-4 p-25">
+                <div className="col-xs-6 p-25">
                     <ToggleSwitch
                         color="blue" title="Preserve Basis"
                         class="pull-left"
@@ -241,16 +256,7 @@ class LatticeConfigurationDialog extends React.Component {
                         id="access-level"
                     />
                 </div>
-                <div className="col-xs-4 p-25">
-                    <ToggleSwitch
-                        color="blue" title="Non-Periodic"
-                        class="pull-left"
-                        onStateChange={() => this.setState({isNonPeriodic: !this.state.isNonPeriodic})}
-                        checked={this.state.isNonPeriodic}
-                        id="access-level"
-                    />
-                </div>
-                <div className="col-xs-4">
+                <div className="col-xs-6">
                     <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
                             onClick={this.handleUpdateLattice}>
                         {this.props.submitButtonTxt || "Apply Edits"}
@@ -263,6 +269,7 @@ class LatticeConfigurationDialog extends React.Component {
     render() {
         return (
             <div className={this.props.className}>
+                {this.renderNonPeriodicSwitch()}
                 {this.renderBody()}
                 {this.renderFooter()}
             </div>
