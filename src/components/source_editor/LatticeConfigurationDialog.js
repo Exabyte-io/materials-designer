@@ -103,12 +103,15 @@ class LatticeConfigurationDialog extends React.Component {
                 elements: newMaterial.basis.elements,
                 coordinates: newMaterial.basis.coordinates,
             });
-            let maxPairwiseDistance = newBasis.maxPairwiseDistance;
-            const newLattice = new Made.Lattice({
-                a: Made.math.precise(maxPairwiseDistance * nonPeriodicLatticeScalingFactor),
-                type: 'CUB'
-            });
-            return newLattice
+        let maxPairwiseDistance = newBasis.maxPairwiseDistance;
+        const newLattice = new Made.Lattice({
+            a: Made.math.precise(maxPairwiseDistance * nonPeriodicLatticeScalingFactor),
+            type: 'CUB'
+        });
+        newMaterial.lattice = newLattice;
+        newMaterial.isNonPeriodic = this.state.isNonPeriodic;
+
+        return newMaterial
     }
 
     handleUpdateLattice() {
@@ -121,19 +124,18 @@ class LatticeConfigurationDialog extends React.Component {
         );
 
         // preserve basis if asked to do so (eg. when constructing a slab)
-        const newMaterial = new Material(newMaterialConfig);
+        let newMaterial = new Material(newMaterialConfig);
         // assert basis is stored in 'crystal' units
         newMaterial.toCrystal();
 
         // update to non-periodic if asked to do so
         if (this.state.isNonPeriodic) {
-            const newLattice = this.handleNonPeriodicLatticeUpdate(newMaterial)
-            newMaterial.lattice = newLattice;
-            newMaterial.isNonPeriodic = this.state.isNonPeriodic;
+            newMaterial = this.handleNonPeriodicLatticeUpdate(newMaterial)
         }
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
     }
+
 
     renderBody() {
         return (
@@ -147,6 +149,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 <label>Lattice units</label>
                                 <div className="fg-line">
                                     <select label="Lattice Units" name="units" className="form-control fc-alt"
+                                        disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.units.length}
                                         onChange={this.handleLatticeUnitSelected}>
                                         {this.getLatticeUnitOptions()}
@@ -159,6 +162,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 <label>Lattice type</label>
                                 <div className="fg-line">
                                     <select label="Lattice type" name="type" className="form-control fc-alt"
+                                        disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.type}
                                         onChange={this.handleLatticeTypeSelected}>
                                         {this.getLatticeTypeOptions()}
@@ -174,6 +178,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 <div className="fg-line">
                                     <input type="number" name="a" className="form-control fc-alt fg-input" min="0"
                                         step="0.05" disabled={this.isDisabled('a')}
+                                        disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.a}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -185,7 +190,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">Lattice 'b'</label>
                                     <input type="number" name="b" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.isDisabled('b')}
+                                        disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.b}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -197,7 +202,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">Lattice 'c'</label>
                                     <input type="number" name="c" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.isDisabled('c')}
+                                        disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.c}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -211,7 +216,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">angle (b^c)</label>
                                     <input type="number" name="alpha" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.isDisabled('alpha')}
+                                        disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.alpha}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -223,7 +228,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">angle (a^c)</label>
                                     <input type="number" name="beta" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.isDisabled('beta')}
+                                        disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.beta}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -235,7 +240,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">angle (a^b)</label>
                                     <input type="number" name="gamma" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.isDisabled('gamma')}
+                                        disabled={Boolean(this.state.isNonPeriodic)}
                                         value={this.state.lattice.gamma}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
