@@ -45,7 +45,6 @@ export function materialsRemove(state, action) {
     });
 }
 
-// TODO: Do we want to also update basis for materials export?
 export function materialsExport(state, action) {
     const exportHandlers = {
         "json": (m) => JSON.stringify(m.toJSON()),
