@@ -129,8 +129,16 @@ class LatticeConfigurationDialog extends React.Component {
         // assert basis is stored in 'crystal' units
         newMaterial.toCrystal();
         newMaterial.isNonPeriodic = this.state.isNonPeriodic;
+        if (this.state.isNonPeriodic) {
+            newMaterial = this.handleNonPeriodicLatticeUpdate(newMaterial)
+        }
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
+    }
+
+    updateNonPeriodic() {
+        this.setState({latticeChangesDisabled: this.state.isNonPeriodic});
+        this.handleUpdateLattice()    ;
     }
 
     renderNonPeriodicSwitch() {
@@ -147,7 +155,7 @@ class LatticeConfigurationDialog extends React.Component {
                 </div>
                 <div className="col-xs-6">
                     <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
-                            onClick={() => this.setState({latticeChangesDisabled: this.state.isNonPeriodic})}>
+                            onClick={() => this.updateNonPeriodic()}>
                         {this.props.submitButtonTxt || "Apply Non-Perioidc"}
                     </button>
                 </div>
