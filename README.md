@@ -74,15 +74,6 @@ sh run-tests.sh                                                 # to run all the
 sh run-tests.sh -f=menu/advanced/create-supercell.feature       # to run an specific test
 ```
 
-## Running development Materials Designer Code with the Web-App
-
-Inside the `web-app/src/exabyte/package.json` file update the dependency for "@exabyte-io/materials-designer" to the following
-
-```bash
-"@exabyte-io/materials-designer": "https://github.com/Exabyte-io/materials-designer/#{development commit hash}",
-```
-Then launch the web-app from `exabyte-stack/web-app` directory using the `run-meteor.sh` script
-
 ### TODO list
 
 Desirable features/fixes for implementation:
