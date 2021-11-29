@@ -3,7 +3,7 @@
         [
             "@babel/preset-env",
             {
-                "targets": {
+                "targets": {}
             }
         ],
         "@babel/preset-react",
