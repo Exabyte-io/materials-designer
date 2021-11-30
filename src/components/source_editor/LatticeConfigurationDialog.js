@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import math from "mathjs";
 import React from "react";
 import {Made} from "@exabyte-io/made.js";
 import {ModalHeader} from "react-bootstrap";
@@ -133,11 +132,6 @@ class LatticeConfigurationDialog extends React.Component {
         }
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
-    }
-
-    updateNonPeriodic() {
-        this.setState({latticeChangesDisabled: this.state.isNonPeriodic});
-        this.handleUpdateLattice()    ;
     }
 
     renderNonPeriodicSwitch() {
