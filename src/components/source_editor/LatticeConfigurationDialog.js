@@ -27,7 +27,6 @@ class LatticeConfigurationDialog extends React.Component {
             // used to preserve Basis in Angstroms
             preserveBasis: false,
             isNonPeriodic: false,
-            latticeChangesDisabled: false,
         };
 
         this.handleUpdateLattice = this.handleUpdateLattice.bind(this);
@@ -155,8 +154,8 @@ class LatticeConfigurationDialog extends React.Component {
                 </div>
                 <div className="col-xs-6">
                     <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
-                            onClick={() => this.updateNonPeriodic()}>
-                        {this.props.submitButtonTxt || "Apply Non-Perioidc"}
+                            onClick={this.handleUpdateLattice}>
+                        {this.props.submitButtonTxt || "Apply Non-Periodic"}
                     </button>
                 </div>
             </div>
@@ -175,7 +174,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 <label>Lattice units</label>
                                 <div className="fg-line">
                                     <select label="Lattice Units" name="units" className="form-control fc-alt"
-                                        disabled={this.state.latticeChangesDisabled}
+                                        disabled={this.state.isNonPeriodic}
                                         value={this.state.lattice.units.length}
                                         onChange={this.handleLatticeUnitSelected}>
                                         {this.getLatticeUnitOptions()}
@@ -188,7 +187,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 <label>Lattice type</label>
                                 <div className="fg-line">
                                     <select label="Lattice type" name="type" className="form-control fc-alt"
-                                        disabled={this.state.latticeChangesDisabled}
+                                        disabled={this.state.isNonPeriodic}
                                         value={this.state.lattice.type}
                                         onChange={this.handleLatticeTypeSelected}>
                                         {this.getLatticeTypeOptions()}
@@ -203,7 +202,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 <label className="fg-label">Lattice 'a'</label>
                                 <div className="fg-line">
                                     <input type="number" name="a" className="form-control fc-alt fg-input" min="0"
-                                        disabled={this.state.latticeChangesDisabled}
+                                        disabled={this.state.isNonPeriodic}
                                         step="0.05"
                                         value={this.state.lattice.a}
                                         onChange={this.handleLatticeInputChanged}/>
@@ -216,7 +215,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">Lattice 'b'</label>
                                     <input type="number" name="b" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.state.latticeChangesDisabled}
+                                        disabled={this.state.isNonPeriodic}
                                         value={this.state.lattice.b}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -228,7 +227,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">Lattice 'c'</label>
                                     <input type="number" name="c" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.state.latticeChangesDisabled}
+                                        disabled={this.state.isNonPeriodic}
                                         value={this.state.lattice.c}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -242,7 +241,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">angle (b^c)</label>
                                     <input type="number" name="alpha" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.state.latticeChangesDisabled}
+                                        disabled={this.state.isNonPeriodic}
                                         value={this.state.lattice.alpha}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -254,7 +253,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">angle (a^c)</label>
                                     <input type="number" name="beta" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.state.latticeChangesDisabled}
+                                        disabled={this.state.isNonPeriodic}
                                         value={this.state.lattice.beta}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -266,7 +265,7 @@ class LatticeConfigurationDialog extends React.Component {
                                     <label className="fg-label">angle (a^b)</label>
                                     <input type="number" name="gamma" className="form-control fc-alt fg-input" min="0"
                                         step="0.05"
-                                        disabled={this.state.latticeChangesDisabled}
+                                        disabled={this.state.isNonPeriodic}
                                         value={this.state.lattice.gamma}
                                         onChange={this.handleLatticeInputChanged}/>
                                 </div>
@@ -281,22 +280,18 @@ class LatticeConfigurationDialog extends React.Component {
     renderFooter() {
         return (
             <div className="col-xs-12 p-0">
-                <div className="col-xs-6 p-25">
-                    <ToggleSwitch
-                        color="blue" title="Preserve Basis"
-                        class="pull-left"
-                        onStateChange={() => this.setState({preserveBasis: !this.state.preserveBasis})}
-                        checked={this.state.preserveBasis}
-                        id="access-level"
-                    />
-                </div>
-                <div className="col-xs-6">
-                    <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
-                            disabled={this.state.latticeChangesDisabled}
-                            onClick={this.handleUpdateLattice}>
-                        {this.props.submitButtonTxt || "Apply Edits"}
-                    </button>
-                </div>
+                <ToggleSwitch
+                    color="blue" title="Preserve Basis"
+                    class="pull-left"
+                    onStateChange={() => this.setState({preserveBasis: !this.state.preserveBasis})}
+                    checked={this.state.preserveBasis}
+                    id="access-level"
+                />
+                <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
+                        disabled={this.state.isNonPeriodic}
+                        onClick={this.handleUpdateLattice}>
+                    {this.props.submitButtonTxt || "Apply Edits"}
+                </button>
             </div>
         )
     }
