@@ -255,22 +255,18 @@ class LatticeConfigurationDialog extends React.Component {
     renderFooter() {
         return (
             <div className="col-xs-12 p-0">
-                <div className="col-xs-6 p-25">
-                    <ToggleSwitch
-                        color="blue" title="Preserve Basis"
-                        class="pull-left"
-                        onStateChange={() => this.setState({preserveBasis: !this.state.preserveBasis})}
-                        checked={this.state.preserveBasis}
-                        id="access-level"
-                    />
-                </div>
-                <div className="col-xs-6">
-                    <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
-                            disabled={this.state.isNonPeriodic}
-                            onClick={this.handleUpdateLattice}>
-                        {this.props.submitButtonTxt || "Apply Edits"}
-                    </button>
-                </div>
+                <ToggleSwitch
+                    color="blue" title="Preserve Basis"
+                    class="pull-left"
+                    onStateChange={() => this.setState({preserveBasis: !this.state.preserveBasis})}
+                    checked={this.state.preserveBasis}
+                    id="access-level"
+                />
+                <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
+                        disabled={this.state.isNonPeriodic}
+                        onClick={this.handleUpdateLattice}>
+                    {this.props.submitButtonTxt || "Apply Edits"}
+                </button>
             </div>
         )
     }
