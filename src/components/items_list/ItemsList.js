@@ -5,7 +5,6 @@ import TextField from 'material-ui-next/TextField';
 import CheckIcon from 'material-ui-icons-next/Check';
 import DeleteIcon from 'material-ui-icons-next/Delete';
 import WidgetsIcon from 'material-ui-icons-next/Widgets';
-import DeviceHubIcon from "material-ui-icons-next/DeviceHub";
 import List, {ListItem, ListItemIcon, ListItemText} from "material-ui-next/List";
 
 import {ShowIf} from "../../utils/react/showif";
@@ -94,17 +93,9 @@ class ItemsList extends React.Component {
                     </ListItemIcon>
                 </ShowIf>
 
-                <ShowIf condition={Boolean(!entity.isNonPeriodic)}>
-                    <ListItemIcon onClick={selectHandler}>
-                        <WidgetsIcon/>
-                    </ListItemIcon>
-                </ShowIf>
-
-                <ShowIf condition={Boolean(entity.isNonPeriodic)}>
-                    <ListItemIcon onClick={selectHandler}>
-                        <DeviceHubIcon/>
-                    </ListItemIcon>
-                </ShowIf>
+                <ListItemIcon onClick={selectHandler}>
+                    <WidgetsIcon/>
+                </ListItemIcon>
 
                 <ListItemText onClick={selectHandler}
                     primary={
