@@ -92,7 +92,10 @@ class ItemsList extends React.Component {
                         <CheckIcon/>
                     </ListItemIcon>
                 </ShowIf>
-                {entity.isNonPeriodic ? <DeviceHubIcon/> : <WidgetsIcon/>}
+                <ListItemIcon onClick={selectHandler}>
+                    {entity.isNonPeriodic ? <DeviceHubIcon/> : <WidgetsIcon/>}
+                </ListItemIcon>
+
                 <ListItemText onClick={selectHandler}
                     primary={
                         <TextField
