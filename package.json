@@ -7,7 +7,7 @@
         "prepublishOnly": "rm -rf dist; npm run transpile;npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
-        "postinstall": "npm run transpile"
+        "postinstall": "./core-js-fix.sh; npm run transpile"
     },
     "repository": {
         "type": "git",
@@ -64,7 +64,8 @@
     "devDependencies": {
         "babel-preset-react-app": "^9.1.2",
         "react": "^15.6.2",
-        "react-dom": "^15.6.2"
+        "react-dom": "^15.6.2",
+        "react-scripts": "^2.1.5"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -74,5 +75,9 @@
         "not dead",
         "not ie <= 11",
         "not op_mini all"
-    ]
+    ],
+    "engines": {
+        "node": ">=0.12",
+        "npm": ">=6.14"
+    }
 }
