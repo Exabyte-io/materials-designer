@@ -19,6 +19,9 @@ function materialsUpdateOne(state, action) {
     const index = action.index || state.index;  // not passing index when modifying currently displayed material
     const material = action.material.clone();   // clone material to assert props re-render
     material.isUpdated = true;                  // to be used inside components
+    // TODO: Why is acion.clone not copying all props
+    material.isNonPeriodic = action.material.isNonPeriodic;
+    console.log(action.material.isNonPeriodic, material.isNonPeriodic);
     // TODO: consider adjusting the logic to avoid expensive cloning procedure below
     materials[index] = material;
     return Object.assign({}, state, {materials: materials});

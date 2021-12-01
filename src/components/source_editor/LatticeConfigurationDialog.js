@@ -134,24 +134,21 @@ class LatticeConfigurationDialog extends React.Component {
         this.props.onSubmit();
     }
 
+
     renderNonPeriodicSwitch() {
         return (
             <div className="col-xs-12 p-0">
-                <div className="col-xs-6 p-25">
-                    <ToggleSwitch
-                        color="blue" title="Non-Periodic"
-                        class="pull-left"
-                        onStateChange={() => this.setState({isNonPeriodic: !this.state.isNonPeriodic})}
-                        checked={this.state.isNonPeriodic}
-                        id="access-level"
-                    />
-                </div>
-                <div className="col-xs-6">
-                    <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
-                            onClick={this.handleUpdateLattice}>
-                        {this.props.submitButtonTxt || "Apply Non-Periodic"}
-                    </button>
-                </div>
+                <ToggleSwitch
+                    color="blue" title="Non-Periodic"
+                    class="pull-left"
+                    onStateChange={() => this.setState({isNonPeriodic: !this.state.isNonPeriodic})}
+                    checked={this.state.isNonPeriodic}
+                    id="access-level"
+                />
+                <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
+                        onClick={this.handleUpdateLattice}>
+                    {this.props.submitButtonTxt || "Apply Non-Periodic"}
+                </button>
             </div>
         )
     }
