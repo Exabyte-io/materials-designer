@@ -6,6 +6,7 @@ import Divider from 'material-ui-next/Divider';
 import {MenuItem} from 'material-ui-next/Menu';
 import {ListItemIcon} from 'material-ui-next/List';
 import IconButton from 'material-ui-next/IconButton';
+import DeviceHubIcon from 'material-ui-icons-next/DeviceHub';
 import {ThreejsEditorModal} from "@exabyte-io/wave.js";
 
 import {
@@ -47,6 +48,7 @@ import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActiva
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
 import {BoundaryConditionsDialog} from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
+import NonPeriodicDialog from "../3d_editor/advanced_geometry/NonPeriodicDialog";
 
 class HeaderMenuToolbar extends React.Component {
 
@@ -62,6 +64,7 @@ class HeaderMenuToolbar extends React.Component {
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
             showBoundaryConditionsDialog: false,
+            showNonPeriodicDialog: false,
         };
     }
 
@@ -174,6 +177,10 @@ class HeaderMenuToolbar extends React.Component {
                 <MenuItem disabled>
                     <ListItemIcon><NanotubeIcon/></ListItemIcon>
                     Nanotube
+                </MenuItem>
+                <MenuItem onClick={() => this.setState({showNonPeriodicDialog: true})}>
+                    <ListItemIcon><DeviceHubIcon/></ListItemIcon>
+                    Make (Non)-Periodic
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
@@ -291,6 +298,14 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={this.props.onSetBoundaryConditions}
                     onHide={() => this.setState({showBoundaryConditionsDialog: false})}
                 />
+                <NonPeriodicDialog
+                    show={this.state.showNonPeriodicDialog}
+                    modalId="NonPeriodicModal"
+                    backdropColor='dark'
+                    material={this.props.material}
+                    onSubmit={this.props.onSetNonPeriodic}
+                    onHide={() => this.setState({showNonPeriodicDialog: false})}
+                />
 
                 {this.renderImportModal()}
 
@@ -357,6 +372,7 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
     onSetBoundaryConditions: React.PropTypes.func,
+    onSetNonPeriodic: React.PropTypes.func,
 
     ImportModal: React.PropTypes.func,
     SaveActionDialog: React.PropTypes.func,
