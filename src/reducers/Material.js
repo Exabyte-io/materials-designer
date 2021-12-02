@@ -20,6 +20,7 @@ function materialsUpdateOne(state, action) {
     const index = action.index || state.index;  // not passing index when modifying currently displayed material
     const material = action.material.clone();   // clone material to assert props re-render
     material.isUpdated = true;                  // to be used inside components
+    material.isNonPeriodic = action.material.isNonPeriodic;
     // TODO: consider adjusting the logic to avoid expensive cloning procedure below
     materials[index] = material;
     return Object.assign({}, state, {materials: materials});
@@ -107,8 +108,8 @@ function materialsSetBoundaryConditionsForOne(state, action) {
 
 export function materialsSetIsNonPeriodicForOne(state, action) {
     const newMaterial = state.materials[state.index].clone();
-    newMaterial.isNonPeriodic = Object.assign({}, newMaterial.isNonPeriodic, action.isNonPeriodic)
-    return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
+    state.materials[state.index].isNonPeriodic = !newMaterial.isNonPeriodic;
+    return materialsUpdateOne(state, Object.assign(action, {material: state.materials[state.index]}));
 }
 
 export function materialsUpdateIndex(state, action) {
