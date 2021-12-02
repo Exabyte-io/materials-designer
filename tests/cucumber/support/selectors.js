@@ -35,10 +35,6 @@ export const SELECTORS = {
             type: '[data-tid="type"] select',
             offset: '[data-tid="offset"] input',
         }
-        nonPeriodicDialog: {
-            wrapper: "#NonPeriodicModal",
-            submitButton: "make-non-periodic",
-        }
     },
     itemsList: {
         wrapper: ".materials-designer-items-list",
