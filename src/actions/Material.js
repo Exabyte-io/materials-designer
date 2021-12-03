@@ -61,3 +61,11 @@ export function setBoundaryConditionsForOneMaterial(config) {
         ...config,
     }
 }
+
+export const MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE = 'MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE';
+
+export function setIsNonPeriodicConditionsForOneMaterial() {
+    return {
+        type: MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE,
+    }
+}
