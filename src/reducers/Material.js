@@ -18,9 +18,8 @@ import {
 function materialsUpdateOne(state, action) {
     const materials = state.materials.slice();  // get copy of array
     const index = action.index || state.index;  // not passing index when modifying currently displayed material
-    const material = action.material.clone();   // clone material to assert props re-render
+    const material = action.material;   // clone material to assert props re-render
     material.isUpdated = true;                  // to be used inside components
-    material.isNonPeriodic = action.material.isNonPeriodic;
     // TODO: consider adjusting the logic to avoid expensive cloning procedure below
     materials[index] = material;
     return Object.assign({}, state, {materials: materials});
@@ -106,10 +105,10 @@ function materialsSetBoundaryConditionsForOne(state, action) {
     return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
 }
 
-export function materialsSetIsNonPeriodicForOne(state) {
+function materialsToggleIsNonPeriodicForOne(state, action) {
     const newMaterial = state.materials[state.index].clone();
-    state.materials[state.index].isNonPeriodic = !newMaterial.isNonPeriodic;
-    return materialsUpdateOne(state, Object.assign(newMaterial, {material: state.materials[state.index]}));
+    newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
+    return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
 }
 
 export function materialsUpdateIndex(state, action) {
@@ -124,5 +123,5 @@ export default {
     [MATERIALS_GENERATE_SUPERCELL_FOR_ONE]: materialsGenerateSupercellForOne,
     [MATERIALS_GENERATE_SURFACE_FOR_ONE]: materialsGenerateSurfaceForOne,
     [MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE]: materialsSetBoundaryConditionsForOne,
-    [MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE]: materialsSetIsNonPeriodicForOne,
+    [MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE]: materialsToggleIsNonPeriodicForOne,
 };
