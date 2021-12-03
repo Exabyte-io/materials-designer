@@ -48,6 +48,7 @@ import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActiva
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
 import {BoundaryConditionsDialog} from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
+import NonPeriodicDialog from "../3d_editor/advanced_geometry/NonPeriodicDialog";
 
 class HeaderMenuToolbar extends React.Component {
 
@@ -178,7 +179,7 @@ class HeaderMenuToolbar extends React.Component {
                     Nanotube
                 </MenuItem>
                 <MenuItem
-                    onClick={this.props.onSetNonPeriodic}>
+                    onClick={() => this.setState({showNonPeriodicDialog: true})}>
                     <ListItemIcon><DeviceHubIcon/></ListItemIcon>
                     Make (Non)-Periodic
                 </MenuItem>
@@ -297,6 +298,14 @@ class HeaderMenuToolbar extends React.Component {
                     material={this.props.material}
                     onSubmit={this.props.onSetBoundaryConditions}
                     onHide={() => this.setState({showBoundaryConditionsDialog: false})}
+                />
+                <NonPeriodicDialog
+                    show={this.state.showNonPeriodicDialog}
+                    modalId="NonPeriodicModal"
+                    backdropColor='dark'
+                    material={this.props.material}
+                    onSubmit={this.props.onSetNonPeriodic}
+                    onHide={() => this.setState({showNonPeriodicDialog: false})}
                 />
 
                 {this.renderImportModal()}

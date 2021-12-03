@@ -117,7 +117,6 @@ class LatticeConfigurationDialog extends React.Component {
         const newMaterial = new Material(newMaterialConfig);
         // assert basis is stored in 'crystal' units
         newMaterial.toCrystal();
-        newMaterial.isNonPeriodic = this.state.isNonPeriodic;
 
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
