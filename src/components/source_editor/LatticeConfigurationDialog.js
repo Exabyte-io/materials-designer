@@ -2,10 +2,10 @@ import $ from 'jquery';
 import React from "react";
 import {Made} from "@exabyte-io/made.js";
 import {ModalHeader} from "react-bootstrap";
+
 import {Material} from "../../material";
 import {deepClone} from "../../utils/index";
 import ToggleSwitch from "../include/ToggleSwitch";
-import {nonPeriodicLatticeAdditiveValue} from "@exabyte-io/made.js/src/lattice/lattice";
 
 /**
  * @summary Crystal Lattice configuration dialog.
@@ -104,22 +104,6 @@ class LatticeConfigurationDialog extends React.Component {
         this.setState({lattice: newLattice});
     }
 
-    handleNonPeriodicLatticeUpdate(newMaterial) {
-        const newBasis = new Made.Basis({
-                elements: newMaterial.basis.elements,
-                coordinates: newMaterial.basis.coordinates,
-            });
-        let maxPairwiseDistance = newBasis.maxPairwiseDistance;
-        const newLattice = new Made.Lattice({
-            a: Made.math.precise(maxPairwiseDistance * Made.nonPeriodicLatticeAdditiveValue),
-            type: 'CUB'
-        });
-        newMaterial.lattice = newLattice;
-        newMaterial.isNonPeriodic = this.state.isNonPeriodic;
-
-        return newMaterial
-    }
-
     handleUpdateLattice() {
         const oldMaterialCopy = this.props.material.clone();
         this.state.preserveBasis ? oldMaterialCopy.toCartesian() : oldMaterialCopy.toCrystal();
@@ -130,13 +114,11 @@ class LatticeConfigurationDialog extends React.Component {
         );
 
         // preserve basis if asked to do so (eg. when constructing a slab)
-        let newMaterial = new Material(newMaterialConfig);
+        const newMaterial = new Material(newMaterialConfig);
         // assert basis is stored in 'crystal' units
         newMaterial.toCrystal();
         newMaterial.isNonPeriodic = this.state.isNonPeriodic;
-        if (this.state.isNonPeriodic) {
-            newMaterial = this.handleNonPeriodicLatticeUpdate(newMaterial)
-        }
+
         this.props.onUpdate(newMaterial);
         this.props.onSubmit();
     }

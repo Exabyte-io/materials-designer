@@ -2,8 +2,6 @@ import {safeMakeArrayIfNot} from "../utils/array";
 
 export const MATERIALS_SAVE = 'MATERIALS_SAVE';
 
-// This function does not call `materials-designer/src/reducers/InputOutput.js`
-// The `saveMaterials` reducer in the web-app is called instead.
 export function saveMaterials(config, dispatch) {
     return {
         type: MATERIALS_SAVE,
