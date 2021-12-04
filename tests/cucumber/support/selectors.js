@@ -34,6 +34,10 @@ export const SELECTORS = {
             submitButton: "#boundary-conditions-submit",
             type: '[data-tid="type"] select',
             offset: '[data-tid="offset"] input',
+        },
+        nonPeriodicDialog: {
+            wrapper: "#NonPeriodicModal",
+            submitButtom: "make-non-periodic"
         }
     },
     itemsList: {

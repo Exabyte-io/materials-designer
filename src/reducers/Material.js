@@ -12,12 +12,13 @@ import {
     MATERIALS_GENERATE_SURFACE_FOR_ONE,
     MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
     MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE,
+    MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE,
 } from "../actions";
 
 function materialsUpdateOne(state, action) {
     const materials = state.materials.slice();  // get copy of array
     const index = action.index || state.index;  // not passing index when modifying currently displayed material
-    const material = action.material.clone();   // clone material to assert props re-render
+    const material = action.material.clone();
     material.isUpdated = true;                  // to be used inside components
     // TODO: consider adjusting the logic to avoid expensive cloning procedure below
     materials[index] = material;
@@ -104,6 +105,28 @@ function materialsSetBoundaryConditionsForOne(state, action) {
     return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
 }
 
+function materialsToggleIsNonPeriodicForOne(state, action) {
+    const newMaterial = state.materials[state.index].clone();
+    newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
+    const lattice = new Made.Lattice(newMaterial.lattice);
+    const basis = new Made.Basis({
+        ...newMaterial.basis,
+        cell: lattice.vectorArrays,
+        units: "crystal"
+    })
+    basis.toCartesian();
+    basis.toJSON();
+    const scalingFactor = 2.0;
+    const newLattice = new Made.Lattice({
+        a: basis.maxPairwiseDistance * scalingFactor,
+        type: "CUB"
+    });
+    newLattice.toJSON();
+    newMaterial.lattice = newLattice;
+
+    return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
+}
+
 export function materialsUpdateIndex(state, action) {
     return Object.assign({}, state, {index: action.index});
 }
@@ -116,4 +139,6 @@ export default {
     [MATERIALS_GENERATE_SUPERCELL_FOR_ONE]: materialsGenerateSupercellForOne,
     [MATERIALS_GENERATE_SURFACE_FOR_ONE]: materialsGenerateSurfaceForOne,
     [MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE]: materialsSetBoundaryConditionsForOne,
+    [MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE]: materialsToggleIsNonPeriodicForOne,
 };
+
