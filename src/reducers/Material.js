@@ -141,4 +141,3 @@ export default {
     [MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE]: materialsSetBoundaryConditionsForOne,
     [MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE]: materialsToggleIsNonPeriodicForOne,
 };
-
