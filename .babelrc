@@ -4,18 +4,10 @@
 
             "@babel/preset-env",
             {
-                "targets": {
-                    "node": "current"
-                }
+                "targets": {}
             }
         ],
         "@babel/preset-react",
-        [
-            "react-app",
-            {
-                "absoluteRuntime": false
-            }
-        ]
     ],
     "plugins": [
         "@babel/plugin-proposal-class-properties"
