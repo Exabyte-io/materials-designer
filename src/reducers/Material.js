@@ -12,6 +12,7 @@ import {
     MATERIALS_GENERATE_SURFACE_FOR_ONE,
     MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
     MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE,
+    MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE,
 } from "../actions";
 
 function materialsUpdateOne(state, action) {
@@ -21,7 +22,6 @@ function materialsUpdateOne(state, action) {
     material.isUpdated = true;                  // to be used inside components
     // TODO: Why is acion.clone not copying all props
     material.isNonPeriodic = action.material.isNonPeriodic;
-    console.log(action.material.isNonPeriodic, material.isNonPeriodic);
     // TODO: consider adjusting the logic to avoid expensive cloning procedure below
     materials[index] = material;
     return Object.assign({}, state, {materials: materials});
@@ -35,6 +35,15 @@ function materialsCloneOne(state, action) {
     material.isUpdated = true;
     materials.push(material);
     return Object.assign({}, state, {materials});
+}
+
+function materialsToggleIsNonPeriodicForOne(state, action) {
+    const newMaterial = state.materials[state.index].clone();
+    newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
+    newMaterial.lattice = Made.tools.material.scaleNonPeriodicLattice(newMaterial);
+    const newBasis = Made.tools.material.getBasisConfigTranslatedToCenter(newMaterial);
+    newMaterial.setBasis(newBasis);
+    return materialsUpdateOne(state, Object.assign({}, state, {material: newMaterial}));
 }
 
 function materialsUpdateNameForOne(state, action) {
@@ -119,4 +128,5 @@ export default {
     [MATERIALS_GENERATE_SUPERCELL_FOR_ONE]: materialsGenerateSupercellForOne,
     [MATERIALS_GENERATE_SURFACE_FOR_ONE]: materialsGenerateSurfaceForOne,
     [MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE]: materialsSetBoundaryConditionsForOne,
+    [MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE]: materialsToggleIsNonPeriodicForOne,
 };
