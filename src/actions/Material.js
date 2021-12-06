@@ -55,10 +55,9 @@ export function updateMaterialsIndex(newIndex) {
 
 export const MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE = 'MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE';
 
-export function setBoundaryConditionsForOneMaterial(config) {
+export function setBoundaryConditionsForOneMaterial() {
     return {
         type: MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE,
-        ...config,
     }
 }
 
