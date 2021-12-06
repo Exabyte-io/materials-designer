@@ -55,13 +55,13 @@ const mapDispatchToProps = (dispatch) => {
         onGenerateSupercell: (matrix) => (dispatch(generateSupercellForOneMaterial(matrix))),
         onGenerateSurface: (config) => (dispatch(generateSurfaceForOneMaterial(config))),
         onSetBoundaryConditions: (config) => (dispatch(setBoundaryConditionsForOneMaterial(config))),
-        onSetNonPeriodic: (config) => (dispatch(materialsToggleIsNonPeriodicForOne(config))),
 
         // Undo-Redo
         onUndo: () => dispatch(ActionCreators.undo()),
         onRedo: () => dispatch(ActionCreators.redo()),
         onReset: () => dispatch(resetState(initialState())),
         onClone: () => dispatch(cloneOneMaterial()),
+        onSetNonPeriodic: () => (dispatch(materialsToggleIsNonPeriodicForOne())),
 
     }
 };

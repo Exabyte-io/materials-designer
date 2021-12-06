@@ -16,6 +16,14 @@ export function cloneOneMaterial() {
     }
 }
 
+export const MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE = 'MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE';
+
+export function materialsToggleIsNonPeriodicForOne() {
+    return {
+        type: MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE,
+    }
+}
+
 export const MATERIALS_UPDATE_NAME_FOR_ONE = 'MATERIALS_UPDATE_NAME_FOR_ONE';
 
 export function updateNameForOneMaterial(newName, index) {
@@ -58,15 +66,6 @@ export const MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE = 'MATERIALS_SET_BOUNDARY
 export function setBoundaryConditionsForOneMaterial(config) {
     return {
         type: MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE,
-        ...config,
-    }
-}
-
-export const MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE = 'MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE';
-
-export function materialsToggleIsNonPeriodicForOne(config) {
-    return {
-        type: MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE,
         ...config,
     }
 }

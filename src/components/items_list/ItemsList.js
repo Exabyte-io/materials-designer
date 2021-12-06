@@ -87,11 +87,13 @@ class ItemsList extends React.Component {
                 {"active": this.props.index === index},
                 {"updated": entity.isUpdated || isBeingEdited}
             )}>
+
                 <ShowIf condition={Boolean(entity.id)}>
                     <ListItemIcon className="superscript-icon">
                         <CheckIcon/>
                     </ListItemIcon>
                 </ShowIf>
+
                 <ListItemIcon onClick={selectHandler}>
                     {entity.isNonPeriodic ? <DeviceHubIcon/> : <WidgetsIcon/>}
                 </ListItemIcon>
