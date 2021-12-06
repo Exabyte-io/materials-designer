@@ -38,24 +38,7 @@ function materialsCloneOne(state, action) {
 function materialsToggleIsNonPeriodicForOne(state, action) {
     const newMaterial = state.materials[state.index].clone();
     newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
-
-    // new lattice code
-    const lattice = new Made.Lattice(newMaterial.lattice);
-    const basis = new Made.Basis({
-        ...newMaterial.basis,
-        cell: lattice.vectorArrays,
-        units: "crystal"
-    })
-    basis.toCartesian();
-    basis.toJSON();
-    //TODO: Change to match the new scaling factor variable from SOF-5214
-    const scalingFactor = 2.0;
-    const newLattice = new Made.Lattice({
-        a: basis.maxPairwiseDistance * scalingFactor,
-        type: "CUB"
-    });
-    newLattice.toJSON();
-    newMaterial.lattice = newLattice;
+    newMaterial.lattice = Made.tools.material.scaleNonPeriodicLattice(newMaterial);
     return materialsUpdateOne(state, Object.assign({}, state, {material: newMaterial}));
 }
 
