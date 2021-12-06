@@ -24,7 +24,6 @@ class LatticeConfigurationDialog extends React.Component {
             lattice: this.props.material.lattice,
             // used to preserve Basis in Angstroms
             preserveBasis: false,
-            isNonPeriodic: false,
         };
 
         this.handleUpdateLattice = this.handleUpdateLattice.bind(this);
@@ -68,7 +67,7 @@ class LatticeConfigurationDialog extends React.Component {
      * @returns {Boolean}
      */
     isDisabled(param) {
-        if (this.state.isNonPeriodic) {
+        if (this.props.material.isNonPeriodic) {
             return true;
         }
         // TODO: implement converter from primitive to conventional cells and re-enable editables

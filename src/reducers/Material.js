@@ -35,6 +35,12 @@ function materialsCloneOne(state, action) {
     return Object.assign({}, state, {materials});
 }
 
+function materialsToggleIsNonPeriodicForOne(state, action) {
+    const newMaterial = state.materials[state.index].clone();
+    newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
+    return materialsUpdateOne(state, Object.assign({}, state, {material: newMaterial}));
+}
+
 function materialsUpdateNameForOne(state, action) {
     const materials = state.materials.slice();  // get copy of array
     // not passing index when modifying currently displayed material
@@ -102,12 +108,6 @@ function materialsSetBoundaryConditionsForOne(state, action) {
             offset: action.boundaryOffset,
         }
     });
-    return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
-}
-
-function materialsToggleIsNonPeriodicForOne(state, action) {
-    const newMaterial = state.materials[state.index].clone();
-    newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
     return materialsUpdateOne(state, Object.assign(action, {material: newMaterial}));
 }
 
