@@ -17,7 +17,6 @@ import {
     updateOneMaterial, updateNameForOneMaterial, cloneOneMaterial, updateMaterialsIndex,
     addMaterials, removeMaterials, exportMaterials, saveMaterials, generateSupercellForOneMaterial,
     generateSurfaceForOneMaterial, resetState, MATERIALS_SAVE, setBoundaryConditionsForOneMaterial,
-    materialsToggleIsNonPeriodicForOne
 } from "./actions";
 
 const initialState = () => {
@@ -61,7 +60,6 @@ const mapDispatchToProps = (dispatch) => {
         onRedo: () => dispatch(ActionCreators.redo()),
         onReset: () => dispatch(resetState(initialState())),
         onClone: () => dispatch(cloneOneMaterial()),
-        onSetNonPeriodic: () => (dispatch(materialsToggleIsNonPeriodicForOne())),
 
     }
 };

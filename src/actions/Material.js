@@ -24,16 +24,6 @@ export function materialsToggleIsNonPeriodicForOne() {
     }
 }
 
-export const MATERIALS_UPDATE_NAME_FOR_ONE = 'MATERIALS_UPDATE_NAME_FOR_ONE';
-
-export function updateNameForOneMaterial(newName, index) {
-    return {
-        type: MATERIALS_UPDATE_NAME_FOR_ONE,
-        name: newName,
-        index,
-    }
-}
-
 export const MATERIALS_GENERATE_SUPERCELL_FOR_ONE = 'MATERIALS_GENERATE_SUPERCELL_FOR_ONE';
 
 export function generateSupercellForOneMaterial(matrix) {

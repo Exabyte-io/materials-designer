@@ -61,15 +61,7 @@ class LatticeConfigurationDialog extends React.Component {
         return result;
     }
 
-    /**
-     * Takes in a boolean parameter and uses that to set the value of isDisabled
-     * @param param
-     * @returns {Boolean}
-     */
     isDisabled(param) {
-        if (this.props.material.isNonPeriodic) {
-            return true;
-        }
         // TODO: implement converter from primitive to conventional cells and re-enable editables
         // const lattice = new Made.Lattice(this.state.lattice);
         return false // !lattice.editables[param];
@@ -132,7 +124,6 @@ class LatticeConfigurationDialog extends React.Component {
                                 <label>Lattice units</label>
                                 <div className="fg-line">
                                     <select label="Lattice Units" name="units" className="form-control fc-alt"
-                                        disabled={this.isDisabled('')}
                                         value={this.state.lattice.units.length}
                                         onChange={this.handleLatticeUnitSelected}>
                                         {this.getLatticeUnitOptions()}
@@ -145,7 +136,6 @@ class LatticeConfigurationDialog extends React.Component {
                                 <label>Lattice type</label>
                                 <div className="fg-line">
                                     <select label="Lattice type" name="type" className="form-control fc-alt"
-                                        disabled={this.isDisabled('')}
                                         value={this.state.lattice.type}
                                         onChange={this.handleLatticeTypeSelected}>
                                         {this.getLatticeTypeOptions()}
@@ -245,7 +235,6 @@ class LatticeConfigurationDialog extends React.Component {
                     id="access-level"
                 />
                 <button className="btn btn-custom pull-right save-lattice-config" data-dismiss="modal"
-                    disabled={this.isDisabled('')}
                     onClick={this.handleUpdateLattice}>
                     {this.props.submitButtonTxt || "Apply Edits"}
                 </button>
