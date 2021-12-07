@@ -38,7 +38,7 @@ function materialsCloneOne(state, action) {
 function materialsToggleIsNonPeriodicForOne(state, action) {
     const newMaterial = state.materials[state.index].clone();
     newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
-    newMaterial.lattice = Made.tools.material.scaleNonPeriodicLattice(newMaterial);
+    newMaterial.lattice = Made.tools.material.scaleLatticeToMakeNonPeriodic(newMaterial);
     return materialsUpdateOne(state, Object.assign({}, state, {material: newMaterial}));
 }
 
