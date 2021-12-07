@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch) => {
         onRedo: () => dispatch(ActionCreators.redo()),
         onReset: () => dispatch(resetState(initialState())),
         onClone: () => dispatch(cloneOneMaterial()),
-        onSetNonPeriodic: () => (dispatch(materialsToggleIsNonPeriodicForOne())),
+        onToggleIsNonPeriodic: () => (dispatch(materialsToggleIsNonPeriodicForOne())),
 
     }
 };

@@ -112,7 +112,7 @@ class HeaderMenuToolbar extends React.Component {
                 <Divider/>
                 <MenuItem onClick={this._handleConventionalCellSelect}><ListItemIcon><ConventionalCellIcon/></ListItemIcon>Use Conventional Cell</MenuItem>
                 <MenuItem
-                    onClick={this.props.onSetNonPeriodic}>
+                    onClick={this.props.onToggleIsNonPeriodic}>
                     <ListItemIcon><DeviceHubIcon/></ListItemIcon>
                     Make (Non)-Periodic
                 </MenuItem>
@@ -355,7 +355,7 @@ HeaderMenuToolbar.propTypes = {
     onRedo: React.PropTypes.func,
     onReset: React.PropTypes.func,
     onClone: React.PropTypes.func,
-    onSetNonPeriodic: React.PropTypes.func,
+    onToggleIsNonPeriodic: React.PropTypes.func,
 
     onAdd: React.PropTypes.func,
     onExport: React.PropTypes.func,

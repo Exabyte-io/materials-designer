@@ -57,6 +57,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 onRedo={this.props.onRedo}
                                 onReset={this.props.onReset}
                                 onClone={this.props.onClone}
+                                onToggleIsNonPeriodic={this.props.onToggleIsNonPeriodic}
 
                                 onUpdate={this.props.onUpdate}
 
@@ -71,7 +72,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 onGenerateSupercell={this.props.onGenerateSupercell}
                                 onGenerateSurface={this.props.onGenerateSurface}
                                 onSetBoundaryConditions={this.props.onSetBoundaryConditions}
-                                onSetNonPeriodic={this.props.onSetNonPeriodic}
 
                                 maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
                             />
@@ -142,7 +142,7 @@ MaterialsDesigner.propTypes = {
     onGenerateSupercell: React.PropTypes.func,
     onGenerateSurface: React.PropTypes.func,
     onSetBoundaryConditions: React.PropTypes.func,
-    onSetNonPeriodic: React.PropTypes.func,
+    onToggleIsNonPeriodic: React.PropTypes.func,
 
     // Undo-Redo
     onUndo: React.PropTypes.func,
