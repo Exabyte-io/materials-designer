@@ -6,6 +6,7 @@ import Divider from 'material-ui-next/Divider';
 import {MenuItem} from 'material-ui-next/Menu';
 import {ListItemIcon} from 'material-ui-next/List';
 import IconButton from 'material-ui-next/IconButton';
+import DeviceHubIcon from 'material-ui-icons-next/DeviceHub';
 import {ThreejsEditorModal} from "@exabyte-io/wave.js";
 
 import {
@@ -110,6 +111,11 @@ class HeaderMenuToolbar extends React.Component {
                 <MenuItem onClick={this.props.onClone}><ListItemIcon><CloneIcon/></ListItemIcon>Clone</MenuItem>
                 <Divider/>
                 <MenuItem onClick={this._handleConventionalCellSelect}><ListItemIcon><ConventionalCellIcon/></ListItemIcon>Use Conventional Cell</MenuItem>
+                <MenuItem
+                    onClick={this.props.onToggleIsNonPeriodic}>
+                    <ListItemIcon><DeviceHubIcon/></ListItemIcon>
+                    Toggle "isNonPeriodic"
+                </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
     }
@@ -349,6 +355,7 @@ HeaderMenuToolbar.propTypes = {
     onRedo: React.PropTypes.func,
     onReset: React.PropTypes.func,
     onClone: React.PropTypes.func,
+    onToggleIsNonPeriodic: React.PropTypes.func,
 
     onAdd: React.PropTypes.func,
     onExport: React.PropTypes.func,

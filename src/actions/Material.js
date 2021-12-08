@@ -16,6 +16,14 @@ export function cloneOneMaterial() {
     }
 }
 
+export const MATERIALS_TOGGLE_IS_NON_PERIODIC_FOR_ONE = 'MATERIALS_TOGGLE_IS_NON_PERIODIC_FOR_ONE';
+
+export function materialsToggleIsNonPeriodicForOne() {
+    return {
+        type: MATERIALS_TOGGLE_IS_NON_PERIODIC_FOR_ONE,
+    }
+}
+
 export const MATERIALS_UPDATE_NAME_FOR_ONE = 'MATERIALS_UPDATE_NAME_FOR_ONE';
 
 export function updateNameForOneMaterial(newName, index) {
