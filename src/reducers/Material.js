@@ -12,6 +12,7 @@ import {
     MATERIALS_GENERATE_SURFACE_FOR_ONE,
     MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
     MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE,
+    MATERIALS_TOGGLE_IS_NON_PERIODIC_FOR_ONE,
 } from "../actions";
 
 function materialsUpdateOne(state, action) {
@@ -32,6 +33,12 @@ function materialsCloneOne(state, action) {
     material.isUpdated = true;
     materials.push(material);
     return Object.assign({}, state, {materials});
+}
+
+function materialsToggleIsNonPeriodicForOne(state, action) {
+    const newMaterial = state.materials[state.index].clone();
+    newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
+    return materialsUpdateOne(state, Object.assign({}, state, {material: newMaterial}));
 }
 
 function materialsUpdateNameForOne(state, action) {
@@ -116,4 +123,5 @@ export default {
     [MATERIALS_GENERATE_SUPERCELL_FOR_ONE]: materialsGenerateSupercellForOne,
     [MATERIALS_GENERATE_SURFACE_FOR_ONE]: materialsGenerateSurfaceForOne,
     [MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE]: materialsSetBoundaryConditionsForOne,
+    [MATERIALS_TOGGLE_IS_NON_PERIODIC_FOR_ONE]: materialsToggleIsNonPeriodicForOne,
 };
