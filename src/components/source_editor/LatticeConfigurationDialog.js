@@ -61,11 +61,6 @@ class LatticeConfigurationDialog extends React.Component {
         return result;
     }
 
-    /**
-     * Takes in a boolean parameter and uses that to set the value of isDisabled
-     * @param param
-     * @returns {Boolean}
-     */
     isDisabled(param) {
         // TODO: implement converter from primitive to conventional cells and re-enable editables
         // const lattice = new Made.Lattice(this.state.lattice);

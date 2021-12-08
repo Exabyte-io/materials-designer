@@ -12,7 +12,7 @@ import {
     MATERIALS_GENERATE_SURFACE_FOR_ONE,
     MATERIALS_GENERATE_SUPERCELL_FOR_ONE,
     MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE,
-    MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE,
+    MATERIALS_TOGGLE_IS_NON_PERIODIC_FOR_ONE,
 } from "../actions";
 
 function materialsUpdateOne(state, action) {
@@ -124,5 +124,5 @@ export default {
     [MATERIALS_GENERATE_SUPERCELL_FOR_ONE]: materialsGenerateSupercellForOne,
     [MATERIALS_GENERATE_SURFACE_FOR_ONE]: materialsGenerateSurfaceForOne,
     [MATERIALS_SET_BOUNDARY_CONDITIONS_FOR_ONE]: materialsSetBoundaryConditionsForOne,
-    [MATERIALS_SET_IS_NON_PERIODIC_FOR_ONE]: materialsToggleIsNonPeriodicForOne,
+    [MATERIALS_TOGGLE_IS_NON_PERIODIC_FOR_ONE]: materialsToggleIsNonPeriodicForOne,
 };
