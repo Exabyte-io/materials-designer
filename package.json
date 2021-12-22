@@ -29,7 +29,7 @@
         "@babel/preset-react": "7.0.0",
         "@babel/runtime": "^7.5.0",
         "@babel/runtime-corejs2": "^7.5.0",
-        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made-js#c52f517750e2a183982feaf81ec95d8188979b20",
+        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made-js#b19c71aa0b3109cc42d4d2c25cd1f9da86b99b4a",
         "@exabyte-io/wave.js": "3.1.5",
         "bootstrap": "^3.3.7",
         "classnames": "^2.2.5",
