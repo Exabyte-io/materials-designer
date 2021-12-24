@@ -1,6 +1,10 @@
 {
     "name": "@exabyte-io/materials-designer",
+<<<<<<< HEAD
     "version": "2021.12.22-0",
+=======
+    "version": "3.2.6",
+>>>>>>> SOF-4376-update-packages
     "description": "Materials Designer",
     "scripts": {
         "start": "PORT=3001 react-scripts start",
@@ -21,11 +25,11 @@
     "license": "Apache-2.0",
     "homepage": "https://github.com/Exabyte-io/materials-designer",
     "dependencies": {
-        "@babel/cli": "7.0.0",
-        "@babel/core": "^7.1.0",
-        "@babel/plugin-proposal-class-properties": "7.0.0",
+        "@babel/cli": "7.1.0",
+        "@babel/core": "7.1.0",
+        "@babel/plugin-proposal-class-properties": "7.1.0",
         "@babel/polyfill": "7.0.0",
-        "@babel/preset-env": "^7.1.0",
+        "@babel/preset-env": "7.1.0",
         "@babel/preset-react": "7.0.0",
         "@babel/runtime": "^7.5.0",
         "@babel/runtime-corejs2": "^7.5.0",
@@ -48,7 +52,6 @@
         "react-jss": "^8.6.1",
         "react-redux": "^4.4.8",
         "react-s-alert": "^1.4.1",
-        "react-scripts": "2.1.5",
         "redux": "^3.6.0",
         "redux-batched-subscribe": "^0.1.6",
         "redux-logger": "^3.0.6",
