@@ -4,6 +4,8 @@
 #                       FUNCTIONS                            #
 # ---------------------------------------------------------- #
 
+NODE_VERSION="8.4.1"
+
 #
 # Print usage
 #
@@ -75,7 +77,8 @@ export ROOT_URL="${HOST}:${PORT}"
 
 cd ${TESTS_DIR}
 source ~/.nvm/nvm.sh
-npm install
+nvm use ${NODE_VERSION}
+npm ci
 
 # chimp installs the latest version of chromeDriver which does not work, hence the below.
 cd node_modules/chimp
