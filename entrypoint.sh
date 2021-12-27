@@ -7,8 +7,8 @@ if [[ "$1" == "test" ]]; then
     ./tests/node_modules/.bin/chimp \
         --serverHost="${HOST}" \
         --serverPort="${PORT}" \
-        --path=./cucumber/features/ \
-        -r=./cucumber/support \
+        --path=./tests/cucumber/features/ \
+        -r=./tests/cucumber/support \
         --singleSnippetPerFile=1 \
         --screenshotsOnError=true \
         --captureAllStepScreenshots=false \
