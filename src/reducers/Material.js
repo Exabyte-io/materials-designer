@@ -36,8 +36,12 @@ function materialsCloneOne(state, action) {
 }
 
 function materialsToggleIsNonPeriodicForOne(state, action) {
-    NPMsAlert.warning("Start from a cloned material before converting to 'Non-Periodic'");
     const newMaterial = state.materials[state.index].clone({hash: "", scaledHash: ""});
+    // clone check
+    if (newMaterial.id) {
+        NPMsAlert.warning("Prevented Toggle 'isNonPeriodic' action. Please start from a cloned material");
+        return state;
+    }
     newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
     Made.tools.material.scaleLatticeToMakeNonPeriodic(newMaterial);
     Made.tools.material.getBasisConfigTranslatedToCenter(newMaterial);
