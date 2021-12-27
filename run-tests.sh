@@ -26,6 +26,7 @@ check_args () {
     FEATURES="/"
     OPTIONS=""
     BROWSER="chrome"
+    CHROME_VERSION="96.0.4664.45"
     for i in "$@"
     do
         case $i in
@@ -47,6 +48,10 @@ check_args () {
             ;;
             -b=*|--browser=*)
                 BROWSER="${i#*=}"
+                shift
+            ;;
+            -v=*|--version=*)
+                CHROME_VERSION="${i#*=}"
                 shift
             ;;
             *)
@@ -80,15 +85,24 @@ source ~/.nvm/nvm.sh
 nvm use ${NODE_VERSION}
 npm ci
 
-# chimp installs the latest version of chromeDriver which does not work, hence the below.
+# The Node Chromedriver package version 80.0.1 appears to be the last
+# version that doesn't throw an error with our version of node.
 cd node_modules/chimp
-npm install chromedriver@2.35
+if [[ ${CHROME_VERSION} == "" ]]; then
+    CHROMEDRIVER_INSTALL_OPTIONS="--detect_chromedriver_version"
+    SELENIUM_OPTIONS=""
+else
+    CHROMEDRIVER_INSTALL_OPTIONS="--chromedriver_version=${CHROME_VERSION}"
+    SELENIUM_OPTIONS="--seleniumStandaloneOptions.drivers.chrome.version=${CHROME_VERSION}"
+fi
+echo $CHROMEDRIVER_INSTALL_OPTIONS
+npm install --no-save chromedriver@80.0.1 ${CHROMEDRIVER_INSTALL_OPTIONS}
 cd -
 
 rm -rf ${SCREENSHOTS_DIR}
 
 # Hotfix: change node debug option in cucumber
-sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
+# sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
 
 ${TESTS_DIR}/node_modules/.bin/chimp \
     --serverHost="${HOST}" \
@@ -97,8 +111,8 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --singleSnippetPerFile=1 \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
     --screenshotsPath=${SCREENSHOTS_DIR} \
-    --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
     --browser=${BROWSER} \
     --webdriverio.deprecationWarnings=false \
     --webdriverio.logLevel="silent" \
+    ${SELENIUM_OPTIONS} \
     ${OPTIONS}
