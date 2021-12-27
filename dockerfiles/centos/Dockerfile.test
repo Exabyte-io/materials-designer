@@ -1,0 +1,32 @@
+FROM matdes:centos
+
+# npm install in tests requires git??
+RUN yum install -y git
+
+ENV NODE_VERSION 8.11.4
+RUN source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm use $NODE_VERSION
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# Workdir /opt/app set in parent container
+# and where application is installed
+    # The Node Chromedriver package version 80.0.1 appears to be the last
+    # version that doesn't throw an error with our version of node.
+ENV HOST=127.0.0.1
+ENV PORT=3001
+ENV CHROME_VERSION=96.0.4664.45
+
+# Re-copy in case matdes:centos was built prior to file changes
+COPY . .
+
+RUN cd ./tests && \
+    rm package-lock.json && \
+    source scl_source enable devtoolset-8 && \
+    npm install && \
+    cd node_modules/chimp && \
+    npm install --no-save chromedriver@80.0.1 \
+    --chromedriver_version=${CHROME_VERSION}
+
+CMD ["test"]
