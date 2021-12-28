@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v2
+        with:
+            lfs: true
 
       - name: Build application container
         shell: bash -l {0}
@@ -28,7 +30,7 @@ jobs:
         shell: bash -l {0}
         run: |
           docker run -p 3001:3001 -d materials-designer:centos
-          sleep 30
+          sleep 60
           docker run --network=host materials-designer:test
 
 
@@ -40,6 +42,8 @@ jobs:
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v2
+        with:
+          lfs: true
 
       - name: Build application container
         shell: bash -l {0}
