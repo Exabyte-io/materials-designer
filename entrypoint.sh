@@ -3,9 +3,13 @@
 source $NVM_DIR/nvm.sh
 nvm use ${NODE_VERSION}
 
+export DEBUG_LEVEL=3
+export DEBUG="exachimp:*"
+export ROOT_URL="http://127.0.0.1:3001"
+
 if [[ "$1" == "test" ]]; then
-    xvfb-run -s "-ac -screen 0 1024x768x24" ./tests/node_modules/.bin/chimp \
-        --serverHost="127.0.0.1" \
+    xvfb-run -s "-ac -screen 0 1920x1080x24" ./tests/node_modules/.bin/chimp \
+        --serverHost="http://127.0.0.1" \
         --serverPort="3001" \
         --path=./tests/cucumber/features/ \
         -r=./tests/cucumber/support \
@@ -15,7 +19,10 @@ if [[ "$1" == "test" ]]; then
         --browser=chrome \
         --webdriverio.deprecationWarnings=false \
         --webdriverio.logLevel="silent" \
-        --seleniumStandaloneOptions.drivers.chrome.version=2.35
+        --webdriverio.desiredCapabilities.chromeOptions.args="headless" \
+        --webdriverio.desiredCapabilities.chromeOptions.args="disable-gpu" \
+        --webdriverio.desiredCapabilities.chromeOptions.args="no-sandbox" \
+        --webdriverio.desiredCapabilities.chromeOptions.args="window-size=1920,1080"
 else
     npm start
 fi
