@@ -28,7 +28,6 @@ RUN git init
 COPY . .
 RUN git config --global url."https://github.com".insteadOf git@github.com:
 RUN git config --global url."https://".insteadOf git://
-
 RUN cd tests \
     && source scl_source enable devtoolset-8 \
     && npm install
@@ -39,6 +38,9 @@ RUN cd tests \
 RUN sed -i "s/if(compareVersions(version,/if(compareVersions(String(version),/" \
     tests/node_modules/selenium-standalone/lib/compute-download-urls.js
 
-# Entrypoint was previously defined so just pass along a flag
+# Entrypoint was previously defined in /opt/app so overwrite
+# it for easiest test container development and just pass along a flag
 # to kick off the tests instead of running the application
+ENV BASE_DIR=/opt/test
+COPY entrypoint.sh /opt/app
 CMD ["test"]
