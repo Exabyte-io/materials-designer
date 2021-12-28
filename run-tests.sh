@@ -76,14 +76,9 @@ SCREENSHOTS_DIR="${CUCUMBER_DIR}/screenshots"
 export ROOT_URL="${HOST}:${PORT}"
 
 cd ${TESTS_DIR}
-source ~/.nvm/nvm.sh
+source ${NVM_DIR}/nvm.sh
 nvm use ${NODE_VERSION}
 npm ci
-
-# chimp installs the latest version of chromeDriver which does not work, hence the below.
-cd node_modules/chimp
-npm install chromedriver@2.35
-cd -
 
 rm -rf ${SCREENSHOTS_DIR}
 
