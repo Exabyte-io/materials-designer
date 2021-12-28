@@ -26,7 +26,6 @@ check_args () {
     FEATURES="/"
     OPTIONS=""
     BROWSER="chrome"
-    CHROME_VERSION="96.0.4664.45"
     for i in "$@"
     do
         case $i in
@@ -48,10 +47,6 @@ check_args () {
             ;;
             -b=*|--browser=*)
                 BROWSER="${i#*=}"
-                shift
-            ;;
-            -v=*|--version=*)
-                CHROME_VERSION="${i#*=}"
                 shift
             ;;
             *)
@@ -100,5 +95,4 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --browser=${BROWSER} \
     --webdriverio.deprecationWarnings=false \
     --webdriverio.logLevel="silent" \
-    ${SELENIUM_OPTIONS} \
     ${OPTIONS}
