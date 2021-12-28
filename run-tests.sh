@@ -26,6 +26,7 @@ check_args () {
     FEATURES="/"
     OPTIONS=""
     BROWSER="chrome"
+    CHROME_VERSION="96.0.4664.45"
     for i in "$@"
     do
         case $i in
@@ -47,6 +48,10 @@ check_args () {
             ;;
             -b=*|--browser=*)
                 BROWSER="${i#*=}"
+                shift
+            ;;
+            -v=*|--version=*)
+                CHROME_VERSION="${i#*=}"
                 shift
             ;;
             *)
@@ -83,7 +88,7 @@ npm ci
 rm -rf ${SCREENSHOTS_DIR}
 
 # Hotfix: change node debug option in cucumber
-sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
+# sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
 
 ${TESTS_DIR}/node_modules/.bin/chimp \
     --serverHost="${HOST}" \
@@ -92,8 +97,8 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --singleSnippetPerFile=1 \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
     --screenshotsPath=${SCREENSHOTS_DIR} \
-    --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
     --browser=${BROWSER} \
     --webdriverio.deprecationWarnings=false \
     --webdriverio.logLevel="silent" \
+    ${SELENIUM_OPTIONS} \
     ${OPTIONS}
