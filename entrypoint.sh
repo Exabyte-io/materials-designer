@@ -12,6 +12,7 @@ export DEBUG="exachimp:*"
 export ROOT_URL="http://127.0.0.1:3001"
 
 if [[ "$1" == "test" ]]; then
+    # xvfb-run -s "-ac -screen 0 1920x1080x24" \
     ${BASE_DIR}/tests/node_modules/.bin/chimp \
         --serverHost="http://127.0.0.1" \
         --serverPort="3001" \
