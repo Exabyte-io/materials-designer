@@ -1,4 +1,4 @@
-FROM materials-designer:centos
+FROM materials-designer:application
 
 # Assumes same dependencies as base materials-designer container
 RUN yum install -y \
