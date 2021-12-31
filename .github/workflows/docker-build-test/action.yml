@@ -1,0 +1,19 @@
+name: Build docker containers and run tests
+
+runs:
+  using: composite
+  steps:
+    - name: Build application container
+      shell: bash -l {0}
+      run: docker build -t materials-designer:application -f dockerfiles/centos/Dockerfile .
+
+    - name: Build test container
+      shell: bash -l {0}
+      run: docker build -t materials-designer:test -f dockerfiles/test/Dockerfile .
+
+    - name: Run tests
+      shell: bash -l {0}
+      run: |
+        docker run -p 3001:3001 -d materials-designer:application
+        sleep 60
+        docker run --network=host materials-designer:test
