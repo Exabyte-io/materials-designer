@@ -28,6 +28,9 @@ RUN git init
 COPY . .
 RUN git config --global url."https://github.com".insteadOf git@github.com:
 RUN git config --global url."https://".insteadOf git://
+# Enabling devtoolset puts compilers like g++
+# in the PATH so that node-gyp can build native
+# compiled node modules as part of the install
 RUN cd tests \
     && source scl_source enable devtoolset-8 \
     && npm install
