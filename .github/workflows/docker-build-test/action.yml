@@ -14,14 +14,12 @@ runs:
     - name: Run tests
       shell: bash -l {0}
       run: |
-        docker run -p 3001:3001 -d materials-designer:application
+        docker run -p 3001:3001 -d --name=application materials-designer:application
         while ! docker logs application 2>&1 | grep "Compiled"; do
             failed=$(docker logs application 2>&1 | grep "Failed")
             if [[ "$failed" != "" ]]; then
-                echo "container failed to start"
                 exit 1
             fi
-            echo "not started yet"
             sleep 5
         done
         docker run --network=host materials-designer:test
