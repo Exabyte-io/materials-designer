@@ -83,6 +83,8 @@ npm ci
 rm -rf ${SCREENSHOTS_DIR}
 
 # Hotfix: change node debug option in cucumber
+# This is actually useful for debugging the application in WebStorm
+# https://www.jetbrains.com/help/webstorm/running-and-debugging-node-js.html#node_debugging_overview
 # sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
 
 ${TESTS_DIR}/node_modules/.bin/chimp \
