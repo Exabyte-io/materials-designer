@@ -16,6 +16,7 @@ export ROOT_URL="http://127.0.0.1:3001"
 # xvfb-run -s "-ac -screen 0 1920x1080x24"
 
 if [[ "$1" == "test" ]]; then
+    # If "test" is passed as a parameter - running tests/chimp
     ${BASE_DIR}/tests/node_modules/.bin/chimp \
         --serverHost="http://127.0.0.1" \
         --serverPort="3001" \
@@ -32,5 +33,6 @@ if [[ "$1" == "test" ]]; then
         --webdriverio.desiredCapabilities.chromeOptions.args="no-sandbox" \
         --webdriverio.desiredCapabilities.chromeOptions.args="window-size=1920,1080"
 else
+    # If "test" is not passed as a parameter - running the application itself
     npm start
 fi
