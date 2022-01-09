@@ -76,19 +76,16 @@ SCREENSHOTS_DIR="${CUCUMBER_DIR}/screenshots"
 export ROOT_URL="${HOST}:${PORT}"
 
 cd ${TESTS_DIR}
-source ~/.nvm/nvm.sh
+source ${NVM_DIR}/nvm.sh
 nvm use ${NODE_VERSION}
 npm ci
-
-# chimp installs the latest version of chromeDriver which does not work, hence the below.
-cd node_modules/chimp
-npm install chromedriver@2.35
-cd -
 
 rm -rf ${SCREENSHOTS_DIR}
 
 # Hotfix: change node debug option in cucumber
-sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
+# This is actually useful for debugging the application in WebStorm
+# https://www.jetbrains.com/help/webstorm/running-and-debugging-node-js.html#node_debugging_overview
+# sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
 
 ${TESTS_DIR}/node_modules/.bin/chimp \
     --serverHost="${HOST}" \
@@ -97,7 +94,6 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --singleSnippetPerFile=1 \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
     --screenshotsPath=${SCREENSHOTS_DIR} \
-    --seleniumStandaloneOptions.drivers.chrome.version=2.35 \
     --browser=${BROWSER} \
     --webdriverio.deprecationWarnings=false \
     --webdriverio.logLevel="silent" \

@@ -95,3 +95,19 @@ This package depends on [Made.js](https://github.com/Exabyte-io/made.js) and [Wa
 ## Links
 
 1. [Create React App, GitHub Repository](https://github.com/facebook/create-react-app)
+
+
+## CI Docker files
+
+There are two docker files used for testing in CI. In principle, we could use
+more targeted base images for the use case (e.g. `node` or `selenium` images),
+but we want to verify correct behavior
+on a specific CentOS version. The first `dockerfiles/centos/Dockerfile` builds and
+runs the application. The second `dockerfiles/test/Dockerfile` provisions and runs
+the tests. The `test` image uses the `centos` image as a base and is related by the
+`entrypoint.sh` script. It is targeted for CI so if you are editing
+the `entrypoint.sh` you may need to re-build both containers for your changes to
+work. It can also be useful to comment out the `ENTRYPOINT` in the `centos` dockerfile
+as well as the `CMD` in the `test` dockerfile in order to easily run and debug both
+containers. There is also a `docker-commands.sh` script which collects the
+commands used in the CI workflow.
