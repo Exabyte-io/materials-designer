@@ -39,7 +39,7 @@ As below:
 
 ## Installation
 
-Tested with `Node` v8.11.4. The corresponding version(s) of npm should be fine, tested with v6.4.1. We recommend using `nvm` for version management.
+Run with `Node` v12.21.0, tested with `Node` v8.11.4. The corresponding version(s) of npm should be fine, tested with v6.4.1. We recommend using `nvm` for version management.
 
 Materials Designer can be installed from source as follow:
 
@@ -47,31 +47,32 @@ Materials Designer can be installed from source as follow:
 git clone git@github.com:Exabyte-io/materials-designer.git
 cd materials-designer
 
-npm install --no-save
-
-# Fix materials-designer runtime-corejs symlink
-cd node_modules/@babel/runtime
-ln -sf ../runtime-corejs2/core-js .
-cd -
+sh run-application.sh
 ```
+Open http://localhost:3001 to view the application in the browser.
 
 ## Development
 
-Execute the following command to run the application in development mode.
+Execute the following commands when running the application in development mode.
 
 ```bash
+npm install
 npm start
 ```
-
-Open http://localhost:3001 to view the application in the browser.
 
 ## Tests
 
 Start the application and then run one of the below commands to run the tests.
 
+To run all tests:
+
 ```bash
-sh run-tests.sh                                                 # to run all the tests
-sh run-tests.sh -f=menu/advanced/create-supercell.feature       # to run an specific test
+sh run-tests.sh
+```
+
+To run a specific test feature, pass it's relative path as option: 
+```bash
+sh run-tests.sh -f=menu/advanced/create-supercell.feature       # to run a specific test
 ```
 
 ### TODO list
@@ -94,3 +95,19 @@ This package depends on [Made.js](https://github.com/Exabyte-io/made.js) and [Wa
 ## Links
 
 1. [Create React App, GitHub Repository](https://github.com/facebook/create-react-app)
+
+
+## CI Docker files
+
+There are two docker files used for testing in CI. In principle, we could use
+more targeted base images for the use case (e.g. `node` or `selenium` images),
+but we want to verify correct behavior
+on a specific CentOS version. The first `dockerfiles/centos/Dockerfile` builds and
+runs the application. The second `dockerfiles/test/Dockerfile` provisions and runs
+the tests. The `test` image uses the `centos` image as a base and is related by the
+`entrypoint.sh` script. It is targeted for CI so if you are editing
+the `entrypoint.sh` you may need to re-build both containers for your changes to
+work. It can also be useful to comment out the `ENTRYPOINT` in the `centos` dockerfile
+as well as the `CMD` in the `test` dockerfile in order to easily run and debug both
+containers. There is also a `docker-commands.sh` script which collects the
+commands used in the CI workflow.
