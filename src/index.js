@@ -16,6 +16,7 @@ import { MaterialsDesignerContainer } from "./MaterialsDesignerContainer";
  */
 setTimeout(() => {
     // Store component reference in window to access it in console for debugging/tests purposes
+    // eslint-disable-next-line react/no-render-return-value
     window.MDContainer = ReactDOM.render(
         <MaterialsDesignerContainer />,
         document.getElementById("root"),
