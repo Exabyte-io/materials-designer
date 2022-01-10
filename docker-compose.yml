@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  materials-designer:
+    image: materials-designer:${IMAGE_TAG}
+    build:
+      context: .
+      dockerfile: ./dockerfiles/centos/Dockerfile
+    ports:
+      - ${PORT}:${PORT}
+
+  materials-designer-test:
+    image: materials-designer-test:${IMAGE_TAG}
+    build:
+      args:
+        BASE_TAG: ${IMAGE_TAG}
+      context: .
+      dockerfile: ./dockerfiles/test/Dockerfile
+    depends_on:
+      - materials-designer
+    network_mode: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT}"]
+      interval: 5s
+      timeout: 2s
+      retries: 20

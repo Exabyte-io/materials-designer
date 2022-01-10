@@ -1,4 +1,5 @@
-FROM materials-designer:application
+ARG BASE_TAG=latest
+FROM materials-designer:${BASE_TAG}
 
 # Assumes same dependencies as base materials-designer container
 RUN yum install -y \
