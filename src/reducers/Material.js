@@ -24,6 +24,7 @@ function materialsUpdateOne(state, action) {
     return { ...state, materials };
 }
 
+// eslint-disable-next-line no-unused-vars
 function materialsCloneOne(state, action) {
     const materials = state.materials.slice(); // get copy of array
     const material = materials[state.index].clone();
@@ -34,6 +35,7 @@ function materialsCloneOne(state, action) {
     return { ...state, materials };
 }
 
+// eslint-disable-next-line no-unused-vars
 function materialsToggleIsNonPeriodicForOne(state, action) {
     const newMaterial = state.materials[state.index].clone({ hash: "", scaledHash: "" });
     // clone check
