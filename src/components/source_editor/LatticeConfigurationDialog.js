@@ -1,5 +1,6 @@
 import { Made } from "@exabyte-io/made.js";
 import $ from "jquery";
+import PropTypes from "prop-types";
 import React from "react";
 import { ModalHeader } from "react-bootstrap";
 
@@ -308,11 +309,11 @@ class LatticeConfigurationDialog extends React.Component {
 }
 
 LatticeConfigurationDialog.propTypes = {
-    unitOptions: React.PropTypes.array.isRequired,
-    typeOptions: React.PropTypes.array.isRequired,
-    submitButtonTxt: React.PropTypes.string,
-    material: React.PropTypes.object,
-    onUpdate: React.PropTypes.func.isRequired,
+    unitOptions: PropTypes.array.isRequired,
+    typeOptions: PropTypes.array.isRequired,
+    submitButtonTxt: PropTypes.string,
+    material: PropTypes.object,
+    onUpdate: PropTypes.func.isRequired,
 };
 
 export default LatticeConfigurationDialog;

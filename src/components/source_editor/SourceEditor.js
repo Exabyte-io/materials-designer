@@ -1,4 +1,5 @@
 import setClass from "classnames";
+import PropTypes from "prop-types";
 import React from "react";
 
 import BasisEditor from "./Basis";
@@ -31,17 +32,17 @@ class SourceEditor extends React.Component {
 }
 
 SourceEditor.propTypes = {
-    editable: React.PropTypes.bool.isRequired,
-    showToolbar: React.PropTypes.bool,
+    editable: PropTypes.bool.isRequired,
+    showToolbar: PropTypes.bool,
 
-    material: React.PropTypes.object.isRequired,
-    index: React.PropTypes.number,
-    length: React.PropTypes.number,
+    material: PropTypes.object.isRequired,
+    index: PropTypes.number,
+    length: PropTypes.number,
 
-    onUpdate: React.PropTypes.func,
-    onAdd: React.PropTypes.func,
-    onRemove: React.PropTypes.func,
-    onUpdateIndex: React.PropTypes.func,
+    onUpdate: PropTypes.func,
+    onAdd: PropTypes.func,
+    onRemove: PropTypes.func,
+    onUpdateIndex: PropTypes.func,
 };
 
 export default SourceEditor;

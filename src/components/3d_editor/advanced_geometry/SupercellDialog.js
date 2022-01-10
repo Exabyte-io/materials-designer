@@ -1,4 +1,5 @@
 import math from "mathjs";
+import PropTypes from "prop-types";
 import React from "react";
 import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 
@@ -219,7 +220,7 @@ class SupercellDialog extends ModalDialog {
 }
 
 SupercellDialog.PropTypes = {
-    onSubmit: React.PropTypes.func,
+    onSubmit: PropTypes.func,
 };
 
 export default SupercellDialog;

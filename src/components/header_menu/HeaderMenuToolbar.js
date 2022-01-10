@@ -31,6 +31,7 @@ import IconButton from "material-ui/IconButton";
 import { ListItemIcon } from "material-ui/List";
 import { MenuItem } from "material-ui/Menu";
 import Toolbar from "material-ui/Toolbar";
+import PropTypes from "prop-types";
 import React from "react";
 
 import { Material } from "../../material";
@@ -406,30 +407,30 @@ class HeaderMenuToolbar extends React.Component {
 }
 
 HeaderMenuToolbar.propTypes = {
-    isLoading: React.PropTypes.bool,
-    material: React.PropTypes.object,
-    index: React.PropTypes.number,
+    isLoading: PropTypes.bool,
+    material: PropTypes.object,
+    index: PropTypes.number,
 
-    onUpdate: React.PropTypes.func,
+    onUpdate: PropTypes.func,
 
-    onUndo: React.PropTypes.func,
-    onRedo: React.PropTypes.func,
-    onReset: React.PropTypes.func,
-    onClone: React.PropTypes.func,
-    onToggleIsNonPeriodic: React.PropTypes.func,
+    onUndo: PropTypes.func,
+    onRedo: PropTypes.func,
+    onReset: PropTypes.func,
+    onClone: PropTypes.func,
+    onToggleIsNonPeriodic: PropTypes.func,
 
-    onAdd: React.PropTypes.func,
-    onExport: React.PropTypes.func,
-    onExit: React.PropTypes.func,
+    onAdd: PropTypes.func,
+    onExport: PropTypes.func,
+    onExit: PropTypes.func,
 
-    onGenerateSupercell: React.PropTypes.func,
-    onGenerateSurface: React.PropTypes.func,
-    onSetBoundaryConditions: React.PropTypes.func,
+    onGenerateSupercell: PropTypes.func,
+    onGenerateSurface: PropTypes.func,
+    onSetBoundaryConditions: PropTypes.func,
 
-    ImportModal: React.PropTypes.func,
-    SaveActionDialog: React.PropTypes.func,
+    ImportModal: PropTypes.func,
+    SaveActionDialog: PropTypes.func,
 
-    maxCombinatorialBasesCount: React.PropTypes.number,
+    maxCombinatorialBasesCount: PropTypes.number,
 };
 
 export default HeaderMenuToolbar;

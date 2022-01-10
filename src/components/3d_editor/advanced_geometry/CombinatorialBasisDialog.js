@@ -1,4 +1,5 @@
 import { Made } from "@exabyte-io/made.js";
+import PropTypes from "prop-types";
 import React from "react";
 import { ModalBody, ModalHeader } from "react-bootstrap";
 import NPMsAlert from "react-s-alert";
@@ -123,9 +124,9 @@ class CombinatorialBasisDialog extends ModalDialog {
 }
 
 CombinatorialBasisDialog.PropTypes = {
-    onSubmit: React.PropTypes.func,
-    material: React.PropTypes.object,
-    maxCombinatorialBasesCount: React.PropTypes.number,
+    onSubmit: PropTypes.func,
+    material: PropTypes.object,
+    maxCombinatorialBasesCount: PropTypes.number,
 };
 
 CombinatorialBasisDialog.defaultProps = {

@@ -3,6 +3,7 @@ import { RoundIconButton } from "@exabyte-io/wave.js/dist/components/RoundIconBu
 import { Fullscreen } from "@material-ui/icons";
 import setClass from "classnames";
 import { mix } from "mixwith";
+import PropTypes from "prop-types";
 import React from "react";
 
 import { FullscreenComponentMixin } from "../include/FullscreenComponentMixin";
@@ -42,8 +43,8 @@ export class ThreeDEditorFullscreen extends mix(ThreeDEditor).with(FullscreenCom
 }
 
 ThreeDEditorFullscreen.propTypes = {
-    material: React.PropTypes.object,
-    isConventionalCellShown: React.PropTypes.bool,
-    onUpdate: React.PropTypes.func,
-    editable: React.PropTypes.bool,
+    material: PropTypes.object,
+    isConventionalCellShown: PropTypes.bool,
+    onUpdate: PropTypes.func,
+    editable: PropTypes.bool,
 };

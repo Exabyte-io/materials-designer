@@ -4,6 +4,7 @@ import "codemirror/mode/fortran/fortran";
 
 import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
+import PropTypes from "prop-types";
 import React from "react";
 import CodeMirror from "react-codemirror";
 import _ from "underscore";
@@ -117,11 +118,11 @@ class BasisText extends React.Component {
 }
 
 BasisText.propTypes = {
-    content: React.PropTypes.string,
-    readOnly: React.PropTypes.bool,
-    codeMirrorOptions: React.PropTypes.object,
-    onFocusChange: React.PropTypes.func,
-    onChange: React.PropTypes.func,
+    content: PropTypes.string,
+    readOnly: PropTypes.bool,
+    codeMirrorOptions: PropTypes.object,
+    onFocusChange: PropTypes.func,
+    onChange: PropTypes.func,
 };
 
 BasisText.defaultProps = {

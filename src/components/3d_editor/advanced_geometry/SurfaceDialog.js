@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 
@@ -188,7 +189,7 @@ class SurfaceDialog extends ModalDialog {
 }
 
 SurfaceDialog.PropTypes = {
-    onSubmit: React.PropTypes.func,
+    onSubmit: PropTypes.func,
 };
 
 export default SurfaceDialog;

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { Provider } from "react-redux";
 import _ from "underscore";
@@ -18,8 +19,8 @@ class ReduxProvider extends React.Component {
 }
 
 ReduxProvider.propTypes = {
-    container: React.PropTypes.func.isRequired,
-    store: React.PropTypes.object,
+    container: PropTypes.func.isRequired,
+    store: PropTypes.object,
 };
 
 ReduxProvider.defaultProps = {

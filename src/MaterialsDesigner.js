@@ -1,6 +1,7 @@
 import setClass from "classnames";
 import { MuiThemeProvider } from "material-ui"; // -next/styles";
 import { mix } from "mixwith";
+import PropTypes from "prop-types";
 import React from "react";
 
 import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
@@ -122,42 +123,42 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
 }
 
 MaterialsDesigner.propTypes = {
-    isLoading: React.PropTypes.bool,
-    showToolbar: React.PropTypes.bool,
+    isLoading: PropTypes.bool,
+    showToolbar: PropTypes.bool,
 
-    material: React.PropTypes.object.isRequired,
-    isConventionalCellShown: React.PropTypes.bool,
+    material: PropTypes.object.isRequired,
+    isConventionalCellShown: PropTypes.bool,
 
-    materials: React.PropTypes.array,
-    index: React.PropTypes.number,
+    materials: PropTypes.array,
+    index: PropTypes.number,
 
-    onUpdate: React.PropTypes.func,
+    onUpdate: PropTypes.func,
 
     // ItemsList
-    onItemClick: React.PropTypes.func,
+    onItemClick: PropTypes.func,
 
     // Toolbar
-    onGenerateSupercell: React.PropTypes.func,
-    onGenerateSurface: React.PropTypes.func,
-    onSetBoundaryConditions: React.PropTypes.func,
-    onToggleIsNonPeriodic: React.PropTypes.func,
+    onGenerateSupercell: PropTypes.func,
+    onGenerateSurface: PropTypes.func,
+    onSetBoundaryConditions: PropTypes.func,
+    onToggleIsNonPeriodic: PropTypes.func,
 
     // Undo-Redo
-    onUndo: React.PropTypes.func,
-    onRedo: React.PropTypes.func,
-    onReset: React.PropTypes.func,
+    onUndo: PropTypes.func,
+    onRedo: PropTypes.func,
+    onReset: PropTypes.func,
 
-    onAdd: React.PropTypes.func,
-    onExport: React.PropTypes.func,
-    onSave: React.PropTypes.func,
-    onExit: React.PropTypes.func,
+    onAdd: PropTypes.func,
+    onExport: PropTypes.func,
+    onSave: PropTypes.func,
+    onExit: PropTypes.func,
 
-    ImportModal: React.PropTypes.func,
-    SaveActionDialog: React.PropTypes.func,
+    ImportModal: PropTypes.func,
+    SaveActionDialog: PropTypes.func,
 
-    onRemove: React.PropTypes.func,
+    onRemove: PropTypes.func,
 
-    maxCombinatorialBasesCount: React.PropTypes.number,
+    maxCombinatorialBasesCount: PropTypes.number,
 };
 
 export default MaterialsDesigner;

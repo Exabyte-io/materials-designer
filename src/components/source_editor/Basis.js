@@ -5,6 +5,7 @@ import ExpansionPanel, {
     ExpansionPanelDetails,
     ExpansionPanelSummary,
 } from "material-ui/ExpansionPanel";
+import PropTypes from "prop-types";
 import React from "react";
 import s from "underscore.string";
 
@@ -111,8 +112,8 @@ class Basis extends React.Component {
 }
 
 Basis.propTypes = {
-    material: React.PropTypes.object.isRequired,
-    onUpdate: React.PropTypes.func.isRequired,
+    material: PropTypes.object.isRequired,
+    onUpdate: PropTypes.func.isRequired,
 };
 
 export default Basis;

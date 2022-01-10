@@ -1,4 +1,5 @@
 import { Made } from "@exabyte-io/made.js";
+import PropTypes from "prop-types";
 import React from "react";
 import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 import _ from "underscore";
@@ -167,9 +168,9 @@ class InterpolateBasesDialog extends ModalDialog {
 }
 
 InterpolateBasesDialog.PropTypes = {
-    onSubmit: React.PropTypes.func,
-    material: React.PropTypes.object, // initial
-    material2: React.PropTypes.object, // final
+    onSubmit: PropTypes.func,
+    material: PropTypes.object, // initial
+    material2: PropTypes.object, // final
 };
 
 export default InterpolateBasesDialog;
