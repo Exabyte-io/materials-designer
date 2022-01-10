@@ -1,25 +1,23 @@
+import Button from "material-ui/Button";
+import Dialog, { DialogActions, DialogContent, DialogTitle } from "material-ui/Dialog";
+import PropTypes from "prop-types";
+import React from "react";
 import _ from "underscore";
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
 
 const paperStyle = {
     position: "absolute",
-    top: "20%"
+    top: "20%",
 };
 
 export class ActionDialog extends React.Component {
-
     render() {
         return (
             <Dialog
                 open={this.props.show}
                 transitionDuration={0}
-                PaperProps={{style: paperStyle}}
-                {..._.omit(this.props, 'title', 'show', 'onClose', 'onSubmit')}
+                PaperProps={{ style: paperStyle }}
+                {..._.omit(this.props, "title", "show", "onClose", "onSubmit")}
             >
-
                 <DialogTitle>{this.title || this.props.title}</DialogTitle>
 
                 <DialogContent>
@@ -34,7 +32,6 @@ export class ActionDialog extends React.Component {
                         Ok
                     </Button>
                 </DialogActions>
-
             </Dialog>
         );
     }

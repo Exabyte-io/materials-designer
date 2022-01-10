@@ -1,18 +1,17 @@
-import React from 'react';
-import _ from 'underscore';
-import NPMsAlert from 'react-s-alert';
-import {Made} from "@exabyte-io/made.js";
-import {ModalHeader, ModalBody} from 'react-bootstrap';
+import { Made } from "@exabyte-io/made.js";
+import React from "react";
+import { ModalBody, ModalHeader } from "react-bootstrap";
+import NPMsAlert from "react-s-alert";
+import _ from "underscore";
 
-import {Material} from "../../../material";
-import {ModalDialog} from '../../include/ModalDialog';
-import {displayMessage} from "../../../i18n/messages";
+import { displayMessage } from "../../../i18n/messages";
+import { Material } from "../../../material";
+import { ModalDialog } from "../../include/ModalDialog";
 import BasisText from "../../source_editor/BasisText";
 
 // TODO: adjust this component and SourceEditor to inherit from the same one - XYZBasisEditor
 
 class CombinatorialBasisDialog extends ModalDialog {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -24,24 +23,24 @@ class CombinatorialBasisDialog extends ModalDialog {
 
     handleChange(content) {
         // update the input field immediately on typing
-        this.setState({xyz: content});
-
+        this.setState({ xyz: content });
     }
 
     assertCombinatorialBasesCount(bases) {
-        const maxCombinatorialBasesCount = this.props.maxCombinatorialBasesCount;
+        const { maxCombinatorialBasesCount } = this.props;
         if (bases.length > maxCombinatorialBasesCount) {
-            NPMsAlert.warning(displayMessage('combinatorialBasesCountExceeded', maxCombinatorialBasesCount));
+            NPMsAlert.warning(
+                displayMessage("combinatorialBasesCountExceeded", maxCombinatorialBasesCount),
+            );
             return false;
         }
         return true;
     }
 
     handleSubmit() {
-
         if (!this.BasisTextComponent.state.isContentValidated) return; // don't proceed if cannot validate xyz
         const _xyzText = this.state.xyz;
-        const material = this.props.material;
+        const { material } = this.props;
         // TODO: avoid modifying materials directly inside this component move the below logic to reducer
 
         // create combinatorial set from a given basis
@@ -54,19 +53,17 @@ class CombinatorialBasisDialog extends ModalDialog {
             // first set units from existing material, as allBasises() returns no units
             const latticeConfig = material.lattice;
             const lattice = new Made.Lattice(latticeConfig);
-            const basisConfig = Object.assign({}, material.basis, elm);
+            const basisConfig = { ...material.basis, ...elm };
             const basis = new Made.Basis({
                 ...basisConfig,
-                cell: lattice.vectorArrays
+                cell: lattice.vectorArrays,
             });
             // then create material
-            const newMaterialConfig = Object.assign({},
-                material.toJSON(),
-                {
-                    basis: basis.toJSON(),
-                    name: `${material.name} - ${basis.formula}`
-                }
-            );
+            const newMaterialConfig = {
+                ...material.toJSON(),
+                basis: basis.toJSON(),
+                name: `${material.name} - ${basis.formula}`,
+            };
             const newMaterial = new Material(newMaterialConfig);
             newMaterial.cleanOnCopy();
             newMaterials.push(newMaterial);
@@ -77,25 +74,29 @@ class CombinatorialBasisDialog extends ModalDialog {
 
     renderHeader() {
         return (
-            <ModalHeader className="bgm-dark" closeButton={true}>
-                <h4 className="modal-title">{this.props.title}
-                    <a className="m-l-10 combinatorial-info"
+            <ModalHeader className="bgm-dark" closeButton>
+                <h4 className="modal-title">
+                    {this.props.title}
+                    <a
+                        className="m-l-10 combinatorial-info"
                         href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <i className="zmdi zmdi-info"/>
+                        <i className="zmdi zmdi-info" />
                     </a>
                 </h4>
             </ModalHeader>
-        )
+        );
     }
 
     renderBody() {
         return (
             <ModalBody className="bgm-dark">
                 <BasisText
-                    ref={(el) => {this.BasisTextComponent = el}}
+                    ref={(el) => {
+                        this.BasisTextComponent = el;
+                    }}
                     className="combinatorial-basis"
                     content={this.state.xyz}
                     onChange={this.handleChange}
@@ -103,8 +104,12 @@ class CombinatorialBasisDialog extends ModalDialog {
 
                 <div className="row m-t-10">
                     <div className="col-md-12">
-                        <button id="generate-combinatorial" className="btn btn-custom btn-block"
-                            onClick={this.handleSubmit}>Generate Combinatorial Set
+                        <button
+                            id="generate-combinatorial"
+                            className="btn btn-custom btn-block"
+                            onClick={this.handleSubmit}
+                        >
+                            Generate Combinatorial Set
                         </button>
                     </div>
                 </div>
@@ -112,7 +117,9 @@ class CombinatorialBasisDialog extends ModalDialog {
         );
     }
 
-    renderFooter() {return null}
+    renderFooter() {
+        return null;
+    }
 }
 
 CombinatorialBasisDialog.PropTypes = {

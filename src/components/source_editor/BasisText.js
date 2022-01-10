@@ -1,23 +1,22 @@
-import _ from "underscore";
-import React from 'react';
-import setClass from 'classnames';
-import {Made} from "@exabyte-io/made.js";
-
-import {displayMessage} from "../../i18n/messages";
-
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/darcula.css";
 import "codemirror/mode/fortran/fortran";
+
+import { Made } from "@exabyte-io/made.js";
+import setClass from "classnames";
+import React from "react";
 import CodeMirror from "react-codemirror";
+import _ from "underscore";
+
+import { displayMessage } from "../../i18n/messages";
 
 class BasisText extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             content: this.props.content,
-            isContentValidated: true,   // assuming that initial content is valid
-            message: '',
+            isContentValidated: true, // assuming that initial content is valid
+            message: "",
             manualEditStarted: false,
         };
         this.onChange = _.debounce(this.props.onChange, 700);
@@ -27,7 +26,6 @@ class BasisText extends React.Component {
         if (this.props.content !== nextProps.content) {
             this.reformatContentAndUpdateStateIfNoManualEdit(nextProps.content);
         }
-
     }
 
     isContentPassingValidation(content) {
@@ -38,16 +36,16 @@ class BasisText extends React.Component {
                 this.setState({
                     isContentValidated: true,
                     // TODO: consider removing the success message after a timeout period
-                    message: displayMessage('basis.validationSuccess')
+                    message: displayMessage("basis.validationSuccess"),
                 });
             } else {
                 // already validated before -> remove message
-                this.setState({message: ''});
+                this.setState({ message: "" });
             }
         } catch (err) {
             this.setState({
                 isContentValidated: false,
-                message: displayMessage('basis.validationError')
+                message: displayMessage("basis.validationError"),
             });
             return false;
         }
@@ -64,12 +62,12 @@ class BasisText extends React.Component {
                 // assuming that the content passed here is safe and valid
                 message: "",
                 isContentValidated: true,
-            })
+            });
         }
     };
 
     handleContentChange = (content) => {
-        this.setState({content}, () => {
+        this.setState({ content }, () => {
             if (this.isContentPassingValidation(content)) {
                 this.props.onChange(content);
             }
@@ -80,15 +78,18 @@ class BasisText extends React.Component {
         return (
             <div className={setClass("xyz", this.props.className || "")}>
                 <div id="basis-xyz">
-                    <CodeMirror className="xyz-codemirror"
-                        ref={(el) => this.codeMirrorComponent = el}
+                    <CodeMirror
+                        className="xyz-codemirror"
+                        ref={(el) => (this.codeMirrorComponent = el)}
                         value={this.state.content}
                         onFocusChange={(isFocused) => {
                             if (isFocused) {
-                                this.setState({manualEditStarted: true})
+                                this.setState({ manualEditStarted: true });
                             } else {
-                                this.setState({manualEditStarted: false});
-                                this.reformatContentAndUpdateStateIfNoManualEdit(this.props.content);
+                                this.setState({ manualEditStarted: false });
+                                this.reformatContentAndUpdateStateIfNoManualEdit(
+                                    this.props.content,
+                                );
                             }
                         }}
                         onChange={this.handleContentChange}
@@ -96,12 +97,16 @@ class BasisText extends React.Component {
                             theme: "darcula",
                             lineNumbers: true,
                             readOnly: this.props.readOnly,
-                            mode: 'fortran',
+                            mode: "fortran",
                             ...this.props.codeMirrorOptions,
                         }}
                     />
                     <div className="col-xs-12 p-5 text-center">
-                        <span className={this.state.isContentValidated ? "text-success" : "text-danger"}>
+                        <span
+                            className={
+                                this.state.isContentValidated ? "text-success" : "text-danger"
+                            }
+                        >
                             {this.state.message}&nbsp;
                         </span>
                     </div>
