@@ -60,15 +60,17 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     _handleConventionalCellSelect = () => {
-        const newMaterial = this.props.material.getACopyWithConventionalCell();
-        return this.props.onUpdate(newMaterial, this.props.index);
+        const { material, onUpdate, index } = this.props;
+        const newMaterial = material.getACopyWithConventionalCell();
+        return onUpdate(newMaterial, index);
     };
 
     renderIOMenu() {
+        const { ImportModal, SaveActionDialog, onExit } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
                 <MenuItem
-                    disabled={!this.props.ImportModal}
+                    disabled={!ImportModal}
                     onClick={() => this.setState({ showImportMaterialsDialog: true })}
                 >
                     <ListItemIcon>
@@ -83,7 +85,7 @@ class HeaderMenuToolbar extends React.Component {
                     Export
                 </MenuItem>
                 <MenuItem
-                    disabled={!this.props.SaveActionDialog}
+                    disabled={!SaveActionDialog}
                     onClick={() => this.setState({ showSaveMaterialsDialog: true })}
                 >
                     <ListItemIcon>
@@ -91,7 +93,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Save
                 </MenuItem>
-                <MenuItem disabled={!this.props.onExit} onClick={this.props.onExit}>
+                <MenuItem disabled={!onExit} onClick={onExit}>
                     <ListItemIcon>
                         <ExitToAppIcon />
                     </ListItemIcon>
@@ -102,28 +104,29 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderEditMenu() {
+        const { onUndo, onRedo, onReset, onClone, onToggleIsNonPeriodic } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Edit">
-                <MenuItem onClick={this.props.onUndo}>
+                <MenuItem onClick={onUndo}>
                     <ListItemIcon>
                         <UndoIcon />
                     </ListItemIcon>
                     Undo
                 </MenuItem>
-                <MenuItem onClick={this.props.onRedo}>
+                <MenuItem onClick={onRedo}>
                     <ListItemIcon>
                         <RedoIcon />
                     </ListItemIcon>
                     Redo
                 </MenuItem>
-                <MenuItem onClick={this.props.onReset}>
+                <MenuItem onClick={onReset}>
                     <ListItemIcon>
                         <CloseIcon />
                     </ListItemIcon>
                     Reset
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={this.props.onClone}>
+                <MenuItem onClick={onClone}>
                     <ListItemIcon>
                         <CloneIcon />
                     </ListItemIcon>
@@ -136,7 +139,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Use Conventional Cell
                 </MenuItem>
-                <MenuItem onClick={this.props.onToggleIsNonPeriodic}>
+                <MenuItem onClick={onToggleIsNonPeriodic}>
                     <ListItemIcon>
                         <DeviceHubIcon />
                     </ListItemIcon>
@@ -147,6 +150,7 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderViewMenu() {
+        const { toggleFullscreen, isFullscreen } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="View">
                 <MenuItem onClick={() => this.setState({ showThreejsEditorModal: true })}>
@@ -174,11 +178,11 @@ class HeaderMenuToolbar extends React.Component {
                     Selection Info
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={this.props.toggleFullscreen}>
+                <MenuItem onClick={toggleFullscreen}>
                     <ListItemIcon>
-                        {this.props.isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                        {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
                     </ListItemIcon>
-                    {this.props.isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                    {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
@@ -265,9 +269,10 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderSpinner() {
+        const { isLoading } = this.props;
         return (
             <IconButton disabled className="spinner-icon">
-                {this.props.isLoading ? (
+                {isLoading ? (
                     <i className="zmdi zmdi-spinner zmdi-hc-spin" />
                 ) : (
                     <i className="zmdi zmdi-check" />
@@ -277,9 +282,10 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderImportModal() {
+        const { showImportMaterialsDialog } = this.state;
         return this.props.ImportModal ? (
             <this.props.ImportModal
-                show={this.state.showImportMaterialsDialog}
+                show={showImportMaterialsDialog}
                 onHide={() => this.setState({ showImportMaterialsDialog: false })}
                 onSubmit={(materials) => {
                     this.props.onAdd(materials);
