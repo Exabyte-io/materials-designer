@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 
 export class SAlertContentTmpl extends React.Component {
-
     render() {
         return (
             <div
@@ -14,11 +13,9 @@ export class SAlertContentTmpl extends React.Component {
                     className="close s-alert-close"
                     onClick={this.props.handleClose}
                 />
-                <span>
-                    {this.props.message}
-                </span>
+                <span>{this.props.message}</span>
             </div>
-        )
+        );
     }
 }
 
@@ -27,10 +24,7 @@ SAlertContentTmpl.propTypes = {
     classNames: React.PropTypes.string.isRequired,
     condition: React.PropTypes.string.isRequired,
     styles: React.PropTypes.object.isRequired,
-    message: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.object
-    ]).isRequired,
+    message: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]).isRequired,
     handleClose: React.PropTypes.func.isRequired,
-    customFields: React.PropTypes.object
+    customFields: React.PropTypes.object,
 };

@@ -1,10 +1,10 @@
 import lodash from "lodash";
-import {sprintf} from 'sprintf-js';
+import { sprintf } from "sprintf-js";
 
-import en from './en/messages';
+import en from "./en/messages";
 
 const messages = {
-    'en': en,
+    en,
 };
 
 export function displayMessage(key, ...args) {

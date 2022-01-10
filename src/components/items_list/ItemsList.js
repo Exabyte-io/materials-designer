@@ -1,22 +1,21 @@
-import React from "react";
-import _ from "underscore";
-import setClass from "classnames";
-import { TextField } from "material-ui";
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
-import WidgetsIcon from "@material-ui/icons/Widgets";
 import DeviceHubIcon from "@material-ui/icons/DeviceHub";
-import List, {ListItem, ListItemIcon, ListItemText} from "material-ui/List";
+import WidgetsIcon from "@material-ui/icons/Widgets";
+import setClass from "classnames";
+import { TextField } from "material-ui";
+import List, { ListItem, ListItemIcon, ListItemText } from "material-ui/List";
+import React from "react";
+import _ from "underscore";
 
-import {ShowIf} from "../../utils/react/showif";
+import { ShowIf } from "../../utils/react/showif";
 
 class ItemsList extends React.Component {
-
     getStateConfig = (text, index) => {
         return {
             editedName: text,
             editedIndex: index,
-        }
+        };
     };
 
     constructor(props) {
@@ -31,11 +30,12 @@ class ItemsList extends React.Component {
     }
 
     initControlsSwitchFromKeyboard(event) {
+        if (!event.shiftKey) return; // Shift key must be down
 
-        if (!event.shiftKey) return;  // Shift key must be down
-
-        const nextIndex = (this.props.materials.length === 1 + this.props.index) ? 0 : this.props.index + 1;
-        const previousIndex = (this.props.index === 0) ? this.props.materials.length - 1 : this.props.index - 1;
+        const nextIndex =
+            this.props.materials.length === 1 + this.props.index ? 0 : this.props.index + 1;
+        const previousIndex =
+            this.props.index === 0 ? this.props.materials.length - 1 : this.props.index - 1;
 
         switch (event.keyCode) {
             case 85: // U
@@ -45,22 +45,21 @@ class ItemsList extends React.Component {
                 this.props.onItemClick(nextIndex);
                 break;
             default:
-
         }
     }
 
     addEventListeners() {
-        window.addEventListener('keydown', this.initControlsSwitchFromKeyboard, false);
+        window.addEventListener("keydown", this.initControlsSwitchFromKeyboard, false);
     }
 
     removeEventListeners() {
-        window.removeEventListener('keydown', this.initControlsSwitchFromKeyboard, false);
+        window.removeEventListener("keydown", this.initControlsSwitchFromKeyboard, false);
     }
 
     componentWillReceiveProps(newProps) {
         // needed to propagate updates to unit render from parent(s)
         if (this.state.index !== newProps.index) {
-            this.setState({index: newProps.index});
+            this.setState({ index: newProps.index });
         }
     }
 
@@ -70,41 +69,48 @@ class ItemsList extends React.Component {
 
     handleTextFieldUpdate(value, index) {
         const oldEditedText = this.state.editedName;
-        this.setState({
+        this.setState(
+            {
                 editedName: value,
-                editedIndex: index
+                editedIndex: index,
             },
-            () => (oldEditedText.trim() !== value.trim()) && this.onNameUpdate(value, index)
+            () => oldEditedText.trim() !== value.trim() && this.onNameUpdate(value, index),
         );
-
     }
 
     renderListItem(entity, index) {
         const selectHandler = () => this.props.onItemClick(index);
-        const isBeingEdited = (this.state.editedIndex === index);
+        const isBeingEdited = this.state.editedIndex === index;
         return (
-            <ListItem key={index} button dense className={setClass(
-                {"active": this.props.index === index},
-                {"updated": entity.isUpdated || isBeingEdited}
-            )}>
-
+            <ListItem
+                key={index}
+                button
+                dense
+                className={setClass(
+                    { active: this.props.index === index },
+                    { updated: entity.isUpdated || isBeingEdited },
+                )}
+            >
                 <ShowIf condition={Boolean(entity.id)}>
                     <ListItemIcon className="superscript-icon">
-                        <CheckIcon/>
+                        <CheckIcon />
                     </ListItemIcon>
                 </ShowIf>
 
                 <ListItemIcon onClick={selectHandler}>
-                    {entity.isNonPeriodic ? <DeviceHubIcon/> : <WidgetsIcon/>}
+                    {entity.isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
                 </ListItemIcon>
 
-                <ListItemText onClick={selectHandler}
+                <ListItemText
+                    onClick={selectHandler}
                     primary={
                         <TextField
                             className="m-0"
-                            InputProps={{disableUnderline: true}}
+                            InputProps={{ disableUnderline: true }}
                             value={isBeingEdited ? this.state.editedName : entity.name}
-                            onChange={(event) => this.handleTextFieldUpdate(event.target.value, index)}
+                            onChange={(event) =>
+                                this.handleTextFieldUpdate(event.target.value, index)
+                            }
                             onBlur={(event) => this.handleTextFieldUpdate(event.target.value, null)}
                         />
                     }
@@ -113,25 +119,26 @@ class ItemsList extends React.Component {
                             Formula: <b>{entity.formula}</b>
                         </span>
                     }
-
                 />
 
-                <ListItemIcon className="icon-button-delete" onClick={() => this.props.onRemove(index)}>
-                    <DeleteIcon/>
+                <ListItemIcon
+                    className="icon-button-delete"
+                    onClick={() => this.props.onRemove(index)}
+                >
+                    <DeleteIcon />
                 </ListItemIcon>
-
             </ListItem>
-        )
+        );
     }
 
     render() {
         return (
             <div className={setClass(this.props.className, "materials-designer-items-list")}>
-                <List component="nav" dense={true}>
+                <List component="nav" dense>
                     {this.props.materials.map((m, i) => this.renderListItem(m, i))}
                 </List>
             </div>
-        )
+        );
     }
 }
 

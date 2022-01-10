@@ -4,6 +4,6 @@
  * @param obj {Object}
  */
 export function deepClone(obj) {
-//    return lodash.cloneDeep(obj);
+    //    return lodash.cloneDeep(obj);
     return JSON.parse(JSON.stringify(obj));
 }

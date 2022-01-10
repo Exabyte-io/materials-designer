@@ -1,16 +1,16 @@
-import {safeMakeArrayIfNot} from "../utils/array";
+import { safeMakeArrayIfNot } from "../utils/array";
 
-export const MATERIALS_SAVE = 'MATERIALS_SAVE';
+export const MATERIALS_SAVE = "MATERIALS_SAVE";
 
 export function saveMaterials(config, dispatch) {
     return {
         type: MATERIALS_SAVE,
         config,
         dispatch,
-    }
+    };
 }
 
-export const MATERIALS_ADD = 'MATERIALS_ADD';
+export const MATERIALS_ADD = "MATERIALS_ADD";
 
 export function addMaterials(newMaterials, addAtIndex) {
     return {
@@ -18,25 +18,25 @@ export function addMaterials(newMaterials, addAtIndex) {
         // autoconvert to array if passed only one material
         materials: safeMakeArrayIfNot(newMaterials),
         addAtIndex,
-    }
+    };
 }
 
-export const MATERIALS_REMOVE = 'MATERIALS_REMOVE';
+export const MATERIALS_REMOVE = "MATERIALS_REMOVE";
 
 export function removeMaterials(indices) {
-    if (indices === undefined) indices = [];  // if `indices` is undefined => removing by current index; passing empty array
+    if (indices === undefined) indices = []; // if `indices` is undefined => removing by current index; passing empty array
     return {
         type: MATERIALS_REMOVE,
         indices: safeMakeArrayIfNot(indices),
     };
 }
 
-export const MATERIALS_EXPORT = 'MATERIALS_EXPORT';
+export const MATERIALS_EXPORT = "MATERIALS_EXPORT";
 
 export function exportMaterials(format, useMultiple) {
     return {
         type: MATERIALS_EXPORT,
         format,
         useMultiple,
-    }
+    };
 }

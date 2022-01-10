@@ -1,11 +1,10 @@
+import { BOUNDARY_CONDITIONS } from "@exabyte-io/wave.js/dist/enums";
 import React from "react";
-import {BOUNDARY_CONDITIONS} from "@exabyte-io/wave.js/dist/enums";
-import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
+import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 
-import {ModalDialog} from "../../include/ModalDialog";
+import { ModalDialog } from "../../include/ModalDialog";
 
 export class BoundaryConditionsDialog extends ModalDialog {
-
     constructor(props) {
         super(props);
         this.initializeState();
@@ -17,10 +16,11 @@ export class BoundaryConditionsDialog extends ModalDialog {
             boundaryType: this.props.material.boundaryConditions.type || "pbc",
             boundaryOffset: this.props.material.boundaryConditions.offset || 0,
         };
-
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {this.initializeState()}
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.initializeState();
+    }
 
     handleSetBoundaryConditions() {
         this.props.onSubmit(this.state);
@@ -29,14 +29,18 @@ export class BoundaryConditionsDialog extends ModalDialog {
 
     renderHeader() {
         return (
-            <ModalHeader className="bgm-dark" closeButton={true}>
+            <ModalHeader className="bgm-dark" closeButton>
                 <h4 className="modal-title">{this.props.title || "Set Boundary Conditions"}</h4>
             </ModalHeader>
-        )
+        );
     }
 
     getBoundaryTypeOptions() {
-        return BOUNDARY_CONDITIONS.map(e => <option key={e.type} value={e.type}>{e.name}</option>)
+        return BOUNDARY_CONDITIONS.map((e) => (
+            <option key={e.type} value={e.type}>
+                {e.name}
+            </option>
+        ));
     }
 
     renderBody() {
@@ -50,7 +54,9 @@ export class BoundaryConditionsDialog extends ModalDialog {
                                 <select
                                     className="form-control fg-input"
                                     value={this.state.boundaryType}
-                                    onChange={(e) => this.setState({boundaryType: e.target.value})}
+                                    onChange={(e) =>
+                                        this.setState({ boundaryType: e.target.value })
+                                    }
                                 >
                                     {this.getBoundaryTypeOptions()}
                                 </select>
@@ -64,7 +70,11 @@ export class BoundaryConditionsDialog extends ModalDialog {
                                     className="form-control fg-input"
                                     min="0"
                                     value={this.state.boundaryOffset}
-                                    onChange={e => this.setState({boundaryOffset: parseFloat(e.target.value)})}
+                                    onChange={(e) =>
+                                        this.setState({
+                                            boundaryOffset: parseFloat(e.target.value),
+                                        })
+                                    }
                                 />
                             </div>
                         </div>
@@ -79,13 +89,17 @@ export class BoundaryConditionsDialog extends ModalDialog {
             <ModalFooter className="bgm-dark">
                 <div className="row">
                     <div className="col-xs-12">
-                        <button id="boundary-conditions-submit" className="btn btn-custom btn-block"
-                            onClick={this.handleSetBoundaryConditions}>Submit
+                        <button
+                            id="boundary-conditions-submit"
+                            className="btn btn-custom btn-block"
+                            onClick={this.handleSetBoundaryConditions}
+                        >
+                            Submit
                         </button>
                     </div>
                 </div>
             </ModalFooter>
-        )
+        );
     }
 }
 

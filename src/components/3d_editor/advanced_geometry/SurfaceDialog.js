@@ -1,10 +1,9 @@
 import React from "react";
-import {ModalHeader, ModalBody, ModalFooter} from "react-bootstrap";
+import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 
-import {ModalDialog} from "../../include/ModalDialog";
+import { ModalDialog } from "../../include/ModalDialog";
 
 class SurfaceDialog extends ModalDialog {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -12,30 +11,32 @@ class SurfaceDialog extends ModalDialog {
             k: 0,
             l: 0,
             thickness: 3,
-            vacuumRatio: 0.80,
+            vacuumRatio: 0.8,
             vx: 1,
             vy: 1,
-            message: ''
+            message: "",
         };
         this.handleGenerateSurface = this.handleGenerateSurface.bind(this);
     }
 
     handleGenerateSurface() {
-        this.setState({
-            message: '',
-        }, () => {
-            this.props.onSubmit(this.state);
-            this.props.onHide();
-        });
-
+        this.setState(
+            {
+                message: "",
+            },
+            () => {
+                this.props.onSubmit(this.state);
+                this.props.onHide();
+            },
+        );
     }
 
     renderHeader() {
         return (
-            <ModalHeader className="bgm-dark" closeButton={true}>
+            <ModalHeader className="bgm-dark" closeButton>
                 <h4 className="modal-title">{this.props.title || "Generate surface/slab"}</h4>
             </ModalHeader>
-        )
+        );
     }
 
     renderBody() {
@@ -47,9 +48,15 @@ class SurfaceDialog extends ModalDialog {
                             <div className="fg-line " data-tid="miller-h">
                                 <label>Miller h</label>
                                 <input
-                                    type="number" className="form-control fg-input" step="1" min="0"
-                                    value={this.state.h} tabIndex="1"
-                                    onChange={e => this.setState({h: parseFloat(e.target.value)})}
+                                    type="number"
+                                    className="form-control fg-input"
+                                    step="1"
+                                    min="0"
+                                    value={this.state.h}
+                                    tabIndex="1"
+                                    onChange={(e) =>
+                                        this.setState({ h: parseFloat(e.target.value) })
+                                    }
                                 />
                             </div>
                         </div>
@@ -57,9 +64,15 @@ class SurfaceDialog extends ModalDialog {
                             <div className="fg-line ">
                                 <label>Miller k</label>
                                 <input
-                                    type="number" className="form-control fg-input" step="1" min="0"
-                                    value={this.state.k} tabIndex="2"
-                                    onChange={e => this.setState({k: parseFloat(e.target.value)})}
+                                    type="number"
+                                    className="form-control fg-input"
+                                    step="1"
+                                    min="0"
+                                    value={this.state.k}
+                                    tabIndex="2"
+                                    onChange={(e) =>
+                                        this.setState({ k: parseFloat(e.target.value) })
+                                    }
                                 />
                             </div>
                         </div>
@@ -67,9 +80,15 @@ class SurfaceDialog extends ModalDialog {
                             <div className="fg-line ">
                                 <label>Miller l</label>
                                 <input
-                                    type="number" className="form-control fg-input" step="1" min="0"
-                                    value={this.state.l} tabIndex="3"
-                                    onChange={e => this.setState({l: parseFloat(e.target.value)})}
+                                    type="number"
+                                    className="form-control fg-input"
+                                    step="1"
+                                    min="0"
+                                    value={this.state.l}
+                                    tabIndex="3"
+                                    onChange={(e) =>
+                                        this.setState({ l: parseFloat(e.target.value) })
+                                    }
                                 />
                             </div>
                         </div>
@@ -78,9 +97,14 @@ class SurfaceDialog extends ModalDialog {
                             <div className="fg-line ">
                                 <label>Thickness in layers</label>
                                 <input
-                                    type="number" className="form-control fg-input m21" step="1" min="1"
+                                    type="number"
+                                    className="form-control fg-input m21"
+                                    step="1"
+                                    min="1"
                                     value={this.state.thickness}
-                                    onChange={e => this.setState({thickness: parseFloat(e.target.value)})}
+                                    onChange={(e) =>
+                                        this.setState({ thickness: parseFloat(e.target.value) })
+                                    }
                                 />
                             </div>
                         </div>
@@ -89,9 +113,15 @@ class SurfaceDialog extends ModalDialog {
                             <div className="fg-line ">
                                 <label>Vacuum ratio</label>
                                 <input
-                                    type="number" className="form-control fg-input m21" step="0.01" min="0" max="0.99"
+                                    type="number"
+                                    className="form-control fg-input m21"
+                                    step="0.01"
+                                    min="0"
+                                    max="0.99"
                                     value={this.state.vacuumRatio}
-                                    onChange={e => this.setState({vacuumRatio: parseFloat(e.target.value)})}
+                                    onChange={(e) =>
+                                        this.setState({ vacuumRatio: parseFloat(e.target.value) })
+                                    }
                                 />
                             </div>
                         </div>
@@ -100,9 +130,14 @@ class SurfaceDialog extends ModalDialog {
                             <div className="fg-line ">
                                 <label>Supercell dimension x</label>
                                 <input
-                                    type="number" className="form-control fg-input m21" step="1" min="1"
+                                    type="number"
+                                    className="form-control fg-input m21"
+                                    step="1"
+                                    min="1"
                                     value={this.state.vx}
-                                    onChange={e => this.setState({vx: parseFloat(e.target.value)})}
+                                    onChange={(e) =>
+                                        this.setState({ vx: parseFloat(e.target.value) })
+                                    }
                                 />
                             </div>
                         </div>
@@ -111,13 +146,17 @@ class SurfaceDialog extends ModalDialog {
                             <div className="fg-line ">
                                 <label>Supercell dimension y</label>
                                 <input
-                                    type="number" className="form-control fg-input m21" step="1" min="1"
+                                    type="number"
+                                    className="form-control fg-input m21"
+                                    step="1"
+                                    min="1"
                                     value={this.state.vy}
-                                    onChange={e => this.setState({vy: parseFloat(e.target.value)})}
+                                    onChange={(e) =>
+                                        this.setState({ vy: parseFloat(e.target.value) })
+                                    }
                                 />
                             </div>
                         </div>
-
                     </div>
                 </div>
             </ModalBody>
@@ -129,8 +168,12 @@ class SurfaceDialog extends ModalDialog {
             <ModalFooter className="bgm-dark">
                 <div className="row">
                     <div className="col-xs-12">
-                        <button id="make-surface" className="btn btn-custom btn-block"
-                            onClick={this.handleGenerateSurface}>Submit
+                        <button
+                            id="make-surface"
+                            className="btn btn-custom btn-block"
+                            onClick={this.handleGenerateSurface}
+                        >
+                            Submit
                         </button>
                     </div>
                 </div>
@@ -140,12 +183,12 @@ class SurfaceDialog extends ModalDialog {
                     </div>
                 </div>
             </ModalFooter>
-        )
+        );
     }
 }
 
 SurfaceDialog.PropTypes = {
-    onSubmit: React.PropTypes.func
+    onSubmit: React.PropTypes.func,
 };
 
 export default SurfaceDialog;

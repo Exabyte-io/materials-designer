@@ -7,8 +7,7 @@ export function createReducer(initialState, ...handlers) {
     return function (state = initialState, action) {
         if (allHandlers.hasOwnProperty(action.type)) {
             return allHandlers[action.type](state, action);
-        } else {
-            return state;
         }
-    }
+        return state;
+    };
 }

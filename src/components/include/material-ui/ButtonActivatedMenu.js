@@ -1,10 +1,10 @@
-import React from 'react';
-import List from 'material-ui/List';
-import Button from 'material-ui/Button';
-import ClickAwayListener from 'material-ui/utils/ClickAwayListener';
+import Button from "material-ui/Button";
+import List from "material-ui/List";
+import ClickAwayListener from "material-ui/utils/ClickAwayListener";
+import React from "react";
 
-import {ShowIf} from "../../../utils/react/showif";
-import {randomAlphanumeric} from "../../../utils/str";
+import { ShowIf } from "../../../utils/react/showif";
+import { randomAlphanumeric } from "../../../utils/str";
 
 export class ButtonActivatedMenuMaterialUI extends React.Component {
     constructor(props) {
@@ -14,18 +14,18 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
         };
     }
 
-    handleClick = event => {
-        this.setState({isOpen: !this.state.isOpen});
+    handleClick = (event) => {
+        this.setState({ isOpen: !this.state.isOpen });
     };
 
-    handleClose = () => this.setState({isOpen: false});
+    handleClose = () => this.setState({ isOpen: false });
 
     render() {
         return (
             <ClickAwayListener onClickAway={this.handleClose}>
                 <div>
                     <Button
-                        className={Boolean(this.state.isOpen) ? "active" : ""}
+                        className={this.state.isOpen ? "active" : ""}
                         disableRipple
                         onClick={this.handleClick}
                         aria-owns={this.state.anchorEl ? this.props.id : null}
@@ -35,8 +35,8 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
                         {this.props.title}
                     </Button>
                     <ShowIf condition={Boolean(this.state.isOpen)}>
-
-                        <List id={this.props.id}
+                        <List
+                            id={this.props.id}
                             className="button-activated-menu"
                             data-name={this.props.title + "-menu"}
                             onClick={this.handleClose}
