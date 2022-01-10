@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 
 /**
@@ -14,6 +15,6 @@ export class ShowIf extends React.Component {
 }
 
 ShowIf.propTypes = {
-    condition: React.PropTypes.bool.isRequired,
-    children: React.PropTypes.node.isRequired,
+    condition: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
 };

@@ -5,6 +5,7 @@ import WidgetsIcon from "@material-ui/icons/Widgets";
 import setClass from "classnames";
 import { TextField } from "material-ui";
 import List, { ListItem, ListItemIcon, ListItemText } from "material-ui/List";
+import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";
 
@@ -143,11 +144,11 @@ class ItemsList extends React.Component {
 }
 
 ItemsList.propTypes = {
-    materials: React.PropTypes.array,
-    index: React.PropTypes.number,
-    onItemClick: React.PropTypes.func,
-    onRemove: React.PropTypes.func,
-    onNameUpdate: React.PropTypes.func,
+    materials: PropTypes.array,
+    index: PropTypes.number,
+    onItemClick: PropTypes.func,
+    onRemove: PropTypes.func,
+    onNameUpdate: PropTypes.func,
 };
 
 ItemsList.defaultProps = {

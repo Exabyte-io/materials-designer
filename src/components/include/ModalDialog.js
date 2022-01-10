@@ -1,4 +1,5 @@
 import setClass from "classnames";
+import PropTypes from "prop-types";
 import React from "react";
 import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
 
@@ -64,13 +65,13 @@ export class ModalDialog extends React.Component {
 }
 
 ModalDialog.propTypes = {
-    modalId: React.PropTypes.string,
-    show: React.PropTypes.bool,
-    onHide: React.PropTypes.func,
-    title: React.PropTypes.string,
-    className: React.PropTypes.string,
-    isFullWidth: React.PropTypes.bool,
-    backdropColor: React.PropTypes.string,
+    modalId: PropTypes.string,
+    show: PropTypes.bool,
+    onHide: PropTypes.func,
+    title: PropTypes.string,
+    className: PropTypes.string,
+    isFullWidth: PropTypes.bool,
+    backdropColor: PropTypes.string,
 };
 
 ModalDialog.defaultProps = {

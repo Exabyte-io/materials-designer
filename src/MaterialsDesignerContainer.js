@@ -1,4 +1,5 @@
 import lodash from "lodash";
+import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import NPMsAlert from "react-s-alert";
@@ -116,15 +117,15 @@ export class MaterialsDesignerContainer extends React.Component {
 }
 
 MaterialsDesignerContainer.propTypes = {
-    childrenProps: React.PropTypes.object,
-    applyMiddleware: React.PropTypes.bool,
-    initialMaterials: React.PropTypes.array,
-    onExit: React.PropTypes.func,
-    ImportModal: React.PropTypes.func,
-    SaveActionDialog: React.PropTypes.func,
-    materialsSave: React.PropTypes.func,
-    maxCombinatorialBasesCount: React.PropTypes.number,
-    isConventionalCellShown: React.PropTypes.bool,
+    childrenProps: PropTypes.object,
+    applyMiddleware: PropTypes.bool,
+    initialMaterials: PropTypes.array,
+    onExit: PropTypes.func,
+    ImportModal: PropTypes.func,
+    SaveActionDialog: PropTypes.func,
+    materialsSave: PropTypes.func,
+    maxCombinatorialBasesCount: PropTypes.number,
+    isConventionalCellShown: PropTypes.bool,
 };
 
 MaterialsDesignerContainer.defaultProps = {

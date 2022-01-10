@@ -1,6 +1,7 @@
 import Button from "material-ui/Button";
 import List from "material-ui/List";
 import ClickAwayListener from "material-ui/utils/ClickAwayListener";
+import PropTypes from "prop-types";
 import React from "react";
 
 import { ShowIf } from "../../../utils/react/showif";
@@ -51,8 +52,8 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
 }
 
 ButtonActivatedMenuMaterialUI.propTypes = {
-    title: React.PropTypes.string,
-    id: React.PropTypes.string,
+    title: PropTypes.string,
+    id: PropTypes.string,
 };
 
 ButtonActivatedMenuMaterialUI.defaultProps = {

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 
 export class SAlertContentTmpl extends React.Component {
@@ -20,11 +21,11 @@ export class SAlertContentTmpl extends React.Component {
 }
 
 SAlertContentTmpl.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    classNames: React.PropTypes.string.isRequired,
-    condition: React.PropTypes.string.isRequired,
-    styles: React.PropTypes.object.isRequired,
-    message: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]).isRequired,
-    handleClose: React.PropTypes.func.isRequired,
-    customFields: React.PropTypes.object,
+    id: PropTypes.string.isRequired,
+    classNames: PropTypes.string.isRequired,
+    condition: PropTypes.string.isRequired,
+    styles: PropTypes.object.isRequired,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    handleClose: PropTypes.func.isRequired,
+    customFields: PropTypes.object,
 };

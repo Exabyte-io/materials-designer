@@ -1,4 +1,5 @@
 import { BOUNDARY_CONDITIONS } from "@exabyte-io/wave.js/dist/enums";
+import PropTypes from "prop-types";
 import React from "react";
 import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 
@@ -104,6 +105,6 @@ export class BoundaryConditionsDialog extends ModalDialog {
 }
 
 BoundaryConditionsDialog.PropTypes = {
-    material: React.PropTypes.object,
-    onSubmit: React.PropTypes.func,
+    material: PropTypes.object,
+    onSubmit: PropTypes.func,
 };
