@@ -1,5 +1,9 @@
 dist/
 build/
 node_modules/
+.eslintcache
+.husky/
+.nyc_output/
 tests/node_modules/
 tests/cucumber/screenshots/
+

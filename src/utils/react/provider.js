@@ -10,8 +10,9 @@ class ReduxProvider extends React.Component {
     }
 
     render() {
+        const { store } = this.props;
         return (
-            <Provider store={this.props.store}>
+            <Provider store={store}>
                 <this.props.container parentProps={this.parentProps} />
             </Provider>
         );
@@ -19,7 +20,9 @@ class ReduxProvider extends React.Component {
 }
 
 ReduxProvider.propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
     container: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     store: PropTypes.object,
 };
 

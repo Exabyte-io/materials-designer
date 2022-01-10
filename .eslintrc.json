@@ -14,6 +14,7 @@
     },
     "plugins": ["react", "prettier", "simple-import-sort", "jsdoc"],
     "rules": {
+        "react/jsx-filename-extension": "warn",
         "prettier/prettier": "error",
         "comma-dangle": ["error", "always-multiline"],
         "array-element-newline": ["error", "consistent"],
