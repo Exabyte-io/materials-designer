@@ -1,12 +1,12 @@
 import React from "react";
 import _ from "underscore";
 import setClass from "classnames";
-import TextField from 'material-ui-next/TextField';
-import CheckIcon from 'material-ui-icons-next/Check';
-import DeleteIcon from 'material-ui-icons-next/Delete';
-import WidgetsIcon from 'material-ui-icons-next/Widgets';
-import DeviceHubIcon from "material-ui-icons-next/DeviceHub";
-import List, {ListItem, ListItemIcon, ListItemText} from "material-ui-next/List";
+import { TextField } from "material-ui";
+import CheckIcon from "@material-ui/icons/Check";
+import DeleteIcon from "@material-ui/icons/Delete";
+import WidgetsIcon from "@material-ui/icons/Widgets";
+import DeviceHubIcon from "@material-ui/icons/DeviceHub";
+import List, {ListItem, ListItemIcon, ListItemText} from "material-ui/List";
 
 import {ShowIf} from "../../utils/react/showif";
 

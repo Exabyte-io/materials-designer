@@ -1,7 +1,7 @@
 import React from "react";
 import {mix} from "mixwith";
 import setClass from "classnames";
-import {MuiThemeProvider} from "material-ui-next/styles";
+import { MuiThemeProvider } from "material-ui"; //-next/styles";
 
 import {Material} from "./material";
 import ItemsList from "./components/items_list/ItemsList";

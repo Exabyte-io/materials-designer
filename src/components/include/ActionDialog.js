@@ -1,8 +1,8 @@
 import _ from "underscore";
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui-next/Button';
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui-next/Dialog';
+import Button from 'material-ui/Button';
+import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
 
 const paperStyle = {
     position: "absolute",

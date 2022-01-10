@@ -2,8 +2,8 @@ import s from "underscore.string";
 import React from 'react';
 import setClass from 'classnames';
 import {Made} from "@exabyte-io/made.js";
-import ExpandMoreIcon from 'material-ui-icons-next/ExpandMore';
-import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from 'material-ui-next/ExpansionPanel';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails,} from "material-ui/ExpansionPanel";
 
 import BasisText from "./BasisText";
 

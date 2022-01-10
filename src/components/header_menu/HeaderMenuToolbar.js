@@ -1,12 +1,12 @@
 import React from "react";
 import setClass from "classnames";
 
-import Toolbar from 'material-ui-next/Toolbar';
-import Divider from 'material-ui-next/Divider';
-import {MenuItem} from 'material-ui-next/Menu';
-import {ListItemIcon} from 'material-ui-next/List';
-import IconButton from 'material-ui-next/IconButton';
-import DeviceHubIcon from 'material-ui-icons-next/DeviceHub';
+import Toolbar from 'material-ui/Toolbar';
+import Divider from 'material-ui/Divider';
+import {MenuItem} from 'material-ui/Menu';
+import {ListItemIcon} from 'material-ui/List';
+import IconButton from 'material-ui/IconButton';
+import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import {ThreejsEditorModal} from "@exabyte-io/wave.js";
 
 import {
@@ -38,7 +38,7 @@ import {
 
     Directions as BoundaryConditionsIcon,
 
-} from 'material-ui-icons-next';
+} from '@material-ui/icons';
 
 import {Material} from "../../material";
 import ExportActionDialog from "./ExportActionDialog";
