@@ -125,6 +125,7 @@ MaterialsDesigner.propTypes = {
     isLoading: PropTypes.bool,
     showToolbar: PropTypes.bool,
 
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     isConventionalCellShown: PropTypes.bool,
 
