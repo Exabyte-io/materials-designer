@@ -1,7 +1,7 @@
 import React from 'react';
-import List from 'material-ui-next/List';
-import Button from 'material-ui-next/Button';
-import ClickAwayListener from 'material-ui-next/utils/ClickAwayListener';
+import List from 'material-ui/List';
+import Button from 'material-ui/Button';
+import ClickAwayListener from 'material-ui/utils/ClickAwayListener';
 
 import {ShowIf} from "../../../utils/react/showif";
 import {randomAlphanumeric} from "../../../utils/str";

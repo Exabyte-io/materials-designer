@@ -1,6 +1,5 @@
 import React from 'react';
 import setClass from "classnames";
-import elementClass from 'element-class';
 import {Modal, ModalHeader, ModalBody} from 'react-bootstrap';
 
 export class ModalDialog extends React.Component {
@@ -41,7 +40,7 @@ export class ModalDialog extends React.Component {
         const className = setClass(this.props.className, this.props.isFullWidth ? "full-page-overlay" : "");
 
         if (this.props.show) {
-            elementClass(document.body).add('modal-backdrop-color-' + this.props.backdropColor);
+            document.body.classList.add("modal-backdrop-color-" + this.props.backdropColor);
         }
 
         // animations are disabled to avoid problems with automated tests
@@ -51,7 +50,7 @@ export class ModalDialog extends React.Component {
                 show={this.props.show}
                 onHide={(e) => {
                     this.props.onHide(e);
-                    elementClass(document.body).remove('modal-backdrop-color-' + this.props.backdropColor);
+                    document.body.classList.remove("modal-backdrop-color-" + this.props.backdropColor);
                 }}
                 className={className}
             >

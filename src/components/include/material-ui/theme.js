@@ -1,6 +1,6 @@
-import {createMuiTheme} from 'material-ui-next/styles';
+import {createMuiTheme} from 'material-ui/styles';
 
-// adopted from: https://material-ui-next.com/customization/themes/#theme-configuration-variables
+// adopted from: https://material-ui.com/customization/themes/#theme-configuration-variables
 const DarkThemeConfig = {
     palette: {
         // Switching the dark mode on is a single property value change.
