@@ -1,5 +1,5 @@
 import setClass from "classnames";
-import { MuiThemeProvider } from "material-ui"; // -next/styles";
+import { MuiThemeProvider } from "material-ui";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
 import React from "react";
@@ -84,7 +84,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 />
                                 <SourceEditor
                                     className="col-md-4 p-5"
-                                    editable
                                     material={this.props.material}
                                     onUpdate={this.props.onUpdate}
                                 />
