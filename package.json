@@ -7,7 +7,12 @@
         "prepublishOnly": "rm -rf dist; npm run transpile;npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
-        "postinstall": "npm run transpile"
+        "test": "bash run-tests.sh",
+        "lint": "eslint src && prettier --write src",
+        "lint:fix": "eslint --fix --cache src && prettier --write src",
+        "postinstall": "npm run transpile",
+        "prettier": "prettier --check src",
+        "prepare": "husky install"
     },
     "repository": {
         "type": "git",
@@ -62,10 +67,18 @@
         "babel-preset-react-app": "^9.1.2",
         "react": "^15.6.2",
         "react-dom": "^15.6.2",
-        "react-scripts": "^2.1.5"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
+        "react-scripts": "^2.1.5",
+        "eslint": "7.32.0",
+        "eslint-config-airbnb": "19.0.2",
+        "eslint-config-prettier": "8.3.0",
+        "eslint-plugin-import": "2.25.3",
+        "eslint-plugin-jsdoc": "37.1.0",
+        "eslint-plugin-jsx-a11y": "6.5.1",
+        "eslint-plugin-prettier": "4.0.0",
+        "eslint-plugin-react": "7.27.1",
+        "eslint-plugin-simple-import-sort": "7.0.0",
+        "husky": "7.0.4",
+        "prettier": "2.5.1"
     },
     "browserslist": [
         ">0.2%",
