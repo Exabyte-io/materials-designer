@@ -68,7 +68,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m11"
                                     step="1"
                                     value={this.state.m11}
-                                    tabIndex="1"
                                     onChange={(e) => {
                                         this.setState({ m11: parseFloat(e.target.value) });
                                     }}
@@ -82,7 +81,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m12"
                                     step="1"
                                     value={this.state.m12}
-                                    tabIndex="2"
                                     onChange={(e) => {
                                         this.setState({ m12: parseFloat(e.target.value) });
                                     }}
@@ -96,7 +94,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m13"
                                     step="1"
                                     value={this.state.m13}
-                                    tabIndex="3"
                                     onChange={(e) => {
                                         this.setState({ m13: parseFloat(e.target.value) });
                                     }}
@@ -111,7 +108,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m21"
                                     step="1"
                                     value={this.state.m21}
-                                    tabIndex="4"
                                     onChange={(e) => {
                                         this.setState({ m21: parseFloat(e.target.value) });
                                     }}
@@ -125,7 +121,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m22"
                                     step="1"
                                     value={this.state.m22}
-                                    tabIndex="5"
                                     onChange={(e) => {
                                         this.setState({ m22: parseFloat(e.target.value) });
                                     }}
@@ -139,7 +134,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m23"
                                     step="1"
                                     value={this.state.m23}
-                                    tabIndex="6"
                                     onChange={(e) => {
                                         this.setState({ m23: parseFloat(e.target.value) });
                                     }}
@@ -154,7 +148,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m31"
                                     step="1"
                                     value={this.state.m31}
-                                    tabIndex="7"
                                     onChange={(e) => {
                                         this.setState({ m31: parseFloat(e.target.value) });
                                     }}
@@ -168,7 +161,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m32"
                                     step="1"
                                     value={this.state.m32}
-                                    tabIndex="8"
                                     onChange={(e) => {
                                         this.setState({ m32: parseFloat(e.target.value) });
                                     }}
@@ -182,7 +174,6 @@ class SupercellDialog extends ModalDialog {
                                     className="form-control fg-input m33"
                                     step="1"
                                     value={this.state.m33}
-                                    tabIndex="9"
                                     onChange={(e) => {
                                         this.setState({ m33: parseFloat(e.target.value) });
                                     }}
@@ -201,6 +192,7 @@ class SupercellDialog extends ModalDialog {
                 <div className="row">
                     <div className="col-xs-12">
                         <button
+                            type="submit"
                             id="make-supercell"
                             className="btn btn-custom btn-block"
                             onClick={this.handleGenerateSupercell}

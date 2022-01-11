@@ -43,6 +43,7 @@ export class ThreeDEditorFullscreen extends mix(ThreeDEditor).with(FullscreenCom
 }
 
 ThreeDEditorFullscreen.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object,
     isConventionalCellShown: PropTypes.bool,
     onUpdate: PropTypes.func,

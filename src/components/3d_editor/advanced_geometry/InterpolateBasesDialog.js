@@ -21,6 +21,7 @@ class InterpolateBasesDialog extends ModalDialog {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // eslint-disable-next-line no-unused-vars
     componentWillReceiveProps(nextProps, nextContext) {
         const basis1 = nextProps.material.Basis;
         const basis2 = nextProps.material2.Basis;
@@ -32,15 +33,16 @@ class InterpolateBasesDialog extends ModalDialog {
         }
     }
 
-    getOptions() {
+    getOptions = () => {
         return ["initial", "final"].map((value, idx) => {
             return (
+                // eslint-disable-next-line react/no-array-index-key
                 <option key={idx} value={idx}>
                     {value}
                 </option>
             );
         });
-    }
+    };
 
     handleSubmit() {
         // do nothing when bases elements are not equal
@@ -51,6 +53,7 @@ class InterpolateBasesDialog extends ModalDialog {
         const { material } = this.props;
 
         // create combinatorial set from a given basis
+        // eslint-disable-next-line new-cap
         const newBases = new Made.tools.basis.interpolate(basis1, basis2, this.state.numberOfSteps);
 
         const newMaterials = [];
@@ -96,16 +99,18 @@ class InterpolateBasesDialog extends ModalDialog {
                 <div className="xyz" style={{ minHeight: "65vmin" }}>
                     <div className="col-xs-4 form-group fg-float">
                         <div className="fg-line ">
-                            <label># of intermediate steps</label>
+                            <label htmlFor="form-number-immediate-steps">
+                                # of intermediate steps
+                            </label>
                             <input
+                                id="form-number-immediate-steps"
                                 type="number"
                                 className="form-control fg-input numberOfSteps"
                                 step="1"
                                 min="0"
                                 value={this.state.numberOfSteps}
-                                tabIndex="1"
                                 onChange={(e) => {
-                                    this.setState({ numberOfSteps: parseInt(e.target.value) });
+                                    this.setState({ numberOfSteps: parseInt(e.target.value, 10) });
                                 }}
                             />
                         </div>
@@ -113,13 +118,16 @@ class InterpolateBasesDialog extends ModalDialog {
 
                     <div className="col-xs-4 form-group fg-float">
                         <div className="fg-line ">
-                            <label>Initial/Final structures</label>
+                            <label htmlFor="form-initial-final-structures">
+                                Initial/Final structures
+                            </label>
                             <select
+                                id="form-initial-final-structures"
                                 type="number"
                                 className="form-control fg-input materialIndex"
                                 value={this.state.materialIndex}
                                 onChange={(e) => {
-                                    this.setState({ materialIndex: parseInt(e.target.value) });
+                                    this.setState({ materialIndex: parseInt(e.target.value, 10) });
                                 }}
                             >
                                 {this.getOptions()}
@@ -138,6 +146,7 @@ class InterpolateBasesDialog extends ModalDialog {
 
                     <div className="col-xs-12 m-t-15">
                         <button
+                            type="submit"
                             id="generate-interpolated-set"
                             className="btn btn-custom btn-block"
                             onClick={this.handleSubmit}
