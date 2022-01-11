@@ -9,9 +9,10 @@ export class ModalDialog extends React.Component {
      * @returns {ReactElement} the header element
      */
     renderHeader() {
+        const { title } = this.props;
         return (
             <ModalHeader closeButton>
-                <h4 className="modal-title">{this.props.title}</h4>
+                <h4 className="modal-title">{title}</h4>
             </ModalHeader>
         );
     }
@@ -20,6 +21,7 @@ export class ModalDialog extends React.Component {
      * @summary Rendering footer in separate method, so subclasses can override it
      * @returns {ReactElement} the footer element
      */
+    // eslint-disable-next-line class-methods-use-this
     renderFooter() {
         return null;
     }
@@ -29,32 +31,29 @@ export class ModalDialog extends React.Component {
      * @returns {ReactElement} the body element
      */
     renderBody() {
-        return <ModalBody>{this.props.children}</ModalBody>;
+        const { children } = this.props;
+        return <ModalBody>{children}</ModalBody>;
     }
 
     render() {
-        const className = setClass(
-            this.props.className,
-            this.props.isFullWidth ? "full-page-overlay" : "",
-        );
+        const { className, isFullWidth, show, onHide, modalId, backdropColor } = this.props;
+        const longClassName = setClass(className, isFullWidth ? "full-page-overlay" : "");
 
-        if (this.props.show) {
-            document.body.classList.add("modal-backdrop-color-" + this.props.backdropColor);
+        if (show) {
+            document.body.classList.add("modal-backdrop-color-" + backdropColor);
         }
 
         // animations are disabled to avoid problems with automated tests
         return (
             <Modal
-                id={this.props.modalId}
+                id={modalId}
                 animation={false}
-                show={this.props.show}
+                show={show}
                 onHide={(e) => {
-                    this.props.onHide(e);
-                    document.body.classList.remove(
-                        "modal-backdrop-color-" + this.props.backdropColor,
-                    );
+                    onHide(e);
+                    document.body.classList.remove("modal-backdrop-color-" + backdropColor);
                 }}
-                className={className}
+                className={longClassName}
             >
                 {this.renderHeader()}
                 {this.renderBody()}
@@ -65,13 +64,14 @@ export class ModalDialog extends React.Component {
 }
 
 ModalDialog.propTypes = {
-    modalId: PropTypes.string,
-    show: PropTypes.bool,
-    onHide: PropTypes.func,
-    title: PropTypes.string,
-    className: PropTypes.string,
+    modalId: PropTypes.string.isRequired,
+    show: PropTypes.bool.isRequired,
+    onHide: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    className: PropTypes.string.isRequired,
     isFullWidth: PropTypes.bool,
-    backdropColor: PropTypes.string,
+    backdropColor: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 ModalDialog.defaultProps = {

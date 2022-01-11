@@ -11,38 +11,41 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen: this.props.isOpen || false,
+            isOpen: props.isOpen,
         };
     }
 
-    handleClick = (event) => {
-        this.setState({ isOpen: !this.state.isOpen });
+    handleClick = () => {
+        const { isOpen } = this.state;
+        this.setState({ isOpen: !isOpen });
     };
 
     handleClose = () => this.setState({ isOpen: false });
 
     render() {
+        const { isOpen, anchorEl } = this.state;
+        const { title, id, children } = this.props;
         return (
             <ClickAwayListener onClickAway={this.handleClose}>
                 <div>
                     <Button
-                        className={this.state.isOpen ? "active" : ""}
+                        className={isOpen ? "active" : ""}
                         disableRipple
                         onClick={this.handleClick}
-                        aria-owns={this.state.anchorEl ? this.props.id : null}
+                        aria-owns={anchorEl ? id : null}
                         aria-haspopup="true"
-                        data-name={this.props.title}
+                        data-name={title}
                     >
-                        {this.props.title}
+                        {title}
                     </Button>
-                    <ShowIf condition={Boolean(this.state.isOpen)}>
+                    <ShowIf condition={Boolean(isOpen)}>
                         <List
-                            id={this.props.id}
+                            id={id}
                             className="button-activated-menu"
-                            data-name={this.props.title + "-menu"}
+                            data-name={title + "-menu"}
                             onClick={this.handleClose}
                         >
-                            {this.props.children}
+                            {children}
                         </List>
                     </ShowIf>
                 </div>
@@ -54,8 +57,13 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
 ButtonActivatedMenuMaterialUI.propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,
+    isOpen: PropTypes.bool,
+    children: PropTypes.node,
 };
 
 ButtonActivatedMenuMaterialUI.defaultProps = {
     id: randomAlphanumeric(10),
+    isOpen: false,
+    children: undefined,
+    title: "",
 };

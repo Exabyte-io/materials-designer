@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import Button from "material-ui/Button";
 import Dialog, { DialogActions, DialogContent, DialogTitle } from "material-ui/Dialog";
 import PropTypes from "prop-types";
@@ -11,24 +12,25 @@ const paperStyle = {
 
 export class ActionDialog extends React.Component {
     render() {
+        const { show, children, onClose, onSubmit, title } = this.props;
         return (
             <Dialog
-                open={this.props.show}
+                open={show}
                 transitionDuration={0}
                 PaperProps={{ style: paperStyle }}
                 {..._.omit(this.props, "title", "show", "onClose", "onSubmit")}
             >
-                <DialogTitle>{this.title || this.props.title}</DialogTitle>
+                <DialogTitle>{this.title || title}</DialogTitle>
 
                 <DialogContent>
-                    {_.isFunction(this.renderContent) ? this.renderContent() : this.props.children}
+                    {_.isFunction(this.renderContent) ? this.renderContent() : children}
                 </DialogContent>
 
                 <DialogActions>
-                    <Button data-name="Cancel" onClick={this.props.onClose}>
+                    <Button data-name="Cancel" onClick={onClose}>
                         Cancel
                     </Button>
-                    <Button data-name="Submit" onClick={this.onSubmit || this.props.onSubmit}>
+                    <Button data-name="Submit" onClick={this.onSubmit || onSubmit}>
                         Ok
                     </Button>
                 </DialogActions>
@@ -38,8 +40,9 @@ export class ActionDialog extends React.Component {
 }
 
 ActionDialog.propTypes = {
-    title: PropTypes.string,
-    show: PropTypes.bool,
-    onClose: PropTypes.func,
-    onSubmit: PropTypes.func,
+    title: PropTypes.string.isRequired,
+    show: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
 };
