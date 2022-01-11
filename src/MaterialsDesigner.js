@@ -129,6 +129,7 @@ MaterialsDesigner.propTypes = {
     material: PropTypes.object.isRequired,
     isConventionalCellShown: PropTypes.bool,
 
+    // eslint-disable-next-line react/forbid-prop-types
     materials: PropTypes.array,
     index: PropTypes.number,
 
