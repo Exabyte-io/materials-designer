@@ -22,29 +22,31 @@ class Lattice extends React.Component {
 
     componentDidUpdate() {}
 
-    latticeTypeOptions() {
+    latticeTypeOptions = () => {
         return _.map(Made.LATTICE_TYPE_CONFIGS, (item) => {
             return {
                 label: item.label,
                 value: item.code,
             };
         });
-    }
+    };
 
-    latticeUnitOptions() {
+    latticeUnitOptions = () => {
         return _.map(Made.DEFAULT_LATTICE_UNITS.length, (value) => {
             return {
                 label: value,
                 value,
             };
         });
-    }
+    };
 
     render() {
+        const { className, material, onUpdate } = this.props;
+        const { showLatticeConfigurationDialog } = this.state;
         return (
             <ExpansionPanel
                 style={{ flexBasis: "100%" }}
-                className={setClass(this.props.className, "crystal-lattice")}
+                className={setClass(className, "crystal-lattice")}
             >
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     Crystal Lattice
@@ -60,10 +62,10 @@ class Lattice extends React.Component {
                         modalId="update-lattice"
                         unitOptions={this.latticeUnitOptions()}
                         typeOptions={this.latticeTypeOptions()}
-                        show={this.state.showLatticeConfigurationDialog}
+                        show={showLatticeConfigurationDialog}
                         backdropColor="dark"
-                        material={this.props.material}
-                        onUpdate={this.props.onUpdate}
+                        material={material}
+                        onUpdate={onUpdate}
                         onHide={() => {
                             this.setState({ showLatticeConfigurationDialog: false });
                         }}
@@ -78,8 +80,10 @@ class Lattice extends React.Component {
 }
 
 Lattice.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onUpdate: PropTypes.func.isRequired,
+    className: PropTypes.string.isRequired,
 };
 
 export default Lattice;

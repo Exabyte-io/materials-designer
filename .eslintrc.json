@@ -15,6 +15,7 @@
     "plugins": ["react", "prettier", "simple-import-sort", "jsdoc"],
     "rules": {
         "react/jsx-filename-extension": "warn",
+        "jsx-a11y/label-has-associated-control": ["error", {"assert": "either"}],
         "prettier/prettier": "error",
         "comma-dangle": ["error", "always-multiline"],
         "array-element-newline": ["error", "consistent"],
