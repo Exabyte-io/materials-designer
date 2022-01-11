@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/control-has-associated-label */
 import PropTypes from "prop-types";
 import React from "react";
 

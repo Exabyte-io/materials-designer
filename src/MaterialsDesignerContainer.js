@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import lodash from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -24,7 +25,7 @@ import {
     updateNameForOneMaterial,
     updateOneMaterial,
 } from "./actions";
-import { SAlertContentTmpl } from "./components/include/SAlertContentTmpl";
+import SAlertContentTmpl from "./components/include/SAlertContentTmpl";
 import { Material } from "./material";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
 import { createMaterialsDesignerReducer } from "./reducers";
@@ -117,14 +118,22 @@ export class MaterialsDesignerContainer extends React.Component {
 }
 
 MaterialsDesignerContainer.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types, react/require-default-props
     childrenProps: PropTypes.object,
     applyMiddleware: PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
     initialMaterials: PropTypes.array,
+    // eslint-disable-next-line react/require-default-props
     onExit: PropTypes.func,
+    // eslint-disable-next-line react/require-default-props
     ImportModal: PropTypes.func,
+    // eslint-disable-next-line react/require-default-props
     SaveActionDialog: PropTypes.func,
+    // eslint-disable-next-line react/require-default-props
     materialsSave: PropTypes.func,
+    // eslint-disable-next-line react/require-default-props
     maxCombinatorialBasesCount: PropTypes.number,
+    // eslint-disable-next-line react/require-default-props
     isConventionalCellShown: PropTypes.bool,
 };
 

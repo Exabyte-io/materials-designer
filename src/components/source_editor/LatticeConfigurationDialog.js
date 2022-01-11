@@ -308,7 +308,7 @@ class LatticeConfigurationDialog extends React.Component {
                 <ToggleSwitch
                     color="blue"
                     title="Preserve Basis"
-                    class="pull-left"
+                    cls="pull-left"
                     onStateChange={() => this.setState({ preserveBasis: !preserveBasis })}
                     checked={preserveBasis}
                     id="access-level"
