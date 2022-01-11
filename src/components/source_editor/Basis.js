@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import setClass from "classnames";
@@ -11,27 +12,27 @@ import s from "underscore.string";
 
 import BasisText from "./BasisText";
 
-class Basis extends React.Component {
+class BasisEditor extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            xyz: this.props.material.getBasisAsXyz(),
-            manualEditStarted: false,
-            showBasisOptions: false,
+            xyz: props.material.getBasisAsXyz(),
             coordUnits: Made.ATOMIC_COORD_UNITS.crystal,
         };
 
         this.handleBasisTextChange = this.handleBasisTextChange.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.material !== nextProps.material) {
+    // eslint-disable-next-line no-unused-vars
+    componentWillReceiveProps(nextProps, nextContext) {
+        const { material } = this.props;
+        if (material !== nextProps.material) {
             this.setState({ xyz: nextProps.material.getBasisAsXyz() });
         }
     }
 
-    getXYZInCoordUnits(material, coordUnits) {
+    getXYZInCoordUnits = (material, coordUnits) => {
         switch (coordUnits) {
             case Made.ATOMIC_COORD_UNITS.cartesian:
                 material.toCartesian();
@@ -43,26 +44,31 @@ class Basis extends React.Component {
                 break;
         }
         return material.getBasisAsXyz();
-    }
+    };
 
     handleBasisTextChange(content) {
         // "clone" original material from props to assert state updates
-        const material = this.props.material.clone();
-        material.setBasis(content, "xyz", this.state.coordUnits);
-        this.props.onUpdate(material);
+        const { material, onUpdate } = this.props;
+        const { coordUnits } = this.state;
+        const newMaterial = material.clone();
+        newMaterial.setBasis(content, "xyz", coordUnits);
+        onUpdate(newMaterial);
     }
 
     renderBasisUnitsLabel(unitsType = "crystal") {
+        const { coordUnits } = this.state;
+        const { material } = this.props;
         return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
             <label
                 className={setClass("btn btn-custom", {
-                    active: this.state.coordUnits === unitsType,
+                    active: coordUnits === unitsType,
                 })}
                 id="basis-units-crystal"
                 onClick={() => {
                     this.setState({
                         coordUnits: unitsType,
-                        xyz: this.getXYZInCoordUnits(this.props.material, unitsType),
+                        xyz: this.getXYZInCoordUnits(material, unitsType),
                     });
                 }}
             >
@@ -85,15 +91,14 @@ class Basis extends React.Component {
     }
 
     renderBasisText() {
-        return <BasisText content={this.state.xyz} onChange={this.handleBasisTextChange} />;
+        const { xyz } = this.state;
+        return <BasisText content={xyz} onChange={this.handleBasisTextChange} />;
     }
 
     render() {
+        const { className } = this.props;
         return (
-            <ExpansionPanel
-                defaultExpanded
-                className={setClass(this.props.className, "crystal-basis")}
-            >
+            <ExpansionPanel defaultExpanded className={setClass(className, "crystal-basis")}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     Crystal Basis
                 </ExpansionPanelSummary>
@@ -111,9 +116,11 @@ class Basis extends React.Component {
     }
 }
 
-Basis.propTypes = {
+BasisEditor.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onUpdate: PropTypes.func.isRequired,
+    className: PropTypes.string.isRequired,
 };
 
-export default Basis;
+export default BasisEditor;

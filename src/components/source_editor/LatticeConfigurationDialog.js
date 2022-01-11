@@ -1,8 +1,8 @@
+/* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
 import $ from "jquery";
 import PropTypes from "prop-types";
 import React from "react";
-import { ModalHeader } from "react-bootstrap";
 
 import { Material } from "../../material";
 import { deepClone } from "../../utils/index";
@@ -21,7 +21,7 @@ class LatticeConfigurationDialog extends React.Component {
         super(props);
 
         this.state = {
-            lattice: this.props.material.lattice,
+            lattice: props.material.lattice,
             // used to preserve Basis in Angstroms
             preserveBasis: false,
         };
@@ -32,23 +32,18 @@ class LatticeConfigurationDialog extends React.Component {
         this.handleLatticeInputChanged = this.handleLatticeInputChanged.bind(this);
     }
 
-    componentWillReceiveProps(newProps) {
+    // eslint-disable-next-line no-unused-vars
+    componentWillReceiveProps(newProps, newContext) {
         // update this component's state on props.material update
         this.setState({ lattice: newProps.material.lattice });
     }
 
-    renderHeader() {
-        return (
-            <ModalHeader className="bgm-dark" closeButton>
-                <h4 className="modal-title">Crystal Lattice (Primitive)</h4>
-            </ModalHeader>
-        );
-    }
-
     getLatticeUnitOptions() {
         const result = [];
-        this.props.unitOptions.forEach((item, i) => {
+        const { unitOptions } = this.props;
+        unitOptions.forEach((item, i) => {
             result.push(
+                // eslint-disable-next-line react/no-array-index-key
                 <option value={item.value} key={"unit" + i}>
                     {item.label}
                 </option>,
@@ -59,8 +54,10 @@ class LatticeConfigurationDialog extends React.Component {
 
     getLatticeTypeOptions() {
         const result = [];
-        this.props.typeOptions.forEach((item, i) => {
+        const { typeOptions } = this.props;
+        typeOptions.forEach((item, i) => {
             result.push(
+                // eslint-disable-next-line react/no-array-index-key
                 <option value={item.value} key={"type" + i}>
                     {item.label}
                 </option>,
@@ -69,76 +66,86 @@ class LatticeConfigurationDialog extends React.Component {
         return result;
     }
 
-    isDisabled(param) {
+    isDisabled = () => {
         // TODO: implement converter from primitive to conventional cells and re-enable editables
         // const lattice = new Made.Lattice(this.state.lattice);
         return false; // !lattice.editables[param];
-    }
+    };
 
     handleLatticeUnitSelected(e) {
+        const { lattice } = this.state;
         const units = $(e.target).val();
-        const lattice = new Made.Lattice({
-            ...this.state.lattice,
+        const newLattice = new Made.Lattice({
+            ...lattice,
             units,
         });
-        this.setState({ lattice });
+        this.setState({ lattice: newLattice });
     }
 
     handleLatticeTypeSelected(e) {
+        const { lattice } = this.state;
         const type = $(e.target).val();
         const newLattice = Made.Lattice.getDefaultPrimitiveLatticeConfigByType({
-            ...this.state.lattice,
+            ...lattice,
             type,
         });
         this.setState({ lattice: newLattice });
     }
 
     handleLatticeInputChanged(e) {
+        const { lattice } = this.state;
         const val = Number($(e.target).val());
         const name = $(e.target).attr("name");
-        const latticeConf = deepClone(this.state.lattice);
+        const latticeConf = deepClone(lattice);
         latticeConf[name] = val;
-        //        const lattice = new Made.Lattice(latticeConf);
         const newLattice = Made.Lattice.getDefaultPrimitiveLatticeConfigByType(latticeConf, true);
         this.setState({ lattice: newLattice });
     }
 
     handleUpdateLattice() {
-        const oldMaterialCopy = this.props.material.clone();
-        this.state.preserveBasis ? oldMaterialCopy.toCartesian() : oldMaterialCopy.toCrystal();
-
+        const { material, onUpdate, onSubmit } = this.props;
+        const { preserveBasis, lattice } = this.state;
+        const oldMaterialCopy = material.clone();
+        if (preserveBasis) {
+            oldMaterialCopy.toCartesian();
+        } else {
+            oldMaterialCopy.toCrystal();
+        }
         const newMaterialConfig = {
             ...oldMaterialCopy.toJSON(),
-            lattice: this.state.lattice,
+            lattice,
         };
 
         // preserve basis if asked to do so (eg. when constructing a slab)
         const newMaterial = new Material(newMaterialConfig);
         // assert basis is stored in 'crystal' units
         newMaterial.toCrystal();
-        this.props.onUpdate(newMaterial);
-        this.props.onSubmit();
+        onUpdate(newMaterial);
+        onSubmit();
     }
 
     renderBody() {
+        const { lattice } = this.state;
         return (
             <div className="crystal-lattice-config">
                 <form
                     className="crystal-lattice-config"
                     ref={(e) => {
+                        // eslint-disable-next-line react/no-unused-class-component-methods
                         this.form = e;
                     }}
                 >
                     <div className="col-xs-12 p-0 lattice-basics">
                         <div className="col-md-6">
-                            <div className="form-group ">
-                                <label>Lattice units</label>
+                            <div className="form-group">
                                 <div className="fg-line">
+                                    <label htmlFor="form-lattice-units">Lattice units</label>
                                     <select
+                                        id="form-lattice-units"
                                         label="Lattice Units"
                                         name="units"
                                         className="form-control fc-alt"
-                                        value={this.state.lattice.units.length}
+                                        value={lattice.units.length}
                                         onChange={this.handleLatticeUnitSelected}
                                     >
                                         {this.getLatticeUnitOptions()}
@@ -148,13 +155,14 @@ class LatticeConfigurationDialog extends React.Component {
                         </div>
                         <div className="col-md-6">
                             <div className="form-group ">
-                                <label>Lattice type</label>
                                 <div className="fg-line">
+                                    <label htmlFor="form-lattice-type">Lattice type</label>
                                     <select
+                                        id="form-lattice-type"
                                         label="Lattice type"
                                         name="type"
                                         className="form-control fc-alt"
-                                        value={this.state.lattice.type}
+                                        value={lattice.type}
                                         onChange={this.handleLatticeTypeSelected}
                                     >
                                         {this.getLatticeTypeOptions()}
@@ -166,16 +174,19 @@ class LatticeConfigurationDialog extends React.Component {
                     <div className="col-xs-12 p-0 lattice-params m-t-20">
                         <div className="col-xs-4">
                             <div className="form-group">
-                                <label className="fg-label">Lattice 'a'</label>
                                 <div className="fg-line">
+                                    <label className="fg-label" htmlFor="lattice-a-length">
+                                        Lattice &#39;a&#39;
+                                    </label>
                                     <input
+                                        id="lattice-a-length"
                                         type="number"
                                         name="a"
                                         className="form-control fc-alt fg-input"
                                         min="0"
                                         step="0.05"
                                         disabled={this.isDisabled("a")}
-                                        value={this.state.lattice.a}
+                                        value={lattice.a}
                                         onChange={this.handleLatticeInputChanged}
                                     />
                                 </div>
@@ -184,15 +195,18 @@ class LatticeConfigurationDialog extends React.Component {
                         <div className="col-xs-4">
                             <div className="form-group">
                                 <div className="fg-line">
-                                    <label className="fg-label">Lattice 'b'</label>
+                                    <label className="fg-label" htmlFor="lattice-b-length">
+                                        Lattice &#39;b&#39;
+                                    </label>
                                     <input
+                                        id="lattice-b-length"
                                         type="number"
                                         name="b"
                                         className="form-control fc-alt fg-input"
                                         min="0"
                                         step="0.05"
                                         disabled={this.isDisabled("b")}
-                                        value={this.state.lattice.b}
+                                        value={lattice.b}
                                         onChange={this.handleLatticeInputChanged}
                                     />
                                 </div>
@@ -201,15 +215,18 @@ class LatticeConfigurationDialog extends React.Component {
                         <div className="col-xs-4">
                             <div className="form-group">
                                 <div className="fg-line">
-                                    <label className="fg-label">Lattice 'c'</label>
+                                    <label className="fg-label" htmlFor="lattice-c-length">
+                                        Lattice &#39;c&#39;
+                                    </label>
                                     <input
+                                        id="lattice-c-length"
                                         type="number"
                                         name="c"
                                         className="form-control fc-alt fg-input"
                                         min="0"
                                         step="0.05"
                                         disabled={this.isDisabled("c")}
-                                        value={this.state.lattice.c}
+                                        value={lattice.c}
                                         onChange={this.handleLatticeInputChanged}
                                     />
                                 </div>
@@ -220,15 +237,18 @@ class LatticeConfigurationDialog extends React.Component {
                         <div className="col-xs-4">
                             <div className="form-group">
                                 <div className="fg-line">
-                                    <label className="fg-label">angle (b^c)</label>
+                                    <label className="fg-label" htmlFor="form-angle-b-c">
+                                        angle (b^c)
+                                    </label>
                                     <input
+                                        id="form-angle-b-c"
                                         type="number"
                                         name="alpha"
                                         className="form-control fc-alt fg-input"
                                         min="0"
                                         step="0.05"
                                         disabled={this.isDisabled("alpha")}
-                                        value={this.state.lattice.alpha}
+                                        value={lattice.alpha}
                                         onChange={this.handleLatticeInputChanged}
                                     />
                                 </div>
@@ -237,15 +257,18 @@ class LatticeConfigurationDialog extends React.Component {
                         <div className="col-xs-4">
                             <div className="form-group">
                                 <div className="fg-line">
-                                    <label className="fg-label">angle (a^c)</label>
+                                    <label className="fg-label" htmlFor="form-angle-a-c">
+                                        angle (a^c)
+                                    </label>
                                     <input
+                                        id="form-angle-a-c"
                                         type="number"
                                         name="beta"
                                         className="form-control fc-alt fg-input"
                                         min="0"
                                         step="0.05"
                                         disabled={this.isDisabled("beta")}
-                                        value={this.state.lattice.beta}
+                                        value={lattice.beta}
                                         onChange={this.handleLatticeInputChanged}
                                     />
                                 </div>
@@ -254,15 +277,18 @@ class LatticeConfigurationDialog extends React.Component {
                         <div className="col-xs-4">
                             <div className="form-group">
                                 <div className="fg-line">
-                                    <label className="fg-label">angle (a^b)</label>
+                                    <label className="fg-label" htmlFor="form-angle-a-b">
+                                        angle (a^b)
+                                    </label>
                                     <input
+                                        id="form-angle-a-b"
                                         type="number"
                                         name="gamma"
                                         className="form-control fc-alt fg-input"
                                         min="0"
                                         step="0.05"
                                         disabled={this.isDisabled("gamma")}
-                                        value={this.state.lattice.gamma}
+                                        value={lattice.gamma}
                                         onChange={this.handleLatticeInputChanged}
                                     />
                                 </div>
@@ -275,32 +301,34 @@ class LatticeConfigurationDialog extends React.Component {
     }
 
     renderFooter() {
+        const { submitButtonTxt } = this.props;
+        const { preserveBasis } = this.state;
         return (
             <div className="col-xs-12 p-0">
                 <ToggleSwitch
                     color="blue"
                     title="Preserve Basis"
                     class="pull-left"
-                    onStateChange={() =>
-                        this.setState({ preserveBasis: !this.state.preserveBasis })
-                    }
-                    checked={this.state.preserveBasis}
+                    onStateChange={() => this.setState({ preserveBasis: !preserveBasis })}
+                    checked={preserveBasis}
                     id="access-level"
                 />
                 <button
+                    type="submit"
                     className="btn btn-custom pull-right save-lattice-config"
                     data-dismiss="modal"
                     onClick={this.handleUpdateLattice}
                 >
-                    {this.props.submitButtonTxt || "Apply Edits"}
+                    {submitButtonTxt}
                 </button>
             </div>
         );
     }
 
     render() {
+        const { className } = this.props;
         return (
-            <div className={this.props.className}>
+            <div className={className}>
                 {this.renderBody()}
                 {this.renderFooter()}
             </div>
@@ -309,11 +337,20 @@ class LatticeConfigurationDialog extends React.Component {
 }
 
 LatticeConfigurationDialog.propTypes = {
+    className: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     unitOptions: PropTypes.array.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     typeOptions: PropTypes.array.isRequired,
     submitButtonTxt: PropTypes.string,
-    material: PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
+    material: PropTypes.object.isRequired,
     onUpdate: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+};
+
+LatticeConfigurationDialog.defaultProps = {
+    submitButtonTxt: "Apply Edits",
 };
 
 export default LatticeConfigurationDialog;
