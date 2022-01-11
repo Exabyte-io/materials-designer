@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
 import {
     AddCircle as AddCircleIcon,
@@ -143,7 +144,7 @@ class HeaderMenuToolbar extends React.Component {
                     <ListItemIcon>
                         <DeviceHubIcon />
                     </ListItemIcon>
-                    Toggle "isNonPeriodic"
+                    Toggle &#34;isNonPeriodic&#34;
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
@@ -237,9 +238,9 @@ class HeaderMenuToolbar extends React.Component {
         );
     }
 
-    openPageByURL(url) {
+    openPageByURL = (url) => {
         window.open(url, "_blank");
-    }
+    };
 
     renderHelpMenu() {
         return (
@@ -283,12 +284,13 @@ class HeaderMenuToolbar extends React.Component {
 
     renderImportModal() {
         const { showImportMaterialsDialog } = this.state;
-        return this.props.ImportModal ? (
-            <this.props.ImportModal
+        const { ImportModal, onAdd } = this.props;
+        return ImportModal ? (
+            <ImportModal
                 show={showImportMaterialsDialog}
                 onHide={() => this.setState({ showImportMaterialsDialog: false })}
                 onSubmit={(materials) => {
-                    this.props.onAdd(materials);
+                    onAdd(materials);
                     this.setState({ showImportMaterialsDialog: false });
                 }}
             />
@@ -296,40 +298,65 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderSaveActionDialog() {
-        return this.props.SaveActionDialog ? (
-            <this.props.SaveActionDialog
-                show={this.state.showSaveMaterialsDialog}
-                material={this.props.material}
+        const { SaveActionDialog, material, onSave } = this.props;
+        const { showSaveMaterialsDialog } = this.state;
+        return SaveActionDialog ? (
+            <SaveActionDialog
+                show={showSaveMaterialsDialog}
+                material={material}
                 onClose={() => this.setState({ showSaveMaterialsDialog: false })}
-                onSubmit={this.props.onSave}
+                onSubmit={onSave}
             />
         ) : null;
     }
 
     renderThreejsEditorModal() {
+        const { onAdd, materials } = this.props;
+        const { showThreejsEditorModal } = this.state;
         return (
             <ThreejsEditorModal
-                show={this.state.showThreejsEditorModal}
+                show={showThreejsEditorModal}
                 onHide={(material) => {
-                    this.setState({ showThreejsEditorModal: !this.state.showThreejsEditorModal });
+                    this.setState({ showThreejsEditorModal: !showThreejsEditorModal });
                     if (material) {
                         // convert made material to MD material
                         const newMaterial = Material.createFromMadeMaterial(material);
                         newMaterial.isUpdated = true; // to show it as new (yellow color)
-                        this.props.onAdd(newMaterial);
+                        onAdd(newMaterial);
                     }
                 }}
-                materials={this.props.materials}
+                materials={materials}
                 modalId="threejs-editor"
             />
         );
     }
 
     render() {
-        if (this.state.showThreejsEditorModal) return this.renderThreejsEditorModal();
+        const {
+            showThreejsEditorModal,
+            showSupercellDialog,
+            showSurfaceDialog,
+            showBoundaryConditionsDialog,
+            showCombinatorialDialog,
+            showExportMaterialsDialog,
+            showInterpolateDialog,
+        } = this.state;
+        const {
+            className,
+            material,
+            materials,
+            index,
+            onAdd,
+            onExport,
+            onGenerateSupercell,
+            onGenerateSurface,
+            onSetBoundaryConditions,
+            maxCombinatorialBasesCount,
+        } = this.props;
+        if (showThreejsEditorModal) return this.renderThreejsEditorModal();
         return (
             <Toolbar
-                className={setClass(this.props.className, "materials-designer-header-menu")}
+                className={setClass(className, "materials-designer-header-menu")}
                 style={{ borderBottom: "1px solid" }}
             >
                 {this.renderIOMenu()}
@@ -340,36 +367,36 @@ class HeaderMenuToolbar extends React.Component {
                 {this.renderSpinner()}
 
                 <SupercellDialog
-                    show={this.state.showSupercellDialog}
+                    show={showSupercellDialog}
                     modalId="supercellModal"
                     backdropColor="dark"
-                    onSubmit={this.props.onGenerateSupercell}
+                    onSubmit={onGenerateSupercell}
                     onHide={() => this.setState({ showSupercellDialog: false })}
                 />
 
                 <SurfaceDialog
-                    show={this.state.showSurfaceDialog}
+                    show={showSurfaceDialog}
                     modalId="surfaceModal"
                     backdropColor="dark"
-                    onSubmit={this.props.onGenerateSurface}
+                    onSubmit={onGenerateSurface}
                     onHide={() => this.setState({ showSurfaceDialog: false })}
                 />
 
                 <BoundaryConditionsDialog
-                    show={this.state.showBoundaryConditionsDialog}
+                    show={showBoundaryConditionsDialog}
                     modalId="BoundaryConditionsModal"
                     backdropColor="dark"
-                    material={this.props.material}
-                    onSubmit={this.props.onSetBoundaryConditions}
+                    material={material}
+                    onSubmit={onSetBoundaryConditions}
                     onHide={() => this.setState({ showBoundaryConditionsDialog: false })}
                 />
 
                 {this.renderImportModal()}
 
                 <ExportActionDialog
-                    show={this.state.showExportMaterialsDialog}
+                    show={showExportMaterialsDialog}
                     onClose={() => this.setState({ showExportMaterialsDialog: false })}
-                    onSubmit={this.props.onExport}
+                    onSubmit={onExport}
                 />
 
                 {this.renderSaveActionDialog()}
@@ -377,13 +404,13 @@ class HeaderMenuToolbar extends React.Component {
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
                     modalId="combinatorialSetModal"
-                    show={this.state.showCombinatorialDialog}
-                    maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
+                    show={showCombinatorialDialog}
+                    maxCombinatorialBasesCount={maxCombinatorialBasesCount}
                     backdropColor="dark"
-                    material={this.props.material}
+                    material={material}
                     onHide={() => this.setState({ showCombinatorialDialog: false })}
                     onSubmit={(...args) => {
-                        this.props.onAdd(...args);
+                        onAdd(...args);
                         this.setState({ showCombinatorialDialog: false });
                     }}
                 />
@@ -391,19 +418,13 @@ class HeaderMenuToolbar extends React.Component {
                 <InterpolateBasesDialog
                     title="Generate Interpolated Set"
                     modalId="interpolatedSetModal"
-                    show={this.state.showInterpolateDialog}
+                    show={showInterpolateDialog}
                     backdropColor="dark"
-                    material={this.props.material}
-                    material2={
-                        this.props.materials[
-                            this.props.index + 1 === this.props.materials.length
-                                ? 0
-                                : this.props.index + 1
-                        ]
-                    }
+                    material={material}
+                    material2={materials[index + 1 === materials.length ? 0 : index + 1]}
                     onHide={() => this.setState({ showInterpolateDialog: false })}
                     onSubmit={(...args) => {
-                        this.props.onAdd(...args);
+                        onAdd(...args);
                         this.setState({ showInterpolateDialog: false });
                     }}
                 />
@@ -413,30 +434,37 @@ class HeaderMenuToolbar extends React.Component {
 }
 
 HeaderMenuToolbar.propTypes = {
-    isLoading: PropTypes.bool,
-    material: PropTypes.object,
-    index: PropTypes.number,
+    className: PropTypes.string,
+    isLoading: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    material: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    materials: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired,
+    isFullscreen: PropTypes.bool.isRequired,
+    maxCombinatorialBasesCount: PropTypes.number.isRequired,
 
-    onUpdate: PropTypes.func,
+    onUpdate: PropTypes.func.isRequired,
+    onUndo: PropTypes.func.isRequired,
+    onRedo: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
+    onClone: PropTypes.func.isRequired,
+    onToggleIsNonPeriodic: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onExport: PropTypes.func.isRequired,
+    onExit: PropTypes.func.isRequired,
+    onGenerateSupercell: PropTypes.func.isRequired,
+    onGenerateSurface: PropTypes.func.isRequired,
+    onSetBoundaryConditions: PropTypes.func.isRequired,
 
-    onUndo: PropTypes.func,
-    onRedo: PropTypes.func,
-    onReset: PropTypes.func,
-    onClone: PropTypes.func,
-    onToggleIsNonPeriodic: PropTypes.func,
+    ImportModal: PropTypes.func.isRequired,
+    SaveActionDialog: PropTypes.func.isRequired,
+    toggleFullscreen: PropTypes.func.isRequired,
+};
 
-    onAdd: PropTypes.func,
-    onExport: PropTypes.func,
-    onExit: PropTypes.func,
-
-    onGenerateSupercell: PropTypes.func,
-    onGenerateSurface: PropTypes.func,
-    onSetBoundaryConditions: PropTypes.func,
-
-    ImportModal: PropTypes.func,
-    SaveActionDialog: PropTypes.func,
-
-    maxCombinatorialBasesCount: PropTypes.number,
+HeaderMenuToolbar.defaultProps = {
+    className: undefined,
 };
 
 export default HeaderMenuToolbar;
