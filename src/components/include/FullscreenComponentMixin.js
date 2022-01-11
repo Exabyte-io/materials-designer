@@ -23,6 +23,7 @@ export const FullscreenComponentMixin = (superclass) =>
             triggerChartsResize();
         }
 
+        // eslint-disable-next-line class-methods-use-this
         get FullscreenHandlerComponent() {
             return FullscreenHandlerComponent;
         }
