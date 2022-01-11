@@ -19,6 +19,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
         };
     }
 
+    // eslint-disable-next-line no-unused-vars
     componentWillReceiveProps(nextProps, nextContext) {
         this.initializeState();
     }
@@ -36,13 +37,13 @@ export class BoundaryConditionsDialog extends ModalDialog {
         );
     }
 
-    getBoundaryTypeOptions() {
+    getBoundaryTypeOptions = () => {
         return BOUNDARY_CONDITIONS.map((e) => (
             <option key={e.type} value={e.type}>
                 {e.name}
             </option>
         ));
-    }
+    };
 
     renderBody() {
         return (
@@ -51,8 +52,9 @@ export class BoundaryConditionsDialog extends ModalDialog {
                     <div className="row">
                         <div className="col-xs-6 form-group fg-float">
                             <div className="fg-line " data-tid="type">
-                                <label>Type</label>
+                                <label htmlFor="form-boundary-conditions-type">Type</label>
                                 <select
+                                    id="form-boundary-conditions-type"
                                     className="form-control fg-input"
                                     value={this.state.boundaryType}
                                     onChange={(e) =>
@@ -65,8 +67,11 @@ export class BoundaryConditionsDialog extends ModalDialog {
                         </div>
                         <div className="col-xs-6 form-group fg-float" data-tid="offset">
                             <div className="fg-line ">
-                                <label>Offset (A)</label>
+                                <label htmlFor="form-boundary-conditions-offset-a">
+                                    Offset (A)
+                                </label>
                                 <input
+                                    id="form-boundary-conditions-offset-a"
                                     type="number"
                                     className="form-control fg-input"
                                     min="0"
@@ -91,6 +96,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
                 <div className="row">
                     <div className="col-xs-12">
                         <button
+                            type="submit"
                             id="boundary-conditions-submit"
                             className="btn btn-custom btn-block"
                             onClick={this.handleSetBoundaryConditions}

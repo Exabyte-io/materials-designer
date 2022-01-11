@@ -47,14 +47,14 @@ class SurfaceDialog extends ModalDialog {
                     <div className="row" id="surface-matrix">
                         <div className="col-xs-4 form-group fg-float">
                             <div className="fg-line " data-tid="miller-h">
-                                <label>Miller h</label>
+                                <label htmlFor="form-miller-index-h">Miller h</label>
                                 <input
+                                    id="form-miller-index-h"
                                     type="number"
                                     className="form-control fg-input"
                                     step="1"
                                     min="0"
                                     value={this.state.h}
-                                    tabIndex="1"
                                     onChange={(e) =>
                                         this.setState({ h: parseFloat(e.target.value) })
                                     }
@@ -63,14 +63,14 @@ class SurfaceDialog extends ModalDialog {
                         </div>
                         <div className="col-xs-4 form-group fg-float" data-tid="miller-k">
                             <div className="fg-line ">
-                                <label>Miller k</label>
+                                <label htmlFor="form-miller-index-k">Miller k</label>
                                 <input
+                                    id="form-miller-index-k"
                                     type="number"
                                     className="form-control fg-input"
                                     step="1"
                                     min="0"
                                     value={this.state.k}
-                                    tabIndex="2"
                                     onChange={(e) =>
                                         this.setState({ k: parseFloat(e.target.value) })
                                     }
@@ -79,14 +79,14 @@ class SurfaceDialog extends ModalDialog {
                         </div>
                         <div className="col-xs-4 form-group fg-float" data-tid="miller-l">
                             <div className="fg-line ">
-                                <label>Miller l</label>
+                                <label htmlFor="form-miller-index-l">Miller l</label>
                                 <input
+                                    id="form-miller-index-l"
                                     type="number"
                                     className="form-control fg-input"
                                     step="1"
                                     min="0"
                                     value={this.state.l}
-                                    tabIndex="3"
                                     onChange={(e) =>
                                         this.setState({ l: parseFloat(e.target.value) })
                                     }
@@ -96,8 +96,11 @@ class SurfaceDialog extends ModalDialog {
 
                         <div className="col-xs-6 form-group fg-float" data-tid="thickness">
                             <div className="fg-line ">
-                                <label>Thickness in layers</label>
+                                <label htmlFor="form-slab-thickness-layers">
+                                    Thickness in layers
+                                </label>
                                 <input
+                                    id="form-slab-thickness-layers"
                                     type="number"
                                     className="form-control fg-input m21"
                                     step="1"
@@ -112,8 +115,9 @@ class SurfaceDialog extends ModalDialog {
 
                         <div className="col-xs-6 form-group fg-float" data-tid="vacuum-ratio">
                             <div className="fg-line ">
-                                <label>Vacuum ratio</label>
+                                <label htmlFor="form-vacuum-ratio">Vacuum ratio</label>
                                 <input
+                                    id="form-vacuum-ratio"
                                     type="number"
                                     className="form-control fg-input m21"
                                     step="0.01"
@@ -129,8 +133,11 @@ class SurfaceDialog extends ModalDialog {
 
                         <div className="col-xs-6 form-group fg-float" data-tid="vx">
                             <div className="fg-line ">
-                                <label>Supercell dimension x</label>
+                                <label htmlFor="form-supercell-dimension-x">
+                                    Supercell dimension x
+                                </label>
                                 <input
+                                    id="form-supercell-dimension-x"
                                     type="number"
                                     className="form-control fg-input m21"
                                     step="1"
@@ -145,8 +152,11 @@ class SurfaceDialog extends ModalDialog {
 
                         <div className="col-xs-6 form-group fg-float" data-tid="vy">
                             <div className="fg-line ">
-                                <label>Supercell dimension y</label>
+                                <label htmlFor="form-supercell-dimension-y">
+                                    Supercell dimension y
+                                </label>
                                 <input
+                                    id="form-supercell-dimension-y"
                                     type="number"
                                     className="form-control fg-input m21"
                                     step="1"
@@ -170,6 +180,7 @@ class SurfaceDialog extends ModalDialog {
                 <div className="row">
                     <div className="col-xs-12">
                         <button
+                            type="submit"
                             id="make-surface"
                             className="btn btn-custom btn-block"
                             onClick={this.handleGenerateSurface}

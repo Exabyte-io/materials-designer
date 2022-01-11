@@ -50,6 +50,7 @@ class CombinatorialBasisDialog extends ModalDialog {
         if (!this.assertCombinatorialBasesCount(newBases)) return;
 
         const newMaterials = [];
+        // eslint-disable-next-line no-unused-vars
         _.each(newBases, (elm, idx) => {
             // first set units from existing material, as allBasises() returns no units
             const latticeConfig = material.lattice;
@@ -106,6 +107,7 @@ class CombinatorialBasisDialog extends ModalDialog {
                 <div className="row m-t-10">
                     <div className="col-md-12">
                         <button
+                            type="submit"
                             id="generate-combinatorial"
                             className="btn btn-custom btn-block"
                             onClick={this.handleSubmit}
@@ -118,9 +120,9 @@ class CombinatorialBasisDialog extends ModalDialog {
         );
     }
 
-    renderFooter() {
+    renderFooter = () => {
         return null;
-    }
+    };
 }
 
 CombinatorialBasisDialog.PropTypes = {
