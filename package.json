@@ -48,6 +48,7 @@
         "react-jss": "^8.6.1",
         "react-redux": "^4.4.8",
         "react-s-alert": "^1.4.1",
+        "react-scripts": "2.1.5",
         "redux": "^3.6.0",
         "redux-batched-subscribe": "^0.1.6",
         "redux-logger": "^3.0.6",
@@ -63,8 +64,7 @@
     "devDependencies": {
         "babel-preset-react-app": "^9.1.2",
         "react": "^15.6.2",
-        "react-dom": "^15.6.2",
-        "react-scripts": "^2.1.5"
+        "react-dom": "^15.6.2"
     },
     "eslintConfig": {
         "extends": "react-app"
