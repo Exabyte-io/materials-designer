@@ -7,7 +7,13 @@
     color: $exagray_darker;
     border-color: $exagray_darker;
     background-color: $wave-background;
-    p, h1, h2, h3, h4, h5, h6 {
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         color: $exagray-darker;
     }
 }
@@ -22,12 +28,16 @@
 .bgm-dark {
     @include inverse;
 
-    .alert, select, textarea, input {
+    .alert,
+    select,
+    textarea,
+    input {
         @include inverse;
         border-width: 1px;
     }
 
-    .active, .close {
+    .active,
+    .close {
         color: $white;
     }
 
@@ -35,11 +45,13 @@
         color: $gray-lighter;
     }
 
-    .btn-custom, .btn-outline {
+    .btn-custom,
+    .btn-outline {
         @include inverse;
         background: transparent;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
             @include inverse-highlight;
         }
     }
@@ -63,7 +75,8 @@
     }
 
     .popover {
-        .popover-title, .popover-content {
+        .popover-title,
+        .popover-content {
             color: $gray-dark;
         }
     }
@@ -72,7 +85,6 @@
         color: $gray;
     }
 }
-
 
 @mixin darkScrollbar($width) {
     &::-webkit-scrollbar {
