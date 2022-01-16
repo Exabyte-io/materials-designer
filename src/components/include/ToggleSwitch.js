@@ -13,7 +13,7 @@ const ToggleSwitch = function ToggleSwitch({
     disabled,
     onStateChange,
 }) {
-    const { htmlFor } = "form-" + id + "-label";
+    const htmlFor = "form-" + id + "-label";
     return (
         <div className={setClass("toggle-switch", cls)} data-ts-color={color}>
             <label id={id + "-label"} className="ts-label" htmlFor={htmlFor}>
