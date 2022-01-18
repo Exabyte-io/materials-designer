@@ -1,36 +1,41 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/control-has-associated-label */
+import PropTypes from "prop-types";
+import React from "react";
 
-export class SAlertContentTmpl extends React.Component {
-
-    render() {
-        return (
-            <div
-                id={this.props.id}
-                style={this.props.styles}
-                className={`alert alert-${this.props.condition} ${this.props.classNames} growl-animated animated`}
-            >
-                <button
-                    data-growl="dismiss"
-                    className="close s-alert-close"
-                    onClick={this.props.handleClose}
-                />
-                <span>
-                    {this.props.message}
-                </span>
-            </div>
-        )
-    }
-}
+const SAlertContentTmpl = function SAlertContentTmpl({
+    id,
+    classNames,
+    condition,
+    styles,
+    message,
+    handleClose,
+}) {
+    return (
+        <div
+            id={id}
+            style={styles}
+            className={`alert alert-${condition} ${classNames} growl-animated animated`}
+        >
+            <button
+                type="button"
+                data-growl="dismiss"
+                className="close s-alert-close"
+                onClick={handleClose}
+            />
+            <span>{message}</span>
+        </div>
+    );
+};
 
 SAlertContentTmpl.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    classNames: React.PropTypes.string.isRequired,
-    condition: React.PropTypes.string.isRequired,
-    styles: React.PropTypes.object.isRequired,
-    message: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.object
-    ]).isRequired,
-    handleClose: React.PropTypes.func.isRequired,
-    customFields: React.PropTypes.object
+    id: PropTypes.string.isRequired,
+    classNames: PropTypes.string.isRequired,
+    condition: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    styles: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    handleClose: PropTypes.func.isRequired,
 };
+
+export default SAlertContentTmpl;
