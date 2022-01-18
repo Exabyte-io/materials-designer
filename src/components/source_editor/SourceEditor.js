@@ -1,48 +1,35 @@
-import React from 'react';
 import setClass from "classnames";
+import PropTypes from "prop-types";
+import React from "react";
 
-import BasisEditor from './Basis';
-import LatticeEditor from './Lattice';
+import BasisEditor from "./Basis";
+import LatticeEditor from "./Lattice";
 
+// eslint-disable-next-line react/prefer-stateless-function
 class SourceEditor extends React.Component {
-
     render() {
+        const { className, material, onUpdate } = this.props;
         return (
-            <div className={setClass(this.props.className, 'materials-designer-source-editor')}
+            <div
+                className={setClass(className, "materials-designer-source-editor")}
                 style={{
                     // TODO: move out of here
-                    borderLeft: '1px solid',
-                    borderRight: '1px solid',
+                    borderLeft: "1px solid",
+                    borderRight: "1px solid",
                 }}
-
             >
-                <LatticeEditor className="col-xs-12 p-0"
-                    material={this.props.material}
-                    onUpdate={this.props.onUpdate}
-                />
-                <BasisEditor className="col-xs-12 p-0"
-                    material={this.props.material}
-                    onUpdate={this.props.onUpdate}
-                />
+                <LatticeEditor className="col-xs-12 p-0" material={material} onUpdate={onUpdate} />
+                <BasisEditor className="col-xs-12 p-0" material={material} onUpdate={onUpdate} />
             </div>
-        )
+        );
     }
 }
 
 SourceEditor.propTypes = {
-
-    editable: React.PropTypes.bool.isRequired,
-    showToolbar: React.PropTypes.bool,
-
-    material: React.PropTypes.object.isRequired,
-    index: React.PropTypes.number,
-    length: React.PropTypes.number,
-
-    onUpdate: React.PropTypes.func,
-    onAdd: React.PropTypes.func,
-    onRemove: React.PropTypes.func,
-    onUpdateIndex: React.PropTypes.func,
-
+    // eslint-disable-next-line react/forbid-prop-types
+    material: PropTypes.object.isRequired,
+    className: PropTypes.string.isRequired,
+    onUpdate: PropTypes.func.isRequired,
 };
 
 export default SourceEditor;

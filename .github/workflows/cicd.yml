@@ -32,9 +32,6 @@ jobs:
         with:
           lfs: true
 
-      - name: Docker build and test
-        uses: ./.github/workflows/docker-build-test
-
       - name: Checkout actions repository
         uses: actions/checkout@v2
         with:

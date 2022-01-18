@@ -1,14 +1,14 @@
-import React from 'react';
-import {mix} from "mixwith";
+import { ThreeDEditor } from "@exabyte-io/wave.js";
+import { RoundIconButton } from "@exabyte-io/wave.js/dist/components/RoundIconButton";
+import { Fullscreen } from "@material-ui/icons";
 import setClass from "classnames";
-import {ThreeDEditor} from "@exabyte-io/wave.js";
-import {Fullscreen,} from 'material-ui-icons-next';
-import {RoundIconButton} from "@exabyte-io/wave.js/dist/components/RoundIconButton";
+import { mix } from "mixwith";
+import PropTypes from "prop-types";
+import React from "react";
 
-import {FullscreenComponentMixin} from "../include/FullscreenComponentMixin";
+import { FullscreenComponentMixin } from "../include/FullscreenComponentMixin";
 
 export class ThreeDEditorFullscreen extends mix(ThreeDEditor).with(FullscreenComponentMixin) {
-
     getExportToolbarItems() {
         const clsInstance = this;
         return [
@@ -20,31 +20,32 @@ export class ThreeDEditorFullscreen extends mix(ThreeDEditor).with(FullscreenCom
                 title="Fullscreen"
                 isToggleable={false}
                 onClick={() => {
-                    clsInstance.setState({viewerTriggerResize: true});
+                    clsInstance.setState({ viewerTriggerResize: true });
                     clsInstance.goFullscreen();
                 }}
             >
-                <Fullscreen/>
-            </RoundIconButton>
-        ]
+                <Fullscreen />
+            </RoundIconButton>,
+        ];
     }
 
     getThreeDEditorClassNames() {
-        const isFullscreenCls = (this.state.isFullscreen) ? "full-screen" : "";
+        const isFullscreenCls = this.state.isFullscreen ? "full-screen" : "";
         return setClass(super.getThreeDEditorClassNames(), isFullscreenCls);
     }
 
     onFullscreen(isFullscreen) {
         this.setState({
             isFullscreen,
-            viewerTriggerResize: isFullscreen !== this.state.isFullscreen
-        })
+            viewerTriggerResize: isFullscreen !== this.state.isFullscreen,
+        });
     }
 }
 
 ThreeDEditorFullscreen.propTypes = {
-    material: React.PropTypes.object,
-    isConventionalCellShown: React.PropTypes.bool,
-    onUpdate: React.PropTypes.func,
-    editable: React.PropTypes.bool
+    // eslint-disable-next-line react/forbid-prop-types
+    material: PropTypes.object,
+    isConventionalCellShown: PropTypes.bool,
+    onUpdate: PropTypes.func,
+    editable: PropTypes.bool,
 };

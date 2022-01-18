@@ -5,21 +5,21 @@ runs:
   steps:
     - name: Build application container
       shell: bash -l {0}
-      run: docker build -t materials-designer:application -f dockerfiles/centos/Dockerfile .
+      run: docker-compose build materials-designer
 
     - name: Build test container
       shell: bash -l {0}
-      run: docker build -t materials-designer:test -f dockerfiles/test/Dockerfile .
+      run: docker-compose build materials-designer-test
 
     - name: Run tests
       shell: bash -l {0}
       run: |
-        docker run -p 3001:3001 -d --name=application materials-designer:application
-        while ! docker logs application 2>&1 | grep "Compiled"; do
-            failed=$(docker logs application 2>&1 | grep "Failed")
+        docker-compose up -d materials-designer
+        while ! docker logs materials-designer_materials-designer_1 2>&1 | grep "Compiled"; do
+            failed=$(docker logs materials-designer_materials-designer_1 2>&1 | grep "Failed")
             if [[ "$failed" != "" ]]; then
                 exit 1
             fi
             sleep 5
         done
-        docker run --network=host materials-designer:test
+        docker-compose run materials-designer-test

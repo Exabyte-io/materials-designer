@@ -3,7 +3,9 @@
         [
             "@babel/preset-env",
             {
-                "targets": {}
+                "targets": {
+                    "node": "current"
+                }
             }
         ],
         "@babel/preset-react",

@@ -1,35 +1,38 @@
-import React from "react";
-import {mix} from "mixwith";
 import setClass from "classnames";
-import {MuiThemeProvider} from "material-ui-next/styles";
+import { MuiThemeProvider } from "material-ui";
+import { mix } from "mixwith";
+import PropTypes from "prop-types";
+import React from "react";
 
-import {Material} from "./material";
+import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
+import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
+import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
+import { FullscreenComponentMixin } from "./components/include/FullscreenComponentMixin";
+import { DarkMaterialUITheme } from "./components/include/material-ui/theme";
 import ItemsList from "./components/items_list/ItemsList";
 import SourceEditor from "./components/source_editor/SourceEditor";
-import {DarkMaterialUITheme} from "./components/include/material-ui/theme";
-import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
-import {ThreeDEditorFullscreen} from "./components/3d_editor/ThreeDEditorFullscreen";
-import {FullscreenComponentMixin} from "./components/include/FullscreenComponentMixin";
-import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
+import { Material } from "./material";
 
 class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMixin) {
-
     constructor(props) {
         super(props);
         this.state = {
             isFullscreen: false,
-        }
+        };
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         const [nextProps_, thisProps_, nextState_, thisState_] = [
-            nextProps, this.props, nextState, this.state
+            nextProps,
+            this.props,
+            nextState,
+            this.state,
         ].map(JSON.stringify);
         return !(nextProps_ === thisProps_) || !(nextState_ === thisState_);
     }
 
     toggleFullscreen = () => {
-        this.setState({isFullscreen: !this.state.isFullscreen})
+        this.setState({ isFullscreen: !this.state.isFullscreen });
     };
 
     render() {
@@ -37,11 +40,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
             <this.FullscreenHandlerComponent
                 className={setClass(this.props.className)}
                 enabled={this.state.isFullscreen}
-                onChange={isFullscreen => this.setState({isFullscreen})}
+                onChange={(isFullscreen) => this.setState({ isFullscreen })}
             >
                 <MuiThemeProvider theme={DarkMaterialUITheme}>
-                    <div className={setClass("materials-designer col-xs-12", this.props.className)}
-                        id="materialEditForm">
+                    <div
+                        className={setClass("materials-designer col-xs-12", this.props.className)}
+                        id="materialEditForm"
+                    >
                         <div className="bgm-dark row">
                             {/* TODO: find out how to avoid passing material to header */}
                             <HeaderMenuToolbar
@@ -49,30 +54,23 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 material={this.props.material}
                                 materials={this.props.materials}
                                 index={this.props.index}
-
                                 isFullscreen={this.state.isFullscreen}
                                 toggleFullscreen={this.toggleFullscreen}
-
                                 onUndo={this.props.onUndo}
                                 onRedo={this.props.onRedo}
                                 onReset={this.props.onReset}
                                 onClone={this.props.onClone}
                                 onToggleIsNonPeriodic={this.props.onToggleIsNonPeriodic}
-
                                 onUpdate={this.props.onUpdate}
-
                                 onAdd={this.props.onAdd}
                                 onExport={this.props.onExport}
                                 onSave={this.props.onSave}
                                 onExit={this.props.onExit}
-
                                 ImportModal={this.props.ImportModal}
                                 SaveActionDialog={this.props.SaveActionDialog}
-
                                 onGenerateSupercell={this.props.onGenerateSupercell}
                                 onGenerateSurface={this.props.onGenerateSurface}
                                 onSetBoundaryConditions={this.props.onSetBoundaryConditions}
-
                                 maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
                             />
                             <div className="bgm-dark col-xs-12">
@@ -86,81 +84,82 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 />
                                 <SourceEditor
                                     className="col-md-4 p-5"
-                                    editable={true}
                                     material={this.props.material}
                                     onUpdate={this.props.onUpdate}
                                 />
                                 <ThreeDEditorFullscreen
                                     className="col-md-6 p-0"
-                                    editable={true}
+                                    editable
                                     material={this.props.material}
                                     isConventionalCellShown={this.props.isConventionalCellShown}
                                     boundaryConditions={this.props.material.boundaryConditions}
                                     onUpdate={(material) => {
                                         // convert made material to MD material and re-set metadata
-                                        const newMaterial = Material.createFromMadeMaterial(material);
+                                        const newMaterial =
+                                            Material.createFromMadeMaterial(material);
                                         newMaterial.metadata = this.props.material.metadata || {};
                                         this.props.onUpdate(newMaterial);
                                     }}
                                 />
                             </div>
-                            <div className="bgm-dark col-xs-12 p-0"
+                            <div
+                                className="bgm-dark col-xs-12 p-0"
                                 style={{
                                     // TODO: move out of here
-                                    padding: '40px',
-                                    borderTop: '1px solid',
-                                    backgroundColor: "#202020"
+                                    padding: "40px",
+                                    borderTop: "1px solid",
+                                    backgroundColor: "#202020",
                                 }}
                             >
-                                <EditorSelectionInfo/>
+                                <EditorSelectionInfo />
                             </div>
                         </div>
                     </div>
                 </MuiThemeProvider>
             </this.FullscreenHandlerComponent>
-        )
+        );
     }
 }
 
 MaterialsDesigner.propTypes = {
+    isLoading: PropTypes.bool,
+    showToolbar: PropTypes.bool,
 
-    isLoading: React.PropTypes.bool,
-    showToolbar: React.PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
+    material: PropTypes.object.isRequired,
+    isConventionalCellShown: PropTypes.bool,
 
-    material: React.PropTypes.object.isRequired,
-    isConventionalCellShown: React.PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
+    materials: PropTypes.array,
+    index: PropTypes.number,
 
-    materials: React.PropTypes.array,
-    index: React.PropTypes.number,
-
-    onUpdate: React.PropTypes.func,
+    onUpdate: PropTypes.func,
 
     // ItemsList
-    onItemClick: React.PropTypes.func,
+    onItemClick: PropTypes.func,
 
     // Toolbar
-    onGenerateSupercell: React.PropTypes.func,
-    onGenerateSurface: React.PropTypes.func,
-    onSetBoundaryConditions: React.PropTypes.func,
-    onToggleIsNonPeriodic: React.PropTypes.func,
+    onGenerateSupercell: PropTypes.func,
+    onGenerateSurface: PropTypes.func,
+    onSetBoundaryConditions: PropTypes.func,
+    onToggleIsNonPeriodic: PropTypes.func,
 
     // Undo-Redo
-    onUndo: React.PropTypes.func,
-    onRedo: React.PropTypes.func,
-    onReset: React.PropTypes.func,
+    onUndo: PropTypes.func,
+    onRedo: PropTypes.func,
+    onReset: PropTypes.func,
 
-    onAdd: React.PropTypes.func,
-    onExport: React.PropTypes.func,
-    onSave: React.PropTypes.func,
-    onExit: React.PropTypes.func,
+    onAdd: PropTypes.func,
+    onExport: PropTypes.func,
+    onSave: PropTypes.func,
+    onExit: PropTypes.func,
 
-    ImportModal: React.PropTypes.func,
-    SaveActionDialog: React.PropTypes.func,
+    ImportModal: PropTypes.func,
+    SaveActionDialog: PropTypes.func,
 
-    onRemove: React.PropTypes.func,
+    onRemove: PropTypes.func,
 
-    maxCombinatorialBasesCount: React.PropTypes.number,
-
+    maxCombinatorialBasesCount: PropTypes.number,
 };
 
 export default MaterialsDesigner;

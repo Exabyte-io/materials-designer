@@ -1,47 +1,51 @@
-import React from 'react';
-import List from 'material-ui-next/List';
-import Button from 'material-ui-next/Button';
-import ClickAwayListener from 'material-ui-next/utils/ClickAwayListener';
+import Button from "material-ui/Button";
+import List from "material-ui/List";
+import ClickAwayListener from "material-ui/utils/ClickAwayListener";
+import PropTypes from "prop-types";
+import React from "react";
 
-import {ShowIf} from "../../../utils/react/showif";
-import {randomAlphanumeric} from "../../../utils/str";
+import { ShowIf } from "../../../utils/react/showif";
+import { randomAlphanumeric } from "../../../utils/str";
 
 export class ButtonActivatedMenuMaterialUI extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen: this.props.isOpen || false,
+            isOpen: props.isOpen,
         };
     }
 
-    handleClick = event => {
-        this.setState({isOpen: !this.state.isOpen});
+    handleClick = () => {
+        const { isOpen } = this.state;
+        this.setState({ isOpen: !isOpen });
     };
 
-    handleClose = () => this.setState({isOpen: false});
+    handleClose = () => this.setState({ isOpen: false });
 
     render() {
+        const { isOpen, anchorEl } = this.state;
+        const { title, id, children } = this.props;
         return (
             <ClickAwayListener onClickAway={this.handleClose}>
                 <div>
                     <Button
-                        className={Boolean(this.state.isOpen) ? "active" : ""}
+                        className={isOpen ? "active" : ""}
                         disableRipple
                         onClick={this.handleClick}
-                        aria-owns={this.state.anchorEl ? this.props.id : null}
+                        aria-owns={anchorEl ? id : null}
                         aria-haspopup="true"
-                        data-name={this.props.title}
+                        data-name={title}
                     >
-                        {this.props.title}
+                        {title}
                     </Button>
-                    <ShowIf condition={Boolean(this.state.isOpen)}>
-
-                        <List id={this.props.id}
+                    <ShowIf condition={Boolean(isOpen)}>
+                        <List
+                            id={id}
                             className="button-activated-menu"
-                            data-name={this.props.title + "-menu"}
+                            data-name={title + "-menu"}
                             onClick={this.handleClose}
                         >
-                            {this.props.children}
+                            {children}
                         </List>
                     </ShowIf>
                 </div>
@@ -51,10 +55,15 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
 }
 
 ButtonActivatedMenuMaterialUI.propTypes = {
-    title: React.PropTypes.string,
-    id: React.PropTypes.string,
+    title: PropTypes.string,
+    id: PropTypes.string,
+    isOpen: PropTypes.bool,
+    children: PropTypes.node,
 };
 
 ButtonActivatedMenuMaterialUI.defaultProps = {
     id: randomAlphanumeric(10),
+    isOpen: false,
+    children: undefined,
+    title: "",
 };

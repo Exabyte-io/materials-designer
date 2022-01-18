@@ -1,10 +1,10 @@
-import {createMuiTheme} from 'material-ui-next/styles';
+import { createMuiTheme } from "material-ui/styles";
 
-// adopted from: https://material-ui-next.com/customization/themes/#theme-configuration-variables
+// adopted from: https://material-ui.com/customization/themes/#theme-configuration-variables
 const DarkThemeConfig = {
     palette: {
         // Switching the dark mode on is a single property value change.
-        type: 'dark',
+        type: "dark",
     },
     typography: {
         // Tell Material-UI what's the font-size on the html element is.
@@ -15,9 +15,9 @@ const DarkThemeConfig = {
             root: {
                 margin: 10,
                 minWidth: 120,
-            }
-        }
-    }
+            },
+        },
+    },
 };
 
 export const DarkMaterialUITheme = createMuiTheme(DarkThemeConfig);
@@ -25,6 +25,6 @@ export const DarkMaterialUITheme = createMuiTheme(DarkThemeConfig);
 export const LightMaterialUITheme = createMuiTheme({
     typography: DarkThemeConfig.typography,
     palette: {
-        type: 'light',
+        type: "light",
     },
 });

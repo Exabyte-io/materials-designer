@@ -1,12 +1,11 @@
-import undoable, {excludeAction} from 'redux-undo';
+import undoable, { excludeAction } from "redux-undo";
 
-import {createReducer} from "../utils/react/reducer";
-import IsLoadingReducer from "../utils/redux/is_loading/reducer"
-import StateResetReducer from "../utils/redux/reset_state/reducer"
-
-import MaterialReducer from "./Material";
+import { MATERIALS_UPDATE_INDEX } from "../actions";
+import { createReducer } from "../utils/react/reducer";
+import IsLoadingReducer from "../utils/redux/is_loading/reducer";
+import StateResetReducer from "../utils/redux/reset_state/reducer";
 import InputOutputReducer from "./InputOutput";
-import {MATERIALS_UPDATE_INDEX} from "../actions";
+import MaterialReducer from "./Material";
 
 export const createMaterialsDesignerReducer = function (initialState, externalReducer) {
     return undoable(
@@ -16,11 +15,11 @@ export const createMaterialsDesignerReducer = function (initialState, externalRe
             IsLoadingReducer,
             InputOutputReducer,
             MaterialReducer,
-            externalReducer || {}
+            externalReducer || {},
         ),
         {
             limit: 10,
-            filter: excludeAction(MATERIALS_UPDATE_INDEX)
+            filter: excludeAction(MATERIALS_UPDATE_INDEX),
         },
-    )
+    );
 };
