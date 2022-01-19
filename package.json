@@ -1,6 +1,6 @@
 {
     "name": "@exabyte-io/materials-designer",
-    "version": "2021.12.22-0",
+    "version": "2022.1.9-0",
     "description": "Materials Designer",
     "scripts": {
         "start": "PORT=3001 react-scripts start",
@@ -21,11 +21,11 @@
     "license": "Apache-2.0",
     "homepage": "https://github.com/Exabyte-io/materials-designer",
     "dependencies": {
-        "@babel/cli": "7.0.0",
-        "@babel/core": "^7.1.0",
-        "@babel/plugin-proposal-class-properties": "7.0.0",
+        "@babel/cli": "7.1.0",
+        "@babel/core": "7.1.0",
+        "@babel/plugin-proposal-class-properties": "7.1.0",
         "@babel/polyfill": "7.0.0",
-        "@babel/preset-env": "^7.1.0",
+        "@babel/preset-env": "7.1.0",
         "@babel/preset-react": "7.0.0",
         "@babel/runtime": "^7.5.0",
         "@babel/runtime-corejs2": "^7.5.0",
@@ -64,8 +64,7 @@
     "devDependencies": {
         "babel-preset-react-app": "^9.1.2",
         "react": "^15.6.2",
-        "react-dom": "^15.6.2",
-        "react-scripts": "^2.1.5"
+        "react-dom": "^15.6.2"
     },
     "eslintConfig": {
         "extends": "react-app"
