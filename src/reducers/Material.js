@@ -43,14 +43,9 @@ function materialsToggleIsNonPeriodicForOne(state, action) {
         return state;
     }
     newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic;
-    if (newMaterial.isNonPeriodic) {
-        newMaterial.toCartesian()
-        Made.tools.material.scaleLatticeToMakeNonPeriodic(newMaterial);
-        Made.tools.material.getBasisConfigTranslatedToCenter(newMaterial);
-    } else {
-        newMaterial.toCrystal()
-    }
-
+    newMaterial.toCartesian()
+    Made.tools.material.scaleLatticeToMakeNonPeriodic(newMaterial);
+    Made.tools.material.getBasisConfigTranslatedToCenter(newMaterial);
     return materialsUpdateOne(state, Object.assign({}, state, {material: newMaterial}));
 }
 
