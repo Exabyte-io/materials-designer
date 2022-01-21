@@ -35,11 +35,20 @@ class BasisText extends React.Component {
             Made.parsers.xyz.validate(content);
             // only show the success message first time after last failure
             if (!this.state.isContentValidated) {
-                this.setState({
-                    isContentValidated: true,
-                    // TODO: consider removing the success message after a timeout period
-                    message: displayMessage('basis.validationSuccess')
-                });
+                const validNumberOfAtoms = Made.parsers.xyz.validateNumberOfAtoms(content);
+                if (!validNumberOfAtoms) {
+                    this.setState({
+                        isContentValidated: false,
+                        message: displayMessage('basis.maxAtomError')
+                    });
+                    return false;
+                } else {
+                    this.setState({
+                        isContentValidated: true,
+                        // TODO: consider removing the success message after a timeout period
+                        message: displayMessage('basis.validationSuccess')
+                    });
+                }
             } else {
                 // already validated before -> remove message
                 this.setState({message: ''});
