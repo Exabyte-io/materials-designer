@@ -35,8 +35,8 @@ class BasisText extends React.Component {
             Made.parsers.xyz.validate(content);
             // only show the success message first time after last failure
             if (!this.state.isContentValidated) {
-                 const validNumberOfAtoms = Made.parsers.xyz.validateNumberOfAtoms(content);
-                 if (!validNumberOfAtoms) {
+                const validNumberOfAtoms = Made.parsers.xyz.validateNumberOfAtoms(content);
+                if (!validNumberOfAtoms) {
                     this.setState({
                         isContentValidated: false,
                         message: displayMessage('basis.maxAtomError')
