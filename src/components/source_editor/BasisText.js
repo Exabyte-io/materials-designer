@@ -35,9 +35,7 @@ class BasisText extends React.Component {
             Made.parsers.xyz.validate(content);
             // only show the success message first time after last failure
             if (!this.state.isContentValidated) {
-                 const xyzArray = content.split(/\r?\n/);
-                 const nAtoms = xyzArray.length;
-                 const validNumberOfAtoms = nAtoms < 10
+                 const validNumberOfAtoms = Made.parsers.xyz.validateNumberOfAtoms(content);
                  if (!validNumberOfAtoms) {
                     this.setState({
                         isContentValidated: false,
