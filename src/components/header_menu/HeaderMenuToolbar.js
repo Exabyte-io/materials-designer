@@ -114,7 +114,7 @@ class HeaderMenuToolbar extends React.Component {
                 <MenuItem
                     onClick={this.props.onToggleIsNonPeriodic}>
                     <ListItemIcon><DeviceHubIcon/></ListItemIcon>
-                    Toggle "isNonPeriodic"
+                    Set As "Non-Periodic"
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
