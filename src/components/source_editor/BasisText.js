@@ -31,9 +31,23 @@ class BasisText extends React.Component {
     }
 
     isContentPassingValidation(content) {
-        try {
-            Made.parsers.xyz.validate(content);
-            // only show the success message first time after last failure
+        const error = Made.parsers.xyz.validate(content);
+        let messageVariable = "";
+        if (error !== 0) {
+            let message = "";
+            if (error === 1001) {
+                message = "basis.validationError"
+            }
+            if (error === 2001) {
+                message = "basis.maxAtomError"
+                messageVariable = Made.Basis.nonPeriodicMaxAtomsCount;
+            }
+            this.setState({
+                isContentValidated: false,
+                message: displayMessage(message, messageVariable)
+            });
+            return false;
+        } else {
             if (!this.state.isContentValidated) {
                 this.setState({
                     isContentValidated: true,
@@ -44,16 +58,6 @@ class BasisText extends React.Component {
                 // already validated before -> remove message
                 this.setState({message: ''});
             }
-        } catch (err) {
-            let message = "basis.validationError"
-            if (err.message === "Non-Periodic max atom limit exceeded") {
-                message = "basis.maxAtomError"
-            }
-            this.setState({
-                isContentValidated: false,
-                message: displayMessage(message)
-            });
-            return false;
         }
         return true;
     }
