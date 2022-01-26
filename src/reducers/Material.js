@@ -42,12 +42,7 @@ function materialsToggleIsNonPeriodicForOne(state, action) {
         NPMsAlert.warning("Prevented Toggle 'isNonPeriodic' action. Please start from a cloned material");
         return state;
     }
-    if (newMaterial.isNonPeriodic) {
-        NPMsAlert.warning("Prevented Toggle 'isNonPeriodic' action. Structure is already 'non-periodic'");
-        return state;
-    }
-    newMaterial.isNonPeriodic = true
-    newMaterial.toCartesian();
+    newMaterial.isNonPeriodic = !newMaterial.isNonPeriodic
     Made.tools.material.scaleLatticeToMakeNonPeriodic(newMaterial);
     Made.tools.material.getBasisConfigTranslatedToCenter(newMaterial);
     return materialsUpdateOne(state, Object.assign({}, state, {material: newMaterial}));
