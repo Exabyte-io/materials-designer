@@ -2,8 +2,7 @@ import _ from "underscore";
 import React from 'react';
 import setClass from 'classnames';
 import {Made} from "@exabyte-io/made.js";
-
-import {displayMessage} from "../../i18n/messages";
+import { errorMessageConfig } from "./enums";
 
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/darcula.css";
@@ -32,19 +31,11 @@ class BasisText extends React.Component {
 
     isContentPassingValidation(content) {
         const error = Made.parsers.xyz.validate(content);
-        let messageVariable = "";
+        const errorMessage = errorMessageConfig[error];
         if (error !== 0) {
-            let message = "";
-            if (error === 1001) {
-                message = "basis.validationError"
-            }
-            if (error === 2001) {
-                message = "basis.maxAtomError"
-                messageVariable = Made.Basis.nonPeriodicMaxAtomsCount;
-            }
             this.setState({
                 isContentValidated: false,
-                message: displayMessage(message, messageVariable)
+                message: errorMessage
             });
             return false;
         } else {
@@ -52,7 +43,7 @@ class BasisText extends React.Component {
                 this.setState({
                     isContentValidated: true,
                     // TODO: consider removing the success message after a timeout period
-                    message: displayMessage('basis.validationSuccess')
+                    message: errorMessage
                 });
             } else {
                 // already validated before -> remove message
