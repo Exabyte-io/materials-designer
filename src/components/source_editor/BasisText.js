@@ -2,7 +2,7 @@ import _ from "underscore";
 import React from 'react';
 import setClass from 'classnames';
 import {Made} from "@exabyte-io/made.js";
-import { errorMessageConfig } from "./enums";
+import { xyzValidationErrorMessagesConfig } from "./enums";
 
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/darcula.css";
@@ -31,7 +31,7 @@ class BasisText extends React.Component {
 
     isContentPassingValidation(content) {
         const error = Made.parsers.xyz.validate(content);
-        const errorMessage = errorMessageConfig[error];
+        const errorMessage = xyzValidationErrorMessagesConfig[error];
         if (error !== 0) {
             this.setState({
                 isContentValidated: false,
