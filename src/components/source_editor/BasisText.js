@@ -30,7 +30,7 @@ class BasisText extends React.Component {
     }
 
     isContentPassingValidation(content) {
-        const error = Made.parsers.xyz.validate(content);
+        const error = Made.parsers.xyz.validateAll(content);
         const errorMessage = xyzValidationErrorMessagesConfig[error];
         if (error !== 0) {
             this.setState({
