@@ -2,8 +2,7 @@ import _ from "underscore";
 import React from 'react';
 import setClass from 'classnames';
 import {Made} from "@exabyte-io/made.js";
-
-import {displayMessage} from "../../i18n/messages";
+import { xyzValidationErrorMessagesConfig } from "./enums";
 
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/darcula.css";
@@ -31,25 +30,25 @@ class BasisText extends React.Component {
     }
 
     isContentPassingValidation(content) {
-        try {
-            Made.parsers.xyz.validate(content);
-            // only show the success message first time after last failure
+        const error = Made.parsers.xyz.validateAll(content);
+        const errorMessage = xyzValidationErrorMessagesConfig[error];
+        if (error !== 0) {
+            this.setState({
+                isContentValidated: false,
+                message: errorMessage
+            });
+            return false;
+        } else {
             if (!this.state.isContentValidated) {
                 this.setState({
                     isContentValidated: true,
                     // TODO: consider removing the success message after a timeout period
-                    message: displayMessage('basis.validationSuccess')
+                    message: errorMessage
                 });
             } else {
                 // already validated before -> remove message
                 this.setState({message: ''});
             }
-        } catch (err) {
-            this.setState({
-                isContentValidated: false,
-                message: displayMessage('basis.validationError')
-            });
-            return false;
         }
         return true;
     }
