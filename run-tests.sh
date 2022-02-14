@@ -76,7 +76,8 @@ SCREENSHOTS_DIR="${CUCUMBER_DIR}/screenshots"
 export ROOT_URL="${HOST}:${PORT}"
 
 cd ${TESTS_DIR}
-source ${NVM_DIR}/nvm.sh
+DEFAULT_NVM_DIR=/root/.nvm
+source ${NVM_DIR:-$DEFAULT_NVM_DIR}/nvm.sh
 nvm use ${NODE_VERSION}
 npm ci
 
