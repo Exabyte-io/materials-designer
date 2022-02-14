@@ -42,6 +42,8 @@ COPY . .
 RUN source scl_source enable devtoolset-8 && \
     npm install
 
+RUN bash core-js-fix.sh
+
 EXPOSE 3001
 
 ENTRYPOINT ["/opt/app/entrypoint.sh"]
