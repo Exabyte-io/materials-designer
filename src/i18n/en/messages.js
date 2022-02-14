@@ -6,6 +6,7 @@ export default {
         "elementsNotEqual": "Atomic elements differ",
         "validationError": "Invalid basis format. Please see documentation",
         "validationSuccess": "Valid basis format",
+        "maxAtomError": "Number of atoms (%s) exceeded for non-periodic structures."
     },
     "resetToLast": "Material is reset to last valid state",
     "combinatorialBasesCountExceeded": "Number of combinations exceeded the limit (%s)"
