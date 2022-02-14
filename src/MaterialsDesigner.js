@@ -1,5 +1,5 @@
 import setClass from "classnames";
-import { MuiThemeProvider } from "material-ui";
+import { MuiThemeProvider } from "material-ui-next/styles";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
 import React from "react";
