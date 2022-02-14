@@ -10,7 +10,7 @@
         "test": "bash run-tests.sh",
         "lint": "eslint src && prettier --write src",
         "lint:fix": "eslint --fix --cache src && prettier --write src",
-        "postinstall": "npm run transpile; bash core-js-fix.sh",
+        "postinstall": "./core-js-fix.sh; npm run transpile",
         "prettier": "prettier --check src",
         "prepare": "husky install"
     },
