@@ -1,11 +1,11 @@
 /* eslint-disable react/sort-comp */
-import CheckIcon from "@material-ui/icons/Check";
-import DeleteIcon from "@material-ui/icons/Delete";
-import DeviceHubIcon from "@material-ui/icons/DeviceHub";
-import WidgetsIcon from "@material-ui/icons/Widgets";
+import CheckIcon from "material-ui-icons-next/Check";
+import DeleteIcon from "material-ui-icons-next/Delete";
+import DeviceHubIcon from "material-ui-icons-next/DeviceHub";
+import WidgetsIcon from "material-ui-icons-next/Widgets";
 import setClass from "classnames";
-import { TextField } from "material-ui";
-import List, { ListItem, ListItemIcon, ListItemText } from "material-ui/List";
+import { TextField } from "material-ui-next";
+import List, { ListItem, ListItemIcon, ListItemText } from "material-ui-next/List";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";

@@ -1,11 +1,11 @@
 /* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpandMoreIcon from "material-ui-icons-next/ExpandMore";
 import setClass from "classnames";
 import ExpansionPanel, {
     ExpansionPanelDetails,
     ExpansionPanelSummary,
-} from "material-ui/ExpansionPanel";
+} from "material-ui-next/ExpansionPanel";
 import PropTypes from "prop-types";
 import React from "react";
 import s from "underscore.string";
