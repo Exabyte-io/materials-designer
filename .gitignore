@@ -6,4 +6,4 @@ node_modules/
 .nyc_output/
 tests/node_modules/
 tests/cucumber/screenshots/
-
+.idea/
