@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import Button from "material-ui/Button";
-import Dialog, { DialogActions, DialogContent, DialogTitle } from "material-ui/Dialog";
+import Button from "material-ui-next/Button";
+import Dialog, { DialogActions, DialogContent, DialogTitle } from "material-ui-next/Dialog";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";

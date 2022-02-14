@@ -44,4 +44,6 @@ RUN source scl_source enable devtoolset-8 && \
 
 EXPOSE 3001
 
+RUN bash core-js-fix.sh
+
 ENTRYPOINT ["/opt/app/entrypoint.sh"]

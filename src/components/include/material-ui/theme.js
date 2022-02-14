@@ -1,4 +1,4 @@
-import { createMuiTheme } from "material-ui/styles";
+import { createMuiTheme } from "material-ui-next/styles";
 
 // adopted from: https://material-ui.com/customization/themes/#theme-configuration-variables
 const DarkThemeConfig = {
