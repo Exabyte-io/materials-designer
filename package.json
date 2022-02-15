@@ -33,7 +33,7 @@
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
         "@exabyte-io/made.js": "2021.12.22-0",
-        "@exabyte-io/wave.js": "git+https://github.com/Exabyte-io/wave.js.git#362e1a80ee905a34da452ccc3cd92891459b563c",
+        "@exabyte-io/wave.js": "git+https://github.com/Exabyte-io/wave.js.git#4579dda41c1367f874f01f4e09a71ad24a30fd36",
         "bootstrap": "^3.3.7",
         "classnames": "2.3.1",
         "codemirror": "^5.47.0",
