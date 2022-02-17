@@ -21,6 +21,16 @@ jobs:
       - name: Docker build and test
         uses: ./.github/workflows/docker-build-test
 
+      - name: Checkout actions repository
+        uses: actions/checkout@v2
+        with:
+          repository: Exabyte-io/actions
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          path: actions
+
+      - name: Validate JS package
+        uses: ./actions/js/validate
+
   publish:
     needs: run-tests
     runs-on: ubuntu-latest

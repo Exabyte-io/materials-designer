@@ -26,6 +26,7 @@
     "license": "Apache-2.0",
     "homepage": "https://github.com/Exabyte-io/materials-designer",
     "dependencies": {
+        "@babel/cli": "7.16.0",
         "@babel/core": "7.16.0",
         "@babel/plugin-proposal-class-properties": "7.16.0",
         "@babel/preset-env": "7.16.4",
@@ -33,7 +34,7 @@
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
         "@exabyte-io/made.js": "2021.12.22-0",
-        "@exabyte-io/wave.js": "git+https://github.com/Exabyte-io/wave.js.git#e1aea61d8be611b653c479833112538f3b44a7dd",
+        "@exabyte-io/wave.js": "2022.2.16-0",
         "bootstrap": "^3.3.7",
         "classnames": "2.3.1",
         "codemirror": "^5.47.0",
@@ -65,7 +66,6 @@
         "react-dom": "^15.6.2"
     },
     "devDependencies": {
-        "@babel/cli": "7.16.0",
         "babel-preset-react-app": "^9.1.2",
         "react": "^15.6.2",
         "react-dom": "^15.6.2",
