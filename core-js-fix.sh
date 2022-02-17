@@ -8,3 +8,7 @@ if [[ -d node_modules/@babel/runtime ]]; then
     cd -
 fi
 
+if [[ -d node_modules/resolve/test/resolver/malformed_package_json/ ]]; then
+    rm -r node_modules/resolve/test/resolver/malformed_package_json/
+fi
+
