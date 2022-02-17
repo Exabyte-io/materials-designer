@@ -21,6 +21,9 @@ jobs:
       - name: Docker build and test
         uses: ./.github/workflows/docker-build-test
 
+      - name: Validate JS package
+        uses: ./actions/js/validate
+
   publish:
     needs: run-tests
     runs-on: ubuntu-latest
