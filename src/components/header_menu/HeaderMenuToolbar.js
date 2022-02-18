@@ -1,56 +1,50 @@
-import React from "react";
-import setClass from "classnames";
-
-import Toolbar from 'material-ui-next/Toolbar';
-import Divider from 'material-ui-next/Divider';
-import {MenuItem} from 'material-ui-next/Menu';
-import {ListItemIcon} from 'material-ui-next/List';
-import IconButton from 'material-ui-next/IconButton';
-import DeviceHubIcon from 'material-ui-icons-next/DeviceHub';
-import {ThreejsEditorModal} from "@exabyte-io/wave.js";
-
+/* eslint-disable react/sort-comp */
+import { ThreejsEditorModal } from "@exabyte-io/wave.js";
 import {
-    Check as CheckIcon,
-    Undo as UndoIcon,
-    Redo as RedoIcon,
-    FormatShapes as ConventionalCellIcon,
-    Collections as CloneIcon,
-    Close as CloseIcon,
     AddCircle as AddCircleIcon,
-    FileDownload as FileDownloadIcon,
-    Save as SaveIcon,
-    ExitToApp as ExitToAppIcon,
-    Fullscreen as FullscreenIcon,
-    FullscreenExit as FullscreenExitIcon,
-
-    Help as HelpIcon,
     Assignment as AssignmentIcon,
-
     // TODO: rename other menu icons similarly
     BorderClear as SupercellIcon,
-    LibraryAdd as CombinatorialSetIcon,
-    SwapVert as InterpolatedSetIcon,
-    Layers as SlabIcon,
-    Timeline as PolymerIcon,
-    DonutLarge as NanotubeIcon,
-
-    ThreeDRotation as ThreeDEditorIcon,
-
+    Check as CheckIcon,
+    Close as CloseIcon,
+    Collections as CloneIcon,
     Directions as BoundaryConditionsIcon,
+    DonutLarge as NanotubeIcon,
+    ExitToApp as ExitToAppIcon,
+    FileDownload as FileDownloadIcon,
+    FormatShapes as ConventionalCellIcon,
+    Fullscreen as FullscreenIcon,
+    FullscreenExit as FullscreenExitIcon,
+    Help as HelpIcon,
+    Layers as SlabIcon,
+    LibraryAdd as CombinatorialSetIcon,
+    Redo as RedoIcon,
+    Save as SaveIcon,
+    SwapVert as InterpolatedSetIcon,
+    ThreeDRotation as ThreeDEditorIcon,
+    Timeline as PolymerIcon,
+    Undo as UndoIcon,
+} from "material-ui-icons-next";
+import DeviceHubIcon from "material-ui-icons-next/DeviceHub";
+import setClass from "classnames";
+import Divider from "material-ui-next/Divider";
+import IconButton from "material-ui-next/IconButton";
+import { ListItemIcon } from "material-ui-next/List";
+import { MenuItem } from "material-ui-next/Menu";
+import Toolbar from "material-ui-next/Toolbar";
+import PropTypes from "prop-types";
+import React from "react";
 
-} from 'material-ui-icons-next';
-
-import {Material} from "../../material";
-import ExportActionDialog from "./ExportActionDialog";
-import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
-import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
-import {ButtonActivatedMenuMaterialUI} from "../include/material-ui/ButtonActivatedMenu";
-import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
+import { Material } from "../../material";
+import { BoundaryConditionsDialog } from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
-import {BoundaryConditionsDialog} from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
+import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
+import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
+import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
+import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
+import ExportActionDialog from "./ExportActionDialog";
 
 class HeaderMenuToolbar extends React.Component {
-
     constructor(config) {
         super(config);
         this.state = {
@@ -67,34 +61,43 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     _handleConventionalCellSelect = () => {
-        const newMaterial = this.props.material.getACopyWithConventionalCell();
-        return this.props.onUpdate(newMaterial, this.props.index);
+        const { material, onUpdate, index } = this.props;
+        const newMaterial = material.getACopyWithConventionalCell();
+        return onUpdate(newMaterial, index);
     };
 
     renderIOMenu() {
+        const { ImportModal, SaveActionDialog, onExit } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
                 <MenuItem
-                    disabled={!Boolean(this.props.ImportModal)}
-                    onClick={() => this.setState({showImportMaterialsDialog: true})}>
-                    <ListItemIcon><AddCircleIcon/></ListItemIcon>
+                    disabled={!ImportModal}
+                    onClick={() => this.setState({ showImportMaterialsDialog: true })}
+                >
+                    <ListItemIcon>
+                        <AddCircleIcon />
+                    </ListItemIcon>
                     Import
                 </MenuItem>
-                <MenuItem
-                    onClick={() => this.setState({showExportMaterialsDialog: true})}>
-                    <ListItemIcon><FileDownloadIcon/></ListItemIcon>
+                <MenuItem onClick={() => this.setState({ showExportMaterialsDialog: true })}>
+                    <ListItemIcon>
+                        <FileDownloadIcon />
+                    </ListItemIcon>
                     Export
                 </MenuItem>
                 <MenuItem
-                    disabled={!Boolean(this.props.SaveActionDialog)}
-                    onClick={() => this.setState({showSaveMaterialsDialog: true})}>
-                    <ListItemIcon><SaveIcon/></ListItemIcon>
+                    disabled={!SaveActionDialog}
+                    onClick={() => this.setState({ showSaveMaterialsDialog: true })}
+                >
+                    <ListItemIcon>
+                        <SaveIcon />
+                    </ListItemIcon>
                     Save
                 </MenuItem>
-                <MenuItem
-                    disabled={!Boolean(this.props.onExit)}
-                    onClick={this.props.onExit}>
-                    <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                <MenuItem disabled={!onExit} onClick={onExit}>
+                    <ListItemIcon>
+                        <ExitToAppIcon />
+                    </ListItemIcon>
                     Exit
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
@@ -102,47 +105,85 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderEditMenu() {
+        const { onUndo, onRedo, onReset, onClone, onToggleIsNonPeriodic } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Edit">
-                <MenuItem onClick={this.props.onUndo}><ListItemIcon><UndoIcon/></ListItemIcon>Undo</MenuItem>
-                <MenuItem onClick={this.props.onRedo}><ListItemIcon><RedoIcon/></ListItemIcon>Redo</MenuItem>
-                <MenuItem onClick={this.props.onReset}><ListItemIcon><CloseIcon/></ListItemIcon>Reset</MenuItem>
-                <Divider/>
-                <MenuItem onClick={this.props.onClone}><ListItemIcon><CloneIcon/></ListItemIcon>Clone</MenuItem>
-                <Divider/>
-                <MenuItem onClick={this._handleConventionalCellSelect}><ListItemIcon><ConventionalCellIcon/></ListItemIcon>Use Conventional Cell</MenuItem>
-                <MenuItem
-                    onClick={this.props.onToggleIsNonPeriodic}>
-                    <ListItemIcon><DeviceHubIcon/></ListItemIcon>
-                    Toggle "isNonPeriodic"
+                <MenuItem onClick={onUndo}>
+                    <ListItemIcon>
+                        <UndoIcon />
+                    </ListItemIcon>
+                    Undo
+                </MenuItem>
+                <MenuItem onClick={onRedo}>
+                    <ListItemIcon>
+                        <RedoIcon />
+                    </ListItemIcon>
+                    Redo
+                </MenuItem>
+                <MenuItem onClick={onReset}>
+                    <ListItemIcon>
+                        <CloseIcon />
+                    </ListItemIcon>
+                    Reset
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={onClone}>
+                    <ListItemIcon>
+                        <CloneIcon />
+                    </ListItemIcon>
+                    Clone
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={this._handleConventionalCellSelect}>
+                    <ListItemIcon>
+                        <ConventionalCellIcon />
+                    </ListItemIcon>
+                    Use Conventional Cell
+                </MenuItem>
+                <MenuItem onClick={onToggleIsNonPeriodic}>
+                    <ListItemIcon>
+                        <DeviceHubIcon />
+                    </ListItemIcon>
+                    Toggle &#34;isNonPeriodic&#34;
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
     }
 
     renderViewMenu() {
+        const { toggleFullscreen, isFullscreen } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="View">
-                <MenuItem onClick={() => this.setState({showThreejsEditorModal: true})}>
-                    <ListItemIcon><ThreeDEditorIcon/></ListItemIcon>
+                <MenuItem onClick={() => this.setState({ showThreejsEditorModal: true })}>
+                    <ListItemIcon>
+                        <ThreeDEditorIcon />
+                    </ListItemIcon>
                     Multi-Material 3D Editor
                 </MenuItem>
                 <MenuItem disabled>
-                    <ListItemIcon><CheckIcon/></ListItemIcon>
+                    <ListItemIcon>
+                        <CheckIcon />
+                    </ListItemIcon>
                     Sidebar
                 </MenuItem>
                 <MenuItem disabled>
-                    <ListItemIcon><CheckIcon/></ListItemIcon>
+                    <ListItemIcon>
+                        <CheckIcon />
+                    </ListItemIcon>
                     Source Editor
                 </MenuItem>
                 <MenuItem disabled>
-                    <ListItemIcon><CheckIcon/></ListItemIcon>
+                    <ListItemIcon>
+                        <CheckIcon />
+                    </ListItemIcon>
                     Selection Info
                 </MenuItem>
-                <Divider/>
-                <MenuItem onClick={this.props.toggleFullscreen}>
-                    <ListItemIcon>{this.props.isFullscreen ? <FullscreenExitIcon/> : <FullscreenIcon/>}</ListItemIcon>
-                    {this.props.isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                <Divider />
+                <MenuItem onClick={toggleFullscreen}>
+                    <ListItemIcon>
+                        {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                    </ListItemIcon>
+                    {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
@@ -151,52 +192,77 @@ class HeaderMenuToolbar extends React.Component {
     renderAdvancedMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="Advanced">
-                <MenuItem onClick={() => this.setState({showSupercellDialog: true})}>
-                    <ListItemIcon><SupercellIcon/></ListItemIcon>
+                <MenuItem onClick={() => this.setState({ showSupercellDialog: true })}>
+                    <ListItemIcon>
+                        <SupercellIcon />
+                    </ListItemIcon>
                     Supercell
                 </MenuItem>
-                <MenuItem onClick={() => this.setState({showCombinatorialDialog: true})}>
-                    <ListItemIcon><CombinatorialSetIcon/></ListItemIcon>
+                <MenuItem onClick={() => this.setState({ showCombinatorialDialog: true })}>
+                    <ListItemIcon>
+                        <CombinatorialSetIcon />
+                    </ListItemIcon>
                     Combinatorial set
                 </MenuItem>
-                <MenuItem onClick={() => this.setState({showInterpolateDialog: true})}>
-                    <ListItemIcon><InterpolatedSetIcon/></ListItemIcon>
+                <MenuItem onClick={() => this.setState({ showInterpolateDialog: true })}>
+                    <ListItemIcon>
+                        <InterpolatedSetIcon />
+                    </ListItemIcon>
                     Interpolated set
                 </MenuItem>
-                <MenuItem
-                    onClick={() => this.setState({showSurfaceDialog: true})}>
-                    <ListItemIcon><SlabIcon/></ListItemIcon>
+                <MenuItem onClick={() => this.setState({ showSurfaceDialog: true })}>
+                    <ListItemIcon>
+                        <SlabIcon />
+                    </ListItemIcon>
                     Surface / slab
                 </MenuItem>
-                <MenuItem
-                    onClick={() => this.setState({showBoundaryConditionsDialog: true})}>
-                    <ListItemIcon><BoundaryConditionsIcon/></ListItemIcon>
+                <MenuItem onClick={() => this.setState({ showBoundaryConditionsDialog: true })}>
+                    <ListItemIcon>
+                        <BoundaryConditionsIcon />
+                    </ListItemIcon>
                     Boundary Conditions
                 </MenuItem>
                 <MenuItem disabled>
-                    <ListItemIcon><PolymerIcon/></ListItemIcon>
+                    <ListItemIcon>
+                        <PolymerIcon />
+                    </ListItemIcon>
                     Polymer
                 </MenuItem>
                 <MenuItem disabled>
-                    <ListItemIcon><NanotubeIcon/></ListItemIcon>
+                    <ListItemIcon>
+                        <NanotubeIcon />
+                    </ListItemIcon>
                     Nanotube
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
     }
 
-    openPageByURL(url) {window.open(url, "_blank")}
+    openPageByURL = (url) => {
+        window.open(url, "_blank");
+    };
 
     renderHelpMenu() {
         return (
             <ButtonActivatedMenuMaterialUI title="Help">
-                <MenuItem onClick={() => this.openPageByURL("https://docs.exabyte.io/materials-designer/overview/")}>
-                    <ListItemIcon><HelpIcon/></ListItemIcon>
+                <MenuItem
+                    onClick={() =>
+                        this.openPageByURL("https://docs.exabyte.io/materials-designer/overview/")
+                    }
+                >
+                    <ListItemIcon>
+                        <HelpIcon />
+                    </ListItemIcon>
                     Documentation
                 </MenuItem>
                 <MenuItem
-                    onClick={() => this.openPageByURL("https://docs.exabyte.io/tutorials/materials/overview/")}>
-                    <ListItemIcon><AssignmentIcon/></ListItemIcon>
+                    onClick={() =>
+                        this.openPageByURL("https://docs.exabyte.io/tutorials/materials/overview/")
+                    }
+                >
+                    <ListItemIcon>
+                        <AssignmentIcon />
+                    </ListItemIcon>
                     Tutorials
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
@@ -204,68 +270,95 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderSpinner() {
+        const { isLoading } = this.props;
         return (
             <IconButton disabled className="spinner-icon">
-                {
-                    Boolean(this.props.isLoading)
-                        ?
-                        <i className="zmdi zmdi-spinner zmdi-hc-spin"/>
-                        :
-                        <i className="zmdi zmdi-check"/>
-                }
+                {isLoading ? (
+                    <i className="zmdi zmdi-spinner zmdi-hc-spin" />
+                ) : (
+                    <i className="zmdi zmdi-check" />
+                )}
             </IconButton>
-        )
+        );
     }
 
     renderImportModal() {
-        return Boolean(this.props.ImportModal) ?
-            <this.props.ImportModal
-                show={this.state.showImportMaterialsDialog}
-                onHide={() => this.setState({showImportMaterialsDialog: false})}
+        const { showImportMaterialsDialog } = this.state;
+        const { ImportModal, onAdd } = this.props;
+        return ImportModal ? (
+            <ImportModal
+                show={showImportMaterialsDialog}
+                onHide={() => this.setState({ showImportMaterialsDialog: false })}
                 onSubmit={(materials) => {
-                    this.props.onAdd(materials);
-                    this.setState({showImportMaterialsDialog: false});
+                    onAdd(materials);
+                    this.setState({ showImportMaterialsDialog: false });
                 }}
             />
-            : null;
+        ) : null;
     }
 
     renderSaveActionDialog() {
-        return Boolean(this.props.SaveActionDialog) ?
-            <this.props.SaveActionDialog
-                show={this.state.showSaveMaterialsDialog}
-                material={this.props.material}
-                onClose={() => this.setState({showSaveMaterialsDialog: false})}
-                onSubmit={this.props.onSave}
+        const { SaveActionDialog, material, onSave } = this.props;
+        const { showSaveMaterialsDialog } = this.state;
+        return SaveActionDialog ? (
+            <SaveActionDialog
+                show={showSaveMaterialsDialog}
+                material={material}
+                onClose={() => this.setState({ showSaveMaterialsDialog: false })}
+                onSubmit={onSave}
             />
-            : null;
+        ) : null;
     }
 
     renderThreejsEditorModal() {
-        return <ThreejsEditorModal
-            show={this.state.showThreejsEditorModal}
-            onHide={(material) => {
-                this.setState({showThreejsEditorModal: !this.state.showThreejsEditorModal});
-                if (material) {
-                    // convert made material to MD material
-                    const newMaterial = Material.createFromMadeMaterial(material);
-                    newMaterial.isUpdated = true; // to show it as new (yellow color)
-                    this.props.onAdd(newMaterial);
-                }
-            }}
-            materials={this.props.materials}
-            modalId="threejs-editor"
-        />
+        const { onAdd, materials } = this.props;
+        const { showThreejsEditorModal } = this.state;
+        return (
+            <ThreejsEditorModal
+                show={showThreejsEditorModal}
+                onHide={(material) => {
+                    this.setState({ showThreejsEditorModal: !showThreejsEditorModal });
+                    if (material) {
+                        // convert made material to MD material
+                        const newMaterial = Material.createFromMadeMaterial(material);
+                        newMaterial.isUpdated = true; // to show it as new (yellow color)
+                        onAdd(newMaterial);
+                    }
+                }}
+                materials={materials}
+                modalId="threejs-editor"
+            />
+        );
     }
 
     render() {
-        if (this.state.showThreejsEditorModal) return this.renderThreejsEditorModal();
+        const {
+            showThreejsEditorModal,
+            showSupercellDialog,
+            showSurfaceDialog,
+            showBoundaryConditionsDialog,
+            showCombinatorialDialog,
+            showExportMaterialsDialog,
+            showInterpolateDialog,
+        } = this.state;
+        const {
+            className,
+            material,
+            materials,
+            index,
+            onAdd,
+            onExport,
+            onGenerateSupercell,
+            onGenerateSurface,
+            onSetBoundaryConditions,
+            maxCombinatorialBasesCount,
+        } = this.props;
+        if (showThreejsEditorModal) return this.renderThreejsEditorModal();
         return (
             <Toolbar
-                className={setClass(this.props.className, "materials-designer-header-menu")}
-                style={{borderBottom: '1px solid'}}
+                className={setClass(className, "materials-designer-header-menu")}
+                style={{ borderBottom: "1px solid" }}
             >
-
                 {this.renderIOMenu()}
                 {this.renderEditMenu()}
                 {this.renderViewMenu()}
@@ -274,37 +367,36 @@ class HeaderMenuToolbar extends React.Component {
                 {this.renderSpinner()}
 
                 <SupercellDialog
-                    show={this.state.showSupercellDialog}
+                    show={showSupercellDialog}
                     modalId="supercellModal"
-                    backdropColor='dark'
-                    onSubmit={this.props.onGenerateSupercell}
-                    onHide={() => this.setState({showSupercellDialog: false})}
+                    backdropColor="dark"
+                    onSubmit={onGenerateSupercell}
+                    onHide={() => this.setState({ showSupercellDialog: false })}
                 />
 
                 <SurfaceDialog
-                    show={this.state.showSurfaceDialog}
+                    show={showSurfaceDialog}
                     modalId="surfaceModal"
-                    backdropColor='dark'
-                    onSubmit={this.props.onGenerateSurface}
-                    onHide={() => this.setState({showSurfaceDialog: false})}
+                    backdropColor="dark"
+                    onSubmit={onGenerateSurface}
+                    onHide={() => this.setState({ showSurfaceDialog: false })}
                 />
 
                 <BoundaryConditionsDialog
-                    show={this.state.showBoundaryConditionsDialog}
+                    show={showBoundaryConditionsDialog}
                     modalId="BoundaryConditionsModal"
-                    backdropColor='dark'
-                    material={this.props.material}
-                    onSubmit={this.props.onSetBoundaryConditions}
-                    onHide={() => this.setState({showBoundaryConditionsDialog: false})}
+                    backdropColor="dark"
+                    material={material}
+                    onSubmit={onSetBoundaryConditions}
+                    onHide={() => this.setState({ showBoundaryConditionsDialog: false })}
                 />
 
                 {this.renderImportModal()}
 
-
                 <ExportActionDialog
-                    show={this.state.showExportMaterialsDialog}
-                    onClose={() => this.setState({showExportMaterialsDialog: false})}
-                    onSubmit={this.props.onExport}
+                    show={showExportMaterialsDialog}
+                    onClose={() => this.setState({ showExportMaterialsDialog: false })}
+                    onSubmit={onExport}
                 />
 
                 {this.renderSaveActionDialog()}
@@ -312,64 +404,67 @@ class HeaderMenuToolbar extends React.Component {
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
                     modalId="combinatorialSetModal"
-                    show={this.state.showCombinatorialDialog}
-                    maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
-                    backdropColor='dark'
-                    material={this.props.material}
-                    onHide={() => this.setState({showCombinatorialDialog: false})}
+                    show={showCombinatorialDialog}
+                    maxCombinatorialBasesCount={maxCombinatorialBasesCount}
+                    backdropColor="dark"
+                    material={material}
+                    onHide={() => this.setState({ showCombinatorialDialog: false })}
                     onSubmit={(...args) => {
-                        this.props.onAdd(...args);
-                        this.setState({showCombinatorialDialog: false});
+                        onAdd(...args);
+                        this.setState({ showCombinatorialDialog: false });
                     }}
                 />
 
                 <InterpolateBasesDialog
                     title="Generate Interpolated Set"
                     modalId="interpolatedSetModal"
-                    show={this.state.showInterpolateDialog}
-                    backdropColor='dark'
-                    material={this.props.material}
-                    material2={this.props.materials[
-                        (this.props.index + 1 === this.props.materials.length) ? 0 : this.props.index + 1
-                        ]}
-                    onHide={() => this.setState({showInterpolateDialog: false})}
+                    show={showInterpolateDialog}
+                    backdropColor="dark"
+                    material={material}
+                    material2={materials[index + 1 === materials.length ? 0 : index + 1]}
+                    onHide={() => this.setState({ showInterpolateDialog: false })}
                     onSubmit={(...args) => {
-                        this.props.onAdd(...args);
-                        this.setState({showInterpolateDialog: false});
+                        onAdd(...args);
+                        this.setState({ showInterpolateDialog: false });
                     }}
                 />
-
             </Toolbar>
-        )
+        );
     }
 }
 
 HeaderMenuToolbar.propTypes = {
-    isLoading: React.PropTypes.bool,
-    material: React.PropTypes.object,
-    index: React.PropTypes.number,
+    className: PropTypes.string,
+    isLoading: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    material: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    materials: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired,
+    isFullscreen: PropTypes.bool.isRequired,
+    maxCombinatorialBasesCount: PropTypes.number.isRequired,
 
-    onUpdate: React.PropTypes.func,
+    onUpdate: PropTypes.func.isRequired,
+    onUndo: PropTypes.func.isRequired,
+    onRedo: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
+    onClone: PropTypes.func.isRequired,
+    onToggleIsNonPeriodic: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onExport: PropTypes.func.isRequired,
+    onExit: PropTypes.func.isRequired,
+    onGenerateSupercell: PropTypes.func.isRequired,
+    onGenerateSurface: PropTypes.func.isRequired,
+    onSetBoundaryConditions: PropTypes.func.isRequired,
 
-    onUndo: React.PropTypes.func,
-    onRedo: React.PropTypes.func,
-    onReset: React.PropTypes.func,
-    onClone: React.PropTypes.func,
-    onToggleIsNonPeriodic: React.PropTypes.func,
+    ImportModal: PropTypes.func.isRequired,
+    SaveActionDialog: PropTypes.func.isRequired,
+    toggleFullscreen: PropTypes.func.isRequired,
+};
 
-    onAdd: React.PropTypes.func,
-    onExport: React.PropTypes.func,
-    onExit: React.PropTypes.func,
-
-    onGenerateSupercell: React.PropTypes.func,
-    onGenerateSurface: React.PropTypes.func,
-    onSetBoundaryConditions: React.PropTypes.func,
-
-    ImportModal: React.PropTypes.func,
-    SaveActionDialog: React.PropTypes.func,
-
-    maxCombinatorialBasesCount: React.PropTypes.number,
-
+HeaderMenuToolbar.defaultProps = {
+    className: undefined,
 };
 
 export default HeaderMenuToolbar;

@@ -7,3 +7,8 @@ if [[ -d node_modules/@babel/runtime ]]; then
     ln -sf ../runtime-corejs2/core-js .
     cd -
 fi
+
+if [[ -d node_modules/resolve/test/resolver/malformed_package_json/ ]]; then
+    rm -r node_modules/resolve/test/resolver/malformed_package_json/
+fi
+
