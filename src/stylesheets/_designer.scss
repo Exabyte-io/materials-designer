@@ -1,6 +1,7 @@
 // material-ui v1.00-beta.37 dark theme
 $material-ui-expansion-panels-color: #424242;
-$material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+$material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
 
 // menu items in materials designer header
 .button-activated-menu {
@@ -29,8 +30,8 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38
     }
 }
 
-.material-view-or-edit, .materials-designer {
-
+.material-view-or-edit,
+.materials-designer {
     padding: 0;
 
     .lattice-basis {
@@ -41,7 +42,8 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38
             padding: 20px 30px;
         }
 
-        .xyz, .basis-options {
+        .xyz,
+        .basis-options {
             margin-bottom: 10px;
         }
 
@@ -49,7 +51,6 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38
             margin-bottom: 10px;
             background-color: $exagray_semi-transparent;
         }
-
     }
 
     .toggle-switch {
@@ -104,14 +105,14 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38
             right: 10px;
             margin: 20px;
             padding: 0px;
-            .toolbar-toggle, .toolbar-container {
+            .toolbar-toggle,
+            .toolbar-container {
                 float: right;
                 width: auto;
                 margin-left: 10px;
             }
         }
     }
-
 }
 
 .materials-name-and-toolbar {
@@ -135,27 +136,36 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38
     padding: 0 6px;
 }
 
-#material-name-input-wrap, #material-name-accept, #material-name-cancel {
+#material-name-input-wrap,
+#material-name-accept,
+#material-name-cancel {
     display: none;
 }
 
-#material-name-edit, #material-name-accept, #material-name-cancel {
+#material-name-edit,
+#material-name-accept,
+#material-name-cancel {
     padding: 0 6px;
 }
 
 .row-name {
     &.editing {
-        #material-name-label, #material-name-edit {
+        #material-name-label,
+        #material-name-edit {
             display: none;
         }
 
-        #material-name-input-wrap, #material-name-accept, #material-name-cancel {
+        #material-name-input-wrap,
+        #material-name-accept,
+        #material-name-cancel {
             display: inline-block;
         }
     }
 }
 
-#bank-item, #relaxation-results-structure, .material-view-or-edit {
+#bank-item,
+#relaxation-results-structure,
+.material-view-or-edit {
     overflow: hidden;
 
     .card:not(.metadata-tags) {
@@ -187,14 +197,14 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38
             height: 100%;
             padding-bottom: 70px;
         }
-
     }
 }
 
 .xyz {
     height: 100%;
 
-    textarea, pre {
+    textarea,
+    pre {
         display: block;
         height: 100%;
         overflow-y: auto;
@@ -202,7 +212,8 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38
         @include scrollbar-dark();
     }
 
-    .CodeMirror-vscrollbar, .CodeMirror-hscrollbar {
+    .CodeMirror-vscrollbar,
+    .CodeMirror-hscrollbar {
         @include scrollbar-dark();
     }
 }
@@ -232,7 +243,9 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38
 $header-menu-height: 64px;
 $editor-info-height: 41px;
 $materials-designer-height: 65vmin;
-$materials-designer-height-fullscreen: calc(100vmin - #{$editor-info-height} - #{$header-menu-height});
+$materials-designer-height-fullscreen: calc(
+    100vmin - #{$editor-info-height} - #{$header-menu-height}
+);
 
 .materials-designer-header-menu {
     padding-left: 32px !important; // to align the buttons and popover menus
@@ -307,7 +320,6 @@ $materials-designer-height-fullscreen: calc(100vmin - #{$editor-info-height} - #
 $source-editor-crystal-lattice-collapsed-height: 215px;
 
 .materials-designer-source-editor {
-
     height: $materials-designer-height;
     overflow: hidden;
     min-height: 445px; // to avoid basis-view being hidden behind GLmol on mobile
@@ -319,20 +331,23 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
     }
 
     #basis-xyz {
-        height: calc(#{$materials-designer-height} - #{$source-editor-crystal-lattice-collapsed-height});
+        height: calc(
+            #{$materials-designer-height} - #{$source-editor-crystal-lattice-collapsed-height}
+        );
         resize: vertical;
-
     }
-
 }
 
 // has to be at the end of the file to override prior directives
 .fullscreen.fullscreen-enabled {
-    .materials-designer-items-list, .materials-designer-source-editor {
+    .materials-designer-items-list,
+    .materials-designer-source-editor {
         height: $materials-designer-height-fullscreen;
 
         #basis-xyz {
-            height: calc(#{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height});
+            height: calc(
+                #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height}
+            );
         }
     }
 
@@ -343,7 +358,6 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
         }
     }
 }
-
 
 .combinatorial-basis {
     height: 65vmin;

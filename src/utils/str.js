@@ -12,5 +12,10 @@ export function randomAlphanumeric(length) {
     // issue https://exabyte.atlassian.net/browse/SOF-1719
     // Generated string is used for username generation. In case of random string contains only numbers
     // slug for default issue will be inappropriate (e.g., "user-1232" has "user" slug).
-    return randomLetter + Math.random().toString(36).substring(2, 2 + length - 1);
+    return (
+        randomLetter +
+        Math.random()
+            .toString(36)
+            .substring(2, 2 + length - 1)
+    );
 }
