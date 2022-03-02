@@ -24,7 +24,7 @@ RUN source scl_source enable devtoolset-8 && npm install
 # to getLinuxChromeDriverArchitecture causing a comparison between
 # a number and a string when two strings are expected.
 RUN sed -i "s/if(compareVersions(version,/if(compareVersions(String(version),/" \
-    tests/node_modules/selenium-standalone/lib/compute-download-urls.js
+    node_modules/selenium-standalone/lib/compute-download-urls.js
 
 
 # Entrypoint was previously defined in /opt/app so overwrite
