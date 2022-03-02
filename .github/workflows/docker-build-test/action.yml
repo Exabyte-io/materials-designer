@@ -3,23 +3,41 @@ name: Build docker containers and run tests
 runs:
   using: composite
   steps:
+    - name: Pull base image
+      uses: ./actions/docker/ecr
+      id: login-ecr
+      with:
+        ecr-repository: centos-7.9-base
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        image-tag: latest
+        action: pull
+
     - name: Build application container
-      shell: bash -l {0}
-      run: docker-compose build materials-designer
+      uses: ./actions/docker/build
+      with:
+        image-name: materials-designer
+        dockerfile: ./dockerfiles/app/Dockerfile
+        cli-args: --build-arg BASE_IMAGE=${{ steps.login-ecr.outputs.registry }}/centos-7.9-base
+
 
     - name: Build test container
-      shell: bash -l {0}
-      run: docker-compose build materials-designer-test
+      uses: ./actions/docker/build
+      with:
+        image-name: materials-designer-test
+        dockerfile: ./dockerfiles/app/test/Dockerfile
+        cli-args: --build-arg BASE_IMAGE=${{ steps.login-ecr.outputs.registry }}/centos-7.9-base
+
 
     - name: Run tests
       shell: bash -l {0}
       run: |
-        docker-compose up -d materials-designer
-        while ! docker logs materials-designer_materials-designer_1 2>&1 | grep "Compiled"; do
-            failed=$(docker logs materials-designer_materials-designer_1 2>&1 | grep "Failed")
+        docker run -d -p 3001:3001 --name=materials-designer materials-designer:latest
+        while ! docker logs materials-designer 2>&1 | grep "Compiled"; do
+            failed=$(docker logs materials-designer 2>&1 | grep "Failed")
             if [[ "$failed" != "" ]]; then
                 exit 1
             fi
             sleep 5
         done
-        docker-compose run materials-designer-test
+        docker run --network=host materials-designer-test
