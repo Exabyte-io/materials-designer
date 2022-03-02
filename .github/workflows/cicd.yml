@@ -35,6 +35,15 @@ jobs:
       - name: Validate JS package
         uses: ./actions/js/validate
 
+      - name: Validate app dockerfile
+        uses: ./actions/docker/validate
+        with:
+          dockerfile: ./dockerfiles/app/Dockerfile
+
+      - name: Validate app dockerfile
+        uses: ./actions/docker/validate
+        with:
+          dockerfile: ./dockerfiles/app/test/Dockerfile
 
   publish:
     needs: run-tests

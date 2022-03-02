@@ -1,4 +1,9 @@
 name: Build docker containers and run tests
+inputs:
+  aws-access-key-id:
+    required: true
+  aws-secret-access-key:
+    required: true
 
 runs:
   using: composite
