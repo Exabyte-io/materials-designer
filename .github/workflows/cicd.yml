@@ -18,18 +18,23 @@ jobs:
         with:
             lfs: true
 
-      - name: Docker build and test
-        uses: ./.github/workflows/docker-build-test
-
       - name: Checkout actions repository
         uses: actions/checkout@v2
         with:
           repository: Exabyte-io/actions
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          ref: feature/SOF-5466
           path: actions
+
+      - name: Docker build and test
+        uses: ./.github/workflows/docker-build-test
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ECR }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ECR }}
 
       - name: Validate JS package
         uses: ./actions/js/validate
+
 
   publish:
     needs: run-tests
