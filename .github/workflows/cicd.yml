@@ -40,7 +40,7 @@ jobs:
         with:
           dockerfile: ./dockerfiles/app/Dockerfile
 
-      - name: Validate app dockerfile
+      - name: Validate test dockerfile
         uses: ./actions/docker/validate
         with:
           dockerfile: ./dockerfiles/app/test/Dockerfile
