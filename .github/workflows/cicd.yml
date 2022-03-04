@@ -23,7 +23,6 @@ jobs:
         with:
           repository: Exabyte-io/actions
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          ref: feature/SOF-5466
           path: actions
 
       - name: Docker build and test
