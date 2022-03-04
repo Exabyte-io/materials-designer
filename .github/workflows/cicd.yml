@@ -18,9 +18,6 @@ jobs:
         with:
             lfs: true
 
-      - name: Docker build and test
-        uses: ./.github/workflows/docker-build-test
-
       - name: Checkout actions repository
         uses: actions/checkout@v2
         with:
@@ -28,8 +25,24 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           path: actions
 
+      - name: Docker build and test
+        uses: ./.github/workflows/docker-build-test
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ECR }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ECR }}
+
       - name: Validate JS package
         uses: ./actions/js/validate
+
+      - name: Validate app dockerfile
+        uses: ./actions/docker/validate
+        with:
+          dockerfile: ./dockerfiles/app/Dockerfile
+
+      - name: Validate test dockerfile
+        uses: ./actions/docker/validate
+        with:
+          dockerfile: ./dockerfiles/app/test/Dockerfile
 
   publish:
     needs: run-tests
