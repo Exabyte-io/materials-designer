@@ -7,8 +7,7 @@ import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
-import CodeMirror from "react-codemirror";
-import _ from "underscore";
+import CodeMirror from "@uiw/react-codemirror";
 
 import { displayMessage } from "../../i18n/messages";
 
@@ -21,8 +20,7 @@ class BasisText extends React.Component {
             message: "",
             manualEditStarted: false,
         };
-        // eslint-disable-next-line react/no-unused-class-component-methods
-        this.onChange = _.debounce(props.onChange, 700);
+        this.handleContentChange = this.handleContentChange.bind(this);
     }
 
     // eslint-disable-next-line no-unused-vars
@@ -73,14 +71,19 @@ class BasisText extends React.Component {
         }
     };
 
-    handleContentChange = (content) => {
-        this.setState({ content }, () => {
+    handleContentChange(editor) {
+        const { doc } = editor;
+        if (doc.children && doc.children.length) {
             const { onChange } = this.props;
-            if (this.isContentPassingValidation(content)) {
-                onChange(content);
-            }
-        });
-    };
+            // TODO : export validateLine from Made and use Array.some
+            const content = doc.children[0].lines.map((line) => line.text).join("\n");
+            this.setState({ content }, () => {
+                if (this.isContentPassingValidation(content)) {
+                    onChange(content);
+                }
+            });
+        }
+    }
 
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
@@ -90,23 +93,12 @@ class BasisText extends React.Component {
                 <div id="basis-xyz">
                     <CodeMirror
                         className="xyz-codemirror"
-                        ref={(el) => {
-                            // eslint-disable-next-line react/no-unused-class-component-methods
-                            this.codeMirrorComponent = el;
-                        }}
+                        // eslint-disable-next-line react/no-unused-class-component-methods
+                        ref={(el) => (this.codeMirrorComponent = el)}
                         value={content}
-                        onFocusChange={(isFocused) => {
-                            if (isFocused) {
-                                this.setState({ manualEditStarted: true });
-                            } else {
-                                this.setState({ manualEditStarted: false });
-                                this.reformatContentAndUpdateStateIfNoManualEdit(
-                                    // eslint-disable-next-line react/destructuring-assignment
-                                    this.props.content,
-                                );
-                            }
-                        }}
+                        onFocus={() => this.setState({ manualEditStarted: true })}
                         onChange={this.handleContentChange}
+                        onBlur={() => this.setState({ manualEditStarted: false })}
                         options={{
                             theme: "darcula",
                             lineNumbers: true,
