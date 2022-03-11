@@ -20,7 +20,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
     }
 
     // eslint-disable-next-line no-unused-vars
-    componentWillReceiveProps(nextProps, nextContext) {
+    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         this.initializeState();
     }
 
