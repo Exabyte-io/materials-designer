@@ -110,4 +110,13 @@ the `entrypoint.sh` you may need to re-build both containers for your changes to
 work. It can also be useful to comment out the `ENTRYPOINT` in the `centos` dockerfile
 as well as the `CMD` in the `test` dockerfile in order to easily run and debug both
 containers. There is also a `docker-compose.yml` file which can be used for local
-building and testing. See `.github/workflows/cicd.yml` for example uses.
+building and testing. Provided `docker-compose` is installed, it can be used like so:
+
+```bash
+docker-compose build materials-designer
+docker-compose build materials-designer-test
+
+docker-compose up -d materials-designer
+sleep 30  # let the app actually start
+docker-compose run materials-designer-test
+```
