@@ -33,7 +33,7 @@ class LatticeConfigurationDialog extends React.Component {
     }
 
     // eslint-disable-next-line no-unused-vars
-    componentWillReceiveProps(newProps, newContext) {
+    UNSAFE_componentWillReceiveProps(newProps, newContext) {
         // update this component's state on props.material update
         this.setState({ lattice: newProps.material.lattice });
     }

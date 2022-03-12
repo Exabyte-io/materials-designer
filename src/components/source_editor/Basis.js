@@ -25,7 +25,7 @@ class BasisEditor extends React.Component {
     }
 
     // eslint-disable-next-line no-unused-vars
-    componentWillReceiveProps(nextProps, nextContext) {
+    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         const { material } = this.props;
         if (material !== nextProps.material) {
             this.setState({ xyz: nextProps.material.getBasisAsXyz() });

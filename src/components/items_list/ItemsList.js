@@ -58,7 +58,7 @@ class ItemsList extends React.Component {
     }
 
     // eslint-disable-next-line no-unused-vars
-    componentWillReceiveProps(newProps, newContext) {
+    UNSAFE_componentWillReceiveProps(newProps, newContext) {
         const { index } = this.state;
         // needed to propagate updates to unit render from parent(s)
         if (index !== newProps.index) {
