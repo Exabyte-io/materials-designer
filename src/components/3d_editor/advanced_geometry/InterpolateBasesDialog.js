@@ -22,7 +22,7 @@ class InterpolateBasesDialog extends ModalDialog {
     }
 
     // eslint-disable-next-line no-unused-vars
-    componentWillReceiveProps(nextProps, nextContext) {
+    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         const basis1 = nextProps.material.Basis;
         const basis2 = nextProps.material2.Basis;
         if (!_.isEqual(basis1.elementsArray, basis2.elementsArray)) {
