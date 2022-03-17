@@ -1,7 +1,7 @@
 /* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
-import ExpandMoreIcon from "material-ui-icons-next/ExpandMore";
 import setClass from "classnames";
+import ExpandMoreIcon from "material-ui-icons-next/ExpandMore";
 import ExpansionPanel, {
     ExpansionPanelDetails,
     ExpansionPanelSummary,
