@@ -52,16 +52,10 @@ function materialsToggleIsNonPeriodicForOne(state, action) {
 }
 
 function materialsUpdateNameForOne(state, action) {
-    const materials = state.materials.slice(); // get copy of array
-    // not passing index when modifying currently displayed material
-    const index = !action.index && action.index !== 0 ? action.index : state.index;
-    const material = state.materials[index];
-    // TODO: figure out why material is undefined
-    if (material) {
-        material.name = action.name;
-        material.isUpdated = true;
-        materials[index] = material; // intentionally avoid cloning material to prevent re-render for 3d editor
-    }
+    const config = { name: action.name, isUpdated: true };
+    const material = state.materials[action.index].clone(config);
+    const update = { [action.index]: material };
+    const materials = Object.assign([], state.materials, update);
     return { ...state, materials };
 }
 

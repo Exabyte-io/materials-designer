@@ -8,27 +8,26 @@ import { TextField } from "material-ui-next";
 import List, { ListItem, ListItemIcon, ListItemText } from "material-ui-next/List";
 import PropTypes from "prop-types";
 import React from "react";
-import _ from "underscore";
+// import _ from "underscore";
 
 import { ShowIf } from "../../utils/react/showif";
 
 class ItemsList extends React.Component {
-    getStateConfig = (text, index) => {
-        return {
-            editedName: text,
-            editedIndex: index,
-        };
-    };
-
     constructor(props) {
         super(props);
-        this.state = this.getStateConfig(props.materials[props.index].name, -1);
-        this.handleTextFieldUpdate = this.handleTextFieldUpdate.bind(this);
-        this.onNameUpdate = _.debounce(props.onNameUpdate, 500);
+        this.state = this.defaultState;
+        this.focusListItem = this.focusListItem.bind(this);
+        this.blurListItem = this.blurListItem.bind(this);
         this.initControlsSwitchFromKeyboard = this.initControlsSwitchFromKeyboard.bind(this);
-        this.addEventListeners = this.addEventListeners.bind(this);
-        this.removeEventListeners = this.removeEventListeners.bind(this);
-        this.addEventListeners();
+        window.addEventListener("keydown", this.initControlsSwitchFromKeyboard, false);
+    }
+
+    get defaultState() {
+        const { materials, index } = this.props;
+        return {
+            editedName: materials[index].name,
+            editedIndex: index,
+        };
     }
 
     initControlsSwitchFromKeyboard(event) {
@@ -49,52 +48,36 @@ class ItemsList extends React.Component {
         }
     }
 
-    addEventListeners() {
-        window.addEventListener("keydown", this.initControlsSwitchFromKeyboard, false);
-    }
-
-    removeEventListeners() {
+    componentWillUnmount() {
         window.removeEventListener("keydown", this.initControlsSwitchFromKeyboard, false);
     }
 
-    // eslint-disable-next-line no-unused-vars
-    UNSAFE_componentWillReceiveProps(newProps, newContext) {
-        const { index } = this.state;
-        // needed to propagate updates to unit render from parent(s)
-        if (index !== newProps.index) {
-            this.setState({ index: newProps.index });
-        }
+    focusListItem(event, index) {
+        this.setState({ editedIndex: index, editedName: event.target.value });
     }
 
-    componentWillUnmount() {
-        this.removeEventListeners();
-    }
-
-    handleTextFieldUpdate(value, index) {
-        const { editedName } = this.state;
-        this.setState(
-            {
-                editedName: value,
-                editedIndex: index,
-            },
-            () => editedName.trim() !== value.trim() && this.onNameUpdate(value, index),
-        );
+    blurListItem() {
+        const { onItemClick, onNameUpdate, index } = this.props;
+        const { editedName, editedIndex } = this.state;
+        onNameUpdate(editedName, editedIndex);
+        onItemClick(index);
+        this.setState({ editedName: null, editedIndex: null });
     }
 
     renderListItem(entity, index) {
+        const { name, isUpdated, isNonPeriodic } = entity;
         const { onItemClick, onRemove } = this.props;
         const { editedIndex, editedName } = this.state;
-        const selectHandler = () => onItemClick(index);
         const isBeingEdited = editedIndex === index;
         return (
             <ListItem
-                key={index}
+                key={name + "-" + index}
                 button
                 dense
+                onClick={() => onItemClick(index)}
                 className={setClass(
-                    // eslint-disable-next-line react/destructuring-assignment
-                    { active: this.props.index === index },
-                    { updated: entity.isUpdated || isBeingEdited },
+                    { active: isBeingEdited },
+                    { updated: isUpdated || isBeingEdited },
                 )}
             >
                 <ShowIf condition={Boolean(entity.id)}>
@@ -103,21 +86,19 @@ class ItemsList extends React.Component {
                     </ListItemIcon>
                 </ShowIf>
 
-                <ListItemIcon onClick={selectHandler}>
-                    {entity.isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
+                <ListItemIcon>
+                    {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
                 </ListItemIcon>
 
                 <ListItemText
-                    onClick={selectHandler}
                     primary={
                         <TextField
                             className="m-0"
                             InputProps={{ disableUnderline: true }}
+                            onFocus={(e) => this.focusListItem(e, index)}
                             value={isBeingEdited ? editedName : entity.name}
-                            onChange={(event) =>
-                                this.handleTextFieldUpdate(event.target.value, index)
-                            }
-                            onBlur={(event) => this.handleTextFieldUpdate(event.target.value, null)}
+                            onChange={(event) => this.setState({ editedName: event.target.value })}
+                            onBlur={this.blurListItem}
                         />
                     }
                     secondary={
@@ -149,17 +130,11 @@ class ItemsList extends React.Component {
 ItemsList.propTypes = {
     className: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    materials: PropTypes.array,
-    index: PropTypes.number,
+    materials: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired,
     onItemClick: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
-    onNameUpdate: PropTypes.func,
-};
-
-ItemsList.defaultProps = {
-    materials: [],
-    index: 0,
-    onNameUpdate: () => {},
+    onNameUpdate: PropTypes.func.isRequired,
 };
 
 export default ItemsList;
