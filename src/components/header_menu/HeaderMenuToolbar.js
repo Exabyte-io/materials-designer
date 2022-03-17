@@ -1,5 +1,6 @@
 /* eslint-disable react/sort-comp */
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
+import setClass from "classnames";
 import {
     AddCircle as AddCircleIcon,
     Assignment as AssignmentIcon,
@@ -26,7 +27,6 @@ import {
     Undo as UndoIcon,
 } from "material-ui-icons-next";
 import DeviceHubIcon from "material-ui-icons-next/DeviceHub";
-import setClass from "classnames";
 import Divider from "material-ui-next/Divider";
 import IconButton from "material-ui-next/IconButton";
 import { ListItemIcon } from "material-ui-next/List";
