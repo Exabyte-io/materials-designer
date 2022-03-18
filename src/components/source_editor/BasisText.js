@@ -4,10 +4,10 @@ import "codemirror/theme/darcula.css";
 import "codemirror/mode/fortran/fortran";
 
 import { Made } from "@exabyte-io/made.js";
+import CodeMirror from "@uiw/react-codemirror";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
-import CodeMirror from "@uiw/react-codemirror";
 
 import { displayMessage } from "../../i18n/messages";
 
