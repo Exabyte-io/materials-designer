@@ -31,29 +31,25 @@ class BasisText extends React.Component {
         }
     }
 
-    isContentPassingValidation(content) {
-        const { isContentValidated } = this.state;
+    validateContent = (content) => {
         try {
             Made.parsers.xyz.validate(content);
-            // only show the success message first time after last failure
-            if (!isContentValidated) {
-                this.setState({
-                    isContentValidated: true,
-                    // TODO: consider removing the success message after a timeout period
-                    message: displayMessage("basis.validationSuccess"),
-                });
-            } else {
-                // already validated before -> remove message
-                this.setState({ message: "" });
-            }
-        } catch (err) {
-            this.setState({
-                isContentValidated: false,
-                message: displayMessage("basis.validationError"),
-            });
+            return true;
+        } catch (e) {
             return false;
         }
-        return true;
+    };
+
+    isContentPassingValidation(content) {
+        const { isContentValidated } = this.state;
+        const isValid = this.validateContent(content);
+        let message = displayMessage("basis.validationError");
+        if (isValid) {
+            // if not previously validated, display success, otherwise remove message
+            message = !isContentValidated ? displayMessage("basis.validationSuccess") : "";
+        }
+        this.setState({ isContentValidated: isValid, message });
+        return isValid;
     }
 
     reformatContentAndUpdateStateIfNoManualEdit = (newContent) => {
@@ -90,7 +86,6 @@ class BasisText extends React.Component {
                     <CodeMirror
                         className="xyz-codemirror"
                         // eslint-disable-next-line react/no-unused-class-component-methods
-                        ref={(el) => (this.codeMirrorComponent = el)}
                         content={content}
                         updateContent={this.updateContent}
                         onFocus={() => this.setState({ manualEditStarted: true })}

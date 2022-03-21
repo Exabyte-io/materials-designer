@@ -14,21 +14,9 @@ export class CodeMirror extends React.Component {
      * viewUpdate - object containing the update to the editor tree structure
      */
     handleContentChange(editor, viewUpdate) {
-        // initial render fires as a setValue update
-        // so catch it here to prevent state mismanagement
-        if (viewUpdate.origin === "setValue") {
-            return;
-        }
-        const { doc } = editor;
-        if (doc.children && doc.children.length) {
-            const { updateContent } = this.props;
-            const lines = [];
-            doc.children.map((child) => {
-                return child.lines.map((line) => lines.push(line.text));
-            });
-            console.log(lines.join("\n"));
-            updateContent(lines.join("\n"));
-        }
+        console.log(viewUpdate);
+        const { updateContent } = this.props;
+        updateContent(editor.getValue());
     }
 
     render() {
