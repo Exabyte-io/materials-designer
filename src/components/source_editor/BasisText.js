@@ -7,7 +7,7 @@ import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
-import CodeMirror from "@uiw/react-codemirror";
+import { CodeMirror } from "./CodeMirror";
 
 import { displayMessage } from "../../i18n/messages";
 
@@ -20,7 +20,7 @@ class BasisText extends React.Component {
             message: "",
             manualEditStarted: false,
         };
-        this.handleContentChange = this.handleContentChange.bind(this);
+        this.updateContent = this.updateContent.bind(this);
     }
 
     // eslint-disable-next-line no-unused-vars
@@ -71,23 +71,19 @@ class BasisText extends React.Component {
         }
     };
 
-    handleContentChange(editor) {
-        const { doc } = editor;
-        if (doc.children && doc.children.length) {
-            const { onChange } = this.props;
-            // TODO : export validateLine from Made and use Array.some
-            const content = doc.children[0].lines.map((line) => line.text).join("\n");
-            this.setState({ content }, () => {
-                if (this.isContentPassingValidation(content)) {
-                    onChange(content);
-                }
-            });
-        }
+    updateContent(content) {
+        const { onChange } = this.props;
+        this.setState({ content }, () => {
+            if (this.isContentPassingValidation(content)) {
+                onChange(content);
+            }
+        });
     }
 
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
         const { content, isContentValidated, message } = this.state;
+        console.log("BasisText render", content);
         return (
             <div className={setClass("xyz", className)}>
                 <div id="basis-xyz">
@@ -95,9 +91,9 @@ class BasisText extends React.Component {
                         className="xyz-codemirror"
                         // eslint-disable-next-line react/no-unused-class-component-methods
                         ref={(el) => (this.codeMirrorComponent = el)}
-                        value={content}
+                        content={content}
+                        updateContent={this.updateContent}
                         onFocus={() => this.setState({ manualEditStarted: true })}
-                        onChange={this.handleContentChange}
                         onBlur={() => this.setState({ manualEditStarted: false })}
                         options={{
                             theme: "darcula",
