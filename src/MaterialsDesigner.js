@@ -137,6 +137,7 @@ MaterialsDesigner.propTypes = {
 
     // ItemsList
     onItemClick: PropTypes.func,
+    onNameUpdate: PropTypes.func,
 
     // Toolbar
     onGenerateSupercell: PropTypes.func,

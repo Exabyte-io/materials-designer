@@ -3,7 +3,7 @@ import React from "react";
 
 import CodeMirrorBase from "@uiw/react-codemirror";
 
-export default class CodeMirror extends React.Component {
+class CodeMirror extends React.Component {
     constructor(props) {
         super(props);
         this.state = { isLoaded: false };
@@ -59,3 +59,5 @@ CodeMirror.defaultProps = {
     onBlur: () => {},
     options: {},
 };
+
+export default CodeMirror;
