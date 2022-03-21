@@ -3,7 +3,7 @@ import React from "react";
 
 import CodeMirrorBase from "@uiw/react-codemirror";
 
-export class CodeMirror extends React.Component {
+export default class CodeMirror extends React.Component {
     constructor(props) {
         super(props);
         this.state = { isLoaded: false };
