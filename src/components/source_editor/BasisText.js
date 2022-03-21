@@ -79,7 +79,6 @@ class BasisText extends React.Component {
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
         const { content, isContentValidated, message } = this.state;
-        console.log("BasisText render", content);
         return (
             <div className={setClass("xyz", className)}>
                 <div id="basis-xyz">
