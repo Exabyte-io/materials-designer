@@ -6,6 +6,7 @@ import CodeMirrorBase from "@uiw/react-codemirror";
 export class CodeMirror extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { isLoaded: false };
         this.handleContentChange = this.handleContentChange.bind(this);
     }
 
@@ -14,8 +15,13 @@ export class CodeMirror extends React.Component {
      * viewUpdate - object containing the update to the editor tree structure
      */
     handleContentChange(editor, viewUpdate) {
-        console.log(viewUpdate);
-        const { updateContent } = this.props;
+        const { isLoaded } = this.state;
+        const { updateContent, updateOnFirstLoad } = this.props;
+        // kludge for the way state management is handled in web-app
+        if (!isLoaded && !updateOnFirstLoad && viewUpdate.origin === "setValue") {
+            this.setState({ isLoaded: true });
+            return;
+        }
         updateContent(editor.getValue());
     }
 
@@ -38,6 +44,7 @@ export class CodeMirror extends React.Component {
 CodeMirror.propTypes = {
     content: PropTypes.string,
     updateContent: PropTypes.func,
+    updateOnFirstLoad: PropTypes.bool,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
@@ -46,6 +53,7 @@ CodeMirror.propTypes = {
 
 CodeMirror.defaultProps = {
     content: "",
+    updateOnFirstLoad: true,
     updateContent: () => {},
     onFocus: () => {},
     onBlur: () => {},
