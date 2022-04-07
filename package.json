@@ -34,7 +34,7 @@
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
         "@exabyte-io/made.js": "2021.12.22-0",
-        "@exabyte-io/wave.js": "2022.3.12-0",
+        "@exabyte-io/wave.js": "2022.4.5-0",
         "@uiw/react-codemirror": "^3.2.7",
         "bootstrap": "^3.3.7",
         "classnames": "2.3.1",
