@@ -6,7 +6,7 @@
         "chromedriver": "2.35.0",
         "deep-equal": "^1.0.1",
         "lodash": "^4.17.4",
-        "moment": "^2.11.2",
+        "moment": "^2.29.2",
         "random-seed": "^0.3.0",
         "sleep": "^3.0.0",
         "swig": "^1.4.2",
