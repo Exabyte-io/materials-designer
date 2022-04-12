@@ -14,14 +14,14 @@
     },
     "plugins": ["react", "prettier", "simple-import-sort", "jsdoc"],
     "rules": {
-        "react/jsx-filename-extension": "warn",
-        "jsx-a11y/label-has-associated-control": ["error", {"assert": "either"}],
+        "react/jsx-filename-extension": "error",
+        "jsx-a11y/label-has-associated-control": ["error", { "assert": "either" }],
         "prettier/prettier": "error",
         "comma-dangle": ["error", "always-multiline"],
         "array-element-newline": ["error", "consistent"],
-        "no-plusplus": ["error", { "allowForLoopAfterthoughts":  true }],
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "one-var": ["error", { "uninitialized": "always", "initialized": "never" }],
-        "brace-style": ["error", "1tbs", { "allowSingleLine":  true }],
+        "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
         "prefer-template": "off",
         "camelcase": "off",
         "max-len": "off",
@@ -57,4 +57,3 @@
         ]
     }
 }
-
