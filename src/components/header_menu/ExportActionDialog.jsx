@@ -1,6 +1,4 @@
-import { FormControl } from "material-ui-next/Form";
-import Input, { InputLabel } from "material-ui-next/Input";
-import Select from "material-ui-next/Select";
+import { FormControl, Input, InputLabel, Select } from "@material-ui/core";
 import React from "react";
 
 import { ActionDialog } from "../include/ActionDialog";

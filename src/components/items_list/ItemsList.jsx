@@ -1,11 +1,12 @@
 /* eslint-disable react/sort-comp */
+import { List, ListItem, ListItemIcon, ListItemText, TextField } from "@material-ui/core";
+import {
+    Check as CheckIcon,
+    Delete as DeleteIcon,
+    DeviceHub as DeviceHubIcon,
+    Widgets as WidgetsIcon,
+} from "@material-ui/icons";
 import setClass from "classnames";
-import CheckIcon from "material-ui-icons-next/Check";
-import DeleteIcon from "material-ui-icons-next/Delete";
-import DeviceHubIcon from "material-ui-icons-next/DeviceHub";
-import WidgetsIcon from "material-ui-icons-next/Widgets";
-import { TextField } from "material-ui-next";
-import List, { ListItem, ListItemIcon, ListItemText } from "material-ui-next/List";
 import PropTypes from "prop-types";
 import React from "react";
 
