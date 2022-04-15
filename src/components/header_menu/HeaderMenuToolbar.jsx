@@ -9,13 +9,14 @@ import {
     Check as CheckIcon,
     Close as CloseIcon,
     Collections as CloneIcon,
+    DeviceHub as DeviceHubIcon,
     Directions as BoundaryConditionsIcon,
     DonutLarge as NanotubeIcon,
     ExitToApp as ExitToAppIcon,
-    FileDownload as FileDownloadIcon,
     FormatShapes as ConventionalCellIcon,
     Fullscreen as FullscreenIcon,
     FullscreenExit as FullscreenExitIcon,
+    GetApp as GetAppIcon,
     Help as HelpIcon,
     Layers as SlabIcon,
     LibraryAdd as CombinatorialSetIcon,
@@ -25,13 +26,8 @@ import {
     ThreeDRotation as ThreeDEditorIcon,
     Timeline as PolymerIcon,
     Undo as UndoIcon,
-} from "material-ui-icons-next";
-import DeviceHubIcon from "material-ui-icons-next/DeviceHub";
-import Divider from "material-ui-next/Divider";
-import IconButton from "material-ui-next/IconButton";
-import { ListItemIcon } from "material-ui-next/List";
-import { MenuItem } from "material-ui-next/Menu";
-import Toolbar from "material-ui-next/Toolbar";
+} from "@material-ui/icons";
+import { Divider, IconButton, ListItemIcon, MenuItem, Toolbar } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -81,7 +77,7 @@ class HeaderMenuToolbar extends React.Component {
                 </MenuItem>
                 <MenuItem onClick={() => this.setState({ showExportMaterialsDialog: true })}>
                     <ListItemIcon>
-                        <FileDownloadIcon />
+                        <GetAppIcon />
                     </ListItemIcon>
                     Export
                 </MenuItem>

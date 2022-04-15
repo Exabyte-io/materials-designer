@@ -1,5 +1,5 @@
+import { ThemeProvider } from "@material-ui/core/styles";
 import setClass from "classnames";
-import { MuiThemeProvider } from "material-ui-next/styles";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
 import React from "react";
@@ -42,7 +42,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                 enabled={this.state.isFullscreen}
                 onChange={(isFullscreen) => this.setState({ isFullscreen })}
             >
-                <MuiThemeProvider theme={DarkMaterialUITheme}>
+                <ThemeProvider theme={DarkMaterialUITheme}>
                     <div
                         className={setClass("materials-designer col-xs-12", this.props.className)}
                         id="materialEditForm"
@@ -115,7 +115,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                             </div>
                         </div>
                     </div>
-                </MuiThemeProvider>
+                </ThemeProvider>
             </this.FullscreenHandlerComponent>
         );
     }

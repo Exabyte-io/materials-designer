@@ -1,10 +1,7 @@
 import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
-import ExpandMoreIcon from "material-ui-icons-next/ExpandMore";
-import ExpansionPanel, {
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-} from "material-ui-next/ExpansionPanel";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";
@@ -44,14 +41,12 @@ class Lattice extends React.Component {
         const { className, material, onUpdate } = this.props;
         const { showLatticeConfigurationDialog } = this.state;
         return (
-            <ExpansionPanel
+            <Accordion
                 style={{ flexBasis: "100%" }}
                 className={setClass(className, "crystal-lattice")}
             >
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    Crystal Lattice
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Lattice</AccordionSummary>
+                <AccordionDetails
                     style={{
                         display: "block",
                         height: "100%",
@@ -73,8 +68,8 @@ class Lattice extends React.Component {
                             this.setState({ showLatticeConfigurationDialog: false });
                         }}
                     />
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
+                </AccordionDetails>
+            </Accordion>
         );
     }
 }

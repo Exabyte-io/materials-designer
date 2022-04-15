@@ -1,11 +1,8 @@
 /* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
-import ExpandMoreIcon from "material-ui-icons-next/ExpandMore";
-import ExpansionPanel, {
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-} from "material-ui-next/ExpansionPanel";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
 import s from "underscore.string";
@@ -98,11 +95,9 @@ class BasisEditor extends React.Component {
     render() {
         const { className } = this.props;
         return (
-            <ExpansionPanel defaultExpanded className={setClass(className, "crystal-basis")}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    Crystal Basis
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails
+            <Accordion defaultExpanded className={setClass(className, "crystal-basis")}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Basis</AccordionSummary>
+                <AccordionDetails
                     style={{
                         display: "block",
                         height: "100%",
@@ -110,8 +105,8 @@ class BasisEditor extends React.Component {
                 >
                     <div className="col-xs-12 p-0">{this.renderBasisUnitOptions()}</div>
                     <div className="col-xs-12 p-0">{this.renderBasisText()}</div>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
+                </AccordionDetails>
+            </Accordion>
         );
     }
 }
