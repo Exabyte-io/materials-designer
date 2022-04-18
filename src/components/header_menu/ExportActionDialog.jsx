@@ -1,4 +1,7 @@
-import { FormControl, Input, InputLabel, Select } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
 import React from "react";
 
 import { ActionDialog } from "../include/ActionDialog";
