@@ -1,4 +1,7 @@
-import { Button, List, ClickAwayListener } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+
 import PropTypes from "prop-types";
 import React from "react";
 

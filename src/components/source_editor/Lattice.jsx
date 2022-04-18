@@ -1,7 +1,9 @@
 import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";
