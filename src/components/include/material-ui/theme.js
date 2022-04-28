@@ -1,4 +1,4 @@
-import { createMuiTheme } from "material-ui-next/styles";
+import { createTheme } from "@material-ui/core";
 
 // adopted from: https://material-ui.com/customization/themes/#theme-configuration-variables
 const DarkThemeConfig = {
@@ -20,9 +20,9 @@ const DarkThemeConfig = {
     },
 };
 
-export const DarkMaterialUITheme = createMuiTheme(DarkThemeConfig);
+export const DarkMaterialUITheme = createTheme(DarkThemeConfig);
 
-export const LightMaterialUITheme = createMuiTheme({
+export const LightMaterialUITheme = createTheme({
     typography: DarkThemeConfig.typography,
     palette: {
         type: "light",

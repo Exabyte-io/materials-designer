@@ -1,6 +1,7 @@
-import Button from "material-ui-next/Button";
-import List from "material-ui-next/List";
-import ClickAwayListener from "material-ui-next/utils/ClickAwayListener";
+import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+
 import PropTypes from "prop-types";
 import React from "react";
 

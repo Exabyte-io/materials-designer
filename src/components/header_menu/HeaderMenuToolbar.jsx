@@ -1,39 +1,39 @@
 /* eslint-disable react/sort-comp */
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
 import setClass from "classnames";
-import {
-    AddCircle as AddCircleIcon,
-    Assignment as AssignmentIcon,
-    // TODO: rename other menu icons similarly
-    BorderClear as SupercellIcon,
-    Check as CheckIcon,
-    Close as CloseIcon,
-    Collections as CloneIcon,
-    Directions as BoundaryConditionsIcon,
-    DonutLarge as NanotubeIcon,
-    ExitToApp as ExitToAppIcon,
-    FileDownload as FileDownloadIcon,
-    FormatShapes as ConventionalCellIcon,
-    Fullscreen as FullscreenIcon,
-    FullscreenExit as FullscreenExitIcon,
-    Help as HelpIcon,
-    Layers as SlabIcon,
-    LibraryAdd as CombinatorialSetIcon,
-    Redo as RedoIcon,
-    Save as SaveIcon,
-    SwapVert as InterpolatedSetIcon,
-    ThreeDRotation as ThreeDEditorIcon,
-    Timeline as PolymerIcon,
-    Undo as UndoIcon,
-} from "material-ui-icons-next";
-import DeviceHubIcon from "material-ui-icons-next/DeviceHub";
-import Divider from "material-ui-next/Divider";
-import IconButton from "material-ui-next/IconButton";
-import { ListItemIcon } from "material-ui-next/List";
-import { MenuItem } from "material-ui-next/Menu";
-import Toolbar from "material-ui-next/Toolbar";
 import PropTypes from "prop-types";
 import React from "react";
+
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+// TODO: rename other menu icons similarly
+import SupercellIcon from "@material-ui/icons/BorderClear";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
+import CloneIcon from "@material-ui/icons/Collections";
+import DeviceHubIcon from "@material-ui/icons/DeviceHub";
+import BoundaryConditionsIcon from "@material-ui/icons/Directions";
+import NanotubeIcon from "@material-ui/icons/DonutLarge";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import ConventionalCellIcon from "@material-ui/icons/FormatShapes";
+import FullscreenIcon from "@material-ui/icons/Fullscreen";
+import FullscreenExitIcon from "@material-ui/icons/FullscreenExit";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import HelpIcon from "@material-ui/icons/Help";
+import SlabIcon from "@material-ui/icons/Layers";
+import CombinatorialSetIcon from "@material-ui/icons/LibraryAdd";
+import RedoIcon from "@material-ui/icons/Redo";
+import SaveIcon from "@material-ui/icons/Save";
+import InterpolatedSetIcon from "@material-ui/icons/SwapVert";
+import ThreeDEditorIcon from "@material-ui/icons/ThreeDRotation";
+import PolymerIcon from "@material-ui/icons/Timeline";
+import UndoIcon from "@material-ui/icons/Undo";
+
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import MenuItem from "@material-ui/core/MenuItem";
+import Toolbar from "@material-ui/core/Toolbar";
 
 import { Material } from "../../material";
 import { BoundaryConditionsDialog } from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
@@ -81,7 +81,7 @@ class HeaderMenuToolbar extends React.Component {
                 </MenuItem>
                 <MenuItem onClick={() => this.setState({ showExportMaterialsDialog: true })}>
                     <ListItemIcon>
-                        <FileDownloadIcon />
+                        <GetAppIcon />
                     </ListItemIcon>
                     Export
                 </MenuItem>
