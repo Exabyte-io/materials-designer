@@ -3,21 +3,21 @@ FROM centos:centos7.9.2009
 # Install OS dependencies
 RUN yum update -y && \
     yum install -y \
-        libXext-devel \
-        libXi-devel \
-        mesa-libGL-devel \
-        mesa-dri-drivers \
-        xorg-x11-server-Xvfb \
-        wget \
-        which \
-        make \
-        scl-utils \
-        centos-release-scl
+    libXext-devel \
+    libXi-devel \
+    mesa-libGL-devel \
+    mesa-dri-drivers \
+    xorg-x11-server-Xvfb \
+    wget \
+    which \
+    make \
+    scl-utils \
+    centos-release-scl
 
 # Broken into two steps so scl gpg key is available from above
 RUN yum install -y \
-        devtoolset-8-gcc \
-        devtoolset-8-gcc-c++
+    devtoolset-8-gcc \
+    devtoolset-8-gcc-c++
 
 # Install nvm with node and npm
 ENV NVM_DIR /usr/local/nvm
@@ -48,7 +48,5 @@ RUN source scl_source enable devtoolset-8 && \
     npm install
 
 EXPOSE 3001
-
-RUN bash core-js-fix.sh
 
 ENTRYPOINT ["/opt/app/entrypoint.sh"]
