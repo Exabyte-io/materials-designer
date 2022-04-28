@@ -1,8 +1,7 @@
-import {Widget} from "../widget";
-import {SELECTORS} from "../selectors";
+import { Widget } from "../widget";
+import { SELECTORS } from "../selectors";
 
 export class ItemsListWidget extends Widget {
-
     constructor(selector) {
         super(selector);
         this._selectors = SELECTORS.itemsList;
@@ -13,9 +12,8 @@ export class ItemsListWidget extends Widget {
         exabrowser.waitForValue(selector);
         this.selectItemByIndex(itemIndex);
         exabrowser.setValueWithBackspaceClear(selector, name);
-        // TODO: remove the need for pause below
-        exabrowser.pause(1000);
-    };
+        exabrowser.keys("Tab");
+    }
 
     getSelectorPerItem(itemIndex, selectorName) {
         return this.getWrappedSelector(`${this._selectors.itemByIndex(itemIndex)} ${selectorName}`);
@@ -29,6 +27,5 @@ export class ItemsListWidget extends Widget {
         exabrowser.scrollAndClick(this.getSelectorPerItem(index, this._selectors.iconButtonDelete));
         // TODO: add check for disappear instead of pause below
         exabrowser.pause(1000);
-    };
-
+    }
 }
