@@ -3,7 +3,7 @@
     "version": "2022.1.9-0",
     "description": "Materials Designer",
     "scripts": {
-        "start": "PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
+        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
@@ -33,8 +33,8 @@
         "@babel/preset-react": "7.16.7",
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
-        "@exabyte-io/made.js": "2021.12.22-0",
-        "@exabyte-io/wave.js": "2022.4.19-1",
+        "@exabyte-io/made.js": "2022.5.5-3",
+        "@exabyte-io/wave.js": "2022.5.5-2",
         "@material-ui/core": "^4.12.3",
         "@material-ui/icons": "^4.11.2",
         "@uiw/react-codemirror": "^3.2.7",
@@ -66,6 +66,7 @@
         "react-dom": "^16.14.0"
     },
     "devDependencies": {
+        "cross-env": "^7.0.3",
         "babel-preset-react-app": "^9.1.2",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",
