@@ -1,7 +1,6 @@
+import CodeMirrorBase from "@uiw/react-codemirror";
 import PropTypes from "prop-types";
 import React from "react";
-
-import CodeMirrorBase from "@uiw/react-codemirror";
 
 class CodeMirror extends React.Component {
     constructor(props) {

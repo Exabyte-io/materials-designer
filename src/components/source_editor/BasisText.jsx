@@ -7,9 +7,9 @@ import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
-import CodeMirror from "./CodeMirror";
 
 import { displayMessage } from "../../i18n/messages";
+import CodeMirror from "./CodeMirror";
 
 class BasisText extends React.Component {
     constructor(props) {

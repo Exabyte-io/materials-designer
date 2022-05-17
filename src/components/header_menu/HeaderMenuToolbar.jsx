@@ -1,9 +1,10 @@
 /* eslint-disable react/sort-comp */
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
-import setClass from "classnames";
-import PropTypes from "prop-types";
-import React from "react";
-
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import MenuItem from "@material-ui/core/MenuItem";
+import Toolbar from "@material-ui/core/Toolbar";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 // TODO: rename other menu icons similarly
@@ -28,12 +29,9 @@ import InterpolatedSetIcon from "@material-ui/icons/SwapVert";
 import ThreeDEditorIcon from "@material-ui/icons/ThreeDRotation";
 import PolymerIcon from "@material-ui/icons/Timeline";
 import UndoIcon from "@material-ui/icons/Undo";
-
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import MenuItem from "@material-ui/core/MenuItem";
-import Toolbar from "@material-ui/core/Toolbar";
+import setClass from "classnames";
+import PropTypes from "prop-types";
+import React from "react";
 
 import { Material } from "../../material";
 import { BoundaryConditionsDialog } from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
