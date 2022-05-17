@@ -9,8 +9,8 @@
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
         "test": "bash run-tests.sh",
         "lint": "eslint src && prettier --write src",
-        "lint:fix": "eslint --fix --cache src && prettier --write src",
-        "postinstall": "./core-js-fix.sh; npm run transpile",
+        "lint:fix": "eslint src --fix && prettier --write src",
+        "postinstall": "npm run transpile",
         "prettier": "prettier --check src",
         "prepare": "husky install"
     },
@@ -34,7 +34,7 @@
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
         "@exabyte-io/made.js": "2022.5.5-3",
-        "@exabyte-io/wave.js": "2022.5.5-2",
+        "@exabyte-io/wave.js": "git+https://github.com/Exabyte-io/materials-designer.git#aeb4af4aa67642932d6cb7044138cbab146b72e4",
         "@material-ui/core": "^4.12.3",
         "@material-ui/icons": "^4.11.2",
         "@uiw/react-codemirror": "^3.2.7",
@@ -78,10 +78,15 @@
         "eslint-plugin-react": "7.27.1",
         "eslint-plugin-simple-import-sort": "7.0.0",
         "husky": "7.0.4",
+        "lint-staged": "12.1.2",
         "prettier": "2.5.1",
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
         "react-error-overlay": "^6.0.9"
+    },
+    "lint-staged": {
+        "*.{js,jsx}": "eslint --cache --fix",
+        "*.{js,jsx,css}": "prettier --write"
     },
     "resolutions": {
         "react-error-overlay": "6.0.9"

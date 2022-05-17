@@ -4,12 +4,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
-
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DeviceHubIcon from "@material-ui/icons/DeviceHub";
 import WidgetsIcon from "@material-ui/icons/Widgets";
-
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";

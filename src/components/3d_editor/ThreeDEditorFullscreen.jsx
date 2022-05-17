@@ -1,7 +1,7 @@
 import { ThreeDEditor } from "@exabyte-io/wave.js";
 import { RoundIconButton } from "@exabyte-io/wave.js/dist/components/RoundIconButton";
-import setClass from "classnames";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
+import setClass from "classnames";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
 import React from "react";

@@ -6,9 +6,9 @@ import { sprintf } from "sprintf-js";
  * @param name {String} File name to be written on disk.
  * @param extension {String} File extension.
  */
-export const exportToDisk = function (content, name = "file", extension = "txt") {
+export function exportToDisk(content, name = "file", extension = "txt") {
     const pom = document.createElement("a");
     pom.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
     pom.setAttribute("download", sprintf(`%s.${extension}`, name));
     pom.click();
-};
+}
