@@ -7,7 +7,7 @@ import StateResetReducer from "../utils/redux/reset_state/reducer";
 import InputOutputReducer from "./InputOutput";
 import MaterialReducer from "./Material";
 
-export const createMaterialsDesignerReducer = function (initialState, externalReducer) {
+export function createMaterialsDesignerReducer(initialState, externalReducer) {
     return undoable(
         createReducer(
             initialState,
@@ -22,4 +22,4 @@ export const createMaterialsDesignerReducer = function (initialState, externalRe
             filter: excludeAction(MATERIALS_UPDATE_INDEX),
         },
     );
-};
+}

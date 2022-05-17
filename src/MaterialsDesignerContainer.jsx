@@ -40,13 +40,13 @@ const initialState = () => {
 
 const mapStateToProps = (state, ownProps) => {
     // handle redux-undo modifications to state
-    state = state.present;
+    const { present } = state;
     return {
-        index: state.index,
-        material: state.materials ? state.materials[state.index] : null,
-        materials: state.materials,
-        editable: lodash.get(state, "editable", false),
-        isLoading: state.isLoading,
+        index: present.index,
+        material: present.materials ? present.materials[present.index] : null,
+        materials: present.materials,
+        editable: lodash.get(present, "editable", false),
+        isLoading: present.isLoading,
         ...ownProps.parentProps,
     };
 };

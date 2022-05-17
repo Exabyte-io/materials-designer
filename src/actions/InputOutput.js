@@ -24,10 +24,11 @@ export function addMaterials(newMaterials, addAtIndex) {
 export const MATERIALS_REMOVE = "MATERIALS_REMOVE";
 
 export function removeMaterials(indices) {
-    if (indices === undefined) indices = []; // if `indices` is undefined => removing by current index; passing empty array
+    // if `indices` is undefined => removing by current index; passing empty array
+    const passedIndices = indices || [];
     return {
         type: MATERIALS_REMOVE,
-        indices: safeMakeArrayIfNot(indices),
+        indices: safeMakeArrayIfNot(passedIndices),
     };
 }
 
