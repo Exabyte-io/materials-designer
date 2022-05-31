@@ -34,7 +34,7 @@
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
         "@exabyte-io/made.js": "2022.5.5-3",
-        "@exabyte-io/wave.js": "2022.5.26-0",
+        "@exabyte-io/wave.js": "git+https://github.com/Exabyte-io/wave.js.git#350db4b761f4535a756388b24ba80958c99aff32",
         "@material-ui/core": "^4.12.3",
         "@material-ui/icons": "^4.11.2",
         "@uiw/react-codemirror": "^3.2.7",
