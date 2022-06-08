@@ -45,7 +45,7 @@
         "lodash": "^4.17.4",
         "mathjs": "^3.9.0",
         "mixwith": "^0.1.1",
-        "node-sass": "^4.11.0",
+        "node-sass": "^7.0.0",
         "prop-types": "^15.8.0",
         "react-bootstrap": "0.32.4",
         "react-full-screen": "^0.2.2",
