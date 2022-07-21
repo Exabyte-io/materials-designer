@@ -65,12 +65,15 @@ export const SELECTORS = {
     },
     threeJSEditorWidget: {
         wrapper: "#threejs-editor",
+        viewport: "#threejs-editor #viewport",
         menuByTitle: (title) => `//div[@class="menu"] //div[starts-with(text(),"${title}")]`,
         menuItemByTitle: (title) => `//div[@class="menu"] //div[@class="options"] //div[starts-with(text(),"${title}")]`,
         sceneObjectByName: (name) => `//div[@class="Outliner"] //div[@class="option" and starts-with(text()," ${name}")]`,
+        sceneObjectOpenerByName: (name) => `//div[@id="outliner"] //div[contains(@class,"option") and text() = " ${name}"] //span[contains(@class,"opener")]`,
         sidebarTabByTitle: (title) => `//div[@id="sidebar"] //div[@id="tabs"] //span[starts-with(text(),"${title}")]`,
         sceneObjectTabByTitle: (title) => `//div[@id="sidebar"] //span //div[@id="tabs"] //span[starts-with(text(),"${title}")]`,
         sceneObjectPositionByIndex: (index) => `//div[@id="sidebar"] //div[@class="Panel"] //div[@class="Row"] //span[starts-with(text(), "Position")]/following-sibling::input[${index}]`,
+        toolbarBtnByTitle: (title) => `//div[@id="toolbar"] //button //img[@title="${title}"]`,
     },
     modalBackdrop: '.modal-backdrop.fade',
 };
