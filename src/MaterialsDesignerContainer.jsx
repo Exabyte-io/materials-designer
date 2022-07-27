@@ -31,10 +31,13 @@ import MaterialsDesignerComponent from "./MaterialsDesigner";
 import { createMaterialsDesignerReducer } from "./reducers";
 import ReduxProvider from "./utils/react/provider";
 
-const initialState = () => {
+const initialMaterials = Array(1).fill(new Material());
+
+const initialState = ({ materials = initialMaterials } = {}) => {
     return {
         index: 0,
         isLoading: false,
+        materials,
     };
 };
 
@@ -85,8 +88,7 @@ const MaterialsDesignerContainerHelper = connect(
 export class MaterialsDesignerContainer extends React.Component {
     constructor(props) {
         super(props);
-        const initialState_ = initialState();
-        initialState_.materials = props.initialMaterials;
+        const initialState_ = initialState({ materials: props.initialMaterials });
         const externalReducers = props.materialsSave
             ? { [MATERIALS_SAVE]: props.materialsSave }
             : {};
@@ -139,5 +141,5 @@ MaterialsDesignerContainer.propTypes = {
 
 MaterialsDesignerContainer.defaultProps = {
     applyMiddleware: true,
-    initialMaterials: Array(1).fill(new Material()),
+    initialMaterials,
 };
