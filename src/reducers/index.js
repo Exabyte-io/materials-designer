@@ -1,6 +1,6 @@
-import undoable, { excludeAction } from "redux-undo";
+import undoable from "redux-undo";
 
-import { MATERIALS_UPDATE_INDEX } from "../actions";
+import { MATERIALS_UPDATE_INDEX, MATERIALS_UPDATE_ONE } from "../actions";
 import { createReducer } from "../utils/react/reducer";
 import IsLoadingReducer from "../utils/redux/is_loading/reducer";
 import StateResetReducer from "../utils/redux/reset_state/reducer";
@@ -19,7 +19,18 @@ export function createMaterialsDesignerReducer(initialState, externalReducer) {
         ),
         {
             limit: 10,
-            filter: excludeAction(MATERIALS_UPDATE_INDEX),
+            filter: (action, currentState, previousHistory) => {
+                if (action.type === MATERIALS_UPDATE_INDEX) {
+                    return false;
+                }
+
+                // keeps "future" history after "undo" action
+                if (action.type === MATERIALS_UPDATE_ONE && previousHistory.future.length) {
+                    return false;
+                }
+
+                return true;
+            },
         },
     );
 }

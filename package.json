@@ -56,6 +56,7 @@
         "redux": "^3.6.0",
         "redux-batched-subscribe": "^0.1.6",
         "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.4.1",
         "redux-undo": "^1.0.0-beta9-9-7",
         "sprintf-js": "^1.1.2",
         "underscore": "^1.12.1",

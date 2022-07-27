@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import NPMsAlert from "react-s-alert";
 import { applyMiddleware, createStore } from "redux";
 import logger from "redux-logger";
-import { ActionCreators } from "redux-undo";
+import thunk from "redux-thunk";
 import _ from "underscore";
 
 import {
@@ -24,6 +24,8 @@ import {
     updateMaterialsIndex,
     updateNameForOneMaterial,
     updateOneMaterial,
+    undo,
+    redo,
 } from "./actions";
 import SAlertContentTmpl from "./components/include/SAlertContentTmpl";
 import { Material } from "./material";
@@ -69,8 +71,8 @@ const mapDispatchToProps = (dispatch) => {
         onSetBoundaryConditions: (config) => dispatch(setBoundaryConditionsForOneMaterial(config)),
 
         // Undo-Redo
-        onUndo: () => dispatch(ActionCreators.undo()),
-        onRedo: () => dispatch(ActionCreators.redo()),
+        onUndo: () => dispatch(undo()),
+        onRedo: () => dispatch(redo()),
         onReset: () => dispatch(resetState(initialState())),
         onClone: () => dispatch(cloneOneMaterial()),
         onToggleIsNonPeriodic: () => dispatch(materialsToggleIsNonPeriodicForOne()),
@@ -93,7 +95,7 @@ export class MaterialsDesignerContainer extends React.Component {
         const reducer = createMaterialsDesignerReducer(initialState_, externalReducers);
         this.store = createStore(
             reducer,
-            props.applyMiddleware ? applyMiddleware(logger) : undefined,
+            props.applyMiddleware ? applyMiddleware(thunk, logger) : applyMiddleware(thunk),
         );
         this.container = MaterialsDesignerContainerHelper;
     }
