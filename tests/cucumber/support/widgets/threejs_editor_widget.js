@@ -20,6 +20,16 @@ export class ThreeJSEditorWidget extends Widget {
         exabrowser.scrollAndClick(toolbarBtnSelector);
     }
 
+    /**
+     * Creates a selection box above the scene object based on 2D coordinates.
+     * Each coordinate must have value from [-1, 1] range.
+     * [0, 0] coordinate is the center of the scene, [-1, 1] is the top left corner, [1, -1] is the bottom right corner accordingly.
+     * @param {object} coordinates - 2D coordinates of the selection box
+     * @param {number} coordinates.x1 - x coordinate of starting point of the selection box
+     * @param {number} coordinates.y1 - y coordinate of starting point of the selection box
+     * @param {number} coordinates.x2 - x coordinate of ending point of the selection box
+     * @param {number} coordinates.y2 - y coordinate of ending point of the selection box
+     */
     makeMultipleSelection({ x1, y1, x2, y2 }) {
         const viewportRect = exabrowser.execute((viewportSelector) => {
             const viewport = document.querySelector(viewportSelector);
