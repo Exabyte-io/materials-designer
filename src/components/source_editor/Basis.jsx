@@ -48,10 +48,11 @@ class BasisEditor extends React.Component {
     handleBasisTextChange(content) {
         // "clone" original material from props to assert state updates
         const { material, onUpdate } = this.props;
-        const { coordUnits } = this.state;
+        const { coordUnits, xyz } = this.state;
         const newMaterial = material.clone();
+        const shouldUpdateHistory = xyz !== content;
         newMaterial.setBasis(content, "xyz", coordUnits);
-        onUpdate(newMaterial);
+        onUpdate(newMaterial, undefined, shouldUpdateHistory);
     }
 
     renderBasisUnitsLabel(unitsType = "crystal") {

@@ -59,7 +59,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         // Material
-        onUpdate: (material, index) => dispatch(updateOneMaterial(material, index)),
+        onUpdate: (material, index, shouldUpdateHistory) =>
+            dispatch(updateOneMaterial(material, index, shouldUpdateHistory)),
         onNameUpdate: (name, index) => dispatch(updateNameForOneMaterial(name, index)),
         onItemClick: (index) => dispatch(updateMaterialsIndex(index)),
 

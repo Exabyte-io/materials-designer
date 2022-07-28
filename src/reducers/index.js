@@ -19,13 +19,13 @@ export function createMaterialsDesignerReducer(initialState, externalReducer) {
         ),
         {
             limit: 10,
-            filter: (action, currentState, previousHistory) => {
+            filter: (action) => {
                 if (action.type === MATERIALS_UPDATE_INDEX) {
                     return false;
                 }
 
                 // keeps "future" history after "undo" action
-                if (action.type === MATERIALS_UPDATE_ONE && previousHistory.future.length) {
+                if (action.type === MATERIALS_UPDATE_ONE && !action.shouldUpdateHistory) {
                     return false;
                 }
 

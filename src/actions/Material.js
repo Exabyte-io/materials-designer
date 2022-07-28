@@ -1,10 +1,11 @@
 export const MATERIALS_UPDATE_ONE = "MATERIALS_UPDATE_ONE";
 
-export function updateOneMaterial(newMaterial, index) {
+export function updateOneMaterial(newMaterial, index, shouldUpdateHistory = true) {
     return {
         type: MATERIALS_UPDATE_ONE,
         material: newMaterial,
         index,
+        shouldUpdateHistory,
     };
 }
 
