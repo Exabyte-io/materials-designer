@@ -83,17 +83,20 @@ class ItemsList extends React.Component {
                 )}
             >
                 <ShowIf condition={Boolean(entity.id)}>
-                    <ListItemIcon className="superscript-icon">
+                    <ListItemIcon className="list-item-icon superscript-icon">
                         <CheckIcon />
                     </ListItemIcon>
                 </ShowIf>
 
-                <ListItemIcon>{isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}</ListItemIcon>
+                <ListItemIcon className="list-item-icon non-periodic-icon">
+                    {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
+                </ListItemIcon>
 
                 <ListItemText
+                    className="list-item-text"
                     primary={
                         <TextField
-                            className="m-0"
+                            className="m-0 list-item-text_primary"
                             InputProps={{ disableUnderline: true }}
                             onFocus={(e) => this.focusListItem(e, index)}
                             value={isBeingEdited ? editedName : entity.name}
@@ -102,13 +105,16 @@ class ItemsList extends React.Component {
                         />
                     }
                     secondary={
-                        <span>
+                        <span className="list-item-text_secondary">
                             Formula: <b>{entity.formula}</b>
                         </span>
                     }
                 />
 
-                <ListItemIcon className="icon-button-delete" onClick={() => onRemove(index)}>
+                <ListItemIcon
+                    className="list-item-icon icon-button-delete"
+                    onClick={() => onRemove(index)}
+                >
                     <DeleteIcon />
                 </ListItemIcon>
             </ListItem>
