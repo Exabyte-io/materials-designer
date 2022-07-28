@@ -20,7 +20,7 @@ Feature: User can select multiple atoms, move them and update their positions ac
       | 1.0 | 1.0 | 1.0 |
 
     # select atoms and move them a bit
-    And I click on "Toggle multiple selection" toolbar button
+    And I click on "Toggle Multiple Selection" toolbar button
     And I make multiple-selection with the following coordinates:
       | x1           | y1           | x2          | y2          |
       | $FLOAT{-0.5} | $FLOAT{-0.5} | $FLOAT{0.5} | $FLOAT{0.5} |
@@ -29,7 +29,7 @@ Feature: User can select multiple atoms, move them and update their positions ac
       | 1.0 | 1.0 | 1.0 |
 
     # submit multiple selection
-    And I click on "Submit multiple selection" toolbar button
+    And I click on "Submit Multiple Selection" toolbar button
 
     # expect that atoms' positions were changed
     And I select scene object "Si-0" inside 3D editor
