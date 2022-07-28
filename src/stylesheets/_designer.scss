@@ -315,6 +315,65 @@ $materials-designer-height-fullscreen: calc(
         box-shadow: 0 1px 0 1px $material-ui-expansion-panels-color;
         background: $material-ui-expansion-panels-color;
     }
+
+    div.list-item-icon {
+        display: flex;
+        justify-content: center;
+        min-width: 45px;
+
+        @media (max-width: 1450px) {
+            min-width: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            min-width: 25px;
+        }
+
+        @media (max-width: $screen-md) {
+            min-width: 45px;
+        }
+    }
+
+    div.list-item-icon svg {
+        @media (max-width: 1200px) {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: $screen-md) {
+            font-size: 2rem;
+        }
+    }
+
+    div.non-periodic-icon {
+        margin-right: 0.5rem;
+    }
+
+    .list-item-text {
+        &_primary {
+            min-width: auto;
+            max-width: 100%;
+        }
+
+        &_primary input {
+            @media (max-width: 1200px) {
+                font-size: 0.85em;
+            }
+
+            @media (max-width: $screen-md) {
+                font-size: 1em;
+            }
+        }
+
+        &_secondary {
+            @media (max-width: 1200px) {
+                font-size: 0.85em;
+            }
+
+            @media (max-width: $screen-md) {
+                font-size: 1em;
+            }
+        }
+    }
 }
 
 $source-editor-crystal-lattice-collapsed-height: 215px;
