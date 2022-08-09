@@ -1,3 +1,4 @@
+import _ from "underscore";
 /* eslint-disable react/sort-comp */
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/darcula.css";
@@ -21,6 +22,7 @@ class BasisText extends React.Component {
             manualEditStarted: false,
         };
         this.updateContent = this.updateContent.bind(this);
+        this.updateContent = _.debounce(this.updateContent, 700);
     }
 
     // eslint-disable-next-line no-unused-vars
@@ -67,11 +69,13 @@ class BasisText extends React.Component {
         }
     };
 
-    updateContent(content) {
-        const { onChange } = this.props;
-        this.setState({ content }, () => {
-            if (this.isContentPassingValidation(content)) {
-                onChange(content);
+    updateContent(newContent) {
+        const { onChange, content } = this.props;
+        // Avoid triggering update actions when content is set from props
+        if (content === newContent) return;
+        this.setState({ content: newContent }, () => {
+            if (this.isContentPassingValidation(newContent)) {
+                onChange(newContent);
             }
         });
     }
