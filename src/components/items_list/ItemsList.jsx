@@ -66,11 +66,12 @@ class ItemsList extends React.Component {
         this.setState({ editedName: null, editedIndex: null });
     }
 
-    renderListItem(entity, index) {
+    renderListItem(entity, index, indexFromState) {
         const { name, isUpdated, isNonPeriodic } = entity;
         const { onItemClick, onRemove } = this.props;
         const { editedIndex, editedName } = this.state;
         const isBeingEdited = editedIndex === index;
+        const isBeingActive = index === indexFromState;
         return (
             <ListItem
                 key={name + "-" + index}
@@ -78,7 +79,7 @@ class ItemsList extends React.Component {
                 dense
                 onClick={() => onItemClick(index)}
                 className={setClass(
-                    { active: isBeingEdited },
+                    { active: isBeingEdited || isBeingActive },
                     { updated: isUpdated || isBeingEdited },
                 )}
             >
@@ -122,11 +123,11 @@ class ItemsList extends React.Component {
     }
 
     render() {
-        const { className, materials } = this.props;
+        const { className, materials, index } = this.props;
         return (
             <div className={setClass(className, "materials-designer-items-list")}>
                 <List component="nav" dense>
-                    {materials.map((m, i) => this.renderListItem(m, i))}
+                    {materials.map((m, i) => this.renderListItem(m, i, index))}
                 </List>
             </div>
         );
