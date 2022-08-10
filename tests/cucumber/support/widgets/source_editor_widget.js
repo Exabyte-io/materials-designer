@@ -76,9 +76,6 @@ class BasisEditorWidget extends Widget {
             const element = document.getElementById(editorId);
             const codeMirror = element.getElementsByClassName('CodeMirror')[0].CodeMirror;
             codeMirror.setValue(preserveExistingContent ? codeMirror.getValue() + "\n" + content : content);
-            // undo-redo is required to trigger changes for ReactCodeMirror component
-            codeMirror.execCommand('undo');
-            codeMirror.execCommand('redo');
         }, editorId, content, preserveExistingContent);
     }
 
