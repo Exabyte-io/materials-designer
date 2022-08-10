@@ -10,7 +10,7 @@ NODE_VERSION="8.11.4"
 # Print usage
 #
 usage () {
-    echo "run-tests.sh -h=HOST -p=PORT -f=FEATURES -o=OPTIONS"
+    echo "run-tests.sh -h=HOST -p=PORT -s=SKIP_INSTALL -f=FEATURES -o=OPTIONS"
     exit 1
 }
 
@@ -31,6 +31,10 @@ check_args () {
         case $i in
             -h=*|--host=*)
                 HOST="${i#*=}"
+                shift
+            ;;
+            -s=*|--skip-install=*)
+                SKIP_INSTALL="${i#*=}"
                 shift
             ;;
             -p=*|--port=*)
@@ -79,7 +83,9 @@ cd ${TESTS_DIR}
 DEFAULT_NVM_DIR="${HOME}/.nvm"
 source ${NVM_DIR:-$DEFAULT_NVM_DIR}/nvm.sh
 nvm use ${NODE_VERSION}
-npm ci
+if [[ ${SKIP_INSTALL} != "true" ]]; then
+    npm ci
+fi
 
 rm -rf ${SCREENSHOTS_DIR}
 
