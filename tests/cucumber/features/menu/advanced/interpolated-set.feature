@@ -1,4 +1,3 @@
-@ignore
 Feature: User can create an interpolated set
 
   Scenario:
