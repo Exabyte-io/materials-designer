@@ -66,6 +66,14 @@ class ItemsList extends React.Component {
         this.setState({ editedName: null, editedIndex: null });
     }
 
+    /**
+     * this function is used for remove item for the list on icon click
+     * also here is used e.stopPropagation function because click event is
+     * is propagates on ListItem and call onItemClick function that is crushes
+     * the page.
+     * @param {Event} e - js dom event
+     * @param {Number} index - index of element that should be removed
+     */
     onDeleteIconClick(e, index) {
         const { onRemove } = this.props;
         e.stopPropagation();
