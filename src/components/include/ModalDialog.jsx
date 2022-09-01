@@ -46,6 +46,7 @@ export class ModalDialog extends React.Component {
         // animations are disabled to avoid problems with automated tests
         return (
             <Modal
+                backdrop="static"
                 id={modalId}
                 animation={false}
                 show={show}
