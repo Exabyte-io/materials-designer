@@ -37,3 +37,12 @@ Feature: User can create a material, then undo the changes and/or reset to the i
       | path          | index   |
       | si-clone.json | $INT{2} |
 
+    # Delete
+    When I delete materials with index "1"
+    Then material with following data exists in state
+      | path          | index   |
+      | si-clone.json | $INT{1} |
+     And material with following data does not exist in state
+      | path    | index   |
+      | si-clone.json | $INT{2} |
+
