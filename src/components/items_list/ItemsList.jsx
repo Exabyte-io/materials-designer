@@ -32,6 +32,12 @@ class ItemsList extends React.Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        const { materials, index } = this.props;
+        if (prevProps.materials.length > materials.length)
+            this.setState({ editedName: materials[index].name, editedIndex: index });
+    }
+
     initControlsSwitchFromKeyboard(event) {
         const { materials, index, onItemClick } = this.props;
         if (!event.shiftKey) return; // Shift key must be down
@@ -100,9 +106,10 @@ class ItemsList extends React.Component {
         const { editedIndex, editedName } = this.state;
         const isBeingEdited = editedIndex === index;
         const isBeingActive = index === indexFromState;
+        console.log(entity.name + "-" + editedName);
         return (
             <ListItem
-                key={name + "-" + index}
+                key={name + "-"}
                 button
                 dense
                 onClick={(e) => this.onItemListClick(e, index)}
