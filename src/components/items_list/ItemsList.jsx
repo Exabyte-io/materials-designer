@@ -21,7 +21,6 @@ class ItemsList extends React.Component {
         this.focusListItem = this.focusListItem.bind(this);
         this.blurListItem = this.blurListItem.bind(this);
         this.initControlsSwitchFromKeyboard = this.initControlsSwitchFromKeyboard.bind(this);
-        this.onDeleteIconClick = this.onDeleteIconClick.bind(this);
         window.addEventListener("keydown", this.initControlsSwitchFromKeyboard, false);
     }
 
