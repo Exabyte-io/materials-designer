@@ -21,6 +21,7 @@ class ItemsList extends React.Component {
         this.focusListItem = this.focusListItem.bind(this);
         this.blurListItem = this.blurListItem.bind(this);
         this.initControlsSwitchFromKeyboard = this.initControlsSwitchFromKeyboard.bind(this);
+        this.onDeleteIconClick = this.onDeleteIconClick.bind(this);
         window.addEventListener("keydown", this.initControlsSwitchFromKeyboard, false);
     }
 
@@ -66,9 +67,15 @@ class ItemsList extends React.Component {
         this.setState({ editedName: null, editedIndex: null });
     }
 
+    onDeleteIconClick(e, index) {
+        const { onRemove } = this.props;
+        e.stopPropagation();
+        onRemove(index);
+    }
+
     renderListItem(entity, index, indexFromState) {
         const { name, isUpdated, isNonPeriodic } = entity;
-        const { onItemClick, onRemove } = this.props;
+        const { onItemClick } = this.props;
         const { editedIndex, editedName } = this.state;
         const isBeingEdited = editedIndex === index;
         const isBeingActive = index === indexFromState;
@@ -114,7 +121,9 @@ class ItemsList extends React.Component {
 
                 <ListItemIcon
                     className="list-item-icon icon-button-delete"
-                    onClick={() => onRemove(index)}
+                    onClick={(e) => {
+                        this.onDeleteIconClick(e, index);
+                    }}
                 >
                     <DeleteIcon />
                 </ListItemIcon>
