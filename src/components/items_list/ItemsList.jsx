@@ -68,21 +68,35 @@ class ItemsList extends React.Component {
 
     /**
      * this function is used for remove item for the list on icon click
-     * also here is used e.stopPropagation function because click event is
-     * is propagates on ListItem and call onItemClick function that is crushes
-     * the page.
-     * @param {Event} e - js dom event
+     * also here is used e.preventDefault in order inform further propagated
+     * elements that event is already handled and they just should skip
+     * handling of this event, otherwise it can occurs page crash
+     * @param {React.MouseEvent} e - js dom event
      * @param {Number} index - index of element that should be removed
      */
     onDeleteIconClick(e, index) {
         const { onRemove } = this.props;
-        e.stopPropagation();
+        e.preventDefault();
         onRemove(index);
+    }
+
+    /**
+     * this function is used for handling clicks on different elements
+     * here is used check if the event is default prevented in order to
+     * avoid propagated actions that already was handled and don't handle
+     * extra actions that can lead to page crashes
+     * @param {React.MouseEvent} e - js dom event
+     * @param {Number} index - index of element that should be removed
+     */
+    onItemListClick(e, index) {
+        const { onItemClick } = this.props;
+        if (e.defaultPrevented) return;
+        e.preventDefault();
+        onItemClick(index);
     }
 
     renderListItem(entity, index, indexFromState) {
         const { name, isUpdated, isNonPeriodic } = entity;
-        const { onItemClick } = this.props;
         const { editedIndex, editedName } = this.state;
         const isBeingEdited = editedIndex === index;
         const isBeingActive = index === indexFromState;
@@ -91,7 +105,7 @@ class ItemsList extends React.Component {
                 key={name + "-" + index}
                 button
                 dense
-                onClick={() => onItemClick(index)}
+                onClick={(e) => this.onItemListClick(e, index)}
                 className={setClass(
                     { active: isBeingEdited || isBeingActive },
                     { updated: isUpdated || isBeingEdited },
