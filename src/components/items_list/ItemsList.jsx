@@ -106,7 +106,6 @@ class ItemsList extends React.Component {
         const { editedIndex, editedName } = this.state;
         const isBeingEdited = editedIndex === index;
         const isBeingActive = index === indexFromState;
-        console.log(entity.name + "-" + editedName);
         return (
             <ListItem
                 key={name + "-"}
