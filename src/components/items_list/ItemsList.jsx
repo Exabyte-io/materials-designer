@@ -108,7 +108,7 @@ class ItemsList extends React.Component {
         const isBeingActive = index === indexFromState;
         return (
             <ListItem
-                key={name + "-"}
+                key={name + "-" + index}
                 button
                 dense
                 onClick={(e) => this.onItemListClick(e, index)}
