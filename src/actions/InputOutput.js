@@ -25,7 +25,7 @@ export const MATERIALS_REMOVE = "MATERIALS_REMOVE";
 
 export function removeMaterials(indices) {
     // if `indices` is undefined => removing by current index; passing empty array
-    const passedIndices = indices || [];
+    const passedIndices = indices ?? [];
     return {
         type: MATERIALS_REMOVE,
         indices: safeMakeArrayIfNot(passedIndices),
