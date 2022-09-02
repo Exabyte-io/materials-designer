@@ -73,11 +73,11 @@ class ItemsList extends React.Component {
     }
 
     /**
-     * this function is used for remove item for the list on icon click
-     * also here is used e.preventDefault in order inform further propagated
-     * elements that event is already handled and they just should skip
-     * handling of this event, otherwise it can occurs page crash
-     * @param {React.MouseEvent} e - js dom event
+     * Used when clicking remove item
+     * e.preventDefault is used to inform further
+     * elements that event is already handled and they should skip
+     * handling it, otherwise the page can crash.
+     * @param {React.MouseEvent} e - JS DOM event
      * @param {Number} index - index of element that should be removed
      */
     onDeleteIconClick(e, index) {
