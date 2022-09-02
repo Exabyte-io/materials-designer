@@ -45,6 +45,10 @@ export class MaterialDesignerWidget extends Widget {
 
     cloneCurrentMaterial() {this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", 4)};
 
+    clickDeleteAction(index) {
+        this.itemsList.deleteMaterialByIndex(index);
+    }
+
     clickUndoRedoReset(index = 1) {this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", index)};
 
     openSurfaceDialog() {this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 4)}
