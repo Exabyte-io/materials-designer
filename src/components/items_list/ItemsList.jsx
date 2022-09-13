@@ -32,6 +32,12 @@ class ItemsList extends React.Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        const { materials, index } = this.props;
+        if (prevProps.materials.length > materials.length)
+            this.setState({ editedName: materials[index].name, editedIndex: index });
+    }
+
     initControlsSwitchFromKeyboard(event) {
         const { materials, index, onItemClick } = this.props;
         if (!event.shiftKey) return; // Shift key must be down
@@ -66,9 +72,37 @@ class ItemsList extends React.Component {
         this.setState({ editedName: null, editedIndex: null });
     }
 
+    /**
+     * Used when clicking remove item
+     * e.preventDefault is used to inform further
+     * elements that event is already handled and they should skip
+     * handling it, otherwise the page can crash.
+     * @param {React.MouseEvent} e - JS DOM event
+     * @param {Number} index - index of element that should be removed
+     */
+    onDeleteIconClick(e, index) {
+        const { onRemove } = this.props;
+        e.preventDefault();
+        onRemove(index);
+    }
+
+    /**
+     * this function is used for handling clicks on different elements
+     * here is used check if the event is default prevented in order to
+     * avoid propagated actions that already was handled and don't handle
+     * extra actions that can lead to page crashes
+     * @param {React.MouseEvent} e - js dom event
+     * @param {Number} index - index of element that should be removed
+     */
+    onItemListClick(e, index) {
+        const { onItemClick } = this.props;
+        if (e.defaultPrevented) return;
+        e.preventDefault();
+        onItemClick(index);
+    }
+
     renderListItem(entity, index, indexFromState) {
         const { name, isUpdated, isNonPeriodic } = entity;
-        const { onItemClick, onRemove } = this.props;
         const { editedIndex, editedName } = this.state;
         const isBeingEdited = editedIndex === index;
         const isBeingActive = index === indexFromState;
@@ -77,7 +111,7 @@ class ItemsList extends React.Component {
                 key={name + "-" + index}
                 button
                 dense
-                onClick={() => onItemClick(index)}
+                onClick={(e) => this.onItemListClick(e, index)}
                 className={setClass(
                     { active: isBeingEdited || isBeingActive },
                     { updated: isUpdated || isBeingEdited },
@@ -114,7 +148,9 @@ class ItemsList extends React.Component {
 
                 <ListItemIcon
                     className="list-item-icon icon-button-delete"
-                    onClick={() => onRemove(index)}
+                    onClick={(e) => {
+                        this.onDeleteIconClick(e, index);
+                    }}
                 >
                     <DeleteIcon />
                 </ListItemIcon>
