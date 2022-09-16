@@ -33,8 +33,7 @@
         "@babel/preset-react": "7.16.7",
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
-        "@exabyte-io/made.js": "2022.5.5-3",
-        "@exabyte-io/wave.js": "2022.8.9-0",
+        "@exabyte-io/wave.js": "2022.9.16-0",
         "@material-ui/core": "^4.12.3",
         "@material-ui/icons": "^4.11.2",
         "@uiw/react-codemirror": "^3.2.7",
@@ -62,10 +61,12 @@
         "underscore.string": "^3.3.4"
     },
     "peerDependencies": {
+        "@exabyte-io/made.js": "*",
         "react": "^16.14.0",
         "react-dom": "^16.14.0"
     },
     "devDependencies": {
+        "@exabyte-io/made.js": "2022.5.5-3",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
         "eslint": "7.32.0",
