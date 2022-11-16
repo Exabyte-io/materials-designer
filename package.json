@@ -8,8 +8,8 @@
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
         "test": "bash run-tests.sh",
-        "lint": "eslint src",
-        "lint:fix": "eslint src --fix",
+        "lint": "eslint src tests",
+        "lint:fix": "eslint src tests --fix",
         "postinstall": "npm run transpile",
         "prepare": "husky install"
     },
@@ -67,10 +67,12 @@
     },
     "devDependencies": {
         "@exabyte-io/made.js": "2022.5.5-3",
+        "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
         "eslint": "7.32.0",
         "eslint-config-airbnb": "19.0.2",
+        "eslint-import-resolver-exports": "^1.0.0-beta.3",
         "eslint-plugin-import": "2.25.3",
         "eslint-plugin-jsdoc": "37.1.0",
         "eslint-plugin-jsx-a11y": "6.5.1",

@@ -1,0 +1,12 @@
+{
+    "extends": ["@exabyte-io/eslint-config"],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "allowImportExportEverywhere": true,
+        "babelOptions": {
+            "configFile": ".babelrc"
+        }
+    }
+}
