@@ -13,8 +13,8 @@ export function randomAlphanumeric(length) {
     // Generated string is used for username generation. In case of random string contains only numbers
     // slug for default issue will be inappropriate (e.g., "user-1232" has "user" slug).
     return (
-        randomLetter +
-        Math.random()
+        randomLetter
+        + Math.random()
             .toString(36)
             .substring(2, 2 + length - 1)
     );

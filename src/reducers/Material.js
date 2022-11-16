@@ -69,7 +69,9 @@ function materialsGenerateSupercellForOne(state, action) {
 
 function _setMetadataForSlabConfig(
     slabConfig,
-    { h, k, l, thickness, vacuumRatio, vx, vy, material },
+    {
+        h, k, l, thickness, vacuumRatio, vx, vy, material,
+    },
 ) {
     const bulkId = material && (material.id || material._id);
     if (!bulkId) NPMsAlert.warning(displayMessage("surface.noBulkId"), { timeout: 10000 });
@@ -92,7 +94,9 @@ function _setMetadataForSlabConfig(
 function materialsGenerateSurfaceForOne(state, action) {
     const material = state.materials[state.index]; // only using currently active material
 
-    const { h, k, l, thickness, vacuumRatio, vx, vy } = action;
+    const {
+        h, k, l, thickness, vacuumRatio, vx, vy,
+    } = action;
     const supercellConfig = Made.tools.surface.generateConfig(
         material,
         [h, k, l],
