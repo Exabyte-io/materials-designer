@@ -1,19 +1,18 @@
-import {retry} from "../../utils";
-import {logger} from "../../logger";
-import {SELECTORS} from "../../selectors";
-import {AlertWidget} from "./alert_widget";
+import { logger } from "../../logger";
+import { SELECTORS } from "../../selectors";
+import { retry } from "../../utils";
+import { AlertWidget } from "./alert_widget";
 
 export class SAlertWidget extends AlertWidget {
-
     getAlertSelectorByType(type) {
-        return this.getWrappedSelector(SELECTORS.sAlertWidget.alertByType(type), "")
+        return this.getWrappedSelector(SELECTORS.sAlertWidget.alertByType(type), "");
     }
 
-    isVisibleByType(type) {return exabrowser.isVisible(this.getAlertSelectorByType(type))}
+    isVisibleByType(type) { return exabrowser.isVisible(this.getAlertSelectorByType(type)); }
 
-    isVisibleSuccess() {return this.isVisibleByType("success")}
+    isVisibleSuccess() { return this.isVisibleByType("success"); }
 
-    close() {exabrowser.scrollAndClick(this.getWrappedSelector(SELECTORS.sAlertWidget.closeButton))}
+    close() { exabrowser.scrollAndClick(this.getWrappedSelector(SELECTORS.sAlertWidget.closeButton)); }
 
     closeAllSuccess() {
         retry(() => {
@@ -22,7 +21,6 @@ export class SAlertWidget extends AlertWidget {
                 this.close();
                 throw ("Something is wrong: there should be no sAlertSuccess shown!");
             }
-        })
+        });
     }
-
 }

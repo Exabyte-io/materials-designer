@@ -1,5 +1,5 @@
-import {Widget} from "../../widget";
-import {SELECTORS} from "../../selectors";
+import { SELECTORS } from "../../selectors";
+import { Widget } from "../../widget";
 
 export class BoundaryConditionsDialogWidget extends Widget {
     constructor(selector) {
@@ -7,11 +7,10 @@ export class BoundaryConditionsDialogWidget extends Widget {
         this.selectors = this.getWrappedSelectors(SELECTORS.headerMenu.boundaryConditionsDialog);
     }
 
-    addBoundaryConditions({type, offset}) {
+    addBoundaryConditions({ type, offset }) {
         exabrowser.selectByValue(this.selectors.type, type);
         exabrowser.setValue(this.selectors.offset, offset);
-    };
+    }
 
-    submit() {exabrowser.scrollAndClick(this.selectors.submitButton);}
-
+    submit() { exabrowser.scrollAndClick(this.selectors.submitButton); }
 }

@@ -1,5 +1,5 @@
-import {Widget} from "../../widget";
-import {SELECTORS} from "../../selectors";
+import { SELECTORS } from "../../selectors";
+import { Widget } from "../../widget";
 
 export class InterpolatedSetDialogWidget extends Widget {
     constructor(selector) {
@@ -9,8 +9,7 @@ export class InterpolatedSetDialogWidget extends Widget {
 
     setInterpolatedSetImagesCount(nImages) {
         exabrowser.setValue(this.selectors.intermediateImagesInput, nImages);
-    };
+    }
 
-    submit() {exabrowser.scrollAndClick(this.selectors.submitButton);}
-
+    submit() { exabrowser.scrollAndClick(this.selectors.submitButton); }
 }

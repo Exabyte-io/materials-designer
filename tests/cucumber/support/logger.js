@@ -4,7 +4,7 @@ const LEVELS = {
     debug: 3,
     warn: 2,
     info: 1,
-    error: 0
+    error: 0,
 };
 
 const DEBUG_LEVEL = process.env.DEBUG_LEVEL || LEVELS.warn;
@@ -36,8 +36,8 @@ export function getLogger(name) {
             if (DEBUG_LEVEL >= LEVELS.error) {
                 log(message);
             }
-        }
-    }
+        },
+    };
 }
 
 export const logger = getLogger("exachimp:default");

@@ -1,10 +1,9 @@
-import {Widget} from "./widget";
+import { Widget } from "./widget";
 
 /**
  * http://webdriver.io/guide/testrunner/pageobjects.html.
  */
 export class Page extends Widget {
-
     /**
      * @summary Opens the page.
      */
@@ -14,6 +13,5 @@ export class Page extends Widget {
         this.waitForLoaderToDisappear();
     }
 
-    getUrl() {return exabrowser.getUrl()}
-
+    getUrl() { return exabrowser.getUrl(); }
 }

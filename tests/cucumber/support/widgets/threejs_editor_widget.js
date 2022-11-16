@@ -1,8 +1,8 @@
 import assert from "assert";
 
-import {retry} from "../utils";
-import {Widget} from "../widget";
-import {SELECTORS} from "../selectors";
+import { SELECTORS } from "../selectors";
+import { retry } from "../utils";
+import { Widget } from "../widget";
 
 export class ThreeJSEditorWidget extends Widget {
     constructor(selector) {
@@ -30,7 +30,9 @@ export class ThreeJSEditorWidget extends Widget {
      * @param {number} coordinates.x2 - x coordinate of ending point of the selection box
      * @param {number} coordinates.y2 - y coordinate of ending point of the selection box
      */
-    makeMultipleSelection({ x1, y1, x2, y2 }) {
+    makeMultipleSelection({
+        x1, y1, x2, y2,
+    }) {
         const viewportRect = exabrowser.execute((viewportSelector) => {
             const viewport = document.querySelector(viewportSelector);
             const rect = viewport.getBoundingClientRect();
@@ -42,7 +44,9 @@ export class ThreeJSEditorWidget extends Widget {
         const clientX2 = ((x2 + 1) / 2) * viewportRect.width + viewportRect.x;
         const clientY1 = -((y1 - 1) / 2) * viewportRect.height + viewportRect.y;
         const clientY2 = -((y2 - 1) / 2) * viewportRect.height + viewportRect.y;
-        const coordinates = { x1: clientX1, y1: clientY1, x2: clientX2, y2: clientY2 };
+        const coordinates = {
+            x1: clientX1, y1: clientY1, x2: clientX2, y2: clientY2,
+        };
 
         exabrowser.execute(
             (selector, clientCoordinates) => {
