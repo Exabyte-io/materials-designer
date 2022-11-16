@@ -1,5 +1,5 @@
-import {Widget} from "../widget";
-import {SELECTORS} from "../selectors";
+import { SELECTORS } from "../selectors";
+import { Widget } from "../widget";
 
 class LatticeEditorWidget extends Widget {
     constructor(selector) {
@@ -18,37 +18,36 @@ class LatticeEditorWidget extends Widget {
     }
 
     updateLatticeConfiguration() {
-        exabrowser.scrollAndClick(this._selectors.latticeFormSaveButton)
+        exabrowser.scrollAndClick(this._selectors.latticeFormSaveButton);
     }
 
     getLattice() {
         // TBA
-    };
+    }
 
     setLatticeParamInput(name, value) {
         exabrowser.waitForVisible(this._selectors.latticeOptionSelectorByNameInput(name));
         exabrowser.setValue(this._selectors.latticeOptionSelectorByNameInput(name), value);
-    };
+    }
 
     setLatticeParamSelect(name, value) {
-        const latticeOptionSelector = this._selectors.latticeOptionSelectorByNameSelect(name)
+        const latticeOptionSelector = this._selectors.latticeOptionSelectorByNameSelect(name);
         exabrowser.waitForVisible(latticeOptionSelector);
         // TODO: find the reason for unreliable selectByValue and remove browser.pause
         // 'selectByValue` could be buggy: https://github.com/webdriverio/webdriverio/issues/1689
         exabrowser.pause(1000);
         exabrowser.selectByValue(latticeOptionSelector, value);
-    };
+    }
 
     setLattice(latticeObject) {
         this.openLatticeForm();
-        Object.keys(latticeObject).forEach(key => {
+        Object.keys(latticeObject).forEach((key) => {
             const value = latticeObject[key];
-            (key === 'type') ? this.setLatticeParamSelect(key, value) : this.setLatticeParamInput(key, value);
+            (key === "type") ? this.setLatticeParamSelect(key, value) : this.setLatticeParamInput(key, value);
         });
         this.updateLatticeConfiguration();
         this.closeLatticeForm();
-    };
-
+    }
 }
 
 class BasisEditorWidget extends Widget {
@@ -59,29 +58,28 @@ class BasisEditorWidget extends Widget {
 
     // parse text from feature table to basis text in final form
     _parseTableTextToBasisString(basisTextInTable) {
-        const basisLines = basisTextInTable.split(';');
+        const basisLines = basisTextInTable.split(";");
         return basisLines.join("\n");
-
     }
 
     getCodeMirrorContent(editorId) {
         return exabrowser.execute((editorId) => {
             const element = document.getElementById(editorId);
-            return element.getElementsByClassName('CodeMirror')[0].CodeMirror.getValue();
+            return element.getElementsByClassName("CodeMirror")[0].CodeMirror.getValue();
         }, editorId).value;
     }
 
     setCodeMirrorContent(editorId, content, preserveExistingContent = false) {
         exabrowser.execute((editorId, content, preserveExistingContent) => {
             const element = document.getElementById(editorId);
-            const codeMirror = element.getElementsByClassName('CodeMirror')[0].CodeMirror;
+            const codeMirror = element.getElementsByClassName("CodeMirror")[0].CodeMirror;
             codeMirror.setValue(preserveExistingContent ? codeMirror.getValue() + "\n" + content : content);
         }, editorId, content, preserveExistingContent);
     }
 
     getBasisText() {
         return this.getCodeMirrorContent(SELECTORS.sourceEditor.basisEditor.basisTextArea);
-    };
+    }
 
     setBasisUnits(unitsName) {
         this.waitForMaterialInit();

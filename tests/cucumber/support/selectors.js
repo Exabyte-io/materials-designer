@@ -1,13 +1,12 @@
 export const SELECTORS = {
     wrapper: ".materials-designer",
-    actionDialogSubmitButton: `button[data-name="Submit"]`,
+    actionDialogSubmitButton: "button[data-name=\"Submit\"]",
     headerMenu: {
         wrapper: ".materials-designer-header-menu",
         checkIndicatorButton: "button .zmdi-check",
         spinnerIndicatorButton: "button .zmdi-spinner",
         menuDialogByName: (name) => `[data-name="${name}"]`,
-        menuDialogItemByNumber: (name, number) =>
-            `.button-activated-menu[data-name="${name}-menu"] li[role="menuitem"]:nth-of-type(${number})`,
+        menuDialogItemByNumber: (name, number) => `.button-activated-menu[data-name="${name}-menu"] li[role="menuitem"]:nth-of-type(${number})`,
         supercellDialog: {
             wrapper: "#supercellModal",
             submitButton: "#make-supercell",
@@ -16,7 +15,7 @@ export const SELECTORS = {
         interpolatedSetDialog: {
             wrapper: "#interpolatedSetModal",
             submitButton: "#generate-interpolated-set",
-            intermediateImagesInput: "input[type='number']"
+            intermediateImagesInput: "input[type='number']",
         },
         surfaceDialog: {
             wrapper: "#surfaceModal",
@@ -34,7 +33,7 @@ export const SELECTORS = {
             submitButton: "#boundary-conditions-submit",
             type: '[data-tid="type"] select',
             offset: '[data-tid="offset"] input',
-        }
+        },
     },
     itemsList: {
         wrapper: ".materials-designer-items-list",
@@ -46,22 +45,22 @@ export const SELECTORS = {
         wrapper: "",
         basisEditor: {
             wrapper: "",
-            basisTextArea: 'basis-xyz',
-            basisUnitsByName: (name) => `#basis-units-' + ${name}`
+            basisTextArea: "basis-xyz",
+            basisUnitsByName: (name) => `#basis-units-' + ${name}`,
         },
         latticeEditor: {
-            wrapper: '.crystal-lattice',
+            wrapper: ".crystal-lattice",
             latticeFormTrigger: '[role="button"]',
-            latticeFormBody: '.crystal-lattice-config',
+            latticeFormBody: ".crystal-lattice-config",
             latticeOptionSelectorByNameInput: (name) => `input[name="${name}"]`,
             latticeOptionSelectorByNameSelect: (name) => `select[name="${name}"]`,
-            latticeFormSaveButton: `button.save-lattice-config`,
-        }
+            latticeFormSaveButton: "button.save-lattice-config",
+        },
     },
     sAlertWidget: {
         wrapper: ".alert.s-alert-box",
         alertByType: (type) => `.alert-${type}`,
-        closeButton: 'button.close',
+        closeButton: "button.close",
     },
     threeJSEditorWidget: {
         wrapper: "#threejs-editor",
@@ -75,5 +74,5 @@ export const SELECTORS = {
         sceneObjectPositionByIndex: (index) => `//div[@id="sidebar"] //div[@class="Panel"] //div[@class="Row"] //span[starts-with(text(), "Position")]/following-sibling::input[${index}]`,
         toolbarBtnByTitle: (title) => `//div[@id="toolbar"] //button //img[contains(@title,"${title}")]`,
     },
-    modalBackdrop: '.modal-backdrop.fade',
+    modalBackdrop: ".modal-backdrop.fade",
 };

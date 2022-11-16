@@ -1,6 +1,6 @@
-import {retry} from "../utils";
-import {Widget} from "../widget";
-import {SELECTORS} from "../selectors";
+import { SELECTORS } from "../selectors";
+import { retry } from "../utils";
+import { Widget } from "../widget";
 
 export class HeaderMenuWidget extends Widget {
     constructor(selector) {
@@ -16,7 +16,7 @@ export class HeaderMenuWidget extends Widget {
         // retry due to animation
         retry(() => {
             exabrowser.scrollAndClick(this._selectors.menuDialogItemByNumber(menuName, itemNumber));
-        }, {retries: 5});
+        }, { retries: 5 });
     }
 
     selectMenuItemByNameAndItemNumber(menuName, itemNumber) {
@@ -30,6 +30,5 @@ export class HeaderMenuWidget extends Widget {
     waitForMaterialInit() {
         exabrowser.waitForVisible(this._selectors.checkIndicatorButton);
         exabrowser.waitForDisappear(this._selectors.spinnerIndicatorButton);
-    };
-
+    }
 }

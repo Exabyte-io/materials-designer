@@ -1,7 +1,6 @@
-import {Widget} from "../../widget";
+import { Widget } from "../../widget";
 
 export class AlertWidget extends Widget {
-
     // override upon inheritance
     getAlertSelectorByType(type) {}
 
