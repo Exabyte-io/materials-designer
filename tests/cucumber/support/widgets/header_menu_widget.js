@@ -14,9 +14,14 @@ export class HeaderMenuWidget extends Widget {
 
     selectMenuItem(menuName, itemNumber) {
         // retry due to animation
-        retry(() => {
-            exabrowser.scrollAndClick(this._selectors.menuDialogItemByNumber(menuName, itemNumber));
-        }, { retries: 5 });
+        retry(
+            () => {
+                exabrowser.scrollAndClick(
+                    this._selectors.menuDialogItemByNumber(menuName, itemNumber),
+                );
+            },
+            { retries: 5 },
+        );
     }
 
     selectMenuItemByNameAndItemNumber(menuName, itemNumber) {

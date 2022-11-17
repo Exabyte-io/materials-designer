@@ -8,8 +8,8 @@
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
         "test": "bash run-tests.sh",
-        "lint": "eslint src tests && prettier --write srctests",
-        "lint:fix": "eslint src tests --fix && prettier --write srctests",
+        "lint": "eslint src tests && prettier --write src tests",
+        "lint:fix": "eslint src tests --fix && prettier --write src tests",
         "postinstall": "npm run transpile",
         "prettier": "prettier --check src tests",
         "prepare": "husky install"
@@ -89,7 +89,8 @@
         "react-error-overlay": "^6.0.9"
     },
     "lint-staged": {
-        "*.{js,jsx}": "eslint --cache --fix"
+        "*.{js,jsx}": "eslint --cache --fix",
+        "*.{js,jsx,css}": "prettier --write"
     },
     "resolutions": {
         "react-error-overlay": "6.0.9"

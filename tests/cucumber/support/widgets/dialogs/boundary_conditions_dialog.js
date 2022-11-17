@@ -12,5 +12,7 @@ export class BoundaryConditionsDialogWidget extends Widget {
         exabrowser.setValue(this.selectors.offset, offset);
     }
 
-    submit() { exabrowser.scrollAndClick(this.selectors.submitButton); }
+    submit() {
+        exabrowser.scrollAndClick(this.selectors.submitButton);
+    }
 }

@@ -67,7 +67,8 @@ export class ExaBrowser {
     toggleCheckbox(selector, reverse) {
         this.waitForVisible(selector);
         logger.debug(`Click on selector: ${selector}, is selected=${this.isSelected(selector)}`);
-        if (this.isSelected(selector) === !!reverse) { // boolean type casting
+        if (this.isSelected(selector) === !!reverse) {
+            // boolean type casting
             this.moveToObject(selector);
             this.click(selector);
             logger.debug(`Clicked on selector: ${selector}`);
@@ -101,11 +102,18 @@ export class ExaBrowser {
      */
     setValueWithJQuery(selector, value, nonVisible) {
         this.waitForVisibleClickableOrExist(selector, nonVisible);
-        this.execute((selector, value) => {
-            // setting the value onto element and dispatching input
-            // event should trigger React's change event
-            $(selector).val(value).get(0).dispatchEvent(new Event("input", { bubbles: true }));
-        }, selector, value);
+        this.execute(
+            (selector, value) => {
+                // setting the value onto element and dispatching input
+                // event should trigger React's change event
+                $(selector)
+                    .val(value)
+                    .get(0)
+                    .dispatchEvent(new Event("input", { bubbles: true }));
+            },
+            selector,
+            value,
+        );
     }
 
     /**
@@ -153,13 +161,16 @@ export class ExaBrowser {
      */
     waitForVisibleOneOf(selectors, ms = SETTINGS.RENDER_TIMEOUT) {
         logger.debug(`waitForVisibleOneOf: selectors - ${selectors}, ms - ${ms}`);
-        retry(() => {
-            const isOneVisible = _.some(selectors.map((x) => this.isVisible(x)));
-            if (!isOneVisible) throw new Error(`None of ${JSON.stringify(selectors)} visible`);
-        }, {
-            retries: 5,
-            interval: ms / 5,
-        });
+        retry(
+            () => {
+                const isOneVisible = _.some(selectors.map((x) => this.isVisible(x)));
+                if (!isOneVisible) throw new Error(`None of ${JSON.stringify(selectors)} visible`);
+            },
+            {
+                retries: 5,
+                interval: ms / 5,
+            },
+        );
     }
 
     /**
@@ -174,8 +185,11 @@ export class ExaBrowser {
     }
 
     getFullURL(path) {
-        // eslint-disable-next-line no-useless-escape
-        const root = process.env.ROOT_URL.replace(/([a-zA-Z+.\-]+):\/\/([^\/]+):([0-9]+)\//, "$1://$2/");
+        const root = process.env.ROOT_URL.replace(
+            // eslint-disable-next-line no-useless-escape
+            /([a-zA-Z+.\-]+):\/\/([^\/]+):([0-9]+)\//,
+            "$1://$2/",
+        );
         return url.resolve(root, path);
     }
 
@@ -200,11 +214,17 @@ export class ExaBrowser {
         // eslint-disable-next-line no-param-reassign
         animationSelector = animationSelector || clickSelector;
         this.timeoutsAsyncScript(timeout);
-        this.executeAsync((clickSelector, animationSelector, done) => {
-            // eslint-disable-next-line no-unused-vars
-            $(clickSelector).click(() => { $(animationSelector).one("webkitTransitionEnd", (event) => done()); });
-            $(clickSelector).trigger("click");
-        }, clickSelector, animationSelector);
+        this.executeAsync(
+            (clickSelector, animationSelector, done) => {
+                $(clickSelector).click(() => {
+                    // eslint-disable-next-line no-unused-vars
+                    $(animationSelector).one("webkitTransitionEnd", (event) => done());
+                });
+                $(clickSelector).trigger("click");
+            },
+            clickSelector,
+            animationSelector,
+        );
     }
 
     /**

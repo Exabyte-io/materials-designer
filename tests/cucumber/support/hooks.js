@@ -6,7 +6,9 @@ let isFeatureStarted = false;
 /**
  * @summary Sets browser size to minimal resolution.
  */
-function setViewportSizeHook() { exabrowser.setViewportSize(SETTINGS.VIEWPORT_SIZE); }
+function setViewportSizeHook() {
+    exabrowser.setViewportSize(SETTINGS.VIEWPORT_SIZE);
+}
 
 /*
  * Hooks are run Before/After each scenario
@@ -20,6 +22,5 @@ export default function () {
         isFeatureStarted = true;
     });
 
-    this.After(() => {
-    });
+    this.After(() => {});
 }

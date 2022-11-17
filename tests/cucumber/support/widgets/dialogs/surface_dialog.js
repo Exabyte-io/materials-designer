@@ -7,9 +7,7 @@ export class SurfaceDialogWidget extends Widget {
         this.selectors = this.getWrappedSelectors(SELECTORS.headerMenu.surfaceDialog);
     }
 
-    generateSurface({
-        h, k, l, thickness, vacuumRatio, vx, vy,
-    }) {
+    generateSurface({ h, k, l, thickness, vacuumRatio, vx, vy }) {
         if (h) exabrowser.setValue(this.selectors.h, h);
         if (k) exabrowser.setValue(this.selectors.k, k);
         if (l) exabrowser.setValue(this.selectors.l, l);
@@ -19,5 +17,7 @@ export class SurfaceDialogWidget extends Widget {
         if (vy) exabrowser.setValue(this.selectors.vy, vy);
     }
 
-    submit() { exabrowser.scrollAndClick(this.selectors.submitButton); }
+    submit() {
+        exabrowser.scrollAndClick(this.selectors.submitButton);
+    }
 }

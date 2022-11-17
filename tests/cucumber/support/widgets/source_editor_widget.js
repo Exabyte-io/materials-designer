@@ -75,12 +75,19 @@ class BasisEditorWidget extends Widget {
     }
 
     setCodeMirrorContent(editorId, content, preserveExistingContent = false) {
-        // eslint-disable-next-line no-shadow
-        exabrowser.execute((editorId, content, preserveExistingContent) => {
-            const element = document.getElementById(editorId);
-            const codeMirror = element.getElementsByClassName("CodeMirror")[0].CodeMirror;
-            codeMirror.setValue(preserveExistingContent ? codeMirror.getValue() + "\n" + content : content);
-        }, editorId, content, preserveExistingContent);
+        exabrowser.execute(
+            // eslint-disable-next-line no-shadow
+            (editorId, content, preserveExistingContent) => {
+                const element = document.getElementById(editorId);
+                const codeMirror = element.getElementsByClassName("CodeMirror")[0].CodeMirror;
+                codeMirror.setValue(
+                    preserveExistingContent ? codeMirror.getValue() + "\n" + content : content,
+                );
+            },
+            editorId,
+            content,
+            preserveExistingContent,
+        );
     }
 
     getBasisText() {
