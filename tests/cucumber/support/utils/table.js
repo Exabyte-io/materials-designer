@@ -1,88 +1,16 @@
+/* eslint-disable no-unused-vars */
 import lodash from "lodash";
+// eslint-disable-next-line import/no-unresolved
 import random from "random-seed";
 import _ from "underscore";
 
 import { getCacheValue } from "./cache";
-
-const REGEXES = [
-    {
-        name: "DATE_REGEX",
-        regex: /^\$DATE\{(.*)}/,
-        func: (str, regex) => new Date(str.match(regex)[1]),
-    },
-    {
-        name: "BOOLEAN_REGEX",
-        regex: /^\$BOOLEAN\{(.*)}/,
-        func: (str, regex) => JSON.parse(str.match(regex)[1]),
-    },
-    {
-        name: "ARRAY_REGEX",
-        regex: /^\$ARRAY\{(.*)}/,
-        func: (str, regex) => str.match(regex)[1].split(","),
-    },
-    {
-        name: "INT_REGEX",
-        regex: /^\$INT\{(.*)}/,
-        func: (str, regex) => parseInt(str.match(regex)[1]),
-    },
-    {
-        name: "FLOAT_REGEX",
-        regex: /^\$FLOAT\{(.*)}/,
-        func: (str, regex) => parseFloat(str.match(regex)[1]),
-    },
-    {
-        name: "BASIS_REGEX",
-        regex: /^\$BASIS\{(.*)}/,
-        func: (str, regex) => parseBasisStr(str.match(regex)[1]),
-    },
-    {
-        name: "EXPR_REGEX",
-        regex: /^\$\{(.*)}/,
-        func: (str, regex, context) => {
-            const value = str.match(regex)[1];
-            return value.split(",").map(evalExpression).reduceRight((mem, part) => part + mem, "");
-        },
-    },
-    {
-        name: "CACHE_REGEX",
-        regex: /\$CACHE\{([^\{^}]*)}/,
-        func: (str, regex, context) => {
-            const value = str.match(regex)[1];
-            const [contextKey, property] = value.split(":");
-            return parseValue(str.replace(`$CACHE{${value}}`, lodash.get(getCacheValue(context, contextKey), property)), context);
-        },
-    },
-];
 
 /**
  * Checks whether passed string is integer number.
  */
 function isInteger(str) {
     return /^\d+$/.test(str);
-}
-
-/**
- * Parses basis string in format "Si 0 0 0, Li 0.5 0.5 0.5" and returns it as an object in exabyte internal format.
- */
-function parseBasisStr(str) {
-    const lines = str.split(/[,;]/).map((x) => x.trim());
-    const basis = {
-        elements: [],
-        coordinates: [],
-        units: "crystal",
-    };
-    for (let i = 0; i < lines.length; i++) {
-        const items = lines[i].split(" ");
-        basis.elements.push({
-            id: i + 1,
-            value: items[0],
-        });
-        basis.coordinates.push({
-            id: i + 1,
-            value: [items[1], items[2], items[3]].map(parseFloat),
-        });
-    }
-    return basis;
 }
 
 /**
@@ -134,6 +62,7 @@ function evalExpression(str) {
  */
 export function parseValue(str, context, key) {
     if (!_.isString(str)) throw new Error("Argument should be string");
+    // eslint-disable-next-line no-shadow, no-use-before-define
     const config = REGEXES.find((config) => str.match(config.regex));
     return config ? config.func(str, config.regex, context) : str;
 }
@@ -145,5 +74,82 @@ export function parseValue(str, context, key) {
  * @return {Object}
  */
 export function parseTable(table, context) {
-    return table.hashes().map((hash) => _.mapObject(hash, (value, key) => parseValue(value, context, key)));
+    return table.hashes().map(
+        (hash) => _.mapObject(hash, (value, key) => parseValue(value, context, key)),
+    );
 }
+
+/**
+ * Parses basis string in format "Si 0 0 0, Li 0.5 0.5 0.5" and returns it as an object in exabyte internal format.
+ */
+function parseBasisStr(str) {
+    const lines = str.split(/[,;]/).map((x) => x.trim());
+    const basis = {
+        elements: [],
+        coordinates: [],
+        units: "crystal",
+    };
+    for (let i = 0; i < lines.length; i++) {
+        const items = lines[i].split(" ");
+        basis.elements.push({
+            id: i + 1,
+            value: items[0],
+        });
+        basis.coordinates.push({
+            id: i + 1,
+            value: [items[1], items[2], items[3]].map(parseFloat),
+        });
+    }
+    return basis;
+}
+
+const REGEXES = [
+    {
+        name: "DATE_REGEX",
+        regex: /^\$DATE\{(.*)}/,
+        func: (str, regex) => new Date(str.match(regex)[1]),
+    },
+    {
+        name: "BOOLEAN_REGEX",
+        regex: /^\$BOOLEAN\{(.*)}/,
+        func: (str, regex) => JSON.parse(str.match(regex)[1]),
+    },
+    {
+        name: "ARRAY_REGEX",
+        regex: /^\$ARRAY\{(.*)}/,
+        func: (str, regex) => str.match(regex)[1].split(","),
+    },
+    {
+        name: "INT_REGEX",
+        regex: /^\$INT\{(.*)}/,
+        func: (str, regex) => parseInt(str.match(regex)[1]),
+    },
+    {
+        name: "FLOAT_REGEX",
+        regex: /^\$FLOAT\{(.*)}/,
+        func: (str, regex) => parseFloat(str.match(regex)[1]),
+    },
+    {
+        name: "BASIS_REGEX",
+        regex: /^\$BASIS\{(.*)}/,
+        func: (str, regex) => parseBasisStr(str.match(regex)[1]),
+    },
+    {
+        name: "EXPR_REGEX",
+        regex: /^\$\{(.*)}/,
+        func: (str, regex, context) => {
+            const value = str.match(regex)[1];
+            return value.split(",").map(evalExpression).reduceRight((mem, part) => part + mem, "");
+        },
+    },
+    {
+        name: "CACHE_REGEX",
+        // eslint-disable-next-line no-useless-escape
+        regex: /\$CACHE\{([^\{^}]*)}/,
+        func: (str, regex, context) => {
+            const value = str.match(regex)[1];
+            const [contextKey, property] = value.split(":");
+            return parseValue(str.replace(`$CACHE{${value}}`, lodash.get(getCacheValue(context, contextKey), property)), context);
+        },
+    },
+];

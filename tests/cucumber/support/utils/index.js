@@ -1,3 +1,5 @@
+/* eslint-disable no-throw-literal */
+// eslint-disable-next-line import/no-unresolved
 import sleep from "sleep";
 
 import { logger } from "../logger";
@@ -91,6 +93,7 @@ export function shallowDeepAlmostEqual(expect, actual, path = "", threshold = 0.
     }
 
     // array/object description
+    // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const prop in expect) {
         if (typeof actual[prop] === "undefined" && typeof expect[prop] !== "undefined") {
             throw `Expected "${prop}" field to be defined at path "${path}".`;

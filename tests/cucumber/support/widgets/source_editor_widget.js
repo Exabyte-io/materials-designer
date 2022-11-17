@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable max-classes-per-file */
 import { SELECTORS } from "../selectors";
 import { Widget } from "../widget";
 
@@ -21,6 +23,7 @@ class LatticeEditorWidget extends Widget {
         exabrowser.scrollAndClick(this._selectors.latticeFormSaveButton);
     }
 
+    // eslint-disable-next-line class-methods-use-this
     getLattice() {
         // TBA
     }
@@ -43,7 +46,8 @@ class LatticeEditorWidget extends Widget {
         this.openLatticeForm();
         Object.keys(latticeObject).forEach((key) => {
             const value = latticeObject[key];
-            (key === "type") ? this.setLatticeParamSelect(key, value) : this.setLatticeParamInput(key, value);
+            if (key === "type") this.setLatticeParamSelect(key, value);
+            else this.setLatticeParamInput(key, value);
         });
         this.updateLatticeConfiguration();
         this.closeLatticeForm();
@@ -63,6 +67,7 @@ class BasisEditorWidget extends Widget {
     }
 
     getCodeMirrorContent(editorId) {
+        // eslint-disable-next-line no-shadow
         return exabrowser.execute((editorId) => {
             const element = document.getElementById(editorId);
             return element.getElementsByClassName("CodeMirror")[0].CodeMirror.getValue();
@@ -70,6 +75,7 @@ class BasisEditorWidget extends Widget {
     }
 
     setCodeMirrorContent(editorId, content, preserveExistingContent = false) {
+        // eslint-disable-next-line no-shadow
         exabrowser.execute((editorId, content, preserveExistingContent) => {
             const element = document.getElementById(editorId);
             const codeMirror = element.getElementsByClassName("CodeMirror")[0].CodeMirror;
@@ -89,7 +95,10 @@ class BasisEditorWidget extends Widget {
     setBasis(basisTextInTable) {
         const clsInstance = this;
         const basisText = this._parseTableTextToBasisString(basisTextInTable);
-        clsInstance.setCodeMirrorContent(SELECTORS.sourceEditor.basisEditor.basisTextArea, basisText);
+        clsInstance.setCodeMirrorContent(
+            SELECTORS.sourceEditor.basisEditor.basisTextArea,
+            basisText,
+        );
     }
 }
 

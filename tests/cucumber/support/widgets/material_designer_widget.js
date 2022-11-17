@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { SELECTORS } from "../selectors";
 import { Widget } from "../widget";
 import { SAlertWidget } from "./alert/s_alert_widget";
@@ -18,10 +19,16 @@ export class MaterialDesignerWidget extends Widget {
         this.headerMenu = new HeaderMenuWidget(SELECTORS.headerMenu.wrapper);
         this.sourceEditor = new SourceEditorWidget(SELECTORS.sourceEditor.wrapper);
         this.surfaceDialog = new SurfaceDialogWidget(SELECTORS.headerMenu.surfaceDialog.wrapper);
-        this.supercellDialog = new SupercellDialogWidget(SELECTORS.headerMenu.supercellDialog.wrapper);
-        this.interpolatedSetDialog = new InterpolatedSetDialogWidget(SELECTORS.headerMenu.interpolatedSetDialog.wrapper);
+        this.supercellDialog = new SupercellDialogWidget(
+            SELECTORS.headerMenu.supercellDialog.wrapper,
+        );
+        this.interpolatedSetDialog = new InterpolatedSetDialogWidget(
+            SELECTORS.headerMenu.interpolatedSetDialog.wrapper,
+        );
         this.threeJSEditorWidget = new ThreeJSEditorWidget(SELECTORS.threeJSEditorWidget.wrapper);
-        this.boundaryConditionsDialog = new BoundaryConditionsDialogWidget(SELECTORS.headerMenu.boundaryConditionsDialog.wrapper);
+        this.boundaryConditionsDialog = new BoundaryConditionsDialogWidget(
+            SELECTORS.headerMenu.boundaryConditionsDialog.wrapper,
+        );
     }
 
     openSupercellDialog() { this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 1); }
@@ -31,6 +38,7 @@ export class MaterialDesignerWidget extends Widget {
     openImportModal() {
     }
 
+    // eslint-disable-next-line no-unused-vars
     save(config) {
     }
 
@@ -86,10 +94,10 @@ export class MaterialDesignerWidget extends Widget {
         name, basis, lattice, supercell,
     }) {
         this.itemsList.selectItemByIndex(materialCSSIndex);
-        name && this.itemsList.setItemName(materialCSSIndex, name);
-        lattice && this.sourceEditor.latticeEditor.setLattice(JSON.parse(lattice));
-        basis && this.sourceEditor.basisEditor.setBasis(basis);
-        supercell && this.generateSupercell(supercell);
+        if (name) this.itemsList.setItemName(materialCSSIndex, name);
+        if (lattice) this.sourceEditor.latticeEditor.setLattice(JSON.parse(lattice));
+        if (basis) this.sourceEditor.basisEditor.setBasis(basis);
+        if (supercell) this.generateSupercell(supercell);
     }
 
     /*
@@ -100,6 +108,7 @@ export class MaterialDesignerWidget extends Widget {
      * @params configs {Array} List of configs per each material containing the information to be used on creation
      */
     createMultipleMaterials(configs) {
+        // eslint-disable-next-line no-unused-vars
         configs.forEach((row) => this.cloneCurrentMaterial());
         this.itemsList.deleteMaterialByIndex(1);
 

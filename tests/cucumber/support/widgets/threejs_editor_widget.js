@@ -48,6 +48,7 @@ export class ThreeJSEditorWidget extends Widget {
             x1: clientX1, y1: clientY1, x2: clientX2, y2: clientY2,
         };
 
+        // eslint-disable-next-line no-unused-expressions
         exabrowser.execute(
             (selector, clientCoordinates) => {
                 const viewport = document.querySelector(selector);

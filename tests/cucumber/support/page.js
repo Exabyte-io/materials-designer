@@ -13,5 +13,6 @@ export class Page extends Widget {
         this.waitForLoaderToDisappear();
     }
 
+    // eslint-disable-next-line class-methods-use-this
     getUrl() { return exabrowser.getUrl(); }
 }
