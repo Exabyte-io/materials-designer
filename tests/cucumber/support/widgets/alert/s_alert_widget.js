@@ -12,13 +12,16 @@ export class SAlertWidget extends AlertWidget {
 
     isVisibleSuccess() { return this.isVisibleByType("success"); }
 
-    close() { exabrowser.scrollAndClick(this.getWrappedSelector(SELECTORS.sAlertWidget.closeButton)); }
+    close() {
+        exabrowser.scrollAndClick(this.getWrappedSelector(SELECTORS.sAlertWidget.closeButton));
+    }
 
     closeAllSuccess() {
         retry(() => {
             if (this.isVisible()) {
                 logger.debug("sAlertSuccess closed");
                 this.close();
+                // eslint-disable-next-line no-throw-literal
                 throw ("Something is wrong: there should be no sAlertSuccess shown!");
             }
         });

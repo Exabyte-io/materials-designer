@@ -8,7 +8,10 @@ export default function () {
     this.Then(/^I see that scene object has the following position:$/, function (table) {
         const config = parseTable(table, this)[0];
         const expectedPosition = [config.x, config.y, config.z];
-        const sceneObjectPosition = materialDesignerPage.designerWidget.threeJSEditorWidget.getSceneObjectPosition();
+        const sceneObjectPosition = materialDesignerPage
+            .designerWidget
+            .threeJSEditorWidget
+            .getSceneObjectPosition();
 
         assert(isEqual(sceneObjectPosition, expectedPosition));
     });

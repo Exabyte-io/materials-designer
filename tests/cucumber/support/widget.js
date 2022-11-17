@@ -36,6 +36,7 @@ export class Widget {
     /**
      * @summary Wraps the selectors, including functions, passed at the top level of config object
      */
+    // eslint-disable-next-line no-unused-vars
     getWrappedSelectors(config, separator = " ") {
         const o = {};
         Object.keys(config).forEach((key) => {
@@ -58,5 +59,6 @@ export class Widget {
 
     waitForExist() { exabrowser.waitForExist(this.selector); }
 
+    // eslint-disable-next-line class-methods-use-this
     waitForModalBackdropDisappear() { exabrowser.waitForDisappear(SELECTORS.modalBackdrop); }
 }

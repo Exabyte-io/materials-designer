@@ -8,5 +8,14 @@
         "babelOptions": {
             "configFile": ".babelrc"
         }
+    },
+    "globals": {
+        "exabrowser": "readonly",
+        "browser": "readonly",
+        "$": "readonly"
+    },
+    "rules": {
+        "func-names": "off",
+        "radix": "off"
     }
 }

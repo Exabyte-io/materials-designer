@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable class-methods-use-this */
 import _ from "underscore";
 import url from "url";
 
@@ -172,6 +174,7 @@ export class ExaBrowser {
     }
 
     getFullURL(path) {
+        // eslint-disable-next-line no-useless-escape
         const root = process.env.ROOT_URL.replace(/([a-zA-Z+.\-]+):\/\/([^\/]+):([0-9]+)\//, "$1://$2/");
         return url.resolve(root, path);
     }
@@ -194,9 +197,11 @@ export class ExaBrowser {
     }
 
     clickAndWaitForAnimation(clickSelector, animationSelector, timeout = 5000) {
+        // eslint-disable-next-line no-param-reassign
         animationSelector = animationSelector || clickSelector;
         this.timeoutsAsyncScript(timeout);
         this.executeAsync((clickSelector, animationSelector, done) => {
+            // eslint-disable-next-line no-unused-vars
             $(clickSelector).click(() => { $(animationSelector).one("webkitTransitionEnd", (event) => done()); });
             $(clickSelector).trigger("click");
         }, clickSelector, animationSelector);
@@ -226,6 +231,9 @@ export class ExaBrowser {
  */
 export function initializeExaBrowserHook() {
     const exaBrowserFunctionNames = Object.getOwnPropertyNames(ExaBrowser.prototype);
-    _.extend(ExaBrowser.prototype, _.pick(browser, (value, key) => !exaBrowserFunctionNames.includes(key)));
+    _.extend(
+        ExaBrowser.prototype,
+        _.pick(browser, (value, key) => !exaBrowserFunctionNames.includes(key)),
+    );
     global.exabrowser = new ExaBrowser();
 }
