@@ -11,7 +11,9 @@ export class SupercellDialogWidget extends Widget {
      * @param supercellMatrixAsString {String} Scaling matrix in the following format: '1 0 0, 0 1 0, 0 0 1'
      */
     generateSupercell(supercellMatrixAsString) {
-        const scalingMatrix = supercellMatrixAsString.split(",").map((row) => row.trim().split(" ").map(parseFloat));
+        const scalingMatrix = supercellMatrixAsString
+            .split(",")
+            .map((row) => row.trim().split(" ").map(parseFloat));
         scalingMatrix.forEach((scalingVector, i) => {
             scalingVector.forEach((scalingNumber, j) => {
                 exabrowser.setValue(this._selectors.matrixElementByIndices(i, j), scalingNumber);
@@ -19,5 +21,7 @@ export class SupercellDialogWidget extends Widget {
         });
     }
 
-    submit() { exabrowser.scrollAndClick(this._selectors.submitButton); }
+    submit() {
+        exabrowser.scrollAndClick(this._selectors.submitButton);
+    }
 }

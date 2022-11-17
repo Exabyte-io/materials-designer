@@ -14,9 +14,12 @@ function xyzLinesEqual(line1, line2) {
         return false;
     }
 
-    return words1[0] === words2[0] && parseFloat(words1[1]) === parseFloat(words2[1])
-        && parseFloat(words1[2]) === parseFloat(words2[2])
-        && parseFloat(words1[3]) === parseFloat(words2[3]);
+    return (
+        words1[0] === words2[0] &&
+        parseFloat(words1[1]) === parseFloat(words2[1]) &&
+        parseFloat(words1[2]) === parseFloat(words2[2]) &&
+        parseFloat(words1[3]) === parseFloat(words2[3])
+    );
 }
 
 /**
