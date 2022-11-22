@@ -39,11 +39,19 @@ function evalExpression(str) {
         // issue https://exabyte.atlassian.net/browse/SOF-1719
         // Generated string is used for username generation. In case of random string contains only numbers
         // slug for default issue will be inappropriate (e.g., "user-1232" has "user" slug).
-        return randomLetter + rand.random().toString(36).substring(2, 2 + parseInt(str) - 1);
-    } if (str.indexOf("!") === 0) {
+        return (
+            randomLetter +
+            rand
+                .random()
+                .toString(36)
+                .substring(2, 2 + parseInt(str) - 1)
+        );
+    }
+    if (str.indexOf("!") === 0) {
         // ! – use the string as it is
         return str.substring(1);
-    } if (str.indexOf("N") === 0) {
+    }
+    if (str.indexOf("N") === 0) {
         // random numbers
         let result = "";
         const max = 9;
@@ -74,9 +82,9 @@ export function parseValue(str, context, key) {
  * @return {Object}
  */
 export function parseTable(table, context) {
-    return table.hashes().map(
-        (hash) => _.mapObject(hash, (value, key) => parseValue(value, context, key)),
-    );
+    return table
+        .hashes()
+        .map((hash) => _.mapObject(hash, (value, key) => parseValue(value, context, key)));
 }
 
 /**
@@ -139,7 +147,10 @@ const REGEXES = [
         regex: /^\$\{(.*)}/,
         func: (str, regex, context) => {
             const value = str.match(regex)[1];
-            return value.split(",").map(evalExpression).reduceRight((mem, part) => part + mem, "");
+            return value
+                .split(",")
+                .map(evalExpression)
+                .reduceRight((mem, part) => part + mem, "");
         },
     },
     {
@@ -149,7 +160,13 @@ const REGEXES = [
         func: (str, regex, context) => {
             const value = str.match(regex)[1];
             const [contextKey, property] = value.split(":");
-            return parseValue(str.replace(`$CACHE{${value}}`, lodash.get(getCacheValue(context, contextKey), property)), context);
+            return parseValue(
+                str.replace(
+                    `$CACHE{${value}}`,
+                    lodash.get(getCacheValue(context, contextKey), property),
+                ),
+                context,
+            );
         },
     },
 ];

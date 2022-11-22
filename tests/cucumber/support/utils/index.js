@@ -77,14 +77,10 @@ export function shallowDeepAlmostEqual(expect, actual, path = "", threshold = 0.
     if (expect instanceof Date) {
         if (actual instanceof Date) {
             if (expect.getTime() !== actual.getTime()) {
-                throw (
-                    `Expected to have date "${expect.toISOString()}" but got "${actual.toISOString()}" at path "${path}".`
-                );
+                throw `Expected to have date "${expect.toISOString()}" but got "${actual.toISOString()}" at path "${path}".`;
             }
         } else {
-            throw (
-                `Expected to have date "${expect.toISOString()}" but got "${actual}" at path "${path}".`
-            );
+            throw `Expected to have date "${expect.toISOString()}" but got "${actual}" at path "${path}".`;
         }
     }
 
@@ -99,7 +95,12 @@ export function shallowDeepAlmostEqual(expect, actual, path = "", threshold = 0.
             throw `Expected "${prop}" field to be defined at path "${path}".`;
         }
 
-        shallowDeepAlmostEqual(expect[prop], actual[prop], path + (path === "/" ? "" : "/") + prop, threshold);
+        shallowDeepAlmostEqual(
+            expect[prop],
+            actual[prop],
+            path + (path === "/" ? "" : "/") + prop,
+            threshold,
+        );
     }
 
     return true;

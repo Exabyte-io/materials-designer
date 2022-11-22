@@ -11,5 +11,7 @@ export class InterpolatedSetDialogWidget extends Widget {
         exabrowser.setValue(this.selectors.intermediateImagesInput, nImages);
     }
 
-    submit() { exabrowser.scrollAndClick(this.selectors.submitButton); }
+    submit() {
+        exabrowser.scrollAndClick(this.selectors.submitButton);
+    }
 }
