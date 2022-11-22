@@ -1,6 +1,6 @@
 export const SELECTORS = {
     wrapper: ".materials-designer",
-    actionDialogSubmitButton: `button[data-name="Submit"]`,
+    actionDialogSubmitButton: 'button[data-name="Submit"]',
     headerMenu: {
         wrapper: ".materials-designer-header-menu",
         checkIndicatorButton: "button .zmdi-check",
@@ -16,7 +16,7 @@ export const SELECTORS = {
         interpolatedSetDialog: {
             wrapper: "#interpolatedSetModal",
             submitButton: "#generate-interpolated-set",
-            intermediateImagesInput: "input[type='number']"
+            intermediateImagesInput: "input[type='number']",
         },
         surfaceDialog: {
             wrapper: "#surfaceModal",
@@ -34,7 +34,7 @@ export const SELECTORS = {
             submitButton: "#boundary-conditions-submit",
             type: '[data-tid="type"] select',
             offset: '[data-tid="offset"] input',
-        }
+        },
     },
     itemsList: {
         wrapper: ".materials-designer-items-list",
@@ -46,34 +46,41 @@ export const SELECTORS = {
         wrapper: "",
         basisEditor: {
             wrapper: "",
-            basisTextArea: 'basis-xyz',
-            basisUnitsByName: (name) => `#basis-units-' + ${name}`
+            basisTextArea: "basis-xyz",
+            basisUnitsByName: (name) => `#basis-units-' + ${name}`,
         },
         latticeEditor: {
-            wrapper: '.crystal-lattice',
+            wrapper: ".crystal-lattice",
             latticeFormTrigger: '[role="button"]',
-            latticeFormBody: '.crystal-lattice-config',
+            latticeFormBody: ".crystal-lattice-config",
             latticeOptionSelectorByNameInput: (name) => `input[name="${name}"]`,
             latticeOptionSelectorByNameSelect: (name) => `select[name="${name}"]`,
-            latticeFormSaveButton: `button.save-lattice-config`,
-        }
+            latticeFormSaveButton: "button.save-lattice-config",
+        },
     },
     sAlertWidget: {
         wrapper: ".alert.s-alert-box",
         alertByType: (type) => `.alert-${type}`,
-        closeButton: 'button.close',
+        closeButton: "button.close",
     },
     threeJSEditorWidget: {
         wrapper: "#threejs-editor",
         viewport: "#threejs-editor #viewport",
         menuByTitle: (title) => `//div[@class="menu"] //div[starts-with(text(),"${title}")]`,
-        menuItemByTitle: (title) => `//div[@class="menu"] //div[@class="options"] //div[starts-with(text(),"${title}")]`,
-        sceneObjectByName: (name) => `//div[@class="Outliner"] //div[@class="option" and starts-with(text()," ${name}")]`,
-        sceneObjectOpenerByName: (name) => `//div[@id="outliner"] //div[contains(@class,"option") and text() = " ${name}"] //span[contains(@class,"opener")]`,
-        sidebarTabByTitle: (title) => `//div[@id="sidebar"] //div[@id="tabs"] //span[starts-with(text(),"${title}")]`,
-        sceneObjectTabByTitle: (title) => `//div[@id="sidebar"] //span //div[@id="tabs"] //span[starts-with(text(),"${title}")]`,
-        sceneObjectPositionByIndex: (index) => `//div[@id="sidebar"] //div[@class="Panel"] //div[@class="Row"] //span[starts-with(text(), "Position")]/following-sibling::input[${index}]`,
-        toolbarBtnByTitle: (title) => `//div[@id="toolbar"] //button //img[contains(@title,"${title}")]`,
+        menuItemByTitle: (title) =>
+            `//div[@class="menu"] //div[@class="options"] //div[starts-with(text(),"${title}")]`,
+        sceneObjectByName: (name) =>
+            `//div[@class="Outliner"] //div[@class="option" and starts-with(text()," ${name}")]`,
+        sceneObjectOpenerByName: (name) =>
+            `//div[@id="outliner"] //div[contains(@class,"option") and text() = " ${name}"] //span[contains(@class,"opener")]`,
+        sidebarTabByTitle: (title) =>
+            `//div[@id="sidebar"] //div[@id="tabs"] //span[starts-with(text(),"${title}")]`,
+        sceneObjectTabByTitle: (title) =>
+            `//div[@id="sidebar"] //span //div[@id="tabs"] //span[starts-with(text(),"${title}")]`,
+        sceneObjectPositionByIndex: (index) =>
+            `//div[@id="sidebar"] //div[@class="Panel"] //div[@class="Row"] //span[starts-with(text(), "Position")]/following-sibling::input[${index}]`,
+        toolbarBtnByTitle: (title) =>
+            `//div[@id="toolbar"] //button //img[contains(@title,"${title}")]`,
     },
-    modalBackdrop: '.modal-backdrop.fade',
+    modalBackdrop: ".modal-backdrop.fade",
 };

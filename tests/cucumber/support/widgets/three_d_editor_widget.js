@@ -1,7 +1,3 @@
-import {Widget} from "../widget";
+import { Widget } from "../widget";
 
-export class ThreeDEditorWidget extends Widget {
-    constructor(selector) {
-        super(selector);
-    }
-}
+export class ThreeDEditorWidget extends Widget {}
