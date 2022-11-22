@@ -31,19 +31,20 @@ export class MaterialDesignerWidget extends Widget {
         );
     }
 
-    openSupercellDialog() { this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 1); }
-
-    openSaveDialog() { this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 3); }
-
-    openImportModal() {
+    openSupercellDialog() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 1);
     }
+
+    openSaveDialog() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 3);
+    }
+
+    openImportModal() {}
 
     // eslint-disable-next-line no-unused-vars
-    save(config) {
-    }
+    save(config) {}
 
-    exit() {
-    }
+    exit() {}
 
     generateSupercell(supercellMatrixAsString) {
         this.openSupercellDialog();
@@ -51,15 +52,21 @@ export class MaterialDesignerWidget extends Widget {
         this.supercellDialog.submit();
     }
 
-    cloneCurrentMaterial() { this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", 4); }
+    cloneCurrentMaterial() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", 4);
+    }
 
     clickDeleteAction(index) {
         this.itemsList.deleteMaterialByIndex(index);
     }
 
-    clickUndoRedoReset(index = 1) { this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", index); }
+    clickUndoRedoReset(index = 1) {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", index);
+    }
 
-    openSurfaceDialog() { this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 4); }
+    openSurfaceDialog() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 4);
+    }
 
     createSurface(config) {
         this.openSurfaceDialog();
@@ -67,7 +74,9 @@ export class MaterialDesignerWidget extends Widget {
         this.surfaceDialog.submit();
     }
 
-    openBoundaryConditionsDialog() { this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 5); }
+    openBoundaryConditionsDialog() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 5);
+    }
 
     addBoundaryConditions(config) {
         this.openBoundaryConditionsDialog();
@@ -75,7 +84,9 @@ export class MaterialDesignerWidget extends Widget {
         this.boundaryConditionsDialog.submit();
     }
 
-    openInterpolateSetDialog() { this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 3); }
+    openInterpolateSetDialog() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 3);
+    }
 
     generateInterpolatedSet(nImages) {
         this.openInterpolateSetDialog();
@@ -90,9 +101,7 @@ export class MaterialDesignerWidget extends Widget {
      * @params config.lattice {String} Lattice as JSON string
      * @params config.supercell {String} Supercell configuration as an array string
      */
-    _setMaterialParametersFromConfig(materialCSSIndex, {
-        name, basis, lattice, supercell,
-    }) {
+    _setMaterialParametersFromConfig(materialCSSIndex, { name, basis, lattice, supercell }) {
         this.itemsList.selectItemByIndex(materialCSSIndex);
         if (name) this.itemsList.setItemName(materialCSSIndex, name);
         if (lattice) this.sourceEditor.latticeEditor.setLattice(JSON.parse(lattice));

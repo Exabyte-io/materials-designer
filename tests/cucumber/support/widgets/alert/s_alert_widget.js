@@ -8,9 +8,13 @@ export class SAlertWidget extends AlertWidget {
         return this.getWrappedSelector(SELECTORS.sAlertWidget.alertByType(type), "");
     }
 
-    isVisibleByType(type) { return exabrowser.isVisible(this.getAlertSelectorByType(type)); }
+    isVisibleByType(type) {
+        return exabrowser.isVisible(this.getAlertSelectorByType(type));
+    }
 
-    isVisibleSuccess() { return this.isVisibleByType("success"); }
+    isVisibleSuccess() {
+        return this.isVisibleByType("success");
+    }
 
     close() {
         exabrowser.scrollAndClick(this.getWrappedSelector(SELECTORS.sAlertWidget.closeButton));
@@ -22,7 +26,7 @@ export class SAlertWidget extends AlertWidget {
                 logger.debug("sAlertSuccess closed");
                 this.close();
                 // eslint-disable-next-line no-throw-literal
-                throw ("Something is wrong: there should be no sAlertSuccess shown!");
+                throw "Something is wrong: there should be no sAlertSuccess shown!";
             }
         });
     }

@@ -30,9 +30,7 @@ export class ThreeJSEditorWidget extends Widget {
      * @param {number} coordinates.x2 - x coordinate of ending point of the selection box
      * @param {number} coordinates.y2 - y coordinate of ending point of the selection box
      */
-    makeMultipleSelection({
-        x1, y1, x2, y2,
-    }) {
+    makeMultipleSelection({ x1, y1, x2, y2 }) {
         const viewportRect = exabrowser.execute((viewportSelector) => {
             const viewport = document.querySelector(viewportSelector);
             const rect = viewport.getBoundingClientRect();
@@ -45,7 +43,10 @@ export class ThreeJSEditorWidget extends Widget {
         const clientY1 = -((y1 - 1) / 2) * viewportRect.height + viewportRect.y;
         const clientY2 = -((y2 - 1) / 2) * viewportRect.height + viewportRect.y;
         const coordinates = {
-            x1: clientX1, y1: clientY1, x2: clientX2, y2: clientY2,
+            x1: clientX1,
+            y1: clientY1,
+            x2: clientX2,
+            y2: clientY2,
         };
 
         // eslint-disable-next-line no-unused-expressions
