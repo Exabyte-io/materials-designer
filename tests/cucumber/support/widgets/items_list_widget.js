@@ -1,5 +1,5 @@
-import { Widget } from "../widget";
 import { SELECTORS } from "../selectors";
+import { Widget } from "../widget";
 
 export class ItemsListWidget extends Widget {
     constructor(selector) {

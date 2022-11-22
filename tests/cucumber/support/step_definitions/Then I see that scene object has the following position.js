@@ -1,7 +1,8 @@
 import assert from "assert";
 import isEqual from "lodash/isEqual";
-import {parseTable} from "../utils/table";
-import {materialDesignerPage} from "../widgets/material_designer_page";
+
+import { parseTable } from "../utils/table";
+import { materialDesignerPage } from "../widgets/material_designer_page";
 
 export default function () {
     this.Then(/^I see that scene object has the following position:$/, function (table) {

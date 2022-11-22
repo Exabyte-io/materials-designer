@@ -10,7 +10,7 @@ concurrency:
 jobs:
 
   run-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout this repository
@@ -25,14 +25,16 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           path: actions
 
+      - name: Validate JS package
+        uses: ./actions/js/validate
+        with:
+          node-version: 12.21.x
+
       - name: Docker build and test
         uses: ./.github/workflows/docker-build-test
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ECR }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ECR }}
-
-      - name: Validate JS package
-        uses: ./actions/js/validate
 
       - name: Validate app dockerfile
         uses: ./actions/docker/validate

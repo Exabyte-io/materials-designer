@@ -1,0 +1,13 @@
+{
+    "extends": ["@exabyte-io/eslint-config"],
+    "parser": "babel-eslint",
+    "globals": {
+        "exabrowser": "readonly",
+        "browser": "readonly",
+        "$": "readonly"
+    },
+    "rules": {
+        "func-names": "off",
+        "radix": "off"
+    }
+}

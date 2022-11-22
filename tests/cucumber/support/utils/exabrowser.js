@@ -1,15 +1,16 @@
-import url from "url";
+/* eslint-disable no-shadow */
+/* eslint-disable class-methods-use-this */
 import _ from "underscore";
+import url from "url";
 
-import {retry} from ".";
-import {logger} from "../logger";
-import {SETTINGS} from "../settings";
+import { logger } from "../logger";
+import { SETTINGS } from "../settings";
+import { retry } from ".";
 
 /**
  * @summary Extends webdriver.io methods.
  */
 export class ExaBrowser {
-
     /**
      * @summary Waits for element to become visible, clickable or to exist.
      * @param selector {String} CSS selector.
@@ -66,7 +67,8 @@ export class ExaBrowser {
     toggleCheckbox(selector, reverse) {
         this.waitForVisible(selector);
         logger.debug(`Click on selector: ${selector}, is selected=${this.isSelected(selector)}`);
-        if (this.isSelected(selector) === !!reverse) { // boolean type casting
+        if (this.isSelected(selector) === !!reverse) {
+            // boolean type casting
             this.moveToObject(selector);
             this.click(selector);
             logger.debug(`Clicked on selector: ${selector}`);
@@ -90,7 +92,6 @@ export class ExaBrowser {
     waitForVisibleOrExistAndSetValue(selector, values, nonVisible) {
         this.waitForVisibleClickableOrExist(selector, nonVisible);
         this.setValue(selector, values);
-
     }
 
     /**
@@ -101,11 +102,18 @@ export class ExaBrowser {
      */
     setValueWithJQuery(selector, value, nonVisible) {
         this.waitForVisibleClickableOrExist(selector, nonVisible);
-        this.execute(function (selector, value) {
-            // setting the value onto element and dispatching input
-            // event should trigger React's change event
-            $(selector).val(value).get(0).dispatchEvent(new Event('input', {bubbles: true}));
-        }, selector, value);
+        this.execute(
+            (selector, value) => {
+                // setting the value onto element and dispatching input
+                // event should trigger React's change event
+                $(selector)
+                    .val(value)
+                    .get(0)
+                    .dispatchEvent(new Event("input", { bubbles: true }));
+            },
+            selector,
+            value,
+        );
     }
 
     /**
@@ -116,7 +124,7 @@ export class ExaBrowser {
      * @param [options.reverse] {Boolean} if true it waits for the opposite (default: false).
      */
     waitForVisible(selector, options = {}) {
-        const {ms = SETTINGS.RENDER_TIMEOUT, reverse = false} = options;
+        const { ms = SETTINGS.RENDER_TIMEOUT, reverse = false } = options;
         logger.debug(`waitForVisible: selector - ${selector}, ms - ${ms}, reverse - ${reverse}`);
         browser.waitForVisible(selector, ms, reverse);
     }
@@ -129,10 +137,10 @@ export class ExaBrowser {
      * @param [options.reverse] {Boolean} if true it waits for the opposite (default: false).
      */
     waitForExist(selector, options = {}) {
-        const {ms = SETTINGS.RENDER_TIMEOUT, reverse = false} = options;
+        const { ms = SETTINGS.RENDER_TIMEOUT, reverse = false } = options;
         logger.debug(`waitForVisible: selector - ${selector}, ms - ${ms}, reverse - ${reverse}`);
         browser.waitForExist(selector, ms, reverse);
-    };
+    }
 
     /**
      * @summary Wait for element to disappear.
@@ -142,9 +150,9 @@ export class ExaBrowser {
     waitForDisappear(selector, ms) {
         this.waitForVisible(selector, {
             ms,
-            reverse: true
+            reverse: true,
         });
-    };
+    }
 
     /**
      * @summary Waits until one of specified selectors present/absent (depends on reverse arg).
@@ -153,13 +161,16 @@ export class ExaBrowser {
      */
     waitForVisibleOneOf(selectors, ms = SETTINGS.RENDER_TIMEOUT) {
         logger.debug(`waitForVisibleOneOf: selectors - ${selectors}, ms - ${ms}`);
-        retry(() => {
-            let isOneVisible = _.some(selectors.map(x => this.isVisible(x)));
-            if (!isOneVisible) throw new Error(`None of ${JSON.stringify(selectors)} visible`);
-        }, {
-            retries: 5,
-            interval: ms / 5
-        });
+        retry(
+            () => {
+                const isOneVisible = _.some(selectors.map((x) => this.isVisible(x)));
+                if (!isOneVisible) throw new Error(`None of ${JSON.stringify(selectors)} visible`);
+            },
+            {
+                retries: 5,
+                interval: ms / 5,
+            },
+        );
     }
 
     /**
@@ -174,12 +185,16 @@ export class ExaBrowser {
     }
 
     getFullURL(path) {
-        const root = process.env.ROOT_URL.replace(/([a-zA-Z+.\-]+):\/\/([^\/]+):([0-9]+)\//, "$1://$2/");
+        const root = process.env.ROOT_URL.replace(
+            // eslint-disable-next-line no-useless-escape
+            /([a-zA-Z+.\-]+):\/\/([^\/]+):([0-9]+)\//,
+            "$1://$2/",
+        );
         return url.resolve(root, path);
     }
 
     urlForceLoad(path, forceLoad = false) {
-        var currentURL = this.getUrl();
+        const currentURL = this.getUrl();
         logger.debug(`Current url is ${currentURL}`);
         const fullURL = this.getFullURL(path);
         if (forceLoad || fullURL !== currentURL) {
@@ -192,16 +207,24 @@ export class ExaBrowser {
 
     clickWithRetry(selector, nonVisible, retries = 5) {
         const clsInstance = this;
-        retry(() => clsInstance.click(selector, nonVisible), {retries});
-    };
+        retry(() => clsInstance.click(selector, nonVisible), { retries });
+    }
 
     clickAndWaitForAnimation(clickSelector, animationSelector, timeout = 5000) {
-        animationSelector = animationSelector ? animationSelector : clickSelector;
+        // eslint-disable-next-line no-param-reassign
+        animationSelector = animationSelector || clickSelector;
         this.timeoutsAsyncScript(timeout);
-        this.executeAsync((clickSelector, animationSelector, done) => {
-            $(clickSelector).click(function () { $(animationSelector).one("webkitTransitionEnd", (event) => done())});
-            $(clickSelector).trigger("click");
-        }, clickSelector, animationSelector);
+        this.executeAsync(
+            (clickSelector, animationSelector, done) => {
+                $(clickSelector).click(() => {
+                    // eslint-disable-next-line no-unused-vars
+                    $(animationSelector).one("webkitTransitionEnd", (event) => done());
+                });
+                $(clickSelector).trigger("click");
+            },
+            clickSelector,
+            animationSelector,
+        );
     }
 
     /**
@@ -212,7 +235,7 @@ export class ExaBrowser {
      */
     setValueWithBackspaceClear(selector, value) {
         const existingValueLength = this.getValue(selector).length;
-        const backspaceArray = new Array(existingValueLength).fill('Backspace');
+        const backspaceArray = new Array(existingValueLength).fill("Backspace");
         this.setValue(selector, backspaceArray);
         this.setValue(selector, value);
     }
@@ -228,6 +251,9 @@ export class ExaBrowser {
  */
 export function initializeExaBrowserHook() {
     const exaBrowserFunctionNames = Object.getOwnPropertyNames(ExaBrowser.prototype);
-    _.extend(ExaBrowser.prototype, _.pick(browser, (value, key) => !exaBrowserFunctionNames.includes(key)));
+    _.extend(
+        ExaBrowser.prototype,
+        _.pick(browser, (value, key) => !exaBrowserFunctionNames.includes(key)),
+    );
     global.exabrowser = new ExaBrowser();
 }

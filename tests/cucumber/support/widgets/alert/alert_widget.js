@@ -1,8 +1,8 @@
-import {Widget} from "../../widget";
+import { Widget } from "../../widget";
 
 export class AlertWidget extends Widget {
-
     // override upon inheritance
+    // eslint-disable-next-line class-methods-use-this, no-unused-vars
     getAlertSelectorByType(type) {}
 
     /**
