@@ -1,60 +1,9 @@
 {
-    "extends": ["airbnb", "prettier", "eslint:recommended", "plugin:react/recommended"],
-    "settings": {
-        "import/resolver": {
-            "node": {
-                "paths": ["src"]
-            }
-        }
-    },
-    "parser": "@babel/eslint-parser",
-    "env": {
-        "browser": true,
-        "node": true
-    },
-    "plugins": ["react", "prettier", "simple-import-sort", "jsdoc"],
+    "extends": ["@exabyte-io/eslint-config", "plugin:react/recommended"],
+    "plugins": ["react"],
     "rules": {
         "react/jsx-filename-extension": "error",
         "jsx-a11y/label-has-associated-control": ["error", { "assert": "either" }],
-        "prettier/prettier": "error",
-        "comma-dangle": ["error", "always-multiline"],
-        "array-element-newline": ["error", "consistent"],
-        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-        "one-var": ["error", { "uninitialized": "always", "initialized": "never" }],
-        "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
-        "prefer-template": "off",
-        "camelcase": "off",
-        "max-len": "off",
-        "no-console": "off",
-        "no-unused-expressions": "warn",
-        "react/forbid-prop-types": "warn",
-        "no-confusing-arrow": "off",
-        "no-underscore-dangle": "off",
-        "no-return-assign": "off",
-        "consistent-return": "off",
-        "arrow-body-style": "off",
-        "import/prefer-default-export": "off",
-        "import/no-named-as-default-member": "warn",
-        "no-param-reassign": ["warn", { "props": false }],
-        "max-classes-per-file": "warn",
-        "simple-import-sort/imports": [
-            "warn",
-            {
-                "groups": [
-                    // Side effect imports.
-                    ["^\\u0000"],
-                    // Packages.
-                    // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
-                    ["^@?\\w"],
-                    // Absolute imports
-                    [
-                        "^(components|configs|constants|containers|domain|enhancers|hocs|libs|pages|reducers|services|store|modules|dictionaries)(/.*|$)"
-                    ],
-                    // Relative imports.
-                    // Anything that starts with a dot.
-                    ["^\\."]
-                ]
-            }
-        ]
+        "react/forbid-prop-types": "warn"
     }
 }
