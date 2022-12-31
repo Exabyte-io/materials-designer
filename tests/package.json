@@ -4,7 +4,7 @@
         "@babel/plugin-proposal-class-properties": "7.16.0",
         "almost-equal": "^1.1.0",
         "array-almost-equal": "^1.0.0",
-        "chimp": "0.51.1",
+        "chimp": "4.3.0",
         "chromedriver": "2.35.0",
         "deep-equal": "^1.0.1",
         "lodash": "^4.17.4",
