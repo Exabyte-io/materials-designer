@@ -120,3 +120,7 @@ docker-compose up -d materials-designer
 sleep 30  # let the app actually start
 docker-compose run materials-designer-test
 ```
+
+## GitHub Codespace
+
+When using a GitHub codespace, see [codespace-setup.sh](codespace-setup.sh) for how the application and tests can be started.
