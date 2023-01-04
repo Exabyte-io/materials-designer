@@ -7,3 +7,4 @@ node_modules/
 tests/node_modules/
 tests/cucumber/screenshots/
 .idea/
+.screenshots
