@@ -136,7 +136,6 @@ Then, to run tests in headless mode in another terminal session, use the followi
 
 ```bash
 nvm use 8
-cd tests
 export PATH=/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH
 ./run-tests.sh -s=true -hm=true -f=menu/edit/reset-clone-undo-redo.feature
 ```
