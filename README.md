@@ -124,3 +124,19 @@ docker-compose run materials-designer-test
 ## GitHub Codespace
 
 When using a GitHub codespace, see [codespace-setup.sh](codespace-setup.sh) for how the application and tests can be started.
+
+To start the application:
+
+```bash
+nvm install 12.21.0
+npm start
+```
+
+Then, to run tests in headless mode in another terminal session, use the following example:
+
+```bash
+nvm use 8
+cd tests
+export PATH=/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH
+./run-tests.sh -s=true -hm=true -f=menu/edit/reset-clone-undo-redo.feature
+```
