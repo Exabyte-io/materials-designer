@@ -128,7 +128,7 @@ When using a GitHub codespace, see [codespace-setup.sh](codespace-setup.sh) for 
 To start the application:
 
 ```bash
-nvm install 12.21.0
+nvm use 12.21.0
 npm start
 ```
 
