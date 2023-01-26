@@ -64,6 +64,15 @@ npm start
 
 Start the application and then run one of the below commands to run the tests.
 
+> This will require proper java v1.8 installed, please verify it with command `java -version`.
+> If version does not mach use next commands to install (on OSX):
+> ```
+> brew tap adoptopenjdk/openjdk
+> brew install --cask adoptopenjdk8
+> # set to path
+> export PATH=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/bin:$PATH
+> ```
+
 To run all tests:
 
 ```bash
