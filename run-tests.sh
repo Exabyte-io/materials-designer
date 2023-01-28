@@ -26,6 +26,7 @@ check_args () {
     FEATURES="/"
     OPTIONS=""
     BROWSER="chrome"
+    HEADLESS_MODE="false"
     for i in "$@"
     do
         case $i in
@@ -33,12 +34,16 @@ check_args () {
                 HOST="${i#*=}"
                 shift
             ;;
+            -p=*|--port=*)
+                PORT="${i#*=}"
+                shift
+            ;;
             -s=*|--skip-install=*)
                 SKIP_INSTALL="${i#*=}"
                 shift
             ;;
-            -p=*|--port=*)
-                PORT="${i#*=}"
+            -hm=*|--headless-mode=*)
+                HEADLESS_MODE="${i#*=}"
                 shift
             ;;
             -f=*|--features-dir=*)
@@ -79,6 +84,9 @@ SCREENSHOTS_DIR="${CUCUMBER_DIR}/screenshots"
 
 export ROOT_URL="${HOST}:${PORT}"
 
+# For using Java inside a GitHub Codespace VM; TODO: find a better way
+export PATH=/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH
+
 cd ${TESTS_DIR}
 DEFAULT_NVM_DIR="${HOME}/.nvm"
 source ${NVM_DIR:-$DEFAULT_NVM_DIR}/nvm.sh
@@ -94,14 +102,26 @@ rm -rf ${SCREENSHOTS_DIR}
 # https://www.jetbrains.com/help/webstorm/running-and-debugging-node-js.html#node_debugging_overview
 # sed -ie 's/--debug/--inspect/g'  ${TESTS_DIR}/node_modules/chimp/dist/lib/cucumberjs/cucumber.js
 
-${TESTS_DIR}/node_modules/.bin/chimp \
+DEFAULT_OPTIONS="\
     --serverHost="${HOST}" \
     --serverPort="${PORT}" \
-    --path=${CUCUMBER_DIR}/features/$FEATURES -r=${SUPPORT_DIR} \
+    --path=${CUCUMBER_DIR}/features/${FEATURES}  \
+    -r=${SUPPORT_DIR} \
     --singleSnippetPerFile=1 \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
     --screenshotsPath=${SCREENSHOTS_DIR} \
     --browser=${BROWSER} \
     --webdriverio.deprecationWarnings=false \
     --webdriverio.logLevel="silent" \
-    ${OPTIONS}
+    "
+
+if [[ ${HEADLESS_MODE} == "true" ]]; then
+    DEFAULT_OPTIONS="${DEFAULT_OPTIONS} \
+    --webdriverio.desiredCapabilities.chromeOptions.args="headless" \
+    --webdriverio.desiredCapabilities.chromeOptions.args="disable-gpu" \
+    --webdriverio.desiredCapabilities.chromeOptions.args="no-sandbox" \
+    --webdriverio.desiredCapabilities.chromeOptions.args="window-size=1920,1080" \
+    "
+fi
+
+${TESTS_DIR}/node_modules/.bin/chimp ${DEFAULT_OPTIONS} ${OPTIONS}
