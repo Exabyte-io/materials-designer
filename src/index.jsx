@@ -1,11 +1,11 @@
 // Load styling, bootstrap needs to be loaded first
-import "./MuiClassNameSetup";
 import "bootstrap/dist/css/bootstrap.css";
 import "react-s-alert/dist/s-alert-default.css";
 import "react-s-alert/dist/s-alert-css-effects/stackslide.css";
 import "@exabyte-io/wave.js/dist/stylesheets/main.css";
 import "./stylesheets/main.scss";
 
+import { StyledEngineProvider } from "@mui/material/styles";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -19,7 +19,9 @@ setTimeout(() => {
     // Store component reference in window to access it in console for debugging/tests purposes
     // eslint-disable-next-line react/no-render-return-value
     window.MDContainer = ReactDOM.render(
-        <MaterialsDesignerContainer />,
+        <StyledEngineProvider injectFirst>
+            <MaterialsDesignerContainer />
+        </StyledEngineProvider>,
         document.getElementById("root"),
     );
 }, 0);

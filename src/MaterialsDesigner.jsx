@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@material-ui/core/styles";
+import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import setClass from "classnames";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
@@ -42,80 +42,88 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                 enabled={this.state.isFullscreen}
                 onChange={(isFullscreen) => this.setState({ isFullscreen })}
             >
-                <ThemeProvider theme={DarkMaterialUITheme}>
-                    <div
-                        className={setClass("materials-designer col-xs-12", this.props.className)}
-                        id="materialEditForm"
-                    >
-                        <div className="bgm-dark row">
-                            {/* TODO: find out how to avoid passing material to header */}
-                            <HeaderMenuToolbar
-                                isLoading={this.props.isLoading}
-                                material={this.props.material}
-                                materials={this.props.materials}
-                                index={this.props.index}
-                                isFullscreen={this.state.isFullscreen}
-                                toggleFullscreen={this.toggleFullscreen}
-                                onUndo={this.props.onUndo}
-                                onRedo={this.props.onRedo}
-                                onReset={this.props.onReset}
-                                onClone={this.props.onClone}
-                                onToggleIsNonPeriodic={this.props.onToggleIsNonPeriodic}
-                                onUpdate={this.props.onUpdate}
-                                onAdd={this.props.onAdd}
-                                onExport={this.props.onExport}
-                                onSave={this.props.onSave}
-                                onExit={this.props.onExit}
-                                ImportModal={this.props.ImportModal}
-                                SaveActionDialog={this.props.SaveActionDialog}
-                                onGenerateSupercell={this.props.onGenerateSupercell}
-                                onGenerateSurface={this.props.onGenerateSurface}
-                                onSetBoundaryConditions={this.props.onSetBoundaryConditions}
-                                maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
-                            />
-                            <div className="bgm-dark col-xs-12">
-                                <ItemsList
-                                    className="col-md-2 p-5"
+                <StyledEngineProvider injectFirst>
+                    <ThemeProvider theme={DarkMaterialUITheme}>
+                        <div
+                            className={setClass(
+                                "materials-designer col-xs-12",
+                                this.props.className,
+                            )}
+                            id="materialEditForm"
+                        >
+                            <div className="bgm-dark row">
+                                {/* TODO: find out how to avoid passing material to header */}
+                                <HeaderMenuToolbar
+                                    isLoading={this.props.isLoading}
+                                    material={this.props.material}
                                     materials={this.props.materials}
                                     index={this.props.index}
-                                    onItemClick={this.props.onItemClick}
-                                    onRemove={this.props.onRemove}
-                                    onNameUpdate={this.props.onNameUpdate}
-                                />
-                                <SourceEditor
-                                    className="col-md-4 p-5"
-                                    material={this.props.material}
+                                    isFullscreen={this.state.isFullscreen}
+                                    toggleFullscreen={this.toggleFullscreen}
+                                    onUndo={this.props.onUndo}
+                                    onRedo={this.props.onRedo}
+                                    onReset={this.props.onReset}
+                                    onClone={this.props.onClone}
+                                    onToggleIsNonPeriodic={this.props.onToggleIsNonPeriodic}
                                     onUpdate={this.props.onUpdate}
+                                    onAdd={this.props.onAdd}
+                                    onExport={this.props.onExport}
+                                    onSave={this.props.onSave}
+                                    onExit={this.props.onExit}
+                                    ImportModal={this.props.ImportModal}
+                                    SaveActionDialog={this.props.SaveActionDialog}
+                                    onGenerateSupercell={this.props.onGenerateSupercell}
+                                    onGenerateSurface={this.props.onGenerateSurface}
+                                    onSetBoundaryConditions={this.props.onSetBoundaryConditions}
+                                    maxCombinatorialBasesCount={
+                                        this.props.maxCombinatorialBasesCount
+                                    }
                                 />
-                                <ThreeDEditorFullscreen
-                                    className="col-md-6 p-0"
-                                    editable
-                                    material={this.props.material}
-                                    isConventionalCellShown={this.props.isConventionalCellShown}
-                                    boundaryConditions={this.props.material.boundaryConditions}
-                                    onUpdate={(material) => {
-                                        // convert made material to MD material and re-set metadata
-                                        const newMaterial =
-                                            Material.createFromMadeMaterial(material);
-                                        newMaterial.metadata = this.props.material.metadata || {};
-                                        this.props.onUpdate(newMaterial);
+                                <div className="bgm-dark col-xs-12">
+                                    <ItemsList
+                                        className="col-md-2 p-5"
+                                        materials={this.props.materials}
+                                        index={this.props.index}
+                                        onItemClick={this.props.onItemClick}
+                                        onRemove={this.props.onRemove}
+                                        onNameUpdate={this.props.onNameUpdate}
+                                    />
+                                    <SourceEditor
+                                        className="col-md-4 p-5"
+                                        material={this.props.material}
+                                        onUpdate={this.props.onUpdate}
+                                    />
+                                    <ThreeDEditorFullscreen
+                                        className="col-md-6 p-0"
+                                        editable
+                                        material={this.props.material}
+                                        isConventionalCellShown={this.props.isConventionalCellShown}
+                                        boundaryConditions={this.props.material.boundaryConditions}
+                                        onUpdate={(material) => {
+                                            // convert made material to MD material and re-set metadata
+                                            const newMaterial =
+                                                Material.createFromMadeMaterial(material);
+                                            newMaterial.metadata =
+                                                this.props.material.metadata || {};
+                                            this.props.onUpdate(newMaterial);
+                                        }}
+                                    />
+                                </div>
+                                <div
+                                    className="bgm-dark col-xs-12 p-0"
+                                    style={{
+                                        // TODO: move out of here
+                                        padding: "40px",
+                                        borderTop: "1px solid",
+                                        backgroundColor: "#202020",
                                     }}
-                                />
-                            </div>
-                            <div
-                                className="bgm-dark col-xs-12 p-0"
-                                style={{
-                                    // TODO: move out of here
-                                    padding: "40px",
-                                    borderTop: "1px solid",
-                                    backgroundColor: "#202020",
-                                }}
-                            >
-                                <EditorSelectionInfo />
+                                >
+                                    <EditorSelectionInfo />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </ThemeProvider>
+                    </ThemeProvider>
+                </StyledEngineProvider>
             </this.FullscreenHandlerComponent>
         );
     }
