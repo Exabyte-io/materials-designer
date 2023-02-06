@@ -18,6 +18,16 @@ const DarkThemeConfig = {
                 minWidth: 120,
             },
         },
+        MuiOutlinedInput: {
+            root: {
+                "& .MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                },
+                "& fieldset": {
+                    border: "none",
+                },
+            },
+        },
     },
 };
 
