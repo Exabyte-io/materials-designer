@@ -1,7 +1,7 @@
 // material-ui v1.00-beta.37 dark theme
 $material-ui-expansion-panels-color: #424242;
 $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
-    0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
 
 // menu items in materials designer header
 .button-activated-menu {
@@ -244,7 +244,7 @@ $header-menu-height: 64px;
 $editor-info-height: 41px;
 $materials-designer-height: 65vmin;
 $materials-designer-height-fullscreen: calc(
-    100vmin - #{$editor-info-height} - #{$header-menu-height}
+        100vmin - #{$editor-info-height} - #{$header-menu-height}
 );
 
 .materials-designer-header-menu {
@@ -391,9 +391,13 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
 
     #basis-xyz {
         height: calc(
-            #{$materials-designer-height} - #{$source-editor-crystal-lattice-collapsed-height}
+                #{$materials-designer-height} - #{$source-editor-crystal-lattice-collapsed-height}
         );
         resize: vertical;
+    }
+
+    div.MuiAccordion-root {
+        background: $material-ui-expansion-panels-color;
     }
 }
 
@@ -405,7 +409,7 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
 
         #basis-xyz {
             height: calc(
-                #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height}
+                    #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height}
             );
         }
     }
