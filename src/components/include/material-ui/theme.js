@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material";
-import { adaptV4Theme } from "@mui/material/styles";
 
 // adopted from: https://material-ui.com/customization/themes/#theme-configuration-variables
 const DarkThemeConfig = {
@@ -23,21 +22,16 @@ const DarkThemeConfig = {
                 "& .MuiOutlinedInput-notchedOutline": {
                     border: "none",
                 },
-                "& fieldset": {
-                    border: "none",
-                },
             },
         },
     },
 };
 
-export const DarkMaterialUITheme = createTheme(adaptV4Theme(DarkThemeConfig));
+export const DarkMaterialUITheme = createTheme(DarkThemeConfig);
 
-export const LightMaterialUITheme = createTheme(
-    adaptV4Theme({
-        typography: DarkThemeConfig.typography,
-        palette: {
-            mode: "light",
-        },
-    }),
-);
+export const LightMaterialUITheme = createTheme({
+    typography: DarkThemeConfig.typography,
+    palette: {
+        mode: "light",
+    },
+});
