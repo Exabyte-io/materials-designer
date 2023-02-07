@@ -1,5 +1,5 @@
+import Switch from "@mui/material/Switch";
 import setClass from "classnames";
-import $ from "jquery";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -19,15 +19,13 @@ const ToggleSwitch = function ToggleSwitch({
             <label id={id + "-label"} className="ts-label" htmlFor={htmlFor}>
                 {title}
             </label>
-            <input
+            <Switch
                 id={htmlFor}
-                type="checkbox"
                 name={name}
                 checked={checked}
                 disabled={disabled}
-                onChange={(e) => {
-                    onStateChange($(e.target).is(":checked"));
-                }}
+                onChange={onStateChange}
+                inputProps={{ "aria-label": "controlled" }}
             />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor={id} className="ts-helper" />
