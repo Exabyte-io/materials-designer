@@ -1,13 +1,13 @@
 /* eslint-disable react/sort-comp */
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeviceHubIcon from "@mui/icons-material/DeviceHub";
+import WidgetsIcon from "@mui/icons-material/Widgets";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import TextField from "@mui/material/TextField";
-import CheckIcon from "@mui/icons-material/Check";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DeviceHubIcon from "@mui/icons-material/DeviceHub";
-import WidgetsIcon from "@mui/icons-material/Widgets";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
@@ -35,6 +35,7 @@ class ItemsList extends React.Component {
     componentDidUpdate(prevProps) {
         const { materials, index } = this.props;
         if (prevProps.materials.length > materials.length)
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ editedName: materials[index].name, editedIndex: index });
     }
 
