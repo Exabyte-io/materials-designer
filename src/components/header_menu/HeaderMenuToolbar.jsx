@@ -1,10 +1,5 @@
 /* eslint-disable react/sort-comp */
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import MenuItem from "@mui/material/MenuItem";
-import Toolbar from "@mui/material/Toolbar";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 // TODO: rename other menu icons similarly
@@ -29,6 +24,11 @@ import InterpolatedSetIcon from "@mui/icons-material/SwapVert";
 import ThreeDEditorIcon from "@mui/icons-material/ThreeDRotation";
 import PolymerIcon from "@mui/icons-material/Timeline";
 import UndoIcon from "@mui/icons-material/Undo";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
