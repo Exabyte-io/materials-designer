@@ -5,7 +5,6 @@ import "react-s-alert/dist/s-alert-css-effects/stackslide.css";
 import "@exabyte-io/wave.js/dist/stylesheets/main.css";
 import "./stylesheets/main.scss";
 
-import { StyledEngineProvider } from "@mui/material/styles";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -19,9 +18,7 @@ setTimeout(() => {
     // Store component reference in window to access it in console for debugging/tests purposes
     // eslint-disable-next-line react/no-render-return-value
     window.MDContainer = ReactDOM.render(
-        <StyledEngineProvider injectFirst>
-            <MaterialsDesignerContainer />
-        </StyledEngineProvider>,
+        <MaterialsDesignerContainer />,
         document.getElementById("root"),
     );
 }, 0);
