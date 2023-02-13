@@ -364,6 +364,10 @@ $materials-designer-height-fullscreen: calc(
             }
         }
 
+        fieldset {
+            border: none;
+        }
+
         &_secondary {
             @media (max-width: 1200px) {
                 font-size: 0.85em;
@@ -394,6 +398,10 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
             #{$materials-designer-height} - #{$source-editor-crystal-lattice-collapsed-height}
         );
         resize: vertical;
+    }
+
+    div.MuiAccordion-root {
+        background: $material-ui-expansion-panels-color;
     }
 }
 

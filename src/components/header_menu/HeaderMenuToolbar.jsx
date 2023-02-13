@@ -1,34 +1,34 @@
 /* eslint-disable react/sort-comp */
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import MenuItem from "@material-ui/core/MenuItem";
-import Toolbar from "@material-ui/core/Toolbar";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import AssignmentIcon from "@material-ui/icons/Assignment";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 // TODO: rename other menu icons similarly
-import SupercellIcon from "@material-ui/icons/BorderClear";
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
-import CloneIcon from "@material-ui/icons/Collections";
-import DeviceHubIcon from "@material-ui/icons/DeviceHub";
-import BoundaryConditionsIcon from "@material-ui/icons/Directions";
-import NanotubeIcon from "@material-ui/icons/DonutLarge";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import ConventionalCellIcon from "@material-ui/icons/FormatShapes";
-import FullscreenIcon from "@material-ui/icons/Fullscreen";
-import FullscreenExitIcon from "@material-ui/icons/FullscreenExit";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import HelpIcon from "@material-ui/icons/Help";
-import SlabIcon from "@material-ui/icons/Layers";
-import CombinatorialSetIcon from "@material-ui/icons/LibraryAdd";
-import RedoIcon from "@material-ui/icons/Redo";
-import SaveIcon from "@material-ui/icons/Save";
-import InterpolatedSetIcon from "@material-ui/icons/SwapVert";
-import ThreeDEditorIcon from "@material-ui/icons/ThreeDRotation";
-import PolymerIcon from "@material-ui/icons/Timeline";
-import UndoIcon from "@material-ui/icons/Undo";
+import SupercellIcon from "@mui/icons-material/BorderClear";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import CloneIcon from "@mui/icons-material/Collections";
+import DeviceHubIcon from "@mui/icons-material/DeviceHub";
+import BoundaryConditionsIcon from "@mui/icons-material/Directions";
+import NanotubeIcon from "@mui/icons-material/DonutLarge";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import ConventionalCellIcon from "@mui/icons-material/FormatShapes";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import HelpIcon from "@mui/icons-material/Help";
+import SlabIcon from "@mui/icons-material/Layers";
+import CombinatorialSetIcon from "@mui/icons-material/LibraryAdd";
+import RedoIcon from "@mui/icons-material/Redo";
+import SaveIcon from "@mui/icons-material/Save";
+import InterpolatedSetIcon from "@mui/icons-material/SwapVert";
+import ThreeDEditorIcon from "@mui/icons-material/ThreeDRotation";
+import PolymerIcon from "@mui/icons-material/Timeline";
+import UndoIcon from "@mui/icons-material/Undo";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
@@ -270,7 +270,7 @@ class HeaderMenuToolbar extends React.Component {
     renderSpinner() {
         const { isLoading } = this.props;
         return (
-            <IconButton disabled className="spinner-icon">
+            <IconButton disabled className="spinner-icon" size="large">
                 {isLoading ? (
                     <i className="zmdi zmdi-spinner zmdi-hc-spin" />
                 ) : (
