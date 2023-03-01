@@ -75,7 +75,7 @@ class DefaultImportModalDialog extends ModalDialog {
             ...{
                 basis: basis.toJSON(),
                 lattice: lattice.toJSON(),
-                name: `${material.name} - ${basis.formula}`,
+                name: `${this.reader.currentFilename} - ${basis.formula}`,
             },
         };
         const newMaterial = new Material(newMaterialConfig);
