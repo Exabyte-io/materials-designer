@@ -147,6 +147,8 @@ class DefaultImportModalDialog extends ModalDialog {
         );
     }
 
+    // TODO: resolve the linter issue:
+    //   Line 150:17:  Expected 'this' to be used by class method 'renderFooter'  class-methods-use-this
     // renderFooter() {
     //     return null;
     // }
