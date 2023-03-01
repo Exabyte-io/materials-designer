@@ -81,6 +81,7 @@ class DefaultImportModalDialog extends ModalDialog {
         const newMaterial = new Material(newMaterialConfig);
         newMaterial.cleanOnCopy();
 
+        Made.tools.material.getBasisConfigTranslatedToCenter(newMaterial);
         this.props.onSubmit([newMaterial]);
     }
 
