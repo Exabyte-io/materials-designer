@@ -99,17 +99,7 @@ class DefaultImportModalDialog extends ModalDialog {
     renderHeader() {
         return (
             <ModalHeader className="bgm-dark" closeButton>
-                <h4 className="modal-title">
-                    {this.props.title}
-                    <a
-                        className="m-l-10 combinatorial-info"
-                        href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <i className="zmdi zmdi-info" />
-                    </a>
-                </h4>
+                <h4 className="modal-title">{this.props.title}</h4>
             </ModalHeader>
         );
     }
