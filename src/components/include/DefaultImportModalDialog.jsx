@@ -1,4 +1,5 @@
 import { Made } from "@exabyte-io/made.js";
+import { defaultMaterialConfig } from "@exabyte-io/made.js/lib/material";
 import { PropTypes } from "prop-types";
 import React from "react";
 import { ModalBody, ModalHeader } from "react-bootstrap";
@@ -8,38 +9,6 @@ import _ from "underscore";
 import { Material } from "../../material";
 import BasisText from "../source_editor/BasisText";
 import { ModalDialog } from "./ModalDialog";
-
-export const defaultXYZMaterialConfig = {
-    name: "Custom XYZ",
-    basis: {
-        elements: [
-            {
-                id: 1,
-                value: "H",
-            },
-        ],
-        coordinates: [
-            {
-                id: 1,
-                value: [0.0, 0.0, 0.0],
-            },
-        ],
-        units: Made.ATOMIC_COORD_UNITS.cartesian,
-    },
-    lattice: {
-        type: Made.LATTICE_TYPE_CONFIGS[1].code, // FCC, to be exported by made.js
-        a: 500.0, // NB will be rewritten with mockLatticeConstant
-        b: 500.0,
-        c: 500.0,
-        alpha: 90,
-        beta: 90,
-        gamma: 90,
-        units: {
-            length: Made.units.angstrom,
-            angle: Made.units.degree,
-        },
-    },
-};
 
 const mockLatticeConstantMultiplicator = 2.0;
 
@@ -84,7 +53,7 @@ class DefaultImportModalDialog extends ModalDialog {
         const diffZ = _.max(z) - _.min(z);
         const mockLatticeConstant = _.max([diffX, diffY, diffZ]) * mockLatticeConstantMultiplicator;
 
-        const material = new Made.Material(defaultXYZMaterialConfig);
+        const material = new Made.Material(defaultMaterialConfig);
 
         const latticeConfig = {
             ...material.lattice,
