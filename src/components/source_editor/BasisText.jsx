@@ -94,11 +94,9 @@ class BasisText extends React.Component {
                         updateContent={this.updateContent}
                         onFocus={() => this.setState({ manualEditStarted: true })}
                         onBlur={() => this.setState({ manualEditStarted: false })}
+                        readOnly={readOnly}
                         options={{
-                            theme: "darcula",
                             lineNumbers: true,
-                            readOnly,
-                            mode: "fortran",
                             ...codeMirrorOptions,
                         }}
                     />
