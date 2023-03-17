@@ -45,7 +45,6 @@
         "@uiw/react-codemirror": "^4.19.9",
         "bootstrap": "^3.3.7",
         "classnames": "2.3.1",
-        "codemirror": "^5.47.0",
         "jquery": "3.6.0",
         "lodash": "^4.17.4",
         "mathjs": "^3.9.0",
