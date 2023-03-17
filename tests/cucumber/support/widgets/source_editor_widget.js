@@ -83,16 +83,17 @@ class BasisEditorWidget extends Widget {
                 const element = document.getElementById(editorId);
 
                 const editor = element.getElementsByClassName("cm-content")[0].cmView.view;
-                const { state } = editor;
+                editor.focus();
+                const stateLength = editor.state.doc.length;
                 const transactionPayload = preserveExistingContent
                     ? {
-                          changes: { from: state.doc.length, insert: `\n${content}` },
+                          changes: { from: stateLength, insert: `\n${content}` },
                       }
                     : {
-                          changes: { from: 0, to: state.doc.length, insert: content },
+                          changes: { from: 0, to: stateLength, insert: content },
                       };
-                const transaction = state.update(transactionPayload);
-                editor._dispatch(transaction);
+                const transaction = editor.state.update(transactionPayload);
+                editor.dispatch(transaction);
             },
             editorId,
             content,

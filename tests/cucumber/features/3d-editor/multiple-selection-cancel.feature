@@ -1,4 +1,3 @@
-@watch
 Feature: User can cancel active multiple selection and all changes should be reverted
 
   Scenario:
