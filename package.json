@@ -10,9 +10,8 @@
         "test": "bash run-tests.sh",
         "lint": "eslint src tests && prettier --write src tests",
         "lint:fix": "eslint src tests --fix && prettier --write src tests",
-        "postinstall": "npm run transpile",
-        "prettier": "prettier --check src tests",
-        "prepare": "husky install"
+        "postinstall": "npm run transpile; npm run transpile-tests",
+        "prettier": "prettier --check src tests"
     },
     "repository": {
         "type": "git",
