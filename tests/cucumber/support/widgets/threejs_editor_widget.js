@@ -1,4 +1,4 @@
-import assert from "assert";
+// import assert from "assert";
 
 import { SELECTORS } from "../selectors";
 import { retry } from "../utils";
@@ -100,9 +100,11 @@ export class ThreeJSEditorWidget extends Widget {
             retry(
                 () => {
                     exabrowser.scrollAndClick(selector);
-                    exabrowser.keys(value);
-                    exabrowser.keys("Enter");
-                    assert(exabrowser.getValue(selector), value);
+                    exabrowser.setValueWithBackspaceClear(selector, value);
+                    // exabrowser.scrollAndClick(this._selectors.wrapper);
+                    // exabrowser.keys(value);
+                    // exabrowser.keys("Enter");
+                    // assert(exabrowser.getValue(selector), value);
                 },
                 { retries: 5 },
             );

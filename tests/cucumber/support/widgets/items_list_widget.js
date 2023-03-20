@@ -12,7 +12,7 @@ export class ItemsListWidget extends Widget {
         exabrowser.waitForValue(selector);
         this.selectItemByIndex(itemIndex);
         exabrowser.setValueWithBackspaceClear(selector, name);
-        exabrowser.keys("Tab");
+        // exabrowser.keys("Tab");
     }
 
     getSelectorPerItem(itemIndex, selectorName) {
