@@ -5,7 +5,7 @@ services:
     image: materials-designer:${IMAGE_TAG}
     build:
       context: .
-      dockerfile: ./dockerfiles/centos/Dockerfile
+      dockerfile: ./dockerfiles/app/Dockerfile
     ports:
       - ${PORT}:${PORT}
     volumes:
@@ -18,12 +18,12 @@ services:
       args:
         BASE_TAG: ${IMAGE_TAG}
       context: .
-      dockerfile: ./dockerfiles/test/Dockerfile
+      dockerfile: ./dockerfiles/app/test/Dockerfile
     depends_on:
       - materials-designer
     network_mode: host
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${PORT}"]
+      test: [ "CMD", "curl", "-f", "http://localhost:${PORT}" ]
       interval: 5s
       timeout: 2s
       retries: 20
