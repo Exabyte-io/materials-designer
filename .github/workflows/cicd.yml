@@ -1,6 +1,6 @@
 name: Continuous Testing and Automated NPM Publication
 
-on: [push]
+on: [ push ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v2
         with:
-            lfs: true
+          lfs: true
 
       - name: Checkout actions repository
         uses: actions/checkout@v2
@@ -29,6 +29,16 @@ jobs:
         uses: ./actions/js/validate
         with:
           node-version: 12.21.x
+
+      - name: Login to GitHub Container registry
+        uses: docker/login-action@v1
+        env:
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          registry: ghcr.io
+          username: $GITHUB_USER
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker build and test
         uses: ./.github/workflows/docker-build-test
