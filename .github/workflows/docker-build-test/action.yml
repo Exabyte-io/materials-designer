@@ -1,23 +1,9 @@
 name: Build docker containers and run tests
-inputs:
-  aws-access-key-id:
-    required: true
-  aws-secret-access-key:
-    required: true
+description: Building docker images using ECR or github containers
 
 runs:
   using: composite
   steps:
-    - name: Pull base image
-      uses: ./actions/docker/ecr
-      id: login-ecr
-      with:
-        ecr-repository: centos-7.9-base
-        aws-access-key-id: ${{ inputs.aws-access-key-id }}
-        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-        image-tag: latest
-        action: pull
-
     - name: Build application container
       uses: ./actions/docker/build
       with:
