@@ -42,9 +42,6 @@ jobs:
 
       - name: Docker build and test
         uses: ./.github/workflows/docker-build-test
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ECR }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ECR }}
 
       - name: Validate app dockerfile
         uses: ./actions/docker/validate
