@@ -1,4 +1,6 @@
-FROM ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-chrome_x86_64:latest
+ARG BASE_IMAGE=ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-chrome_x86_64
+ARG IMAGE_TAG=latest
+FROM ${BASE_IMAGE}:${IMAGE_TAG}
 WORKDIR /opt/test
 RUN git init
 COPY . .

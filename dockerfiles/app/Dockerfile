@@ -1,4 +1,6 @@
-FROM 889103812817.dkr.ecr.us-west-2.amazonaws.com/centos-7.9-base:latest
+ARG BASE_IMAGE=889103812817.dkr.ecr.us-west-2.amazonaws.com/centos-7.9-base
+ARG IMAGE_TAG=latest
+FROM ${BASE_IMAGE}:${IMAGE_TAG}
 
 WORKDIR /opt/app
 
