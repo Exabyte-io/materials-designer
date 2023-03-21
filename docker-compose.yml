@@ -29,4 +29,4 @@ services:
       retries: 20
     volumes:
       - ./tests/cucumber/:/opt/test/tests/cucumber/
-      - ./entrypoint.sh:/opt/app/entrypoint.sh
+      - ./entrypoint.sh:/opt/test/entrypoint.sh
