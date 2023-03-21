@@ -28,7 +28,7 @@ class ExportActionDialog extends ActionDialog {
     renderContent() {
         return (
             <form>
-                <FormControl>
+                <FormControl variant="standard">
                     <InputLabel>Format</InputLabel>
                     <Select
                         native
@@ -40,7 +40,7 @@ class ExportActionDialog extends ActionDialog {
                         <option value="poscar">poscar</option>
                     </Select>
                 </FormControl>
-                <FormControl>
+                <FormControl variant="standard">
                     <InputLabel>Export all</InputLabel>
                     <Select
                         native
