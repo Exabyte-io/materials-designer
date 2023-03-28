@@ -41,6 +41,7 @@
         "@mui/material": "^5.11.7",
         "@mui/styles": "^5.11.7",
         "@uiw/codemirror-theme-androidstudio": "^4.19.9",
+        "@uiw/codemirror-theme-darcula": "^4.19.11",
         "@uiw/react-codemirror": "^4.19.9",
         "bootstrap": "^3.3.7",
         "classnames": "2.3.1",
