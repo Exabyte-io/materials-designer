@@ -1,5 +1,3 @@
-// import assert from "assert";
-
 import { SELECTORS } from "../selectors";
 import { retry } from "../utils";
 import { Widget } from "../widget";
