@@ -1,6 +1,6 @@
 import { StreamLanguage } from "@codemirror/language";
 import { fortran } from "@codemirror/legacy-modes/mode/fortran";
-import { androidstudio } from "@uiw/codemirror-theme-androidstudio";
+import { darcula } from "@uiw/codemirror-theme-darcula";
 import CodeMirrorBase from "@uiw/react-codemirror";
 import PropTypes from "prop-types";
 import React from "react";
@@ -40,7 +40,7 @@ class CodeMirror extends React.Component {
                 onBlur={onBlur}
                 readOnly={readOnly}
                 lineNumbers={false}
-                theme={androidstudio}
+                theme={darcula}
                 basicSetup={options}
                 extensions={[StreamLanguage.define(fortran)]}
             />
