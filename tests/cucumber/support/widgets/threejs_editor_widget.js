@@ -101,10 +101,6 @@ export class ThreeJSEditorWidget extends Widget {
                 () => {
                     exabrowser.scrollAndClick(selector);
                     exabrowser.setValueWithBackspaceClear(selector, value);
-                    // exabrowser.scrollAndClick(this._selectors.wrapper);
-                    // exabrowser.keys(value);
-                    // exabrowser.keys("Enter");
-                    // assert(exabrowser.getValue(selector), value);
                 },
                 { retries: 5 },
             );
