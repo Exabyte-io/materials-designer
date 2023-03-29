@@ -1,15 +1,14 @@
-ARG BASE_IMAGE=ghcr.io/exabyte-io/centos-7.9-base
-ARG IMAGE_TAG=latest
+ARG BASE_IMAGE=node
+ARG IMAGE_TAG=14-alpine
 FROM ${BASE_IMAGE}:${IMAGE_TAG}
 
 WORKDIR /opt/app
 
 COPY . .
 
-RUN source scl_source enable devtoolset-8 && \
-    npm install
+RUN npm install
 
 EXPOSE 3001
 
-ENTRYPOINT ["/opt/app/entrypoint.sh"]
+ENTRYPOINT ["npm start"]
 
