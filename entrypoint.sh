@@ -17,7 +17,7 @@ export DISPLAY=":99"
 # xvfb-run -s "-ac -screen 0 1920x1080x24"
 
 if [[ "$1" == "test" ]]; then
-    Xvfb -ac :99 -screen 0 1280x1024x16 &
+    Xvfb -ac $DISPLAY -screen 0 1280x1024x16 &
     # If "test" is passed as a parameter - running tests/chimp
     ${BASE_DIR}/node_modules/.bin/chimp \
         --serverHost="http://127.0.0.1" \
