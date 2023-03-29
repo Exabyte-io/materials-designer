@@ -10,7 +10,7 @@ concurrency:
 jobs:
 
   run-tests:
-    runs-on: ubuntu-20.04
+    runs-on: [ubuntu-20.04, self-hosted]
 
     steps:
       - name: Checkout this repository
