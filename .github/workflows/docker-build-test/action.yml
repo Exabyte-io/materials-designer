@@ -9,7 +9,7 @@ runs:
       with:
         image-name: materials-designer
         dockerfile: ./dockerfiles/app/Dockerfile
-        cli-args: --build-arg BASE_IMAGE=ghcr.io/exabyte-io/centos-7.9-base
+        cli-args: --build-arg BASE_IMAGE=node
 
 
     - name: Build test container
