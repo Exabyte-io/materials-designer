@@ -1,5 +1,5 @@
 Feature: User can cancel active multiple selection and all changes should be reverted
-  
+
   Scenario:
     When I open materials designer page
     And I create materials with the following data
@@ -38,5 +38,5 @@ Feature: User can cancel active multiple selection and all changes should be rev
       | $FLOAT{-1.0} | $FLOAT{-1.0} | $FLOAT{-1.0} |
     And I select scene object "Si-1" inside 3D editor
     Then I see that scene object has the following position:
-      | x            | y            | z            |
-      | $FLOAT{1.0}  | $FLOAT{1.0}  | $FLOAT{1.0}  |
+      | x           | y           | z           |
+      | $FLOAT{1.0} | $FLOAT{1.0} | $FLOAT{1.0} |

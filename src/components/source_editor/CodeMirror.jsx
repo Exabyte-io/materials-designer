@@ -1,3 +1,6 @@
+import { StreamLanguage } from "@codemirror/language";
+import { fortran } from "@codemirror/legacy-modes/mode/fortran";
+import { darcula } from "@uiw/codemirror-theme-darcula";
 import CodeMirrorBase from "@uiw/react-codemirror";
 import PropTypes from "prop-types";
 import React from "react";
@@ -13,7 +16,7 @@ class CodeMirror extends React.Component {
      * editor - CodeMirror object https://uiwjs.github.io/react-codemirror/
      * viewUpdate - object containing the update to the editor tree structure
      */
-    handleContentChange(editor, viewUpdate) {
+    handleContentChange(newContent, viewUpdate) {
         const { isLoaded } = this.state;
         const { updateContent, updateOnFirstLoad } = this.props;
         // kludge for the way state management is handled in web-app
@@ -21,11 +24,12 @@ class CodeMirror extends React.Component {
             this.setState({ isLoaded: true });
             return;
         }
-        updateContent(editor.getValue());
+
+        updateContent(newContent);
     }
 
     render() {
-        const { content, options, onFocus, onBlur } = this.props;
+        const { content, options, readOnly, onFocus, onBlur } = this.props;
         return (
             <CodeMirrorBase
                 value={content}
@@ -34,7 +38,11 @@ class CodeMirror extends React.Component {
                 }}
                 onFocus={onFocus}
                 onBlur={onBlur}
-                options={options}
+                readOnly={readOnly}
+                lineNumbers={false}
+                theme={darcula}
+                basicSetup={options}
+                extensions={[StreamLanguage.define(fortran)]}
             />
         );
     }
@@ -48,11 +56,13 @@ CodeMirror.propTypes = {
     onBlur: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     options: PropTypes.object,
+    readOnly: PropTypes.bool,
 };
 
 CodeMirror.defaultProps = {
     content: "",
     updateOnFirstLoad: true,
+    readOnly: false,
     updateContent: () => {},
     onFocus: () => {},
     onBlur: () => {},

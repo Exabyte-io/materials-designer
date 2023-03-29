@@ -1,8 +1,5 @@
 // import _ from "underscore";
 /* eslint-disable react/sort-comp */
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/darcula.css";
-import "codemirror/mode/fortran/fortran";
 
 import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
@@ -94,11 +91,9 @@ class BasisText extends React.Component {
                         updateContent={this.updateContent}
                         onFocus={() => this.setState({ manualEditStarted: true })}
                         onBlur={() => this.setState({ manualEditStarted: false })}
+                        readOnly={readOnly}
                         options={{
-                            theme: "darcula",
                             lineNumbers: true,
-                            readOnly,
-                            mode: "fortran",
                             ...codeMirrorOptions,
                         }}
                     />

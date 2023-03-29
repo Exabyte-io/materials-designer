@@ -70,7 +70,9 @@ class BasisEditorWidget extends Widget {
         // eslint-disable-next-line no-shadow
         return exabrowser.execute((editorId) => {
             const element = document.getElementById(editorId);
-            return element.getElementsByClassName("CodeMirror")[0].CodeMirror.getValue();
+            return element
+                .getElementsByClassName("cm-content")[0]
+                .cmView.editorView.state.doc.toString();
         }, editorId).value;
     }
 
@@ -79,10 +81,19 @@ class BasisEditorWidget extends Widget {
             // eslint-disable-next-line no-shadow
             (editorId, content, preserveExistingContent) => {
                 const element = document.getElementById(editorId);
-                const codeMirror = element.getElementsByClassName("CodeMirror")[0].CodeMirror;
-                codeMirror.setValue(
-                    preserveExistingContent ? codeMirror.getValue() + "\n" + content : content,
-                );
+
+                const editor = element.getElementsByClassName("cm-content")[0].cmView.view;
+                editor.focus();
+                const stateLength = editor.state.doc.length;
+                const transactionPayload = preserveExistingContent
+                    ? {
+                          changes: { from: stateLength, insert: `\n${content}` },
+                      }
+                    : {
+                          changes: { from: 0, to: stateLength, insert: content },
+                      };
+                const transaction = editor.state.update(transactionPayload);
+                editor.dispatch(transaction);
             },
             editorId,
             content,
