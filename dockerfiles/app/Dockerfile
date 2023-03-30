@@ -1,15 +1,18 @@
-ARG BASE_IMAGE
-ARG IMAGE_TAG=latest
+ARG BASE_IMAGE=node
+ARG IMAGE_TAG=14-alpine
 FROM ${BASE_IMAGE}:${IMAGE_TAG}
 
 WORKDIR /opt/app
 
-COPY . .
+# use changes to package.json to force Docker not to use the cache
+# when we change our application's nodejs dependencies:
+# https://stackoverflow.com/questions/35774714/how-to-cache-the-run-npm-install-instruction-when-docker-build-a-dockerfile
+COPY package.json package.json
 
-RUN source scl_source enable devtoolset-8 && \
-    npm install
+RUN npm install
+
+COPY . .
 
 EXPOSE 3001
 
-ENTRYPOINT ["/opt/app/entrypoint.sh"]
-
+ENTRYPOINT ["npm", "start"]
