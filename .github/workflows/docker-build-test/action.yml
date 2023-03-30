@@ -1,29 +1,15 @@
 name: Build docker containers and run tests
-inputs:
-  aws-access-key-id:
-    required: true
-  aws-secret-access-key:
-    required: true
+description: Building docker images using ECR or github containers
 
 runs:
   using: composite
   steps:
-    - name: Pull base image
-      uses: ./actions/docker/ecr
-      id: login-ecr
-      with:
-        ecr-repository: centos-7.9-base
-        aws-access-key-id: ${{ inputs.aws-access-key-id }}
-        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-        image-tag: latest
-        action: pull
-
     - name: Build application container
       uses: ./actions/docker/build
       with:
         image-name: materials-designer
         dockerfile: ./dockerfiles/app/Dockerfile
-        cli-args: --build-arg BASE_IMAGE=${{ steps.login-ecr.outputs.registry }}/centos-7.9-base
+        cli-args: --build-arg BASE_IMAGE=node
 
 
     - name: Build test container
@@ -31,7 +17,7 @@ runs:
       with:
         image-name: materials-designer-test
         dockerfile: ./dockerfiles/app/test/Dockerfile
-        cli-args: --build-arg BASE_IMAGE=${{ steps.login-ecr.outputs.registry }}/centos-7.9-base
+        cli-args: --build-arg BASE_IMAGE=ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-chrome_x86_64
 
 
     - name: Run tests

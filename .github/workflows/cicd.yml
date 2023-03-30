@@ -10,13 +10,13 @@ concurrency:
 jobs:
 
   run-tests:
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
 
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v2
         with:
-            lfs: true
+          lfs: true
 
       - name: Checkout actions repository
         uses: actions/checkout@v2
@@ -25,21 +25,28 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           path: actions
 
-      - name: Validate JS package
-        uses: ./actions/js/validate
+      - name: Login to GitHub Container registry
+        uses: docker/login-action@v1
+        env:
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          node-version: 12.21.x
+          registry: ghcr.io
+          username: $GITHUB_USER
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker build and test
         uses: ./.github/workflows/docker-build-test
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ECR }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ECR }}
 
       - name: Validate app dockerfile
         uses: ./actions/docker/validate
         with:
           dockerfile: ./dockerfiles/app/Dockerfile
+
+      - name: Validate JS package
+        uses: ./actions/js/validate
+        with:
+          node-version: 12.21.x
 
       - name: Validate test dockerfile
         uses: ./actions/docker/validate
