@@ -14,7 +14,4 @@ COPY . .
 
 EXPOSE 3001
 
-# Not using [] below to avoid `executable file not found in $PATH: unknown.`
-# per https://stackoverflow.com/questions/27158840/docker-executable-file-not-found-in-path
-# and https://jhooq.com/docker-error-executable-file/
-ENTRYPOINT npm start
+ENTRYPOINT ["npm", "start"]
