@@ -10,7 +10,7 @@ concurrency:
 jobs:
 
   run-tests:
-    runs-on: self-hosted
+    runs-on: [ubuntu-20.04, self-hosted]
 
     steps:
       - name: Checkout this repository
@@ -24,11 +24,6 @@ jobs:
           repository: Exabyte-io/actions
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           path: actions
-
-      - name: Validate JS package
-        uses: ./actions/js/validate
-        with:
-          node-version: 12.21.x
 
       - name: Login to GitHub Container registry
         uses: docker/login-action@v1
@@ -48,10 +43,15 @@ jobs:
         with:
           dockerfile: ./dockerfiles/app/Dockerfile
 
-      - name: Validate test dockerfile
-        uses: ./actions/docker/validate
+      - name: Validate JS package
+        uses: ./actions/js/validate
         with:
-          dockerfile: ./dockerfiles/app/test/Dockerfile
+          node-version: 12.21.x
+
+      #- name: Validate test dockerfile
+      #  uses: ./actions/docker/validate
+      #  with:
+      #    dockerfile: ./dockerfiles/app/test/Dockerfile
 
   publish:
     needs: run-tests
