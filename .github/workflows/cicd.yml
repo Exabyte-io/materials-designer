@@ -48,10 +48,10 @@ jobs:
         with:
           node-version: 12.21.x
 
-      #- name: Validate test dockerfile
-      #  uses: ./actions/docker/validate
-      #  with:
-      #    dockerfile: ./dockerfiles/app/test/Dockerfile
+      - name: Validate test dockerfile
+        uses: ./actions/docker/validate
+        with:
+          dockerfile: ./dockerfiles/app/test/Dockerfile
 
   publish:
     needs: run-tests
