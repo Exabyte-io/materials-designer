@@ -15,4 +15,4 @@ COPY . .
 
 EXPOSE 3001
 
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["/opt/app/entrypoint.sh"]
