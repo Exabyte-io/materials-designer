@@ -1,4 +1,5 @@
 ARG BASE_IMAGE=node
+# Not using "alpine" to allow node gyp to work with package installations from "https://github.com" directly
 ARG IMAGE_TAG=14
 FROM ${BASE_IMAGE}:${IMAGE_TAG}
 
