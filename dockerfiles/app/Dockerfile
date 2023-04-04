@@ -1,5 +1,6 @@
 ARG BASE_IMAGE=node
-ARG IMAGE_TAG=14-alpine
+# Not using "alpine" to allow node gyp to work with package installations from "https://github.com" directly
+ARG IMAGE_TAG=14
 FROM ${BASE_IMAGE}:${IMAGE_TAG}
 
 WORKDIR /opt/app
@@ -15,4 +16,4 @@ COPY . .
 
 EXPOSE 3001
 
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["/opt/app/entrypoint.sh"]

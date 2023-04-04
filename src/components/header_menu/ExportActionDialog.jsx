@@ -6,7 +6,6 @@ import React from "react";
 
 import { ActionDialog } from "../include/ActionDialog";
 
-
 class ExportActionDialog extends ActionDialog {
     constructor(props) {
         super(props);
@@ -29,7 +28,7 @@ class ExportActionDialog extends ActionDialog {
     renderContent() {
         return (
             <form>
-                <FormControl variant="standard" sx={{mx: 1, minWidth: 120}}>
+                <FormControl variant="standard" sx={{ mx: 1, minWidth: 120 }}>
                     <InputLabel>Format</InputLabel>
                     <Select
                         native
@@ -41,7 +40,7 @@ class ExportActionDialog extends ActionDialog {
                         <option value="poscar">poscar</option>
                     </Select>
                 </FormControl>
-                <FormControl variant="standard" sx={{mx: 1, minWidth: 120}}>
+                <FormControl variant="standard" sx={{ mx: 1, minWidth: 120 }}>
                     <InputLabel>Export all</InputLabel>
                     <Select
                         native
