@@ -49,6 +49,15 @@ cd materials-designer
 
 sh run-application.sh
 ```
+
+> Some files might not be downloaded by `git clone` or `git pull` commands if your system doesn't have `git-lfs` installed.
+> To fix this run (on OSX):
+> ```
+> brew install git-lfs
+> # after successful installation run next command in the root directory of this repository:
+> git lfs install
+> ```
+
 Open http://localhost:3001 to view the application in the browser.
 
 ## Development
