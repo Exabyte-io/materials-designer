@@ -384,7 +384,8 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
 
 .materials-designer-source-editor {
     height: $materials-designer-height;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     min-height: 445px; // to avoid basis-view being hidden behind GLmol on mobile
     padding: 10px 10px;
 
