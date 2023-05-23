@@ -41,6 +41,7 @@ import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
 import ExportActionDialog from "./ExportActionDialog";
+import ImportActionDialog from "./ImportActionDialog";
 
 class HeaderMenuToolbar extends React.Component {
     constructor(config) {
@@ -69,7 +70,7 @@ class HeaderMenuToolbar extends React.Component {
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
                 <MenuItem
-                    disabled={!ImportModal}
+                    disabled={ImportModal}
                     onClick={() => this.setState({ showImportMaterialsDialog: true })}
                 >
                     <ListItemIcon>
@@ -280,21 +281,6 @@ class HeaderMenuToolbar extends React.Component {
         );
     }
 
-    renderImportModal() {
-        const { showImportMaterialsDialog } = this.state;
-        const { ImportModal, onAdd } = this.props;
-        return ImportModal ? (
-            <ImportModal
-                show={showImportMaterialsDialog}
-                onHide={() => this.setState({ showImportMaterialsDialog: false })}
-                onSubmit={(materials) => {
-                    onAdd(materials);
-                    this.setState({ showImportMaterialsDialog: false });
-                }}
-            />
-        ) : null;
-    }
-
     renderSaveActionDialog() {
         const { SaveActionDialog, material, onSave } = this.props;
         const { showSaveMaterialsDialog } = this.state;
@@ -337,6 +323,7 @@ class HeaderMenuToolbar extends React.Component {
             showBoundaryConditionsDialog,
             showCombinatorialDialog,
             showExportMaterialsDialog,
+            showImportMaterialsDialog,
             showInterpolateDialog,
         } = this.state;
         const {
@@ -363,7 +350,6 @@ class HeaderMenuToolbar extends React.Component {
                 {this.renderAdvancedMenu()}
                 {this.renderHelpMenu()}
                 {this.renderSpinner()}
-
                 <SupercellDialog
                     show={showSupercellDialog}
                     modalId="supercellModal"
@@ -371,7 +357,6 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onGenerateSupercell}
                     onHide={() => this.setState({ showSupercellDialog: false })}
                 />
-
                 <SurfaceDialog
                     show={showSurfaceDialog}
                     modalId="surfaceModal"
@@ -379,7 +364,6 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onGenerateSurface}
                     onHide={() => this.setState({ showSurfaceDialog: false })}
                 />
-
                 <BoundaryConditionsDialog
                     show={showBoundaryConditionsDialog}
                     modalId="BoundaryConditionsModal"
@@ -388,17 +372,17 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onSetBoundaryConditions}
                     onHide={() => this.setState({ showBoundaryConditionsDialog: false })}
                 />
-
-                {this.renderImportModal()}
-
+                <ImportActionDialog
+                    show={showImportMaterialsDialog}
+                    onClose={() => this.setState({ showImportMaterialsDialog: false })}
+                    onSubmit={onAdd}
+                />
                 <ExportActionDialog
                     show={showExportMaterialsDialog}
                     onClose={() => this.setState({ showExportMaterialsDialog: false })}
                     onSubmit={onExport}
                 />
-
                 {this.renderSaveActionDialog()}
-
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
                     modalId="combinatorialSetModal"
@@ -412,7 +396,6 @@ class HeaderMenuToolbar extends React.Component {
                         this.setState({ showCombinatorialDialog: false });
                     }}
                 />
-
                 <InterpolateBasesDialog
                     title="Generate Interpolated Set"
                     modalId="interpolatedSetModal"

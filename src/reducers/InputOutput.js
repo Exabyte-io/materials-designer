@@ -2,6 +2,7 @@ import NPMsAlert from "react-s-alert";
 
 import { MATERIALS_ADD, MATERIALS_EXPORT, MATERIALS_REMOVE, MATERIALS_SAVE } from "../actions";
 import { exportToDisk } from "../utils/downloader";
+// import { importFromDisk } from "../utils/uploader"; // TODO: implement (SOF-6597)
 
 // eslint-disable-next-line no-unused-vars
 export function materialsSave(state, action) {
