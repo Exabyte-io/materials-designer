@@ -66,13 +66,11 @@ class HeaderMenuToolbar extends React.Component {
     };
 
     renderIOMenu() {
+        // eslint-disable-next-line no-unused-vars
         const { ImportModal, SaveActionDialog, onExit } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
-                <MenuItem
-                    disabled={ImportModal}
-                    onClick={() => this.setState({ showImportMaterialsDialog: true })}
-                >
+                <MenuItem onClick={() => this.setState({ showImportMaterialsDialog: true })}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
@@ -332,6 +330,7 @@ class HeaderMenuToolbar extends React.Component {
             materials,
             index,
             onAdd,
+            onImport,
             onExport,
             onGenerateSupercell,
             onGenerateSurface,
@@ -375,7 +374,7 @@ class HeaderMenuToolbar extends React.Component {
                 <ImportActionDialog
                     show={showImportMaterialsDialog}
                     onClose={() => this.setState({ showImportMaterialsDialog: false })}
-                    onSubmit={onAdd}
+                    onSubmit={onImport}
                 />
                 <ExportActionDialog
                     show={showExportMaterialsDialog}
@@ -433,6 +432,7 @@ HeaderMenuToolbar.propTypes = {
     onClone: PropTypes.func.isRequired,
     onToggleIsNonPeriodic: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
+    onImport: PropTypes.func.isRequired,
     onExport: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
     onGenerateSupercell: PropTypes.func.isRequired,

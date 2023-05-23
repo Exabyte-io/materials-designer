@@ -35,6 +35,7 @@ class ImportActionDialog extends ActionDialog {
                         onChange={this.state.format}
                         input={<Input id="import-format" />}
                     >
+                        <option value="json">JSON</option>
                         <option value="poscar">POSCAR</option>
                         <option disabled value="xyz">
                             XYZ

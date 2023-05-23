@@ -5,7 +5,7 @@
  */
 export function importFromDisk(file, callback) {
     const reader = new FileReader();
-    console.log("uploader reached");
+    console.log("uploader.js reached");
     reader.onload = (event) => {
         callback(file.name, event.target.result);
     };

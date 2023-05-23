@@ -15,6 +15,7 @@ import {
     exportMaterials,
     generateSupercellForOneMaterial,
     generateSurfaceForOneMaterial,
+    importMaterials,
     MATERIALS_SAVE,
     materialsToggleIsNonPeriodicForOne,
     removeMaterials,
@@ -64,6 +65,7 @@ const mapDispatchToProps = (dispatch) => {
         // Toolbar
         onAdd: (materials, addAtIndex) => dispatch(addMaterials(materials, addAtIndex)),
         onRemove: (indices) => dispatch(removeMaterials(indices)),
+        onImport: (format, file) => dispatch(importMaterials(format, file)),
         onExport: (format, useMultiple) => dispatch(exportMaterials(format, useMultiple)),
         onSave: (config) => dispatch(saveMaterials(config, dispatch)),
 
