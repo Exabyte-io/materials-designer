@@ -13,7 +13,7 @@ class DefaultImportModalDialog extends ModalDialog {
         super(props);
         this.state = {
             text: "Paste text here",
-            fileName: "",
+            format: "json",
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -28,8 +28,11 @@ class DefaultImportModalDialog extends ModalDialog {
     }
 
     handleSubmit() {
-        const newMaterialConfig = Made.parsers.poscar.fromPoscar(this.state.text);
-        newMaterialConfig.name = this.state.fileName;
+        const newMaterialConfig = Made.parsers.convertFromNative(
+            this.state.format,
+            this.state.text,
+        );
+
         const newMaterial = new Material(newMaterialConfig);
         newMaterial.cleanOnCopy();
 
@@ -45,7 +48,6 @@ class DefaultImportModalDialog extends ModalDialog {
             return NPMsAlert.warning("Error: file cannot be read (unaccessible?)");
         this.reader.currentFilename = files[0].name;
         this.setState({ fileName: files[0].name });
-        console.log("set file name", this.state.fileName);
         this.reader.readAsText(files[0]);
     }
 

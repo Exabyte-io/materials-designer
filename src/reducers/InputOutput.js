@@ -10,11 +10,6 @@ export function materialsSave(state, action) {
 }
 
 export function materialsAdd(state, action) {
-    // const importHandlers = {
-    //     json: (text) => JSON.parse(text),
-    //     poscar: (text) => Made.parsers.poscar.fromPoscar(text), // TODO: implement parser in made.js (SOF-6597)
-    // };
-
     const index = state.index || 0;
     const actionMaterials = action.materials;
     const newMaterials = action.addAtIndex
