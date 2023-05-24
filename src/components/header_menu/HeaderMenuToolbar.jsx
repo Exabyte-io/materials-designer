@@ -41,7 +41,6 @@ import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
 import ExportActionDialog from "./ExportActionDialog";
-import ImportActionDialog from "./ImportActionDialog";
 
 class HeaderMenuToolbar extends React.Component {
     constructor(config) {
@@ -279,6 +278,21 @@ class HeaderMenuToolbar extends React.Component {
         );
     }
 
+    renderImportModal() {
+        const { showImportMaterialsDialog } = this.state;
+        const { ImportModal, onAdd } = this.props;
+        return ImportModal ? (
+            <ImportModal
+                show={showImportMaterialsDialog}
+                onHide={() => this.setState({ showImportMaterialsDialog: false })}
+                onSubmit={(materials) => {
+                    onAdd(materials);
+                    this.setState({ showImportMaterialsDialog: false });
+                }}
+            />
+        ) : null;
+    }
+
     renderSaveActionDialog() {
         const { SaveActionDialog, material, onSave } = this.props;
         const { showSaveMaterialsDialog } = this.state;
@@ -321,7 +335,7 @@ class HeaderMenuToolbar extends React.Component {
             showBoundaryConditionsDialog,
             showCombinatorialDialog,
             showExportMaterialsDialog,
-            showImportMaterialsDialog,
+            // showImportMaterialsDialog,
             showInterpolateDialog,
         } = this.state;
         const {
@@ -330,7 +344,6 @@ class HeaderMenuToolbar extends React.Component {
             materials,
             index,
             onAdd,
-            onImport,
             onExport,
             onGenerateSupercell,
             onGenerateSurface,
@@ -371,11 +384,12 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onSetBoundaryConditions}
                     onHide={() => this.setState({ showBoundaryConditionsDialog: false })}
                 />
-                <ImportActionDialog
+                {/* <ImportActionDialog
                     show={showImportMaterialsDialog}
                     onClose={() => this.setState({ showImportMaterialsDialog: false })}
-                    onSubmit={onImport}
-                />
+                    onSubmit={onAdd}
+                /> */}
+                {this.renderImportModal()}
                 <ExportActionDialog
                     show={showExportMaterialsDialog}
                     onClose={() => this.setState({ showExportMaterialsDialog: false })}
@@ -432,7 +446,6 @@ HeaderMenuToolbar.propTypes = {
     onClone: PropTypes.func.isRequired,
     onToggleIsNonPeriodic: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
-    onImport: PropTypes.func.isRequired,
     onExport: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
     onGenerateSupercell: PropTypes.func.isRequired,

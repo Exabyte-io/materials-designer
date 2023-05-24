@@ -7,6 +7,7 @@ import React from "react";
 import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
 import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
+import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
 import { FullscreenComponentMixin } from "./components/include/FullscreenComponentMixin";
 import { DarkMaterialUITheme } from "./components/include/material-ui/theme";
 import ItemsList from "./components/items_list/ItemsList";
@@ -70,7 +71,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     onExport={this.props.onExport}
                                     onSave={this.props.onSave}
                                     onExit={this.props.onExit}
-                                    ImportModal={this.props.ImportModal}
+                                    ImportModal={this.props.ImportModal || DefaultImportModalDialog}
                                     SaveActionDialog={this.props.SaveActionDialog}
                                     onGenerateSupercell={this.props.onGenerateSupercell}
                                     onGenerateSurface={this.props.onGenerateSurface}

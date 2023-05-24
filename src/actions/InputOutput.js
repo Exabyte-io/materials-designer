@@ -32,16 +32,6 @@ export function removeMaterials(indices) {
     };
 }
 
-export const MATERIALS_IMPORT = "MATERIALS_IMPORT";
-
-export function importMaterials(format, file) {
-    return {
-        type: MATERIALS_IMPORT,
-        format,
-        file,
-    };
-}
-
 export const MATERIALS_EXPORT = "MATERIALS_EXPORT";
 
 export function exportMaterials(format, useMultiple) {

@@ -1,15 +1,8 @@
-import { Made } from "@exabyte-io/made.js";
+// import { Made } from "@exabyte-io/made.js";
 import NPMsAlert from "react-s-alert";
 
-import {
-    MATERIALS_ADD,
-    MATERIALS_EXPORT,
-    MATERIALS_IMPORT,
-    MATERIALS_REMOVE,
-    MATERIALS_SAVE,
-} from "../actions";
+import { MATERIALS_ADD, MATERIALS_EXPORT, MATERIALS_REMOVE, MATERIALS_SAVE } from "../actions";
 import { exportToDisk } from "../utils/downloader";
-import { importFromDisk } from "../utils/uploader";
 
 // eslint-disable-next-line no-unused-vars
 export function materialsSave(state, action) {
@@ -17,6 +10,11 @@ export function materialsSave(state, action) {
 }
 
 export function materialsAdd(state, action) {
+    // const importHandlers = {
+    //     json: (text) => JSON.parse(text),
+    //     poscar: (text) => Made.parsers.poscar.fromPoscar(text), // TODO: implement parser in made.js (SOF-6597)
+    // };
+
     const index = state.index || 0;
     const actionMaterials = action.materials;
     const newMaterials = action.addAtIndex
@@ -25,6 +23,7 @@ export function materialsAdd(state, action) {
               .concat(actionMaterials)
               .concat(state.materials.slice(index + 1))
         : state.materials.concat(actionMaterials);
+
     return { ...state, materials: newMaterials };
 }
 
@@ -55,32 +54,6 @@ export function materialsRemove(state, action) {
     return { ...state, materials, index };
 }
 
-export function materialsImport(state, action) {
-    console.log("materialsImporrt fired");
-    const importHandlers = {
-        json: (text) => JSON.parse(text),
-        poscar: (text) => Made.parsers.poscar.fromPoscar(text), // TODO: implement parser in made.js (SOF-6597)
-    };
-    const format = Object.keys(importHandlers).includes(action.format) ? action.format : "json";
-
-    let importedMaterial;
-
-    importFromDisk(action.file, (fileName, content) => {
-        try {
-            console.log("importFromDisk callback fired");
-            importedMaterial = importHandlers[format](content);
-        } catch (error) {
-            console.log("importFromDisk error:", error);
-            NPMsAlert.error(`Could not import ${fileName}!`);
-        }
-    });
-    if (importedMaterial) {
-        materialsAdd(state, { materials: [importedMaterial] });
-    }
-
-    return state;
-}
-
 export function materialsExport(state, action) {
     const exportHandlers = {
         json: (m) => JSON.stringify(m.toJSON()),
@@ -95,7 +68,6 @@ export function materialsExport(state, action) {
 }
 
 export default {
-    [MATERIALS_IMPORT]: materialsImport,
     [MATERIALS_ADD]: materialsAdd,
     [MATERIALS_SAVE]: materialsSave,
     [MATERIALS_REMOVE]: materialsRemove,
