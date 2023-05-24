@@ -43,12 +43,31 @@ class DefaultImportModalDialog extends ActionDialog {
         this.setState((prevState) => ({ texts: [...prevState.texts, evt.target.result] }));
     }
 
-    handleSubmit() {
-        NPMsAlert.info("Files are imported. Conversion is not yet impelemented");
+    onSubmit = () => {
+        this.props.onSubmit(this.state.format);
+        this.props.onClose();
+    };
 
-        const newMaterialConfigs = this.state.texts.map((text) =>
-            Made.parsers.convertFromNative(text),
-        );
+    handleSubmit() {
+        NPMsAlert.info("Files are imported. Conversion is not yet implemented");
+
+        const newMaterialConfigs = [];
+        const errors = [];
+
+        this.state.texts.forEach((text) => {
+            try {
+                const materialConfig = Made.parsers.convertFromNative(text);
+                newMaterialConfigs.push(materialConfig);
+            } catch (error) {
+                errors.push(error.message);
+            }
+        });
+
+        if (errors.length > 0) {
+            NPMsAlert.error(`Failed to convert some files: ${errors.join(", ")}`);
+            return;
+        }
+
         const newMaterials = newMaterialConfigs.map((config) => {
             const newMaterial = new Material(config);
             newMaterial.cleanOnCopy();
