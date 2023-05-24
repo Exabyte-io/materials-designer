@@ -65,13 +65,10 @@ class HeaderMenuToolbar extends React.Component {
     };
 
     renderIOMenu() {
-        const { ImportModal, SaveActionDialog, onExit } = this.props;
+        const { SaveActionDialog, onExit } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
-                <MenuItem
-                    disabled={!ImportModal}
-                    onClick={() => this.setState({ showImportMaterialsDialog: true })}
-                >
+                <MenuItem onClick={() => this.setState({ showImportMaterialsDialog: true })}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
