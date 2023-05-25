@@ -72,6 +72,7 @@
     },
     "devDependencies": {
         "@exabyte-io/eslint-config": "^2022.11.17-0",
+        "@exabyte-io/code.js": "2023.3.14-0",
         "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js.git#9dce61c47e04eb29559880c90e5116f0e27e9803",
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
