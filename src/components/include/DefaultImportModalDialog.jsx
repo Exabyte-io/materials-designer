@@ -1,6 +1,5 @@
 import { Made } from "@exabyte-io/made.js";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import FormControl from "@mui/material/FormControl";
 import { PropTypes } from "prop-types";
@@ -8,35 +7,24 @@ import React from "react";
 import NPMsAlert from "react-s-alert";
 
 import { Material } from "../../material";
-import BasisText from "../source_editor/BasisText";
 import { ActionDialog } from "./ActionDialog";
 
 class DefaultImportModalDialog extends ActionDialog {
     constructor(props) {
         super(props);
         this.state = {
-            text: "Paste here",
             fileNames: [],
             texts: [],
-            show: false,
+            dragging: false,
         };
         this.title = "Import Materials";
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleFileRead = this.handleFileRead.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
+
+        this.handleDragOver = this.handleDragOver.bind(this);
+        this.handleDragLeave = this.handleDragLeave.bind(this);
+        this.handleDrop = this.handleDrop.bind(this);
 
         this.reader = new FileReader();
         this.reader.onloadend = this.handleFileRead;
-    }
-
-    handleOpen() {
-        this.setState({ show: true });
-    }
-
-    handleClose() {
-        this.setState({ show: false });
     }
 
     handleFileRead(evt) {
@@ -44,13 +32,11 @@ class DefaultImportModalDialog extends ActionDialog {
     }
 
     onSubmit = () => {
-        this.props.onSubmit(this.state.format);
+        this.handleSubmit();
         this.props.onClose();
     };
 
     handleSubmit() {
-        NPMsAlert.info("Files are imported. Conversion is not yet implemented");
-
         const newMaterialConfigs = [];
         const errors = [];
 
@@ -75,11 +61,30 @@ class DefaultImportModalDialog extends ActionDialog {
         });
 
         this.props.onSubmit(newMaterials);
-        this.handleClose();
+
+        this.setState({
+            fileNames: [],
+            texts: [],
+        });
     }
 
-    handleChange(content) {
-        this.setState({ text: content });
+    handleDragOver(e) {
+        e.preventDefault();
+        if (!this.state.dragging) {
+            this.setState({ dragging: true });
+        }
+    }
+
+    handleDragLeave(e) {
+        e.preventDefault();
+        this.setState({ dragging: false });
+    }
+
+    handleDrop(e) {
+        e.preventDefault();
+        const { files } = e.dataTransfer;
+        this.handleFileChange(files);
+        this.setState({ dragging: false });
     }
 
     handleFileChange(files) {
@@ -90,17 +95,17 @@ class DefaultImportModalDialog extends ActionDialog {
             return;
         }
 
-        // Extract valid file names
-        const fileNames = validFiles.map((file) => file.name);
+        // Append new valid file names to existing ones
+        const fileNames = [...this.state.fileNames, ...validFiles.map((file) => file.name)];
         this.setState({ fileNames });
 
         // Process each file
         let loadedFiles = 0;
-        const texts = [];
+        const texts = [...this.state.texts]; // clone existing texts array
         validFiles.forEach((file, index) => {
             const reader = new FileReader();
             reader.onloadend = (evt) => {
-                texts[index] = evt.target.result;
+                texts[index + this.state.texts.length] = evt.target.result; // append to existing texts array
                 loadedFiles += 1;
                 if (loadedFiles === validFiles.length) {
                     this.setState({ texts });
@@ -110,21 +115,57 @@ class DefaultImportModalDialog extends ActionDialog {
         });
     }
 
+    handleFileRemove = (fileNameToRemove) => {
+        this.setState((prevState) => {
+            const fileIndex = prevState.fileNames.findIndex(
+                (fileName) => fileName === fileNameToRemove,
+            );
+
+            // If the file was not found, do nothing
+            if (fileIndex === -1) {
+                return prevState;
+            }
+
+            // Remove file's name from fileNames
+            const newFileNames = [...prevState.fileNames];
+            newFileNames.splice(fileIndex, 1);
+
+            // Remove file's text from texts
+            const newTexts = [...prevState.texts];
+            newTexts.splice(fileIndex, 1);
+
+            // Return the new state
+            return { fileNames: newFileNames, texts: newTexts };
+        });
+    };
+
     renderContent() {
+        const dropZoneStyle = {
+            height: "200px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            justifyText: "center",
+            border: "2px dashed gray",
+            borderRadius: "5px",
+            cursor: "pointer",
+            backgroundColor: this.state.dragging && "grey",
+        };
         return (
             <form>
-                <FormControl variant="standard" sx={{ mx: 1, width: 400, overflowX: "hidden" }}>
-                    <Box sx={{ maxHeight: 200, overflow: "auto" }}>
-                        <BasisText
-                            ref={(el) => {
-                                this.BasisTextComponent = el;
-                            }}
-                            className="default-import-modal-basis-text"
-                            content={this.state.text}
-                            onChange={this.handleChange}
-                        />
-                    </Box>
-
+                <FormControl variant="standard" sx={{ mx: 1, width: 400 }}>
+                    <label htmlFor="fileapi">
+                        <div
+                            onDragOver={this.handleDragOver}
+                            onDragLeave={this.handleDragLeave}
+                            onDrop={this.handleDrop}
+                            style={dropZoneStyle}
+                        >
+                            Drop files here or click to upload
+                        </div>
+                    </label>
                     <input
                         style={{ display: "none" }}
                         type="file"
@@ -133,26 +174,28 @@ class DefaultImportModalDialog extends ActionDialog {
                         multiple
                         onChange={(event) => this.handleFileChange(event.target.files)}
                     />
-                    <label htmlFor="fileapi">
-                        <Button variant="contained" color="primary" component="span">
-                            Upload File
-                        </Button>
-                    </label>
-
-                    <Box sx={{ display: "flex", overflowX: "auto", gap: "10px", p: 1 }}>
-                        {this.state.fileNames.map((fileName) => (
-                            <Chip key={fileName} label={fileName} />
-                        ))}
-                    </Box>
-                    <Button
-                        id="default-import-modal-submit"
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleSubmit}
-                        disabled={this.state.fileNames.length === 0}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            overflowX: "auto",
+                            overflowY: "hidden",
+                            gap: "10px",
+                            p: 1,
+                            height: "50px",
+                        }}
                     >
-                        Submit file
-                    </Button>
+                        {this.state.fileNames.length > 0 ? (
+                            this.state.fileNames.map((fileName) => (
+                                <Chip
+                                    key={fileName}
+                                    label={fileName}
+                                    onDelete={() => this.handleFileRemove(fileName)}
+                                />
+                            ))
+                        ) : (
+                            <div>No files uploaded yet</div>
+                        )}
+                    </Box>
                 </FormControl>
             </form>
         );
