@@ -1,4 +1,4 @@
-import { Made } from "@exabyte-io/made.js";
+import nativeFormats from "@exabyte-io/made.js/lib/parsers/native_formats";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -19,6 +19,7 @@ class DefaultImportModalDialog extends React.Component {
         super(props);
         this.state = {
             fileNames: [],
+            formats: [],
             texts: [],
             dragging: false,
         };
@@ -43,7 +44,7 @@ class DefaultImportModalDialog extends React.Component {
 
         texts.forEach((text) => {
             try {
-                const materialConfig = Made.parsers.convertFromNative(text);
+                const materialConfig = nativeFormats.convertFromNative(text);
                 newMaterialConfigs.push(materialConfig);
             } catch (error) {
                 errors.push(error.message);
@@ -66,6 +67,7 @@ class DefaultImportModalDialog extends React.Component {
 
         this.setState({
             fileNames: [],
+            formats: [],
             texts: [],
         });
     }
@@ -97,22 +99,34 @@ class DefaultImportModalDialog extends React.Component {
             NPMsAlert.warning("Error: file(s) cannot be read (unaccessible?)");
             return;
         }
-        const { fileNames } = this.state;
+
+        // Process each file
+        let loadedFiles = 0;
+        const { fileNames, texts, formats } = this.state;
+        const newTexts = [...texts]; // clone existing texts array
+        const newFormats = [...formats];
         // Append new valid file names to existing ones
         const newFileNames = [...fileNames, ...validFiles.map((file) => file.name)];
         this.setState({ fileNames: newFileNames });
 
-        // Process each file
-        let loadedFiles = 0;
-        const { texts } = this.state;
-        const newTexts = [...texts]; // clone existing texts array
         validFiles.forEach((file, index) => {
             const reader = new FileReader();
             reader.onloadend = (evt) => {
                 newTexts[index + texts.length] = evt.target.result; // append to existing texts array
                 loadedFiles += 1;
+
+                // Detect file format immediately after reading
+                try {
+                    const format = nativeFormats.detectFormat(evt.target.result);
+                    // Append to existing formats array
+                    newFormats.push(format);
+                    // this.setState({ formats: newFormats });
+                } catch (error) {
+                    newFormats.push(error.message);
+                }
+
                 if (loadedFiles === validFiles.length) {
-                    this.setState({ texts: newTexts });
+                    this.setState({ texts: newTexts, formats: newFormats });
                 }
             };
             reader.readAsText(file);
@@ -151,10 +165,10 @@ class DefaultImportModalDialog extends React.Component {
 
     render() {
         const { show, onClose, onSubmit, title } = this.props;
-        const { fileNames, texts, dragging } = this.state;
+        const { fileNames, formats, texts, dragging } = this.state;
         const columns = [
             { field: "fileName", headerName: "File Name", flex: 1 },
-            { field: "size", headerName: "Size (Bytes)", flex: 1 },
+            { field: "format", headerName: "Format", flex: 1 },
             { field: "lastModified", headerName: "Last Modified", flex: 1 },
             {
                 field: "remove",
@@ -180,6 +194,7 @@ class DefaultImportModalDialog extends React.Component {
             fileName,
             size: texts[i]?.size || "Not available",
             lastModified: texts[i]?.lastModified || "Not available",
+            format: formats[i] || "Not available",
         }));
 
         const dropZoneStyle = {
