@@ -1,15 +1,20 @@
 import { Made } from "@exabyte-io/made.js";
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
-import { PropTypes } from "prop-types";
+import { DataGrid } from "@mui/x-data-grid";
+import PropTypes from "prop-types";
 import React from "react";
 import NPMsAlert from "react-s-alert";
+import _ from "underscore";
 
 import { Material } from "../../material";
-import { ActionDialog } from "./ActionDialog";
 
-class DefaultImportModalDialog extends ActionDialog {
+class DefaultImportModalDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,16 +36,12 @@ class DefaultImportModalDialog extends ActionDialog {
         this.setState((prevState) => ({ texts: [...prevState.texts, evt.target.result] }));
     }
 
-    onSubmit = () => {
-        this.handleSubmit();
-        this.props.onClose();
-    };
-
     handleSubmit() {
+        const { texts } = this.state;
         const newMaterialConfigs = [];
         const errors = [];
 
-        this.state.texts.forEach((text) => {
+        texts.forEach((text) => {
             try {
                 const materialConfig = Made.parsers.convertFromNative(text);
                 newMaterialConfigs.push(materialConfig);
@@ -60,7 +61,8 @@ class DefaultImportModalDialog extends ActionDialog {
             return newMaterial;
         });
 
-        this.props.onSubmit(newMaterials);
+        const { onSubmit } = this.props;
+        onSubmit(newMaterials);
 
         this.setState({
             fileNames: [],
@@ -69,8 +71,9 @@ class DefaultImportModalDialog extends ActionDialog {
     }
 
     handleDragOver(e) {
+        const { dragging } = this.state;
         e.preventDefault();
-        if (!this.state.dragging) {
+        if (!dragging) {
             this.setState({ dragging: true });
         }
     }
@@ -94,21 +97,22 @@ class DefaultImportModalDialog extends ActionDialog {
             NPMsAlert.warning("Error: file(s) cannot be read (unaccessible?)");
             return;
         }
-
+        const { fileNames } = this.state;
         // Append new valid file names to existing ones
-        const fileNames = [...this.state.fileNames, ...validFiles.map((file) => file.name)];
-        this.setState({ fileNames });
+        const newFileNames = [...fileNames, ...validFiles.map((file) => file.name)];
+        this.setState({ fileNames: newFileNames });
 
         // Process each file
         let loadedFiles = 0;
-        const texts = [...this.state.texts]; // clone existing texts array
+        const { texts } = this.state;
+        const newTexts = [...texts]; // clone existing texts array
         validFiles.forEach((file, index) => {
             const reader = new FileReader();
             reader.onloadend = (evt) => {
-                texts[index + this.state.texts.length] = evt.target.result; // append to existing texts array
+                newTexts[index + texts.length] = evt.target.result; // append to existing texts array
                 loadedFiles += 1;
                 if (loadedFiles === validFiles.length) {
-                    this.setState({ texts });
+                    this.setState({ texts: newTexts });
                 }
             };
             reader.readAsText(file);
@@ -139,9 +143,47 @@ class DefaultImportModalDialog extends ActionDialog {
         });
     };
 
-    renderContent() {
+    onSubmit = () => {
+        this.handleSubmit();
+        // eslint-disable-next-line react/destructuring-assignment
+        this.props.onClose();
+    };
+
+    render() {
+        const { show, onClose, onSubmit, title } = this.props;
+        const { fileNames, texts, dragging } = this.state;
+        const columns = [
+            { field: "fileName", headerName: "File Name", flex: 1 },
+            { field: "size", headerName: "Size (Bytes)", flex: 1 },
+            { field: "lastModified", headerName: "Last Modified", flex: 1 },
+            {
+                field: "remove",
+                headerName: "Remove",
+                flex: 1,
+                sortable: false,
+                filterable: false,
+                renderCell: (params) => (
+                    <Button
+                        variant="contained"
+                        color="warning"
+                        size="small"
+                        onClick={() => this.handleFileRemove(params.row.fileName)}
+                    >
+                        Remove
+                    </Button>
+                ),
+            },
+        ];
+
+        const rows = fileNames.map((fileName, i) => ({
+            id: i,
+            fileName,
+            size: texts[i]?.size || "Not available",
+            lastModified: texts[i]?.lastModified || "Not available",
+        }));
+
         const dropZoneStyle = {
-            height: "200px",
+            height: "160px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -151,60 +193,82 @@ class DefaultImportModalDialog extends ActionDialog {
             border: "2px dashed gray",
             borderRadius: "5px",
             cursor: "pointer",
-            backgroundColor: this.state.dragging && "grey",
+            backgroundColor: dragging && "grey",
+        };
+        const paperStyle = {
+            position: "absolute",
+            top: "10%",
+            width: "800px",
         };
         return (
-            <form>
-                <FormControl variant="standard" sx={{ mx: 1, width: 400 }}>
-                    <label htmlFor="fileapi">
-                        <div
-                            onDragOver={this.handleDragOver}
-                            onDragLeave={this.handleDragLeave}
-                            onDrop={this.handleDrop}
-                            style={dropZoneStyle}
+            <Dialog
+                open={show}
+                transitionDuration={0}
+                PaperProps={{ style: paperStyle }}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {..._.omit(this, "title", "show", "onClose", "onSubmit")}
+            >
+                <DialogTitle>{this.title || title}</DialogTitle>
+
+                <DialogContent>
+                    <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
+                        <label htmlFor="fileapi">
+                            <div
+                                onDragOver={this.handleDragOver}
+                                onDragLeave={this.handleDragLeave}
+                                onDrop={this.handleDrop}
+                                style={dropZoneStyle}
+                            >
+                                Drop files here or click to upload
+                            </div>
+                        </label>
+                        <input
+                            style={{ display: "none" }}
+                            type="file"
+                            id="fileapi"
+                            hidden
+                            multiple
+                            onChange={(event) => this.handleFileChange(event.target.files)}
+                        />
+                        <Box
+                            sx={{
+                                display: "flex",
+                                overflowX: "none",
+                                overflowY: "scroll",
+                                p: 1,
+                                height: "200px",
+                            }}
                         >
-                            Drop files here or click to upload
-                        </div>
-                    </label>
-                    <input
-                        style={{ display: "none" }}
-                        type="file"
-                        id="fileapi"
-                        hidden
-                        multiple
-                        onChange={(event) => this.handleFileChange(event.target.files)}
-                    />
-                    <Box
-                        sx={{
-                            display: "flex",
-                            overflowX: "auto",
-                            overflowY: "hidden",
-                            gap: "10px",
-                            p: 1,
-                            height: "50px",
-                        }}
-                    >
-                        {this.state.fileNames.length > 0 ? (
-                            this.state.fileNames.map((fileName) => (
-                                <Chip
-                                    key={fileName}
-                                    label={fileName}
-                                    onDelete={() => this.handleFileRemove(fileName)}
-                                />
-                            ))
-                        ) : (
-                            <div>No files uploaded yet</div>
-                        )}
-                    </Box>
-                </FormControl>
-            </form>
+                            {fileNames.length > 0 ? (
+                                <div style={{ height: 400, width: "100%" }}>
+                                    <DataGrid rows={rows} columns={columns} pageSize={5} />
+                                </div>
+                            ) : (
+                                <div>No files uploaded yet</div>
+                            )}
+                        </Box>
+                    </FormControl>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button data-name="Cancel" onClick={onClose}>
+                        Cancel
+                    </Button>
+                    <Button data-name="Submit" onClick={this.onSubmit || onSubmit}>
+                        Ok
+                    </Button>
+                </DialogActions>
+            </Dialog>
         );
     }
 }
 
-DefaultImportModalDialog.PropTypes = {
-    onSubmit: PropTypes.func,
-    material: PropTypes.object,
+DefaultImportModalDialog.propTypes = {
+    title: PropTypes.string.isRequired,
+    show: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    // material: PropTypes.object.isRequired,
 };
 
 export default DefaultImportModalDialog;
