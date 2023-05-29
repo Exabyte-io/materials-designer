@@ -1,10 +1,12 @@
 import nativeFormats from "@exabyte-io/made.js/lib/parsers/native_formats";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import FormControl from "@mui/material/FormControl";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import React from "react";
@@ -24,17 +26,13 @@ class DefaultImportModalDialog extends React.Component {
         };
         this.title = "Import Materials";
 
-        this.handleDragOver = this.handleDragOver.bind(this);
-        this.handleDragLeave = this.handleDragLeave.bind(this);
-        this.handleDrop = this.handleDrop.bind(this);
-
         this.reader = new FileReader();
         this.reader.onloadend = this.handleFileRead;
     }
 
-    handleFileRead(evt) {
+    handleFileRead = (evt) => {
         this.setState((prevState) => ({ texts: [...prevState.texts, evt.target.result] }));
-    }
+    };
 
     handleSubmit() {
         const { texts } = this.state;
@@ -71,25 +69,25 @@ class DefaultImportModalDialog extends React.Component {
         });
     }
 
-    handleDragOver(e) {
+    handleDragOver = (e) => {
         const { dragging } = this.state;
         e.preventDefault();
         if (!dragging) {
             this.setState({ dragging: true });
         }
-    }
+    };
 
-    handleDragLeave(e) {
+    handleDragLeave = (e) => {
         e.preventDefault();
         this.setState({ dragging: false });
-    }
+    };
 
-    handleDrop(e) {
+    handleDrop = (e) => {
         e.preventDefault();
         const { files } = e.dataTransfer;
         this.handleFileChange(files);
         this.setState({ dragging: false });
-    }
+    };
 
     handleFileChange(files) {
         // Filter out invalid files
@@ -317,7 +315,6 @@ DefaultImportModalDialog.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    // material: PropTypes.object.isRequired,
 };
 
 export default DefaultImportModalDialog;
