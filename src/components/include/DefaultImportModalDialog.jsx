@@ -1,5 +1,4 @@
 import nativeFormats from "@exabyte-io/made.js/lib/parsers/native_formats";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -152,8 +151,11 @@ class DefaultImportModalDialog extends React.Component {
             const newTexts = [...prevState.texts];
             newTexts.splice(fileIndex, 1);
 
+            const newFormats = [...prevState.formats];
+            newFormats.splice(fileIndex, 1);
+
             // Return the new state
-            return { fileNames: newFileNames, texts: newTexts };
+            return { fileNames: newFileNames, texts: newTexts, formats: newFormats };
         });
     };
 
@@ -166,28 +168,6 @@ class DefaultImportModalDialog extends React.Component {
     render() {
         const { show, onClose, onSubmit, title } = this.props;
         const { fileNames, formats, texts, dragging } = this.state;
-        const columns = [
-            { field: "fileName", headerName: "File Name", flex: 1 },
-            { field: "format", headerName: "Format", flex: 1 },
-            { field: "lastModified", headerName: "Last Modified", flex: 1 },
-            {
-                field: "remove",
-                headerName: "Remove",
-                flex: 1,
-                sortable: false,
-                filterable: false,
-                renderCell: (params) => (
-                    <Button
-                        variant="contained"
-                        color="warning"
-                        size="small"
-                        onClick={() => this.handleFileRemove(params.row.fileName)}
-                    >
-                        Remove
-                    </Button>
-                ),
-            },
-        ];
 
         const rows = fileNames.map((fileName, i) => ({
             id: i,
@@ -197,8 +177,56 @@ class DefaultImportModalDialog extends React.Component {
             format: formats[i] || "Not available",
         }));
 
+        const buttonContainerStyle = {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignContent: "flex-end",
+        };
+
+        const columns = [
+            { field: "fileName", headerName: "File Name", flex: 1 },
+            { field: "format", headerName: "Format", flex: 1 },
+            { field: "lastModified", headerName: "Last Modified", flex: 1 },
+            {
+                field: "actions",
+                headerName: "Actions",
+                flex: 1,
+                sortable: false,
+                filterable: false,
+                disableColumnMenu: true,
+                renderHeader: () => (
+                    <div style={buttonContainerStyle}>
+                        <Button variant="contained" color="primary" size="small" component="label">
+                            Import
+                            <input
+                                style={{ display: "none" }}
+                                type="file"
+                                hidden
+                                multiple
+                                onChange={(event) => this.handleFileChange(event.target.files)}
+                            />
+                        </Button>
+                    </div>
+                ),
+                renderCell: (params) => (
+                    <div style={buttonContainerStyle}>
+                        <Button
+                            variant="contained"
+                            color="warning"
+                            size="small"
+                            onClick={() => this.handleFileRemove(params.row.fileName)}
+                        >
+                            Remove
+                        </Button>
+                    </div>
+                ),
+            },
+        ];
+
         const dropZoneStyle = {
             height: "160px",
+            width: "560px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -215,6 +243,12 @@ class DefaultImportModalDialog extends React.Component {
             top: "10%",
             width: "800px",
         };
+
+        const dataGridStyle = {
+            height: "400px",
+            backgroundColor: dragging && "grey",
+        };
+
         return (
             <Dialog
                 open={show}
@@ -227,41 +261,41 @@ class DefaultImportModalDialog extends React.Component {
 
                 <DialogContent>
                     <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
-                        <label htmlFor="fileapi">
+                        {fileNames.length > 0 ? (
                             <div
                                 onDragOver={this.handleDragOver}
                                 onDragLeave={this.handleDragLeave}
                                 onDrop={this.handleDrop}
-                                style={dropZoneStyle}
                             >
-                                Drop files here or click to upload
+                                <DataGrid
+                                    rows={rows}
+                                    columns={columns}
+                                    pageSize={1}
+                                    style={dataGridStyle}
+                                />
                             </div>
-                        </label>
-                        <input
-                            style={{ display: "none" }}
-                            type="file"
-                            id="fileapi"
-                            hidden
-                            multiple
-                            onChange={(event) => this.handleFileChange(event.target.files)}
-                        />
-                        <Box
-                            sx={{
-                                display: "flex",
-                                overflowX: "none",
-                                overflowY: "scroll",
-                                p: 1,
-                                height: "200px",
-                            }}
-                        >
-                            {fileNames.length > 0 ? (
-                                <div style={{ height: 400, width: "100%" }}>
-                                    <DataGrid rows={rows} columns={columns} pageSize={5} />
-                                </div>
-                            ) : (
-                                <div>No files uploaded yet</div>
-                            )}
-                        </Box>
+                        ) : (
+                            <div>
+                                <label htmlFor="fileapi">
+                                    <div
+                                        onDragOver={this.handleDragOver}
+                                        onDragLeave={this.handleDragLeave}
+                                        onDrop={this.handleDrop}
+                                        style={dropZoneStyle}
+                                    >
+                                        Drop files here or click to upload
+                                    </div>
+                                </label>
+                                <input
+                                    style={{ display: "none" }}
+                                    type="file"
+                                    id="fileapi"
+                                    hidden
+                                    multiple
+                                    onChange={(event) => this.handleFileChange(event.target.files)}
+                                />
+                            </div>
+                        )}
                     </FormControl>
                 </DialogContent>
 
