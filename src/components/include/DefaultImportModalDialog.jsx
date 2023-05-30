@@ -1,20 +1,46 @@
-import nativeFormats from "@exabyte-io/made.js/lib/parsers/native_formats";
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    FormControl,
-} from "@mui/material";
+import { Made } from "@exabyte-io/made.js";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import React from "react";
 import NPMsAlert from "react-s-alert";
-import _ from "underscore";
 
 import { Material } from "../../material";
 
+const dropZoneStyle = (dragging) => ({
+    height: "160px",
+    width: "560px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    border: "2px dashed gray",
+    borderRadius: "5px",
+    cursor: "pointer",
+    backgroundColor: dragging && "grey",
+});
+const paperStyle = {
+    position: "absolute",
+    top: "10%",
+    width: "800px",
+};
+
+const dataGridStyle = (dragging) => ({
+    height: "400px",
+    backgroundColor: dragging && "grey",
+});
+
+const buttonContainerStyle = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignContent: "flex-end",
+};
 class DefaultImportModalDialog extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +67,7 @@ class DefaultImportModalDialog extends React.Component {
 
         texts.forEach((text) => {
             try {
-                const materialConfig = nativeFormats.convertFromNative(text);
+                const materialConfig = Made.parsers.nativeFormats.convertFromNative(text);
                 newMaterialConfigs.push(materialConfig);
             } catch (error) {
                 errors.push(error.message);
@@ -114,7 +140,7 @@ class DefaultImportModalDialog extends React.Component {
 
                 // Detect file format immediately after reading
                 try {
-                    const format = nativeFormats.detectFormat(evt.target.result);
+                    const format = Made.parsers.nativeFormats.detectFormat(evt.target.result);
                     // Append to existing formats array
                     newFormats.push(format);
                     // this.setState({ formats: newFormats });
@@ -170,17 +196,9 @@ class DefaultImportModalDialog extends React.Component {
         const rows = fileNames.map((fileName, i) => ({
             id: i,
             fileName,
-            size: texts[i]?.size || "Not available",
             lastModified: texts[i]?.lastModified || "Not available",
             format: formats[i] || "Not available",
         }));
-
-        const buttonContainerStyle = {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            alignContent: "flex-end",
-        };
 
         const columns = [
             { field: "fileName", headerName: "File Name", flex: 1 },
@@ -196,7 +214,7 @@ class DefaultImportModalDialog extends React.Component {
                 renderHeader: () => (
                     <div style={buttonContainerStyle}>
                         <Button variant="contained" color="primary" size="small" component="label">
-                            Import
+                            Add
                             <input
                                 style={{ display: "none" }}
                                 type="file"
@@ -222,90 +240,70 @@ class DefaultImportModalDialog extends React.Component {
             },
         ];
 
-        const dropZoneStyle = {
-            height: "160px",
-            width: "560px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            justifyText: "center",
-            border: "2px dashed gray",
-            borderRadius: "5px",
-            cursor: "pointer",
-            backgroundColor: dragging && "grey",
-        };
-        const paperStyle = {
-            position: "absolute",
-            top: "10%",
-            width: "800px",
-        };
-
-        const dataGridStyle = {
-            height: "400px",
-            backgroundColor: dragging && "grey",
-        };
-
         return (
-            <Dialog
-                open={show}
-                transitionDuration={0}
-                PaperProps={{ style: paperStyle }}
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {..._.omit(this, "title", "show", "onClose", "onSubmit")}
-            >
-                <DialogTitle>{this.title || title}</DialogTitle>
+            <div id="defaultImportModalDialog" role="dialog">
+                <Dialog open={show} transitionDuration={0} PaperProps={{ style: paperStyle }}>
+                    <DialogTitle>{this.title || title}</DialogTitle>
 
-                <DialogContent>
-                    <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
-                        {fileNames.length > 0 ? (
-                            <div
-                                onDragOver={this.handleDragOver}
-                                onDragLeave={this.handleDragLeave}
-                                onDrop={this.handleDrop}
-                            >
-                                <DataGrid
-                                    rows={rows}
-                                    columns={columns}
-                                    pageSize={1}
-                                    style={dataGridStyle}
-                                />
-                            </div>
-                        ) : (
-                            <div>
-                                <label htmlFor="fileapi">
-                                    <div
-                                        onDragOver={this.handleDragOver}
-                                        onDragLeave={this.handleDragLeave}
-                                        onDrop={this.handleDrop}
-                                        style={dropZoneStyle}
-                                    >
-                                        Drop files here or click to upload
-                                    </div>
-                                </label>
-                                <input
-                                    style={{ display: "none" }}
-                                    type="file"
-                                    id="fileapi"
-                                    hidden
-                                    multiple
-                                    onChange={(event) => this.handleFileChange(event.target.files)}
-                                />
-                            </div>
-                        )}
-                    </FormControl>
-                </DialogContent>
+                    <DialogContent>
+                        <FormControl
+                            variant="standard"
+                            sx={{ width: "100%", alignContent: "center" }}
+                        >
+                            {fileNames.length > 0 ? (
+                                <div
+                                    onDragOver={this.handleDragOver}
+                                    onDragLeave={this.handleDragLeave}
+                                    onDrop={this.handleDrop}
+                                >
+                                    <DataGrid
+                                        data-name="datagrid"
+                                        hideFooter
+                                        rows={rows}
+                                        columns={columns}
+                                        pageSize={1}
+                                        style={dataGridStyle(dragging)}
+                                    />
+                                </div>
+                            ) : (
+                                <div>
+                                    <label htmlFor="fileapi">
+                                        <div
+                                            data-name="dropzone"
+                                            onDragOver={this.handleDragOver}
+                                            onDragLeave={this.handleDragLeave}
+                                            onDrop={this.handleDrop}
+                                            style={dropZoneStyle(dragging)}
+                                        >
+                                            Drop files here or click to upload
+                                        </div>
+                                    </label>
+                                    <input
+                                        data-name="fileapi"
+                                        style={{ display: "none" }}
+                                        type="file"
+                                        id="fileapi"
+                                        hidden
+                                        multiple
+                                        onChange={(event) =>
+                                            this.handleFileChange(event.target.files)
+                                        }
+                                    />
+                                </div>
+                            )}
+                        </FormControl>
+                    </DialogContent>
 
-                <DialogActions>
-                    <Button data-name="Cancel" onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button data-name="Submit" onClick={this.onSubmit || onSubmit}>
-                        Ok
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                    <DialogActions>
+                        <Button data-name="Cancel" onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button data-name="Submit" onClick={this.onSubmit || onSubmit}>
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         );
     }
 }
