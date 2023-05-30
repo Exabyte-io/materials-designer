@@ -10,7 +10,7 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
     
     # Upload
     When I upload files
-    Then I should see the files listed in the data grid
+    Then I see the files listed in the data grid
     And the formats of the files should be displayed
 
     # Remove
@@ -25,5 +25,4 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
     # Cancel
     When I open DefaultImportModalDialog
     And I cancel import
-    Then I cancel import
-    And the DefaultImportModalDialog should be closed
+    Then the DefaultImportModalDialog should be closed

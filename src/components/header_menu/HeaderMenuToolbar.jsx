@@ -282,6 +282,7 @@ class HeaderMenuToolbar extends React.Component {
         const { ImportModal, onAdd } = this.props;
         return ImportModal ? (
             <ImportModal
+                id="defaultImportModalDialog"
                 show={showImportMaterialsDialog}
                 onHide={() => this.setState({ showImportMaterialsDialog: false })}
                 onSubmit={(materials) => {

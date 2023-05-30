@@ -9,6 +9,11 @@ export class DefaultImportModalDialogWidget extends Widget {
         this.selectors = this.getWrappedSelectors(SELECTORS.headerMenu.defaultImportModalDialog);
     }
 
+    verifyDialogVisible() {
+        const dialog = exabrowser.waitForExist(this.selectors.dialog);
+        assert.ok(dialog);
+    }
+
     uploadFiles({ files }) {
         const input = exabrowser.waitForExist('input[type="file"]');
         files.forEach((file) => {
