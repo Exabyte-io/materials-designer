@@ -39,7 +39,9 @@ export class MaterialDesignerWidget extends Widget {
         this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 3);
     }
 
-    openImportModal() {}
+    openImportModal() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 1);
+    }
 
     // eslint-disable-next-line no-unused-vars
     save(config) {}
