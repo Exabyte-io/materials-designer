@@ -35,6 +35,16 @@ export const SELECTORS = {
             type: '[data-tid="type"] select',
             offset: '[data-tid="offset"] input',
         },
+        defaultImportModalDialog: {
+            wrapper: "#defaultImportModalDialog",
+            dialog: 'div[role="dialog"]',
+            uploadInput: 'input[data-name="fileapi"]',
+            gridRow: "div[data-grid-row]",
+            gridFormat: "div[data-grid-format]",
+            removeButton: "button[data-grid-remove]",
+            submitButton: 'button[data-name="Submit"]',
+            cancelButton: 'button[data-name="Cancel"]',
+        },
     },
     itemsList: {
         wrapper: ".materials-designer-items-list",
