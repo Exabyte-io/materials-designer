@@ -11,9 +11,8 @@ export default function () {
     });
 
     this.Then(/^I see DefaultImportModalDialog$/, () => {
-        console.log("***** dialog_steps, I see DefaultImportModalDialog");
-        console.log(defaultImportModalDialogWidget, defaultImportModalDialogWidget.dialog);
-        defaultImportModalDialogWidget.dialog.waitForVisible();
+        // defaultImportModalDialogWidget.isVisible();
+        materialDesignerPage.designerWidget.defaultImportModalDialog.isVisible();
     });
 
     this.When(/^I upload files$/, function (table) {
@@ -21,7 +20,7 @@ export default function () {
         defaultImportModalDialogWidget.uploadFiles(files);
     });
 
-    this.Then(/^I should see the files listed in the data grid$/, function (table) {
+    this.Then(/^I see the files listed in the data grid$/, function (table) {
         const expectedFiles = parseTable(table, this);
         defaultImportModalDialogWidget.verifyFilesInGrid(expectedFiles);
     });
@@ -56,7 +55,7 @@ export default function () {
         defaultImportModalDialogWidget.clickCancel();
     });
 
-    this.Then(/^I cancel import$/, () => {
+    this.Then(/^the DefaultImportModalDialog should be closed$/, () => {
         defaultImportModalDialogWidget.dialog.waitForDissapear(); // ???
     });
 }

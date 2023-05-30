@@ -3,6 +3,7 @@ import { SELECTORS } from "../selectors";
 import { Widget } from "../widget";
 import { SAlertWidget } from "./alert/s_alert_widget";
 import { BoundaryConditionsDialogWidget } from "./dialogs/boundary_conditions_dialog";
+import { DefaultImportModalDialogWidget } from "./dialogs/default_import_modal_dialog";
 import { InterpolatedSetDialogWidget } from "./dialogs/interpolated_set_dialog";
 import { SupercellDialogWidget } from "./dialogs/supercell_dialog";
 import { SurfaceDialogWidget } from "./dialogs/surface_dialog";
@@ -28,6 +29,9 @@ export class MaterialDesignerWidget extends Widget {
         this.threeJSEditorWidget = new ThreeJSEditorWidget(SELECTORS.threeJSEditorWidget.wrapper);
         this.boundaryConditionsDialog = new BoundaryConditionsDialogWidget(
             SELECTORS.headerMenu.boundaryConditionsDialog.wrapper,
+        );
+        this.defaultImportModalDialog = new DefaultImportModalDialogWidget(
+            SELECTORS.headerMenu.defaultImportModalDialog.wrapper,
         );
     }
 
