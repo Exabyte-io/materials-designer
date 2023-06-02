@@ -7,15 +7,32 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
     # Open
     When I open DefaultImportModalDialog
     Then I see DefaultImportModalDialog
-    
+
     # Upload
     When I upload files
-    Then I see the files listed in the data grid
-    And the formats of the files should be displayed
+      | filename       |
+      | graphene.json  |
+    Then I see the files with formats listed in the data grid
+      | filename        | format|
+      | graphene.json   | json  |
+    And I see the Add button
+
+    # Upload more
+    When I upload files
+      | filename        |
+      | graphene.poscar |
+    Then I see the files with formats listed in the data grid
+      | filename        | format|
+      | graphene.json   | json  |
+      | graphene.poscar | poscar|
 
     # Remove
     When I click the Remove button for a file
-    Then that file should no longer be listed in the data grid
+      | filename        | format|
+      | graphene.poscar | poscar|
+    Then I see the files with formats listed in the data grid
+      | filename        | format|
+      | graphene.json   | json  |
 
     # Submit
     When I click the Submit button

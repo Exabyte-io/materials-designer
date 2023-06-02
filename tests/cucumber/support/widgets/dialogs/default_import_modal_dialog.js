@@ -1,7 +1,9 @@
+import assert from "assert";
+import path from "path";
+import { safeMakeArray } from "@exabyte-io/code.js/dist/utils/array";
+
 import { SELECTORS } from "../../selectors";
 import { Widget } from "../../widget";
-
-const assert = require("assert");
 
 export class DefaultImportModalDialogWidget extends Widget {
     constructor(selector) {
@@ -9,31 +11,47 @@ export class DefaultImportModalDialogWidget extends Widget {
         this.selectors = this.getWrappedSelectors(SELECTORS.headerMenu.defaultImportModalDialog);
     }
 
-    verifyDialogVisible() {
-        const dialog = exabrowser.waitForExist(this.selectors.dialog);
-        assert.ok(dialog);
+    // eslint-disable-next-line default-param-last
+    uploadFiles(filenames = []) {
+        const directory = path.resolve(__dirname, "../../../fixtures");
+        safeMakeArray(filenames).forEach(({ filename }) =>
+            this.uploadFile(path.join(directory, filename)),
+        );
     }
 
-    uploadFiles({ files }) {
-        const input = exabrowser.waitForExist('input[type="file"]');
-        files.forEach((file) => {
-            input.setValue(this.selectors.uploadInput, file);
-        });
+    uploadFile(filePath) {
+        // Make input visible
+        exabrowser.execute((selector) => {
+            const elem = document.querySelector(selector);
+            elem.style.display = "block";
+            elem.hidden = false;
+        }, this.selectors.uploadInput);
+        exabrowser.waitForVisible(this.selectors.uploadInput);
+        // Upload the file
+        exabrowser.chooseFileWithClear(this.selectors.uploadInput, filePath);
+        // Hide the input again
+        exabrowser.execute((selector) => {
+            const elem = document.querySelector(selector);
+            elem.style.display = "none";
+            elem.hidden = true;
+        }, this.selectors.uploadInput);
     }
 
     verifyFilesInGrid(expectedFiles) {
         expectedFiles.forEach((file) => {
-            const fileInGrid = exabrowser.waitForExist((this.selectors.gridRow = `${file}`));
-            assert.ok(fileInGrid);
+            const fileNameSelector = `${this.selectors.gridFileName} div[title="${file.filename}"]`;
+            exabrowser.waitForVisible(fileNameSelector);
         });
     }
 
-    verifyFileFormats(expectedFormats) {
-        expectedFormats.forEach((format) => {
-            const formatInGrid = exabrowser.waitForExist((this.selectors.gridFormat = `${format}`));
-            assert.ok(formatInGrid);
+    verifyFormatsInGrid(expectedFiles) {
+        expectedFiles.forEach((file) => {
+            const formatSelector = `${this.selectors.gridFormat} div[title="${file.format}"]`;
+            exabrowser.waitForVisible(formatSelector);
         });
     }
+
+    verifyAddButtonExists;
 
     removeFile(fileName) {
         const removeButton = exabrowser.waitForVisibleClickableOrExist(
@@ -69,8 +87,8 @@ export class DefaultImportModalDialogWidget extends Widget {
         }
     }
 
-    clickCancel() {
-        exabrowser.scrollAndClick(this.selectors.cancelButton);
+    cancel() {
+        exabrowser.scrollAndClick(this.selectors.defaultImportModalDialog.cancelButton);
     }
 }
 
