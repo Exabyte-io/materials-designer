@@ -143,7 +143,6 @@ class DefaultImportModalDialog extends React.Component {
                     const format = Made.parsers.nativeFormats.detectFormat(evt.target.result);
                     // Append to existing formats array
                     newFormats.push(format);
-                    // this.setState({ formats: newFormats });
                 } catch (error) {
                     newFormats.push(error.message);
                 }
@@ -213,9 +212,16 @@ class DefaultImportModalDialog extends React.Component {
                 disableColumnMenu: true,
                 renderHeader: () => (
                     <div style={buttonContainerStyle}>
-                        <Button variant="contained" color="primary" size="small" component="label">
+                        <Button
+                            data-name="add-button"
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            component="label"
+                        >
                             Add
                             <input
+                                data-name="fileapi"
                                 style={{ display: "none" }}
                                 type="file"
                                 hidden
@@ -241,7 +247,12 @@ class DefaultImportModalDialog extends React.Component {
         ];
 
         return (
-            <Dialog open={show} transitionDuration={0} PaperProps={{ style: paperStyle }}>
+            <Dialog
+                open={show}
+                transitionDuration={0}
+                PaperProps={{ style: paperStyle }}
+                id="defaultImportModalDialog"
+            >
                 <DialogTitle>{this.title || title}</DialogTitle>
 
                 <DialogContent>

@@ -11,27 +11,37 @@ export default function () {
     });
 
     this.Then(/^I see DefaultImportModalDialog$/, () => {
-        // defaultImportModalDialogWidget.isVisible();
         materialDesignerPage.designerWidget.defaultImportModalDialog.isVisible();
     });
 
     this.When(/^I upload files$/, function (table) {
-        const files = parseTable(table, this);
-        defaultImportModalDialogWidget.uploadFiles(files);
+        const filenames = parseTable(table, this);
+        materialDesignerPage.designerWidget.defaultImportModalDialog.uploadFiles(filenames);
     });
 
-    this.Then(/^I see the files listed in the data grid$/, function (table) {
+    this.Then(/^I see the files with formats listed in the data grid$/, function (table) {
         const expectedFiles = parseTable(table, this);
-        defaultImportModalDialogWidget.verifyFilesInGrid(expectedFiles);
+        materialDesignerPage.designerWidget.defaultImportModalDialog.verifyFilesInGrid(
+            expectedFiles,
+        );
+        materialDesignerPage.designerWidget.defaultImportModalDialog.verifyFormatsInGrid(
+            expectedFiles,
+        );
+    });
+
+    this.Then(/^I see the Add button$/, () => {
+        materialDesignerPage.designerWidget.defaultImportModalDialog.addButton.isVisible();
     });
 
     this.Then(/^the formats of the files should be displayed$/, function (table) {
         const expectedFormats = parseTable(table, this);
-        defaultImportModalDialogWidget.verifyFileFormats(expectedFormats);
+        materialDesignerPage.designerWidget.defaultImportModalDialog.verifyFileFormats(
+            expectedFormats,
+        );
     });
 
     this.When(/^I click the Remove button for a file$/, (fileName) => {
-        defaultImportModalDialogWidget.removeFile(fileName);
+        materialDesignerPage.designerWidget.defaultImportModalDialog.removeFile(fileName);
     });
 
     this.Then(/^that file should no longer be listed in the data grid$/, (fileName) => {
@@ -52,7 +62,7 @@ export default function () {
     });
 
     this.When(/^I cancel import$/, () => {
-        defaultImportModalDialogWidget.clickCancel();
+        defaultImportModalDialogWidget.cancel();
     });
 
     this.Then(/^the DefaultImportModalDialog should be closed$/, () => {
