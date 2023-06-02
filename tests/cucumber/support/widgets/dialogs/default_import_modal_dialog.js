@@ -39,56 +39,41 @@ export class DefaultImportModalDialogWidget extends Widget {
 
     verifyFilesInGrid(expectedFiles) {
         expectedFiles.forEach((file) => {
-            const fileNameSelector = `${this.selectors.gridFileName} div[title="${file.filename}"]`;
+            const fileNameSelector = `${this.selectors.gridFileName(file.filename)}`;
             exabrowser.waitForVisible(fileNameSelector);
         });
     }
 
     verifyFormatsInGrid(expectedFiles) {
         expectedFiles.forEach((file) => {
-            const formatSelector = `${this.selectors.gridFormat} div[title="${file.format}"]`;
+            const formatSelector = this.selectors.gridFormat(file.format);
             exabrowser.waitForVisible(formatSelector);
         });
     }
 
-    verifyAddButtonExists;
-
-    removeFile(fileName) {
-        const removeButton = exabrowser.waitForVisibleClickableOrExist(
-            (this.selectors.removeButton = `${fileName}`),
-        );
-        removeButton.click();
+    removeFile(file) {
+        console.log("removeFile", file, file.filename);
+        // filename has dots in it which messes with css selectors -> replace them with dashes
+        const escapedFileName = file.filename.replace(/\./g, "-");
+        const removeButtonSelector = this.selectors.removeButton(escapedFileName);
+        exabrowser.waitForVisibleClickableOrExist(removeButtonSelector);
+        exabrowser.scrollAndClick(removeButtonSelector);
     }
 
-    verifyFileNotInGrid(fileName) {
-        try {
-            const fileInGrid = exabrowser.findElement(`${this.selectors.gridRow}='${fileName}'`);
-            assert.ok(!fileInGrid);
-        } catch (e) {
-            if (e.name !== "NoSuchElementError") throw e;
-        }
+    addButtonExists() {
+        console.log("ADD:", this.selectors.addButton);
+        exabrowser.waitForVisibleClickableOrExist(this.selectors.addButton);
     }
 
     submit() {
+        console.log("SUBMIT:", this.selectors.submitButton);
+        exabrowser.waitForVisibleClickableOrExist(this.selectors.submitButton);
         exabrowser.scrollAndClick(this.selectors.submitButton);
     }
 
-    // verifyOnSubmitCalled() {
-    //     const onSubmit = exabrowser.execute("return window.onSubmitCalled");
-    //     assert.ok(onSubmit);
-    // }
-
-    verifyDialogClosed() {
-        try {
-            const dialog = exabrowser.waitForExist(this.selectors.dialog, { reverse: true });
-            assert.ok(dialog);
-        } catch (e) {
-            if (e.name !== "NoSuchElementError") throw e;
-        }
-    }
-
     cancel() {
-        exabrowser.scrollAndClick(this.selectors.defaultImportModalDialog.cancelButton);
+        exabrowser.waitForVisibleClickableOrExist(this.selectors.cancelButton);
+        exabrowser.scrollAndClick(this.selectors.cancelButton);
     }
 }
 
