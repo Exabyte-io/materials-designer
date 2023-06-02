@@ -243,6 +243,20 @@ export class ExaBrowser {
     elementIdElementValue(...args) {
         return browser.elementIdElement(...args).value;
     }
+
+    /**
+     * @summary Explicitly clear the file selector field before choosing the file for upload.
+     *
+     * What's happening here is that WebDriver seems to have changed behavior to follow a W3C specification, and has
+     * strange behavior around not clearing out a field when setting a new value.  Because the field here is hidden, we
+     * can't use the Backspace trick like we did above with setValueWithBackspaceClear().  Instead, we can force the
+     * field blank with some javascript.
+     * For example: https://github.com/webdriverio/webdriverio/issues/3024#issuecomment-444438972
+     */
+    chooseFileWithClear(selector, filePath) {
+        this.execute(`document.querySelector('${selector}').value='';`);
+        this.chooseFile(selector, filePath);
+    }
 }
 
 /**
