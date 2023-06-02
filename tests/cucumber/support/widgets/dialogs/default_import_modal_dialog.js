@@ -1,6 +1,5 @@
-import assert from "assert";
-import path from "path";
 import { safeMakeArray } from "@exabyte-io/code.js/dist/utils/array";
+import path from "path";
 
 import { SELECTORS } from "../../selectors";
 import { Widget } from "../../widget";
