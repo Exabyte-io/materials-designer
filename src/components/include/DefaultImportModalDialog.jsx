@@ -65,7 +65,9 @@ class DefaultImportModalDialog extends React.Component {
 
         files.forEach((file) => {
             try {
-                const materialConfig = Made.parsers.nativeFormats.convertFromNative(file.text);
+                const materialConfig = Made.parsers.nativeFormatParsers.convertFromNative(
+                    file.text,
+                );
                 newMaterialConfigs.push(materialConfig);
             } catch (error) {
                 errors.push(error.message);
@@ -126,7 +128,7 @@ class DefaultImportModalDialog extends React.Component {
                 const lastModifiedUNIX = new Date(file.lastModified);
                 const lastModified = this.formatDate(lastModifiedUNIX);
                 try {
-                    const format = Made.parsers.nativeFormats.detectFormat(text);
+                    const format = Made.parsers.nativeFormatParsers.detectFormat(text);
                     const newFile = {
                         id: files.length + index,
                         fileName: file.name,
