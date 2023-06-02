@@ -17,5 +17,7 @@
         "urlencode": "^1.1.0"
     },
     "private": true,
-    "dependencies": {}
+    "dependencies": {
+        "@exabyte-io/code.js": "^2023.6.1-0"
+    }
 }
