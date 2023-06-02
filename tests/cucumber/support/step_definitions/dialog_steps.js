@@ -30,42 +30,23 @@ export default function () {
     });
 
     this.Then(/^I see the Add button$/, () => {
-        materialDesignerPage.designerWidget.defaultImportModalDialog.addButton.isVisible();
+        materialDesignerPage.designerWidget.defaultImportModalDialog.addButtonExists();
     });
 
-    this.Then(/^the formats of the files should be displayed$/, function (table) {
-        const expectedFormats = parseTable(table, this);
-        materialDesignerPage.designerWidget.defaultImportModalDialog.verifyFileFormats(
-            expectedFormats,
-        );
-    });
-
-    this.When(/^I click the Remove button for a file$/, (fileName) => {
-        materialDesignerPage.designerWidget.defaultImportModalDialog.removeFile(fileName);
-    });
-
-    this.Then(/^that file should no longer be listed in the data grid$/, (fileName) => {
-        defaultImportModalDialogWidget.verifyFileNotInGrid(fileName);
+    this.When(/^I click the Remove button for a file$/, function (table) {
+        const file = parseTable(table, this)[0];
+        materialDesignerPage.designerWidget.defaultImportModalDialog.removeFile(file);
     });
 
     this.When(/^I click the Submit button$/, () => {
-        defaultImportModalDialogWidget.submit();
-    });
-
-    this.Then(/^the onSubmit function should be called$/, () => {
-        // replace this with actual verification of onSubmit function call
-        defaultImportModalDialogWidget.verifyOnSubmitCalled();
+        materialDesignerPage.designerWidget.defaultImportModalDialog.submit();
     });
 
     this.Then(/^the DefaultImportModalDialog should be closed$/, () => {
-        defaultImportModalDialogWidget.verifyDialogClosed();
+        materialDesignerPage.designerWidget.defaultImportModalDialog.waitForDisappear();
     });
 
     this.When(/^I cancel import$/, () => {
-        defaultImportModalDialogWidget.cancel();
-    });
-
-    this.Then(/^the DefaultImportModalDialog should be closed$/, () => {
-        defaultImportModalDialogWidget.dialog.waitForDissapear(); // ???
+        materialDesignerPage.designerWidget.defaultImportModalDialog.cancel();
     });
 }

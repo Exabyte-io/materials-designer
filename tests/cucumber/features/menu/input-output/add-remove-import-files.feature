@@ -36,7 +36,9 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
 
     # Submit
     When I click the Submit button
-    Then the onSubmit function should be called
+    Then material with following data exists in state
+      | path         | index   |
+      | graphene.json| $INT{2} |
     And the DefaultImportModalDialog should be closed
 
     # Cancel
