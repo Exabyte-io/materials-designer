@@ -1,5 +1,4 @@
 import { parseTable } from "../utils/table";
-import { defaultImportModalDialogWidget } from "../widgets/dialogs/default_import_modal_dialog";
 import { materialDesignerPage } from "../widgets/material_designer_page";
 
 export default function () {
