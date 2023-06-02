@@ -45,9 +45,7 @@ class DefaultImportModalDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fileNames: [],
-            formats: [],
-            texts: [],
+            files: [],
             dragging: false,
         };
         this.title = "Import Materials";
@@ -61,13 +59,13 @@ class DefaultImportModalDialog extends React.Component {
     };
 
     handleSubmit() {
-        const { texts } = this.state;
+        const { files } = this.state;
         const newMaterialConfigs = [];
         const errors = [];
 
-        texts.forEach((text) => {
+        files.forEach((file) => {
             try {
-                const materialConfig = Made.parsers.nativeFormats.convertFromNative(text);
+                const materialConfig = Made.parsers.nativeFormats.convertFromNative(file.text);
                 newMaterialConfigs.push(materialConfig);
             } catch (error) {
                 errors.push(error.message);
@@ -89,9 +87,7 @@ class DefaultImportModalDialog extends React.Component {
         onSubmit(newMaterials);
 
         this.setState({
-            fileNames: [],
-            formats: [],
-            texts: [],
+            files: [],
         });
     }
 
@@ -123,63 +119,49 @@ class DefaultImportModalDialog extends React.Component {
             return;
         }
 
-        // Process each file
-        let loadedFiles = 0;
-        const { fileNames, texts, formats } = this.state;
-        const newTexts = [...texts]; // clone existing texts array
-        const newFormats = [...formats];
-        // Append new valid file names to existing ones
-        const newFileNames = [...fileNames, ...validFiles.map((file) => file.name)];
-        this.setState({ fileNames: newFileNames });
-
         validFiles.forEach((file, index) => {
             const reader = new FileReader();
             reader.onloadend = (evt) => {
-                newTexts[index + texts.length] = evt.target.result; // append to existing texts array
-                loadedFiles += 1;
-
-                // Detect file format immediately after reading
+                const text = evt.target.result;
+                const lastModifiedUNIX = new Date(file.lastModified);
+                const lastModified = this.formatDate(lastModifiedUNIX);
                 try {
-                    const format = Made.parsers.nativeFormats.detectFormat(evt.target.result);
-                    // Append to existing formats array
-                    newFormats.push(format);
-                } catch (error) {
-                    newFormats.push(error.message);
-                }
+                    const format = Made.parsers.nativeFormats.detectFormat(text);
+                    const newFile = {
+                        id: files.length + index,
+                        fileName: file.name,
+                        format,
+                        text,
+                        lastModified,
+                    };
 
-                if (loadedFiles === validFiles.length) {
-                    this.setState({ texts: newTexts, formats: newFormats });
+                    this.setState((prevState) => ({
+                        files: [...prevState.files, newFile],
+                    }));
+                } catch (error) {
+                    file.format = error.message;
                 }
             };
             reader.readAsText(file);
         });
     }
 
+    formatDate = (date) => {
+        const hours = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
+        const seconds = date.getSeconds().toString().padStart(2, "0");
+        const day = date.getDate().toString().padStart(2, "0");
+        // getMonth() returns a zero-based month index, so we add 1
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+
+        return `${hours}:${minutes}:${seconds} ${month}/${day}/${year}`;
+    };
+
     handleFileRemove = (fileNameToRemove) => {
-        this.setState((prevState) => {
-            const fileIndex = prevState.fileNames.findIndex(
-                (fileName) => fileName === fileNameToRemove,
-            );
-
-            // If the file was not found, do nothing
-            if (fileIndex === -1) {
-                return prevState;
-            }
-
-            // Remove file's name from fileNames
-            const newFileNames = [...prevState.fileNames];
-            newFileNames.splice(fileIndex, 1);
-
-            // Remove file's text from texts
-            const newTexts = [...prevState.texts];
-            newTexts.splice(fileIndex, 1);
-
-            const newFormats = [...prevState.formats];
-            newFormats.splice(fileIndex, 1);
-
-            // Return the new state
-            return { fileNames: newFileNames, texts: newTexts, formats: newFormats };
-        });
+        this.setState((prevState) => ({
+            files: prevState.files.filter((file) => file.fileName !== fileNameToRemove),
+        }));
     };
 
     onSubmit = () => {
@@ -190,13 +172,13 @@ class DefaultImportModalDialog extends React.Component {
 
     render() {
         const { show, onClose, onSubmit, title } = this.props;
-        const { fileNames, formats, dragging } = this.state;
+        const { files, dragging } = this.state;
 
-        const rows = fileNames.map((fileName, i) => ({
+        const rows = files.map((file, i) => ({
             id: i,
-            fileName,
-            lastModified: fileNames[i]?.lastModified || "Not available",
-            format: formats[i] || "Not available",
+            fileName: file.fileName,
+            lastModified: file.lastModified || "Not available",
+            format: file.format || "Not available",
         }));
 
         const columns = [
@@ -234,6 +216,8 @@ class DefaultImportModalDialog extends React.Component {
                 renderCell: (params) => (
                     <div style={buttonContainerStyle}>
                         <Button
+                            // Not to mess with CSS replace dots with dashes
+                            id={`${params.row.fileName.replace(/\./g, "-")}-remove-button`}
                             variant="contained"
                             color="warning"
                             size="small"
@@ -257,7 +241,7 @@ class DefaultImportModalDialog extends React.Component {
 
                 <DialogContent>
                     <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
-                        {fileNames.length > 0 ? (
+                        {files.length > 0 ? (
                             <div
                                 onDragOver={this.handleDragOver}
                                 onDragLeave={this.handleDragLeave}
