@@ -1,4 +1,3 @@
-@watch
 Feature: User can upload files, remove them, submit them, or cancel dialog
 
   Scenario:
