@@ -38,7 +38,7 @@ export class DefaultImportModalDialogWidget extends Widget {
 
     verifyFilesInGrid(expectedFiles) {
         expectedFiles.forEach((file) => {
-            const fileNameSelector = `${this.selectors.gridFileName(file.filename)}`;
+            const fileNameSelector = this.selectors.gridFileName(file.filename);
             exabrowser.waitForVisible(fileNameSelector);
         });
     }
@@ -51,7 +51,6 @@ export class DefaultImportModalDialogWidget extends Widget {
     }
 
     removeFile(file) {
-        console.log("removeFile", file, file.filename);
         // filename has dots in it which messes with css selectors -> replace them with dashes
         const escapedFileName = file.filename.replace(/\./g, "-");
         const removeButtonSelector = this.selectors.removeButton(escapedFileName);
@@ -60,12 +59,10 @@ export class DefaultImportModalDialogWidget extends Widget {
     }
 
     addButtonExists() {
-        console.log("ADD:", this.selectors.addButton);
         exabrowser.waitForVisibleClickableOrExist(this.selectors.addButton);
     }
 
     submit() {
-        console.log("SUBMIT:", this.selectors.submitButton);
         exabrowser.waitForVisibleClickableOrExist(this.selectors.submitButton);
         exabrowser.scrollAndClick(this.selectors.submitButton);
     }
