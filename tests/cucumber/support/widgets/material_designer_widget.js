@@ -3,6 +3,7 @@ import { SELECTORS } from "../selectors";
 import { Widget } from "../widget";
 import { SAlertWidget } from "./alert/s_alert_widget";
 import { BoundaryConditionsDialogWidget } from "./dialogs/boundary_conditions_dialog";
+import { DefaultImportModalDialogWidget } from "./dialogs/default_import_modal_dialog";
 import { InterpolatedSetDialogWidget } from "./dialogs/interpolated_set_dialog";
 import { SupercellDialogWidget } from "./dialogs/supercell_dialog";
 import { SurfaceDialogWidget } from "./dialogs/surface_dialog";
@@ -29,6 +30,9 @@ export class MaterialDesignerWidget extends Widget {
         this.boundaryConditionsDialog = new BoundaryConditionsDialogWidget(
             SELECTORS.headerMenu.boundaryConditionsDialog.wrapper,
         );
+        this.defaultImportModalDialog = new DefaultImportModalDialogWidget(
+            SELECTORS.headerMenu.defaultImportModalDialog.wrapper,
+        );
     }
 
     openSupercellDialog() {
@@ -39,7 +43,9 @@ export class MaterialDesignerWidget extends Widget {
         this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 3);
     }
 
-    openImportModal() {}
+    openImportModal() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 1);
+    }
 
     // eslint-disable-next-line no-unused-vars
     save(config) {}
