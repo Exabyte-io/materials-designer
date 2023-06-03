@@ -65,7 +65,7 @@ class DefaultImportModalDialog extends React.Component {
 
         files.forEach((file) => {
             try {
-                const materialConfig = Made.parsers.nativeFormatParsers.convertFromNative(
+                const materialConfig = Made.parsers.nativeFormatParsers.convertFromNativeFormat(
                     file.text,
                 );
                 newMaterialConfigs.push(materialConfig);
