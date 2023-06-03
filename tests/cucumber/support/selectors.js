@@ -35,6 +35,18 @@ export const SELECTORS = {
             type: '[data-tid="type"] select',
             offset: '[data-tid="offset"] input',
         },
+        defaultImportModalDialog: {
+            wrapper: "#defaultImportModalDialog",
+            dialog: 'div[role="dialog"]',
+            uploadInput: 'input[data-name="fileapi"]',
+            addButton: '[data-name="add-button"]',
+            gridFileName: (fileName) =>
+                `div[role="cell"][data-field="fileName"] div[title="${fileName}"]`,
+            gridFormat: (format) => `div[role="cell"][data-field="format"] div[title="${format}"]`,
+            removeButton: (fileName) => `button#${fileName}-remove-button`,
+            submitButton: 'button[data-name="Submit"]',
+            cancelButton: 'button[data-name="Cancel"]',
+        },
     },
     itemsList: {
         wrapper: ".materials-designer-items-list",
