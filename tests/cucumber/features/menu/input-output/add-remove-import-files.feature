@@ -48,3 +48,4 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
 
     # Reset
     When I delete materials with index "2"
+    
