@@ -45,3 +45,6 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
     When I open DefaultImportModalDialog
     And I cancel import
     Then the DefaultImportModalDialog should be closed
+
+    # Reset
+    When I delete materials with index "2"
