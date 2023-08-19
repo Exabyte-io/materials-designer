@@ -36,7 +36,7 @@
         "@codemirror/legacy-modes": "^6.3.1",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
-        "@exabyte-io/wave.js": "https://github.com/Exabyte-io/wave.js#d430c38b7d918285787bcb6752251ea184927a31",
+        "@exabyte-io/wave.js": "https://github.com/Exabyte-io/wave.js#7ad5341bf5c02487dcb6bda38470799aa48afc63",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
