@@ -42,6 +42,7 @@ class CodeMirror extends React.Component {
         }
 
         updateContent(newContent);
+        console.log(newContent);
     }
 
     render() {
@@ -58,7 +59,7 @@ class CodeMirror extends React.Component {
                 readOnly={readOnly}
                 lineNumbers={false}
                 theme={darcula}
-                // basicSetup={options}
+                basicSetup={options}
                 extensions={[StreamLanguage.define(fortran), linter(customLinter)]}
                 options={{
                     ...options,
