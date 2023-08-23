@@ -19,6 +19,8 @@ class BasisText extends React.Component {
             manualEditStarted: false,
         };
         this.updateContent = this.updateContent.bind(this);
+        this.codeMirrorRef = React.createRef();
+        this.customLinter = this.customLinter.bind(this);
         // TODO: adjust tests to accommodate for the delay and re-enable
         // this.updateContent = _.debounce(this.updateContent, 700);
     }
@@ -78,6 +80,34 @@ class BasisText extends React.Component {
         });
     }
 
+    // eslint-disable-next-line class-methods-use-this,no-unused-vars
+    customLinter(editorView) {
+        const editor = this.codeMirrorRef.current;
+        const errors = [];
+
+        // only run linter if editor is loaded
+        if (editor.state) {
+            const text = editorView.state.doc.toString();
+            console.log(text);
+            const linesToHighlight = [0];
+
+            linesToHighlight.forEach((lineNumber) => {
+                // NOTE: line numbers in Codemirror start from 1
+                const fromPosition = editor.state.doc.line(lineNumber + 1).from;
+                const toPosition = editor.state.doc.line(lineNumber + 1).to;
+
+                errors.push({
+                    message: "Custom Highlight",
+                    severity: "error",
+                    from: fromPosition,
+                    to: toPosition,
+                });
+            });
+        }
+
+        return errors;
+    }
+
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
         const { content, isContentValidated, message } = this.state;
@@ -85,6 +115,8 @@ class BasisText extends React.Component {
             <div className={setClass("xyz", className)}>
                 <div id="basis-xyz">
                     <CodeMirror
+                        forwardedRef={this.codeMirrorRef}
+                        customLinter={this.customLinter}
                         className="xyz-codemirror"
                         // eslint-disable-next-line react/no-unused-class-component-methods
                         content={content}
