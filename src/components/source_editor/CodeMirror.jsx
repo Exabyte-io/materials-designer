@@ -1,5 +1,6 @@
 import { StreamLanguage } from "@codemirror/language";
 import { fortran } from "@codemirror/legacy-modes/mode/fortran";
+import { linter } from "@codemirror/lint";
 import { darcula } from "@uiw/codemirror-theme-darcula";
 import CodeMirrorBase from "@uiw/react-codemirror";
 import PropTypes from "prop-types";
@@ -8,8 +9,23 @@ import React from "react";
 class CodeMirror extends React.Component {
     constructor(props) {
         super(props);
+        this.editorRef = React.createRef();
         this.state = { isLoaded: false };
         this.handleContentChange = this.handleContentChange.bind(this);
+    }
+
+    componentDidMount() {
+        const { forwardedRef } = this.props;
+        if (forwardedRef) {
+            forwardedRef.current = this.editorRef.current;
+        }
+    }
+
+    componentDidUpdate() {
+        const { forwardedRef } = this.props;
+        if (forwardedRef) {
+            forwardedRef.current = this.editorRef.current;
+        }
     }
 
     /*
@@ -29,9 +45,10 @@ class CodeMirror extends React.Component {
     }
 
     render() {
-        const { content, options, readOnly, onFocus, onBlur } = this.props;
+        const { content, options, readOnly, onFocus, onBlur, customLinter } = this.props;
         return (
             <CodeMirrorBase
+                ref={this.editorRef}
                 value={content}
                 onChange={(editor, viewUpdate) => {
                     this.handleContentChange(editor, viewUpdate);
@@ -41,8 +58,16 @@ class CodeMirror extends React.Component {
                 readOnly={readOnly}
                 lineNumbers={false}
                 theme={darcula}
-                basicSetup={options}
-                extensions={[StreamLanguage.define(fortran)]}
+                // basicSetup={options}
+                extensions={[StreamLanguage.define(fortran), linter(customLinter)]}
+                options={{
+                    ...options,
+                    gutters: ["CodeMirror-lint-markers"],
+                    lint: {
+                        getAnnotations: customLinter,
+                        async: false,
+                    },
+                }}
             />
         );
     }
@@ -57,6 +82,11 @@ CodeMirror.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     options: PropTypes.object,
     readOnly: PropTypes.bool,
+    customLinter: PropTypes.func,
+    forwardedRef: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+    ]),
 };
 
 CodeMirror.defaultProps = {
@@ -67,6 +97,8 @@ CodeMirror.defaultProps = {
     onFocus: () => {},
     onBlur: () => {},
     options: {},
+    customLinter: () => [],
+    forwardedRef: null,
 };
 
 export default CodeMirror;
