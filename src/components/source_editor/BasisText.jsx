@@ -14,6 +14,7 @@ class BasisText extends React.Component {
         super(props);
         this.state = {
             content: props.content,
+            checks: props.checks,
             isContentValidated: true, // assuming that initial content is valid
             message: "",
             manualEditStarted: false,
@@ -27,9 +28,12 @@ class BasisText extends React.Component {
 
     // eslint-disable-next-line no-unused-vars
     UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-        const { content } = this.props;
+        const { content, checks } = this.props;
         if (content !== nextProps.content) {
             this.reformatContentAndUpdateStateIfNoManualEdit(nextProps.content);
+        }
+        if (checks !== nextProps.checks) {
+            this.setState({ checks: nextProps.checks });
         }
     }
 
@@ -80,32 +84,24 @@ class BasisText extends React.Component {
         });
     }
 
-    // eslint-disable-next-line class-methods-use-this,no-unused-vars
     customLinter(editorView) {
-        const editor = this.codeMirrorRef.current;
-        const errors = [];
+        const { checks } = this.state;
+        const { doc } = editorView.state;
 
-        // only run linter if editor is loaded
-        if (editor.state) {
-            const text = editorView.state.doc.toString();
-            console.log(text);
-            const linesToHighlight = [0];
+        if (!checks || !doc) return [];
 
-            linesToHighlight.forEach((lineNumber) => {
-                // NOTE: line numbers in Codemirror start from 1
-                const fromPosition = editor.state.doc.line(lineNumber + 1).from;
-                const toPosition = editor.state.doc.line(lineNumber + 1).to;
+        const warnings = checks.map((check) => {
+            // TODO: wrap in a mixin with named functions for this
+            const lineNumber = check.id + 1; // codemirror counts from 1
+            return {
+                message: check.message,
+                severity: check.severity,
+                from: doc.line(lineNumber).from,
+                to: doc.line(lineNumber).to,
+            };
+        });
 
-                errors.push({
-                    message: "Custom Highlight",
-                    severity: "error",
-                    from: fromPosition,
-                    to: toPosition,
-                });
-            });
-        }
-
-        return errors;
+        return warnings;
     }
 
     render() {
@@ -143,6 +139,8 @@ class BasisText extends React.Component {
 BasisText.propTypes = {
     className: PropTypes.string,
     content: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
+    checks: PropTypes.object,
     readOnly: PropTypes.bool,
     // eslint-disable-next-line react/forbid-prop-types
     codeMirrorOptions: PropTypes.object,
@@ -153,6 +151,7 @@ BasisText.defaultProps = {
     className: "",
     readOnly: false,
     content: "---- No content passed ----\n",
+    checks: {},
     codeMirrorOptions: {},
     onChange: () => {},
 };

@@ -40,9 +40,7 @@ class CodeMirror extends React.Component {
             this.setState({ isLoaded: true });
             return;
         }
-
         updateContent(newContent);
-        console.log(newContent);
     }
 
     render() {
@@ -63,7 +61,6 @@ class CodeMirror extends React.Component {
                 extensions={[StreamLanguage.define(fortran), linter(customLinter)]}
                 options={{
                     ...options,
-                    gutters: ["CodeMirror-lint-markers"],
                     lint: {
                         getAnnotations: customLinter,
                         async: false,
