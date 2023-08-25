@@ -1,6 +1,5 @@
 // import _ from "underscore";
 /* eslint-disable react/sort-comp */
-
 import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
 import PropTypes from "prop-types";
@@ -88,14 +87,14 @@ class BasisText extends React.Component {
         const { checks } = this.state;
         const { doc } = editorView.state;
 
-        if (!checks || !doc) return [];
+        if (checks.length === 0 || !doc) return [];
 
         const warnings = checks.map((check) => {
             // TODO: wrap in a mixin with named functions for this
             const lineNumber = check.id + 1; // codemirror counts from 1
             return {
                 message: check.message,
-                severity: check.severity,
+                severity: check.type,
                 from: doc.line(lineNumber).from,
                 to: doc.line(lineNumber).to,
             };

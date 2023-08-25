@@ -28,8 +28,10 @@ class BasisEditor extends React.Component {
     UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         const { material } = this.props;
         if (material !== nextProps.material) {
-            this.setState({ xyz: nextProps.material.getBasisAsXyz() });
-            this.setState({ checks: nextProps.material.getBasisChecks() });
+            this.setState({
+                xyz: nextProps.material.getBasisAsXyz(),
+                checks: nextProps.material.getBasisChecks(),
+            });
         }
     }
 
