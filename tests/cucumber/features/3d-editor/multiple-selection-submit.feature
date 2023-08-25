@@ -4,7 +4,7 @@ Feature: User can select multiple atoms, move them and update their positions ac
     When I open materials designer page
     And I create materials with the following data
       | name      | basis             |
-      | supercell | Si 0 0 0;Si 0 0 0 |
+      | supercell | Si 0 0 0;Si 0 0 1 |
     And I open multi-material 3D editor
 
     # set default positions for easier expectations calculations
