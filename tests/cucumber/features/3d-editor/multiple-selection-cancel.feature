@@ -5,6 +5,7 @@ Feature: User can cancel active multiple selection and all changes should be rev
     And I create materials with the following data
       | name      | basis             |
       | supercell | Si 0 0 0;Si 0 0 0 |
+    And I wait "1" seconds
     And I open multi-material 3D editor
 
     # set default positions for easier expectations calculations
