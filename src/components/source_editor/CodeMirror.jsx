@@ -21,13 +21,6 @@ class CodeMirror extends React.Component {
         }
     }
 
-    componentDidUpdate() {
-        const { forwardedRef } = this.props;
-        if (forwardedRef) {
-            forwardedRef.current = this.editorRef.current;
-        }
-    }
-
     /*
      * editor - CodeMirror object https://uiwjs.github.io/react-codemirror/
      * viewUpdate - object containing the update to the editor tree structure
