@@ -4,7 +4,7 @@ Feature: User can cancel active multiple selection and all changes should be rev
     When I open materials designer page
     And I create materials with the following data
       | name      | basis             |
-      | supercell | Si 0 0 0;Si 0 0 0 |
+      | supercell | Si 0 0 0;Si 0 0 1 |
     And I open multi-material 3D editor
 
     # set default positions for easier expectations calculations
