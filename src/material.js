@@ -68,8 +68,10 @@ export class Material extends Made.Material {
 
                     if (JSON.stringify(coord1.value) === JSON.stringify(coord2.value)) {
                         checks.push({
-                            message: `Atoms #${basis.elements[i].id} and #${basis.elements[j].id} are duplicates`,
-                            severity: "warning",
+                            message: `Lines ${basis.elements[i].id + 1} and ${
+                                basis.elements[j].id + 1
+                            } are duplicates`,
+                            type: "warning",
                             id: basis.elements[j].id,
                         });
                     }
@@ -77,38 +79,7 @@ export class Material extends Made.Material {
             }
         }
 
-        // Function to calculate Euclidean distance between two 3D points
-        const distance = (point1, point2) => {
-            return Math.sqrt(
-                (point2[0] - point1[0]) ** 2 +
-                    (point2[1] - point1[1]) ** 2 +
-                    (point2[2] - point1[2]) ** 2,
-            );
-        };
-
-        const tolerance = 0.15;
-        // Check for overlapping atoms within the tolerance
-        for (let i = 0; i < basis.coordinates.length; i++) {
-            for (let j = i + 1; j < basis.coordinates.length; j++) {
-                const coord1 = basis.coordinates[i].value;
-                const coord2 = basis.coordinates[j].value;
-
-                if (distance(coord1, coord2) < tolerance) {
-                    checks.push(
-                        {
-                            message: `Atoms #${basis.coordinates[i].id} and #${basis.coordinates[j].id} overlap within the tolerance`,
-                            severity: "warning",
-                            id: basis.coordinates[i].id,
-                        },
-                        {
-                            message: `Atoms #${basis.coordinates[i].id} and #${basis.coordinates[j].id} overlap within the tolerance`,
-                            severity: "warning",
-                            id: basis.coordinates[j].id,
-                        },
-                    );
-                }
-            }
-        }
+        checks.push(...this.runChecks());
 
         return checks;
     }

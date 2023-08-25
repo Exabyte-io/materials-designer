@@ -59,13 +59,6 @@ class CodeMirror extends React.Component {
                 theme={darcula}
                 basicSetup={options}
                 extensions={[StreamLanguage.define(fortran), linter(customLinter)]}
-                options={{
-                    ...options,
-                    lint: {
-                        getAnnotations: customLinter,
-                        async: false,
-                    },
-                }}
             />
         );
     }
@@ -81,10 +74,7 @@ CodeMirror.propTypes = {
     options: PropTypes.object,
     readOnly: PropTypes.bool,
     customLinter: PropTypes.func,
-    forwardedRef: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-    ]),
+    forwardedRef: PropTypes.func,
 };
 
 CodeMirror.defaultProps = {
