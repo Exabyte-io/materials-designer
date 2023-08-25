@@ -79,7 +79,37 @@ export class Material extends Made.Material {
             }
         }
 
-        checks.push(...this.runChecks());
+        console.log(this.runChecks());
+
+        const generateLinterMessageForOverlap = (check) => {
+            const currentElement = basis.elements.find(
+                (element) => element.id === check.targetObject,
+            ).value;
+            const otherAtoms = check.relatedObjects
+                .map((arg) => {
+                    const atomElement = basis.elements.find((element) => element.id === arg).value;
+                    return `${atomElement} (Line ${arg + 1})`;
+                })
+                .join(", ");
+
+            return {
+                type: "warning",
+                message: `${currentElement} (Line ${
+                    check.targetObject + 1
+                }) overlaps with ${otherAtoms}`,
+                id: check.targetObject,
+            };
+        };
+
+        const processOverlappingAtomsChecks = () => {
+            const overlappingChecks = this.runChecks().filter(
+                (check) => check.name === "overlappingAtoms",
+            );
+            return overlappingChecks.map(generateLinterMessageForOverlap);
+        };
+
+        const linterMessages = processOverlappingAtomsChecks();
+        checks.push(...linterMessages);
 
         return checks;
     }
