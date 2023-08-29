@@ -96,6 +96,9 @@ class BasisText extends React.Component {
                             ...codeMirrorOptions,
                         }}
                         theme="dark"
+                        completions={() => {}}
+                        updateOnFirstLoad
+                        language="fortran"
                     />
                     <div className="col-xs-12 p-5 text-center">
                         <span className={isContentValidated ? "text-success" : "text-danger"}>
