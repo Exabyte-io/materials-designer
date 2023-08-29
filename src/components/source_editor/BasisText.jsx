@@ -25,8 +25,15 @@ class BasisText extends React.Component {
     // eslint-disable-next-line no-unused-vars
     UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         const { content } = this.props;
-        if (content !== nextProps.content) {
-            this.reformatContentAndUpdateStateIfNoManualEdit(nextProps.content);
+        if (prevProps.content !== content) {
+            this.reformatContentAndUpdateStateIfNoManualEdit(content);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.editor) {
+            this.editor.off("focus", () => this.setState({ manualEditStarted: true }));
+            this.editor.off("blur", () => this.setState({ manualEditStarted: false }));
         }
     }
 
@@ -88,14 +95,17 @@ class BasisText extends React.Component {
                         // eslint-disable-next-line react/no-unused-class-component-methods
                         content={content}
                         updateContent={this.updateContent}
-                        onFocus={() => this.setState({ manualEditStarted: true })}
-                        onBlur={() => this.setState({ manualEditStarted: false })}
+                        onFocus={(editor) => (this.editor = editor)}
+                        onBlur={(editor) => (this.editor = editor)}
                         readOnly={readOnly}
                         options={{
                             lineNumbers: true,
                             ...codeMirrorOptions,
                         }}
                         theme="dark"
+                        completions={() => {}}
+                        language="fortran"
+                        updateOnFirstLoad
                     />
                     <div className="col-xs-12 p-5 text-center">
                         <span className={isContentValidated ? "text-success" : "text-danger"}>
