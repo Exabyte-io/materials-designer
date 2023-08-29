@@ -49,7 +49,7 @@ export const FullscreenComponentMixin = (superclass) =>
         render() {
             return (
                 <this.FullscreenHandlerComponent
-                    className={setClass(this.props.className)}
+                    className={setClass(this.props.className || "col-md-12")}
                     enabled={this.state.isFullscreen}
                     onChange={this.onFullscreen}
                 >
