@@ -1,9 +1,17 @@
 {
     "extends": ["@exabyte-io/eslint-config", "plugin:react/recommended"],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
+    },
     "plugins": ["react"],
     "rules": {
         "react/jsx-filename-extension": "error",
         "jsx-a11y/label-has-associated-control": ["error", { "assert": "either" }],
-        "react/forbid-prop-types": "warn"
+        "react/forbid-prop-types": "warn",
+        "import/extensions": "off"
     }
 }
