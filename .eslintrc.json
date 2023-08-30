@@ -13,5 +13,36 @@
         "jsx-a11y/label-has-associated-control": ["error", { "assert": "either" }],
         "react/forbid-prop-types": "warn",
         "import/extensions": "off"
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "*.ts",
+                "*.tsx"
+            ],
+            "extends": [
+                "@exabyte-io/eslint-config",
+                "eslint:recommended",
+                "plugin:@typescript-eslint/eslint-recommended",
+                "plugin:@typescript-eslint/recommended",
+                // "plugin:@typescript-eslint/recommended-requiring-type-checking",
+                "plugin:import/typescript"
+            ],
+            "parser": "@typescript-eslint/parser",
+            "rules": {
+                "@typescript-eslint/ban-ts-comment": "off",
+                "import/no-absolute-path": "off",
+                "import/extensions": "off",
+                "react/forbid-prop-types": "off",
+                "react/jsx-filename-extension": "off",
+                "react/require-default-props": "off",
+                "react/prop-types": "off",
+                "no-use-before-define": "off",
+                "no-shadow": "off",
+                "@typescript-eslint/no-use-before-define": ["error"],
+                "react/function-component-definition": [2, { "namedComponents": "function-declaration","unnamedComponents": "function-expression" }]
+            },
+            "plugins": ["@typescript-eslint"]
+        }
+    ]
 }
