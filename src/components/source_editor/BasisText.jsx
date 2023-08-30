@@ -1,12 +1,12 @@
 // import _ from "underscore";
 /* eslint-disable react/sort-comp */
+import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import { Made } from "@exabyte-io/made.js";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
 import { displayMessage } from "../../i18n/messages";
-import CodeMirror from "./CodeMirror";
 
 class BasisText extends React.Component {
     constructor(props) {
@@ -123,6 +123,10 @@ class BasisText extends React.Component {
                             lineNumbers: true,
                             ...codeMirrorOptions,
                         }}
+                        theme="dark"
+                        completions={() => {}}
+                        updateOnFirstLoad
+                        language="exaxyz"
                     />
                     <div className="col-xs-12 p-5 text-center">
                         <span className={isContentValidated ? "text-success" : "text-danger"}>
