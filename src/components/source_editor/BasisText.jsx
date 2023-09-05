@@ -19,8 +19,6 @@ class BasisText extends React.Component {
             manualEditStarted: false,
         };
         this.updateContent = this.updateContent.bind(this);
-        this.codeMirrorRef = React.createRef();
-        this.customLinter = this.customLinter.bind(this);
         // TODO: adjust tests to accommodate for the delay and re-enable
         // this.updateContent = _.debounce(this.updateContent, 700);
     }
@@ -83,35 +81,13 @@ class BasisText extends React.Component {
         });
     }
 
-    customLinter(editorView) {
-        const { checks } = this.state;
-        const { doc } = editorView.state;
-
-        if (checks.length === 0 || !doc) return [];
-
-        const warnings = checks.map((check) => {
-            // TODO: wrap in a mixin with named functions for this
-            const lineNumber = check.id + 1; // codemirror counts from 1
-            return {
-                message: check.message,
-                severity: check.type,
-                from: doc.line(lineNumber).from,
-                to: doc.line(lineNumber).to,
-            };
-        });
-
-        return warnings;
-    }
-
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
-        const { content, isContentValidated, message } = this.state;
+        const { content, isContentValidated, message, checks } = this.state;
         return (
             <div className={setClass("xyz", className)}>
                 <div id="basis-xyz">
                     <CodeMirror
-                        forwardedRef={this.codeMirrorRef}
-                        customLinter={this.customLinter}
                         className="xyz-codemirror"
                         // eslint-disable-next-line react/no-unused-class-component-methods
                         content={content}
@@ -127,6 +103,7 @@ class BasisText extends React.Component {
                         completions={() => {}}
                         updateOnFirstLoad
                         language="exaxyz"
+                        checks={checks}
                     />
                     <div className="col-xs-12 p-5 text-center">
                         <span className={isContentValidated ? "text-success" : "text-danger"}>
