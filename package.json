@@ -37,7 +37,7 @@
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@exabyte-io/wave.js": "2023.8.23-2",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#10e15536b608e0b7cc1d27cf544a7d3373e0b1e9",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#73e39cf0f056a8e4b4292235f12e1098b64cb5c8",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
@@ -70,9 +70,9 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/code.js": "^2022.6.15-1",
+        "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#d32988f65dcdd4a79e81716904e7905e694b2148",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
-        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#b784d696ac7dfab2fda62cede5b8f2f09d40a182",
+        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#9d4e9e0b51ce098e20d20e0991e5aef3de6e7bf1",
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
