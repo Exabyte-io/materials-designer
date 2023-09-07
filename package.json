@@ -3,6 +3,7 @@
     "version": "2022.1.9-0",
     "description": "Materials Designer",
     "scripts": {
+        "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react",
         "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
@@ -37,7 +38,7 @@
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@exabyte-io/wave.js": "2023.8.23-2",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#61643928414e4213afd9cc884d3c1c126a3d54c2",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#75177d04a1e8beed20423defe1c188c4cfcbb816",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
@@ -49,6 +50,7 @@
         "mathjs": "^3.9.0",
         "mixwith": "^0.1.1",
         "node-sass": "^4.11.0",
+        "npm-link-shared": "^0.5.6",
         "prop-types": "^15.8.0",
         "react-bootstrap": "0.32.4",
         "react-full-screen": "^0.2.2",
@@ -70,9 +72,9 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#d32988f65dcdd4a79e81716904e7905e694b2148",
+        "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#2c6290b74be5f4001ec72950f2c67d0880ebbe57",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
-        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#9d4e9e0b51ce098e20d20e0991e5aef3de6e7bf1",
+        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#fd6887b37d8feb62deea5f3730ac387e4b7a4449",
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
