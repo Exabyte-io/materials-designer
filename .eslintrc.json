@@ -1,9 +1,7 @@
 {
-    "extends": ["@exabyte-io/eslint-config", "plugin:react/recommended"],
-    "plugins": ["react"],
+    "extends": ["@exabyte-io/eslint-config"],
     "rules": {
-        "react/jsx-filename-extension": "error",
-        "jsx-a11y/label-has-associated-control": ["error", { "assert": "either" }],
-        "react/forbid-prop-types": "warn"
+        "jsx-a11y/label-has-associated-control": "off",
+        "react/function-component-definition": "off"
     }
 }
