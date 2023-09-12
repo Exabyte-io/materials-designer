@@ -73,7 +73,7 @@
     },
     "devDependencies": {
         "@exabyte-io/code.js": "^2022.6.15-1",
-        "@exabyte-io/eslint-config": "^2022.11.17-0",
+        "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "^2023.6.3-0",
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
@@ -85,6 +85,7 @@
         "eslint-plugin-import": "2.25.3",
         "eslint-plugin-jsdoc": "37.1.0",
         "eslint-plugin-jsx-a11y": "6.5.1",
+        "eslint-plugin-mui-path-imports": "0.0.15",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "7.27.1",
         "eslint-plugin-simple-import-sort": "7.0.0",
