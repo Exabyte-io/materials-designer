@@ -5,7 +5,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 // eslint-disable-next-line no-unused-vars
@@ -16,22 +15,20 @@ class Pyodide extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pythonCode: "",
+            pythonCode: 'value = sharedData["key"]\nvalue',
             result: "",
+            sharedData: { key: "value" },
         };
         this.handleCodeChange = this.handleCodeChange.bind(this);
         this.runPythonCode = this.runPythonCode.bind(this);
     }
 
     async componentDidMount() {
-        async function main() {
-            const pyodide = await window.loadPyodide();
-            await pyodide.loadPackage("numpy");
-            await pyodide.loadPackage("micropip");
-            const micropip = pyodide.pyimport("micropip");
-            await micropip.install("ase");
-        }
-        await main();
+        this.pyodide = await window.loadPyodide();
+        await this.pyodide.loadPackage("numpy");
+        await this.pyodide.loadPackage("micropip");
+        const micropip = this.pyodide.pyimport("micropip");
+        await micropip.install("ase");
     }
 
     handleCodeChange(newContent) {
@@ -39,10 +36,21 @@ class Pyodide extends React.Component {
     }
 
     async runPythonCode() {
-        const { pythonCode } = this.state;
-        const pyodide = await window.loadPyodide();
-        const result = await pyodide.runPythonAsync(pythonCode);
-        this.setState({ result });
+        const { pythonCode, sharedData } = this.state;
+        this.pyodide.globals.sharedData = this.pyodide.toPy(sharedData);
+        try {
+            const result = await this.pyodide.runPythonAsync(pythonCode);
+            const modifiedSharedData = this.pyodide.globals.sharedData;
+
+            // Update React's state with the modified data from Python
+            this.setState({
+                result,
+                sharedData: modifiedSharedData,
+            });
+        } catch (error) {
+            console.error("Error executing Python code:", error);
+            // Handle the error, e.g., by setting an error state or displaying a message
+        }
     }
 
     render() {
@@ -84,7 +92,18 @@ class Pyodide extends React.Component {
                         Run Code
                     </Button>
                     <Box style={{ marginTop: "10px" }}>
-                        <TextField fullWidth value={result} rows={5} />
+                        <CodeMirror
+                            className="result-codemirror"
+                            content={result}
+                            updateContent={() => {}}
+                            readOnly
+                            rows={5}
+                            options={{
+                                lineNumbers: false,
+                            }}
+                            theme="dark"
+                            language="text"
+                        />
                     </Box>
                 </AccordionDetails>
             </Accordion>
