@@ -1,3 +1,4 @@
+import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -7,6 +8,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import setClass from "classnames";
 import PropTypes from "prop-types";
+// eslint-disable-next-line no-unused-vars
 // import { loadPyodide } from "pyodide";
 import React from "react";
 
@@ -17,6 +19,8 @@ class Pyodide extends React.Component {
             pythonCode: "",
             result: "",
         };
+        this.handleCodeChange = this.handleCodeChange.bind(this);
+        this.runPythonCode = this.runPythonCode.bind(this);
     }
 
     async componentDidMount() {
@@ -27,16 +31,16 @@ class Pyodide extends React.Component {
             const micropip = pyodide.pyimport("micropip");
             await micropip.install("ase");
         }
-        main();
+        await main();
     }
 
-    handleChange(event) {
-        this.setState({ pythonCode: event.target.value });
+    handleCodeChange(newContent) {
+        this.setState({ pythonCode: newContent });
     }
 
     async runPythonCode() {
-        const pyodide = await window.loadPyodide();
         const { pythonCode } = this.state;
+        const pyodide = await window.loadPyodide();
         const result = await pyodide.runPythonAsync(pythonCode);
         this.setState({ result });
     }
@@ -55,27 +59,32 @@ class Pyodide extends React.Component {
                         height: "100%",
                     }}
                 >
-                    <Box height="100%" width="100%">
-                        <TextField
-                            fullWidth
-                            multiline
-                            rows={4}
-                            variant="outlined"
-                            placeholder="Enter Python code here..."
-                            value={pythonCode}
-                            onChange={(e) => this.handleChange(e)}
+                    <Box>
+                        <CodeMirror
+                            className="xyz-codemirror"
+                            content={pythonCode}
+                            updateContent={this.handleCodeChange}
+                            readOnly={false}
+                            rows={20}
+                            options={{
+                                lineNumbers: true,
+                            }}
+                            theme="dark"
+                            completions={() => {}}
+                            updateOnFirstLoad
+                            language="python"
                         />
                     </Box>
                     <Button
                         variant="contained"
                         color="primary"
                         style={{ marginTop: "10px" }}
-                        onClick={() => this.runPythonCode()}
+                        onClick={this.runPythonCode}
                     >
                         Run Code
                     </Button>
                     <Box style={{ marginTop: "10px" }}>
-                        <TextField fullWidth value={result} />
+                        <TextField fullWidth value={result} rows={5} />
                     </Box>
                 </AccordionDetails>
             </Accordion>
