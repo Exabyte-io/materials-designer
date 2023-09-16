@@ -1,3 +1,4 @@
+// eslint-ignore-file
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
@@ -15,20 +16,25 @@ class Pyodide extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pythonCode: 'value = sharedData["key"]\nvalue',
+            pythonCode: `
+            import micropip
+            print(globals())
+            #micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl")
+            `,
             result: "",
-            sharedData: { key: "value" },
         };
         this.handleCodeChange = this.handleCodeChange.bind(this);
         this.runPythonCode = this.runPythonCode.bind(this);
     }
 
     async componentDidMount() {
+        this.setState({ isLoading: true });
         this.pyodide = await window.loadPyodide();
         await this.pyodide.loadPackage("numpy");
         await this.pyodide.loadPackage("micropip");
         const micropip = this.pyodide.pyimport("micropip");
         await micropip.install("ase");
+        this.setState({ isLoading: false });
     }
 
     handleCodeChange(newContent) {
@@ -36,26 +42,25 @@ class Pyodide extends React.Component {
     }
 
     async runPythonCode() {
-        const { pythonCode, sharedData } = this.state;
-        this.pyodide.globals.sharedData = this.pyodide.toPy(sharedData);
+        // eslint-disable-next-line no-unused-vars
+        const { pythonCode } = this.state;
+        // eslint-disable-next-line no-undef,react/destructuring-assignment
+        const convertedData = this.pyodide.toPy({ material: this.props.material.toJSON() });
         try {
-            const result = await this.pyodide.runPythonAsync(pythonCode);
-            const modifiedSharedData = this.pyodide.globals.sharedData;
-
-            // Update React's state with the modified data from Python
-            this.setState({
-                result,
-                sharedData: modifiedSharedData,
+            await this.pyodide.runPython(pythonCode, {
+                globals: convertedData,
             });
+            console.log(this.pyodide.globals);
+            console.log(this.pyodide.globals.get("material"));
         } catch (error) {
             console.error("Error executing Python code:", error);
-            // Handle the error, e.g., by setting an error state or displaying a message
         }
     }
 
     render() {
         const { className } = this.props;
         const { result, pythonCode } = this.state;
+        const { isLoading } = this.state;
         return (
             <Accordion defaultExpanded className={setClass(className, "crystal-basis")}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -86,6 +91,7 @@ class Pyodide extends React.Component {
                     <Button
                         variant="contained"
                         color="primary"
+                        disabled={isLoading}
                         style={{ marginTop: "10px" }}
                         onClick={this.runPythonCode}
                     >
@@ -113,6 +119,8 @@ class Pyodide extends React.Component {
 
 Pyodide.propTypes = {
     className: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    material: PropTypes.object.isRequired,
 };
 
 export default Pyodide;
