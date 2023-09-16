@@ -3,7 +3,7 @@
     "version": "2022.1.9-0",
     "description": "Materials Designer",
     "scripts": {
-        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
+        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start --experimental-wasm-bigint --no-wasm-code-gc",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --extensions '.js,.jsx,.ts,.tsx' --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
@@ -11,6 +11,7 @@
         "lint": "eslint src tests && prettier --write src tests",
         "lint:fix": "eslint src tests --fix && prettier --write src tests",
         "postinstall": "npm run transpile; npm run transpile-tests",
+        "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react",
         "prettier": "prettier --check src tests"
     },
     "repository": {
@@ -36,8 +37,8 @@
         "@codemirror/legacy-modes": "^6.3.1",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
-        "@exabyte-io/wave.js": "2023.9.14-1",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#10e15536b608e0b7cc1d27cf544a7d3373e0b1e9",
+        "@exabyte-io/cove.js": "file:../cove.js",
+        "@exabyte-io/wave.js": "file:../wave.js",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
@@ -49,6 +50,7 @@
         "mathjs": "^3.9.0",
         "mixwith": "^0.1.1",
         "node-sass": "^4.11.0",
+        "npm-link-shared": "^0.5.6",
         "prop-types": "^15.8.0",
         "react-bootstrap": "0.32.4",
         "react-full-screen": "^0.2.2",
@@ -62,7 +64,10 @@
         "redux-undo": "^1.0.0-beta9-9-7",
         "sprintf-js": "^1.1.2",
         "underscore": "^1.12.1",
-        "underscore.string": "^3.3.4"
+        "underscore.string": "^3.3.4",
+        "typescript": "4.5.4",
+        "pyodide": "^0.24.0",
+        "node-fetch": "^2.6.1"
     },
     "peerDependencies": {
         "@exabyte-io/made.js": "*",
@@ -71,18 +76,19 @@
     },
     "devDependencies": {
         "@exabyte-io/code.js": "^2022.6.15-1",
-        "@exabyte-io/eslint-config": "^2022.11.17-0",
+        "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "^2023.6.3-0",
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
-        "eslint": "7.32.0",
+        "eslint": "^7.32.0",
         "eslint-config-airbnb": "19.0.2",
         "eslint-config-prettier": "^8.5.0",
         "eslint-import-resolver-exports": "^1.0.0-beta.3",
         "eslint-plugin-import": "2.25.3",
         "eslint-plugin-jsdoc": "37.1.0",
         "eslint-plugin-jsx-a11y": "6.5.1",
+        "eslint-plugin-mui-path-imports": "0.0.15",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "7.27.1",
         "eslint-plugin-simple-import-sort": "7.0.0",
@@ -107,7 +113,7 @@
         "not op_mini all"
     ],
     "engines": {
-        "node": ">=12.0",
+        "node": ">=14.0",
         "npm": ">=6.14"
     }
 }
