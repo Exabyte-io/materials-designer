@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import setClass from "classnames";
 import PropTypes from "prop-types";
-import { loadPyodide } from "pyodide";
+// import { loadPyodide } from "pyodide";
 import React from "react";
 
 class Pyodide extends React.Component {
@@ -21,9 +21,11 @@ class Pyodide extends React.Component {
 
     async componentDidMount() {
         async function main() {
-            const pyodide = await loadPyodide();
-            console.log(pyodide.runPython("import sys\nsys.version"));
-            pyodide.runPython("print('Hello from Python!')");
+            const pyodide = await window.loadPyodide();
+            await pyodide.loadPackage("numpy");
+            await pyodide.loadPackage("micropip");
+            const micropip = pyodide.pyimport("micropip");
+            await micropip.install("ase");
         }
         main();
     }
@@ -33,7 +35,7 @@ class Pyodide extends React.Component {
     }
 
     async runPythonCode() {
-        const pyodide = await loadPyodide();
+        const pyodide = await window.loadPyodide();
         const { pythonCode } = this.state;
         const result = await pyodide.runPythonAsync(pythonCode);
         this.setState({ result });
@@ -44,22 +46,26 @@ class Pyodide extends React.Component {
         const { result, pythonCode } = this.state;
         return (
             <Accordion defaultExpanded className={setClass(className, "crystal-basis")}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Pyodide</AccordionSummary>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    Interface Transformation
+                </AccordionSummary>
                 <AccordionDetails
                     style={{
                         display: "block",
                         height: "100%",
                     }}
                 >
-                    <TextField
-                        fullWidth
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        placeholder="Enter Python code here..."
-                        value={pythonCode}
-                        onChange={(e) => this.handleChange(e)}
-                    />
+                    <Box height="100%" width="100%">
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            placeholder="Enter Python code here..."
+                            value={pythonCode}
+                            onChange={(e) => this.handleChange(e)}
+                        />
+                    </Box>
                     <Button
                         variant="contained"
                         color="primary"
@@ -69,7 +75,7 @@ class Pyodide extends React.Component {
                         Run Code
                     </Button>
                     <Box style={{ marginTop: "10px" }}>
-                        <code>Python Output: {result}</code>
+                        <TextField fullWidth value={result} />
                     </Box>
                 </AccordionDetails>
             </Accordion>

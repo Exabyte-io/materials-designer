@@ -3,16 +3,7 @@ import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
-const ToggleSwitch = function ToggleSwitch({
-    cls,
-    color,
-    id,
-    title,
-    name,
-    checked,
-    disabled,
-    onStateChange,
-}) {
+function ToggleSwitch({ cls, color, id, title, name, checked, disabled, onStateChange }) {
     const htmlFor = "form-" + id + "-label";
     return (
         <div className={setClass("toggle-switch", cls)} data-ts-color={color}>
@@ -31,7 +22,7 @@ const ToggleSwitch = function ToggleSwitch({
             <label htmlFor={id} className="ts-helper" />
         </div>
     );
-};
+}
 
 ToggleSwitch.propTypes = {
     cls: PropTypes.string.isRequired,

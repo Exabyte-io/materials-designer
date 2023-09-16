@@ -2,14 +2,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const SAlertContentTmpl = function SAlertContentTmpl({
-    id,
-    classNames,
-    condition,
-    styles,
-    message,
-    handleClose,
-}) {
+function SAlertContentTmpl({ id, classNames, condition, styles, message, handleClose }) {
     return (
         <div
             id={id}
@@ -25,7 +18,7 @@ const SAlertContentTmpl = function SAlertContentTmpl({
             <span>{message}</span>
         </div>
     );
-};
+}
 
 SAlertContentTmpl.propTypes = {
     id: PropTypes.string.isRequired,
