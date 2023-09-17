@@ -17,8 +17,17 @@ class Pyodide extends React.Component {
         super(props);
         this.state = {
             pythonCode: `
-            import micropip
-            print(globals())
+import micropip
+print(globals())
+
+global my_dict
+my_dict = {"name": "pyodide"}
+
+def func():
+    return my_dict
+
+
+func()
             #micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl")
             `,
             result: "",
@@ -47,11 +56,12 @@ class Pyodide extends React.Component {
         // eslint-disable-next-line no-undef,react/destructuring-assignment
         const convertedData = this.pyodide.toPy({ material: this.props.material.toJSON() });
         try {
-            await this.pyodide.runPython(pythonCode, {
+            const result = await this.pyodide.runPythonAsync(pythonCode, {
                 globals: convertedData,
             });
-            console.log(this.pyodide.globals);
-            console.log(this.pyodide.globals.get("material"));
+            const dict = await this.pyodide.globals.toJs();
+            console.log("dict:", dict);
+            console.log("RESULT:", result);
         } catch (error) {
             console.error("Error executing Python code:", error);
         }
@@ -59,6 +69,7 @@ class Pyodide extends React.Component {
 
     render() {
         const { className } = this.props;
+        // eslint-disable-next-line no-unused-vars
         const { result, pythonCode } = this.state;
         const { isLoading } = this.state;
         return (
@@ -98,18 +109,17 @@ class Pyodide extends React.Component {
                         Run Code
                     </Button>
                     <Box style={{ marginTop: "10px" }}>
-                        <CodeMirror
-                            className="result-codemirror"
-                            content={result}
-                            updateContent={() => {}}
-                            readOnly
-                            rows={5}
-                            options={{
-                                lineNumbers: false,
-                            }}
-                            theme="dark"
-                            language="text"
-                        />
+                        {/* <CodeMirror */}
+                        {/*    className="result-codemirror" */}
+                        {/*    content={result} */}
+                        {/*    updateContent={() => {}} */}
+                        {/*    readOnly */}
+                        {/*    rows={5} */}
+                        {/*    options={{ */}
+                        {/*        lineNumbers: false, */}
+                        {/*    }} */}
+                        {/*    theme="dark" */}
+                        {/* /> */}
                     </Box>
                 </AccordionDetails>
             </Accordion>
