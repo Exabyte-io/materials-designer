@@ -1,5 +1,6 @@
 // eslint-ignore-file
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
+import { Made } from "@exabyte-io/made.js";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -17,32 +18,57 @@ class Pyodide extends React.Component {
         super(props);
         this.state = {
             pythonCode: `
-import micropip
-print(globals())
+from ase import Atoms
+from ase.build import surface
+from ase.io import read, write
+import io
 
-global my_dict
-my_dict = {"name": "pyodide"}
+def func() :
+    # Extracting data from globals
+    material_data = globals()["data"]
+    print("Py input: material_data:", material_data)
+    poscar_str = material_data["poscar"]
+    h = material_data["h"]
+    k = material_data["k"]
+    l = material_data["l"]
+    layers = material_data["thickness"]
+    vacuum = material_data["vacuum"]
+    
+    # Using io.StringIO to treat the string as a file-like object
+    poscar_file = io.StringIO(poscar_str)
+    
+    atoms = read(poscar_file, format="vasp")
+    
+    slab = surface(atoms, (h, k, l), layers, vacuum)
+    
+    output_file = io.StringIO()  # Placeholder
+    write(output_file, slab, format="vasp")
+    global poscar_output
+    poscar_output = output_file.getvalue()
+    print('Py output:', poscar_output)
+    
+    return globals()
 
-def func():
-    return my_dict
-
-
-func()
-            #micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl")
-            `,
+func()`,
             result: "",
+            surfaceConfig: {
+                h: 1,
+                k: 0,
+                l: 0,
+                thickness: 3,
+                vacuum: 0.1,
+                vx: 1,
+                vy: 1,
+            },
         };
         this.handleCodeChange = this.handleCodeChange.bind(this);
         this.runPythonCode = this.runPythonCode.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     async componentDidMount() {
         this.setState({ isLoading: true });
-        this.pyodide = await window.loadPyodide();
-        await this.pyodide.loadPackage("numpy");
-        await this.pyodide.loadPackage("micropip");
-        const micropip = this.pyodide.pyimport("micropip");
-        await micropip.install("ase");
+        await this.initializePyodide();
         this.setState({ isLoading: false });
     }
 
@@ -50,28 +76,60 @@ func()
         this.setState({ pythonCode: newContent });
     }
 
+    async handleClick() {
+        const result = await this.runPythonCode(); // not generic!
+        this.setState({ result });
+
+        const { onSubmit } = this.props;
+        const config = Made.parsers.poscar.fromPoscar(result);
+        let newMaterial = new Made.Material(config);
+        console.log(newMaterial);
+        newMaterial = newMaterial.getACopyWithConventionalCell();
+        onSubmit(newMaterial);
+    }
+
     async runPythonCode() {
+        let result = null;
         // eslint-disable-next-line no-unused-vars
         const { pythonCode } = this.state;
-        // eslint-disable-next-line no-undef,react/destructuring-assignment
-        const convertedData = this.pyodide.toPy({ material: this.props.material.toJSON() });
+
+        const { material } = this.props;
+        console.log(material);
+        const { surfaceConfig } = this.state;
+        const data = {
+            poscar: material.getACopyWithConventionalCell().getAsPOSCAR(),
+            ...surfaceConfig,
+        };
+
+        const convertedData = this.pyodide.toPy({ data });
         try {
-            const result = await this.pyodide.runPythonAsync(pythonCode, {
+            result = await this.pyodide.runPythonAsync(pythonCode, {
                 globals: convertedData,
             });
-            const dict = await this.pyodide.globals.toJs();
-            console.log("dict:", dict);
+            result = result.toJs().get("poscar_output");
             console.log("RESULT:", result);
+            // console.log("RESULT:", result.toJs().get("poscar_output"));
         } catch (error) {
             console.error("Error executing Python code:", error);
         }
+        return result;
+    }
+
+    async initializePyodide() {
+        this.pyodide = await window.loadPyodide();
+        await this.pyodide.loadPackage("numpy");
+        await this.pyodide.loadPackage("micropip");
+        const micropip = this.pyodide.pyimport("micropip");
+        await micropip.install("ase");
+        await this.pyodide.pyimport("ase");
     }
 
     render() {
         const { className } = this.props;
         // eslint-disable-next-line no-unused-vars
-        const { result, pythonCode } = this.state;
+        const { pythonCode } = this.state;
         const { isLoading } = this.state;
+        const { result } = this.state;
         return (
             <Accordion defaultExpanded className={setClass(className, "crystal-basis")}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -104,23 +162,10 @@ func()
                         color="primary"
                         disabled={isLoading}
                         style={{ marginTop: "10px" }}
-                        onClick={this.runPythonCode}
+                        onClick={this.handleClick}
                     >
                         Run Code
                     </Button>
-                    <Box style={{ marginTop: "10px" }}>
-                        {/* <CodeMirror */}
-                        {/*    className="result-codemirror" */}
-                        {/*    content={result} */}
-                        {/*    updateContent={() => {}} */}
-                        {/*    readOnly */}
-                        {/*    rows={5} */}
-                        {/*    options={{ */}
-                        {/*        lineNumbers: false, */}
-                        {/*    }} */}
-                        {/*    theme="dark" */}
-                        {/* /> */}
-                    </Box>
                 </AccordionDetails>
             </Accordion>
         );
@@ -131,6 +176,7 @@ Pyodide.propTypes = {
     className: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     material: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
 };
 
 export default Pyodide;
