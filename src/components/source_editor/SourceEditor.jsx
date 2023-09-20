@@ -4,7 +4,7 @@ import React from "react";
 
 import BasisEditor from "./Basis";
 import LatticeEditor from "./Lattice";
-import Pyodide from "./Pyodide.jsx";
+import Pyodide from "./Pyodide";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class SourceEditor extends React.Component {
