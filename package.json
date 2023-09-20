@@ -33,8 +33,6 @@
         "@babel/preset-react": "7.16.7",
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
-        "@codemirror/language": "^6.6.0",
-        "@codemirror/legacy-modes": "^6.3.1",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@exabyte-io/cove.js": "2023.9.15-0",

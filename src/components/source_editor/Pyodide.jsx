@@ -22,31 +22,48 @@ from ase import Atoms
 from ase.build import surface
 from ase.io import read, write
 import io
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")
 
 def func() :
     # Extracting data from globals
     material_data = globals()["data"]
-    print("Py input: material_data:", material_data)
     poscar_str = material_data["poscar"]
+    # boilerplate for reading POSCAR
+    input = io.StringIO()
+    input.write(poscar_str)
+    input.seek(0)
+    atoms = read(input, format="vasp")
+    
     h = material_data["h"]
     k = material_data["k"]
     l = material_data["l"]
     layers = material_data["thickness"]
     vacuum = material_data["vacuum"]
     
-    # Using io.StringIO to treat the string as a file-like object
-    poscar_file = io.StringIO(poscar_str)
-    
-    atoms = read(poscar_file, format="vasp")
-    
     slab = surface(atoms, (h, k, l), layers, vacuum)
     
-    output_file = io.StringIO()  # Placeholder
-    write(output_file, slab, format="vasp")
-    global poscar_output
-    poscar_output = output_file.getvalue()
-    print('Py output:', poscar_output)
+    # boilerplate for retrieving information
+    output = io.StringIO()
+    write(output, slab, format="vasp")
+    global content
+    content = output.getvalue()
+    input.close()
+    output.close()
+   
+    # plotting for the fun:
+    z_coords = [atom.position[2] for atom in slab]
+    symbols = [atom.symbol for atom in slab]
     
+    plt.scatter(z_coords, range(len(z_coords)), c='blue')
+    for i, txt in enumerate(symbols):
+        plt.annotate(txt, (z_coords[i], i))
+    plt.xlabel('Z coordinate')
+    plt.ylabel('Atom Index')
+    plt.title('Atomic Positions in Z direction')
+    plt.show()
+
     return globals()
 
 func()`,
@@ -94,7 +111,6 @@ func()`,
         const { pythonCode } = this.state;
 
         const { material } = this.props;
-        console.log(material);
         const { surfaceConfig } = this.state;
         const data = {
             poscar: material.getACopyWithConventionalCell().getAsPOSCAR(),
@@ -106,9 +122,8 @@ func()`,
             result = await this.pyodide.runPythonAsync(pythonCode, {
                 globals: convertedData,
             });
-            result = result.toJs().get("poscar_output");
+            result = result.toJs().get("content");
             console.log("RESULT:", result);
-            // console.log("RESULT:", result.toJs().get("poscar_output"));
         } catch (error) {
             console.error("Error executing Python code:", error);
         }
@@ -122,6 +137,7 @@ func()`,
         const micropip = this.pyodide.pyimport("micropip");
         await micropip.install("ase");
         await this.pyodide.pyimport("ase");
+        document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
     }
 
     render() {
@@ -129,6 +145,7 @@ func()`,
         // eslint-disable-next-line no-unused-vars
         const { pythonCode } = this.state;
         const { isLoading } = this.state;
+        // eslint-disable-next-line no-unused-vars
         const { result } = this.state;
         return (
             <Accordion defaultExpanded className={setClass(className, "crystal-basis")}>
@@ -157,15 +174,18 @@ func()`,
                             language="python"
                         />
                     </Box>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        disabled={isLoading}
-                        style={{ marginTop: "10px" }}
-                        onClick={this.handleClick}
-                    >
-                        Run Code
-                    </Button>
+                    <Box>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            disabled={isLoading}
+                            style={{ marginTop: "10px" }}
+                            onClick={this.handleClick}
+                        >
+                            Run Code
+                        </Button>
+                    </Box>
+                    <Box id="pyodide-plot-target" />
                 </AccordionDetails>
             </Accordion>
         );
