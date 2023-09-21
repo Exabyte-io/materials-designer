@@ -4,7 +4,7 @@ import React from "react";
 
 import BasisEditor from "./Basis";
 import LatticeEditor from "./Lattice";
-import Pyodide from "./Pyodide";
+// import Pyodide from "./Pyodide";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class SourceEditor extends React.Component {
@@ -21,7 +21,7 @@ class SourceEditor extends React.Component {
             >
                 <LatticeEditor className="col-xs-12 p-0" material={material} onUpdate={onUpdate} />
                 <BasisEditor className="col-xs-12 p-0" material={material} onUpdate={onUpdate} />
-                <Pyodide className="col-xs-12 p-0" material={material} onSubmit={onUpdate} />
+                {/* <Pyodide className="col-xs-12 p-0" material={material} onSubmit={onUpdate} /> */}
             </div>
         );
     }

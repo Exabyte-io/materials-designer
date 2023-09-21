@@ -36,7 +36,9 @@ import React from "react";
 import { Material } from "../../material";
 import { BoundaryConditionsDialog } from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
+import InterfaceBuilder from "../3d_editor/advanced_geometry/InterfaceBuilder";
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
+import PythonTransformation from "../3d_editor/advanced_geometry/PythonTransformation";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
@@ -55,6 +57,9 @@ class HeaderMenuToolbar extends React.Component {
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
             showBoundaryConditionsDialog: false,
+            showInterfaceBuilder: false,
+            showPythonTransformation: false,
+            selectedMaterials: [],
         };
     }
 
@@ -229,6 +234,18 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Nanotube
                 </MenuItem>
+                <MenuItem onClick={() => this.setState({ showInterfaceBuilder: true })}>
+                    <ListItemIcon>
+                        <DeviceHubIcon />
+                    </ListItemIcon>
+                    Interface Builder
+                </MenuItem>
+                <MenuItem onClick={() => this.setState({ showPythonTransformation: true })}>
+                    <ListItemIcon>
+                        <AssignmentIcon />
+                    </ListItemIcon>
+                    Python Transformation
+                </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
     }
@@ -337,6 +354,9 @@ class HeaderMenuToolbar extends React.Component {
             showCombinatorialDialog,
             showExportMaterialsDialog,
             showInterpolateDialog,
+            showInterfaceBuilder,
+            showPythonTransformation,
+            selectedMaterials,
         } = this.state;
         const {
             className,
@@ -349,6 +369,7 @@ class HeaderMenuToolbar extends React.Component {
             onGenerateSurface,
             onSetBoundaryConditions,
             maxCombinatorialBasesCount,
+            onRunPythonCode,
         } = this.props;
         if (showThreejsEditorModal) return this.renderThreejsEditorModal();
         return (
@@ -362,7 +383,6 @@ class HeaderMenuToolbar extends React.Component {
                 {this.renderAdvancedMenu()}
                 {this.renderHelpMenu()}
                 {this.renderSpinner()}
-
                 <SupercellDialog
                     show={showSupercellDialog}
                     modalId="supercellModal"
@@ -370,7 +390,6 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onGenerateSupercell}
                     onHide={() => this.setState({ showSupercellDialog: false })}
                 />
-
                 <SurfaceDialog
                     show={showSurfaceDialog}
                     modalId="surfaceModal"
@@ -378,7 +397,6 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onGenerateSurface}
                     onHide={() => this.setState({ showSurfaceDialog: false })}
                 />
-
                 <BoundaryConditionsDialog
                     show={showBoundaryConditionsDialog}
                     modalId="BoundaryConditionsModal"
@@ -387,17 +405,13 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onSetBoundaryConditions}
                     onHide={() => this.setState({ showBoundaryConditionsDialog: false })}
                 />
-
                 {this.renderImportModal()}
-
                 <ExportActionDialog
                     show={showExportMaterialsDialog}
                     onClose={() => this.setState({ showExportMaterialsDialog: false })}
                     onSubmit={onExport}
                 />
-
                 {this.renderSaveActionDialog()}
-
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
                     modalId="combinatorialSetModal"
@@ -411,7 +425,6 @@ class HeaderMenuToolbar extends React.Component {
                         this.setState({ showCombinatorialDialog: false });
                     }}
                 />
-
                 <InterpolateBasesDialog
                     title="Generate Interpolated Set"
                     modalId="interpolatedSetModal"
@@ -424,6 +437,31 @@ class HeaderMenuToolbar extends React.Component {
                         onAdd(...args);
                         this.setState({ showInterpolateDialog: false });
                     }}
+                />
+                <InterfaceBuilder
+                    materials={materials}
+                    show={showInterfaceBuilder}
+                    onHide={() => this.setState({ showInterfaceBuilder: false })}
+                    onSubmit={(...args) => {
+                        onAdd(...args);
+                        console.log("args:", args);
+                        this.setState({
+                            showInterfaceBuilder: false,
+                            showPythonTransformation: true,
+                            selectedMaterials: args,
+                        });
+                    }}
+                />
+                <PythonTransformation
+                    materials={selectedMaterials || materials[0]}
+                    onSubmit={(...args) => {
+                        onRunPythonCode();
+                        onAdd(...args);
+                        this.setState({ showPythonTransformation: false });
+                    }}
+                    transformationParameters={{ transformationName: "createSurface" }}
+                    show={showPythonTransformation}
+                    onHide={() => this.setState({ showPythonTransformation: false })}
                 />
             </Toolbar>
         );
@@ -454,6 +492,7 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSupercell: PropTypes.func.isRequired,
     onGenerateSurface: PropTypes.func.isRequired,
     onSetBoundaryConditions: PropTypes.func.isRequired,
+    onRunPythonCode: PropTypes.func.isRequired,
 
     ImportModal: PropTypes.func.isRequired,
     SaveActionDialog: PropTypes.func.isRequired,

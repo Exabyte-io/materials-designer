@@ -70,3 +70,12 @@ export function setBoundaryConditionsForOneMaterial(config) {
         ...config,
     };
 }
+
+export const MATERIALS_RUN_PYTHON_CODE = "MATERIALS_RUN_PYTHON_CODE";
+
+export function runPythonCode(pythonCode) {
+    return {
+        type: MATERIALS_RUN_PYTHON_CODE,
+        pythonCode,
+    };
+}
