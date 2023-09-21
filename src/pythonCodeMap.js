@@ -11,6 +11,7 @@ matplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")
 def func() :
     # Extracting data from globals
     material_data = globals()["data"]
+    print(material_data)
     poscar_str = material_data["poscar"][0]
     # boilerplate for reading POSCAR
     input = io.StringIO()
@@ -18,11 +19,11 @@ def func() :
     input.seek(0)
     atoms = read(input, format="vasp")
     
-    h = material_data["h"]
-    k = material_data["k"]
-    l = material_data["l"]
-    layers = material_data["thickness"]
-    vacuum = material_data["vacuum"]
+    h = 1 # material_data["h"]
+    k = 0 # material_data["k"]
+    l = 0 # material_data["l"]
+    layers = 3 # material_data["thickness"]
+    vacuum = 0.1 # material_data["vacuum"]
     
     slab = surface(atoms, (h, k, l), layers, vacuum)
     

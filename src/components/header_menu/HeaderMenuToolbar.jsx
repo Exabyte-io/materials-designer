@@ -356,6 +356,7 @@ class HeaderMenuToolbar extends React.Component {
             showInterpolateDialog,
             showInterfaceBuilder,
             showPythonTransformation,
+            // eslint-disable-next-line no-unused-vars
             selectedMaterials,
         } = this.state;
         const {
@@ -369,6 +370,7 @@ class HeaderMenuToolbar extends React.Component {
             onGenerateSurface,
             onSetBoundaryConditions,
             maxCombinatorialBasesCount,
+            // eslint-disable-next-line no-unused-vars
             onRunPythonCode,
         } = this.props;
         if (showThreejsEditorModal) return this.renderThreejsEditorModal();
@@ -439,29 +441,28 @@ class HeaderMenuToolbar extends React.Component {
                     }}
                 />
                 <InterfaceBuilder
-                    materials={materials}
                     show={showInterfaceBuilder}
+                    materials={materials}
                     onHide={() => this.setState({ showInterfaceBuilder: false })}
                     onSubmit={(...args) => {
                         onAdd(...args);
-                        console.log("args:", args);
                         this.setState({
                             showInterfaceBuilder: false,
                             showPythonTransformation: true,
-                            selectedMaterials: args,
+                            selectedMaterials: { ...args },
                         });
                     }}
                 />
                 <PythonTransformation
-                    materials={selectedMaterials || materials[0]}
+                    show={showPythonTransformation}
+                    materials={materials}
+                    transformationParameters={{ transformationName: "createSurface" }}
+                    onHide={() => this.setState({ showPythonTransformation: false })}
                     onSubmit={(...args) => {
-                        onRunPythonCode();
+                        // onRunPythonCode();
                         onAdd(...args);
                         this.setState({ showPythonTransformation: false });
                     }}
-                    transformationParameters={{ transformationName: "createSurface" }}
-                    show={showPythonTransformation}
-                    onHide={() => this.setState({ showPythonTransformation: false })}
                 />
             </Toolbar>
         );

@@ -20,6 +20,7 @@ class PythonTransformation extends React.Component {
         super(props);
         this.state = {
             pythonCode: "print('Help World!')",
+            materials: props.materials,
             // eslint-disable-next-line react/no-unused-state
             transformationParameters: { transformationName: "createSurface" },
         };
@@ -55,10 +56,11 @@ class PythonTransformation extends React.Component {
     handleSubmit() {
         const { onSubmit } = this.props;
         const { material } = this.state;
+        console.log("handleSubmit", material);
         const newMaterial = material.getACopyWithConventionalCell();
         const newMaterials = [];
         newMaterials.push(newMaterial);
-        onSubmit(newMaterial);
+        onSubmit(newMaterials);
     }
 
     async runPythonCode() {
@@ -66,8 +68,7 @@ class PythonTransformation extends React.Component {
         // eslint-disable-next-line no-unused-vars
         const { pythonCode } = this.state;
 
-        const { materials } = this.props;
-        const { surfaceConfig } = this.state;
+        const { surfaceConfig, materials } = this.state;
         const materialsAsPoscar = materials.map((material) =>
             material.getACopyWithConventionalCell().getAsPOSCAR(),
         );
@@ -100,8 +101,7 @@ class PythonTransformation extends React.Component {
     }
 
     render() {
-        const { materials, pythonCode, isLoading, transformationParameters } = this.state;
-        console.log(materials);
+        const { pythonCode, isLoading, transformationParameters, materials } = this.state;
         const { show, onHide } = this.props;
         return (
             <DraggableDialog open={show} draggableId="pyodide" onClose={onHide}>
