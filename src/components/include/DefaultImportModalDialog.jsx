@@ -148,6 +148,26 @@ class DefaultImportModalDialog extends React.Component {
         });
     }
 
+    /**
+     * Get default materials from Standata during local development
+     * and return an empty array when installed in Web-app.
+     * @returns {Promise<unknown[] | *[]>}
+     */
+    // eslint-disable-next-line class-methods-use-this
+    getDefaultMaterialsAsync() {
+        return (
+            // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
+            import("@exabyte-io/standata/lib/runtime_data/materials")
+                .then((standata) => {
+                    return Object.values(standata.filesMapByName);
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    return [];
+                })
+        );
+    }
+
     formatDate = (date) => {
         const hours = date.getHours().toString().padStart(2, "0");
         const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -164,6 +184,20 @@ class DefaultImportModalDialog extends React.Component {
         this.setState((prevState) => ({
             files: prevState.files.filter((file) => file.fileName !== fileNameToRemove),
         }));
+    };
+
+    handleDefaultMaterials = async () => {
+        const configs = await this.getDefaultMaterialsAsync();
+        console.log("configs", configs);
+        const newMaterials = configs.map((config) => {
+            const newMaterial = new Material(config);
+            newMaterial.cleanOnCopy();
+            console.log(newMaterial);
+            return newMaterial;
+        });
+
+        const { onSubmit } = this.props;
+        onSubmit(newMaterials);
     };
 
     onSubmit = () => {
@@ -242,6 +276,7 @@ class DefaultImportModalDialog extends React.Component {
                 <DialogTitle>{this.title || title}</DialogTitle>
 
                 <DialogContent>
+                    <Button onClick={this.handleDefaultMaterials}>Default Materials</Button>
                     <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
                         {files.length > 0 ? (
                             <div
