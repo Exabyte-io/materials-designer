@@ -188,16 +188,17 @@ class DefaultImportModalDialog extends React.Component {
 
     handleDefaultMaterials = async () => {
         const configs = await this.getDefaultMaterialsAsync();
-        console.log("configs", configs);
-        const newMaterials = configs.map((config) => {
-            const newMaterial = new Material(config);
-            newMaterial.cleanOnCopy();
-            console.log(newMaterial);
-            return newMaterial;
+        const defaultFiles = configs.map((config, idx) => {
+            return {
+                id: config.id || idx,
+                fileName: config.name || "Not available",
+                format: "json",
+                text: JSON.stringify(config) || "Not available",
+                lastModified: this.formatDate(new Date()),
+            };
         });
 
-        const { onSubmit } = this.props;
-        onSubmit(newMaterials);
+        this.setState({ files: defaultFiles });
     };
 
     onSubmit = () => {
@@ -276,7 +277,7 @@ class DefaultImportModalDialog extends React.Component {
                 <DialogTitle>{this.title || title}</DialogTitle>
 
                 <DialogContent>
-                    <Button onClick={this.handleDefaultMaterials}>Default Materials</Button>
+                    <Button onClick={this.handleDefaultMaterials}>Import Default Materials</Button>
                     <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
                         {files.length > 0 ? (
                             <div
