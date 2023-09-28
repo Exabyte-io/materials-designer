@@ -1,10 +1,13 @@
 import { Made } from "@exabyte-io/made.js";
+import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import React from "react";
@@ -47,11 +50,22 @@ class DefaultImportModalDialog extends React.Component {
         this.state = {
             files: [],
             dragging: false,
+            defaultMaterialsList: [],
+            selectedMaterial: null,
         };
         this.title = "Import Materials";
 
         this.reader = new FileReader();
         this.reader.onloadend = this.handleFileRead;
+    }
+
+    componentDidMount() {
+        this.getDefaultMaterialsAsync().then((defaultMaterials) => {
+            const defaultMaterialsList = defaultMaterials.map((material) => {
+                return { label: material.name || "Not available", value: material };
+            });
+            this.setState({ defaultMaterialsList });
+        });
     }
 
     handleFileRead = (evt) => {
@@ -117,7 +131,7 @@ class DefaultImportModalDialog extends React.Component {
         // Filter out invalid files
         const validFiles = Array.from(files).filter((file) => file && file.size);
         if (validFiles.length === 0) {
-            NPMsAlert.warning("Error: file(s) cannot be read (unaccessible?)");
+            NPMsAlert.warning("Error: file(s) cannot be read (inaccessible?)");
             return;
         }
 
@@ -187,24 +201,50 @@ class DefaultImportModalDialog extends React.Component {
     };
 
     handleDefaultMaterials = async () => {
-        const configs = await this.getDefaultMaterialsAsync();
-        const defaultFiles = configs.map((config, idx) => {
-            return {
-                id: config.id || idx,
-                fileName: config.name || "Not available",
-                format: "json",
-                text: JSON.stringify(config) || "Not available",
-                lastModified: this.formatDate(new Date()),
-            };
-        });
+        const { selectedMaterial, files } = this.state;
 
-        this.setState({ files: defaultFiles });
+        if (!selectedMaterial) {
+            console.error("No material selected");
+            return;
+        }
+        const config = selectedMaterial.value;
+
+        const newFile = {
+            id: config.id || files.length,
+            fileName: config.name || "Not available",
+            format: "json",
+            text: JSON.stringify(config) || "Not available",
+            lastModified: this.formatDate(new Date()),
+        };
+
+        this.setState({ files: [...files, newFile] });
+        this.setState({ selectedMaterial: null });
     };
 
     onSubmit = () => {
         this.handleSubmit();
         // eslint-disable-next-line react/destructuring-assignment
         this.props.onClose();
+    };
+
+    renderAutocomplete = () => {
+        return (
+            <Autocomplete
+                sx={{ flexGrow: 1, mr: 2, height: "100%" }}
+                disablePortal
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                renderInput={(params) => <TextField {...params} label="Default Collection" />}
+                // eslint-disable-next-line react/destructuring-assignment
+                options={this.state.defaultMaterialsList}
+                getOptionLabel={(option) => option.label}
+                onChange={(event, value) => this.setState({ selectedMaterial: value })}
+                onKeyDown={async (e) => {
+                    if (e.key === "Enter") {
+                        await this.handleDefaultMaterials();
+                    }
+                }}
+            />
+        );
     };
 
     render() {
@@ -277,7 +317,17 @@ class DefaultImportModalDialog extends React.Component {
                 <DialogTitle>{this.title || title}</DialogTitle>
 
                 <DialogContent>
-                    <Button onClick={this.handleDefaultMaterials}>Import Default Materials</Button>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "stretch",
+                            width: "100%",
+                        }}
+                    >
+                        {this.renderAutocomplete()}
+                        <Button onClick={this.handleDefaultMaterials}>Import</Button>
+                    </Box>
                     <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
                         {files.length > 0 ? (
                             <div
