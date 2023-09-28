@@ -73,7 +73,7 @@
         "@exabyte-io/code.js": "^2022.6.15-1",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "^2023.9.21-0",
-        "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata#a87016035321d0a1c8a062fa6533ce5757c70418",
+        "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata#b0e44707584a6f0478c60ba8cc00b2ddbb7e513d",
         "@types/mocha": "^10.0.1",
         "@types/node": "^20.4.2",
         "babel-eslint": "^10.1.0",
