@@ -1,28 +1,24 @@
-// Component that recieves props: materials, transformation parameters and python code
-// Component that renders: a list of materials, a editable form of transformation parameters, a python code editor
-// Component that updates: materials, transformation parameters and python code
-//
-
-import DraggableDialog from "@exabyte-io/cove.js/dist/mui/components/dialog/DraggableDialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import { Made } from "@exabyte-io/made.js";
+import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
 import ListItem from "@mui/material/ListItem";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { pythonCodeMap } from "../../../pythonCodeMap";
+import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
 
 class PythonTransformation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pythonCode: "print('Help World!')",
+            pythonCode: "print('Hello World!')",
             materials: props.materials,
             // eslint-disable-next-line react/no-unused-state
-            transformationParameters: { transformationName: "createSurface" },
+            transformationParameters: { transformationName: "createInterface" },
         };
         this.handleCodeChange = this.handleCodeChange.bind(this);
         this.runPythonCode = this.runPythonCode.bind(this);
@@ -33,7 +29,7 @@ class PythonTransformation extends React.Component {
     async componentDidMount() {
         this.setState({ isLoading: true });
         const { transformationParameters } = this.state;
-        const pythonCode = pythonCodeMap[transformationParameters.transformationName];
+        const pythonCode = await fetchPythonCode(transformationParameters.transformationName);
         this.setState({
             pythonCode,
         });
@@ -104,7 +100,7 @@ class PythonTransformation extends React.Component {
         const { pythonCode, isLoading, transformationParameters, materials } = this.state;
         const { show, onHide } = this.props;
         return (
-            <DraggableDialog open={show} draggableId="pyodide" onClose={onHide}>
+            <Dialog open={show} onClose={onHide}>
                 <Box flexDirection="row">
                     <Box flexDirection="column">
                         {materials
@@ -114,9 +110,14 @@ class PythonTransformation extends React.Component {
                             : null}
                     </Box>
                     <Box flexDirection="column">
-                        <TextField
-                            content={transformationParameters.transformationName}
-                            label="Transformation:"
+                        <Autocomplete
+                            label="Transformation name:"
+                            value={transformationParameters.transformationName}
+                            options={transformationsMap}
+                            renderInput={(params) => (
+                                // eslint-disable-next-line react/jsx-props-no-spreading
+                                <TextField {...params} label="Transformations" />
+                            )}
                         />
                     </Box>
                     <Box flexDirection="column">
@@ -155,7 +156,7 @@ class PythonTransformation extends React.Component {
                     </Button>
                     <Box id="pyodide-plot-target" />
                 </Box>
-            </DraggableDialog>
+            </Dialog>
         );
     }
 }
