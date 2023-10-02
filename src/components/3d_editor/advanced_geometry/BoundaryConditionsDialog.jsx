@@ -8,20 +8,19 @@ import { ModalDialog } from "../../include/ModalDialog";
 export class BoundaryConditionsDialog extends ModalDialog {
     constructor(props) {
         super(props);
-        this.initializeState();
-        this.handleSetBoundaryConditions = this.handleSetBoundaryConditions.bind(this);
-    }
-
-    initializeState() {
         this.state = {
             boundaryType: this.props.material.boundaryConditions.type || "pbc",
             boundaryOffset: this.props.material.boundaryConditions.offset || 0,
         };
+        this.handleSetBoundaryConditions = this.handleSetBoundaryConditions.bind(this);
     }
 
     // eslint-disable-next-line no-unused-vars
-    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-        this.initializeState();
+    componentDidMount(nextProps, nextContext) {
+        this.setState({
+            boundaryType: this.props.material.boundaryConditions.type || "pbc",
+            boundaryOffset: this.props.material.boundaryConditions.offset || 0,
+        });
     }
 
     handleSetBoundaryConditions() {
