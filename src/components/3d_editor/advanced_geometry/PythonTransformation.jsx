@@ -130,9 +130,11 @@ class PythonTransformation extends React.Component {
             <Dialog
                 open={show}
                 onClose={onHide}
-                PaperProps={{ sx: { width: "800px", height: "600px" } }}
+                fullWidth
+                maxWidth="lg"
+                PaperProps={{ sx: { width: "60vw", height: "60vh", padding: "20px" } }}
             >
-                <Box flexDirection="row" sx={{ alignItems: "center", gap: 2, mt: 2 }}>
+                <Box flexDirection="row">
                     <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
                         Available Materials:
                     </InputLabel>
@@ -191,24 +193,29 @@ class PythonTransformation extends React.Component {
                     />
                 </Box>
 
-                <Button
-                    variant="contained"
-                    color="primary"
-                    disabled={isLoading}
-                    style={{ marginTop: "10px" }}
-                    onClick={this.handleRun}
+                <Box
+                    flexDirection="row"
+                    sx={{ justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
                 >
-                    Run Code
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    disabled={isLoading}
-                    style={{ marginTop: "10px" }}
-                    onClick={this.handleSubmit}
-                >
-                    Submit
-                </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={isLoading}
+                        style={{ marginTop: "10px" }}
+                        onClick={this.handleRun}
+                    >
+                        Run Code
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={isLoading}
+                        style={{ marginTop: "10px" }}
+                        onClick={this.handleSubmit}
+                    >
+                        Submit
+                    </Button>
+                </Box>
                 <Box id="pyodide-plot-target" />
             </Dialog>
         );

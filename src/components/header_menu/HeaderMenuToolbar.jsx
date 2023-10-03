@@ -56,6 +56,7 @@ class HeaderMenuToolbar extends React.Component {
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
             showBoundaryConditionsDialog: false,
+            showPythonTransformation: false,
         };
     }
 

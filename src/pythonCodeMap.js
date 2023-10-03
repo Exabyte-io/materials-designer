@@ -6,7 +6,7 @@ const transformationsMap = {
     return poscar_data[0]
 func()`,
     createInterface:
-        "https://raw.githubusercontent.com/Exabyte-io/api-examples/afc1a490c57ba3fc7c277a501cea7f05c3300061/other/two_dimensional_materials/layer_on_a_surface.py",
+        "https://raw.githubusercontent.com/Exabyte-io/api-examples/c11ad683037cbdeb5ff2d8633f9a3698fa8191de/other/two_dimensional_materials/layer_on_a_surface.py",
 };
 
 async function fetchPythonCode(transformationName) {
