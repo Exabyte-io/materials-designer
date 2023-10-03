@@ -1,12 +1,13 @@
 const transformationsMap = {
     default: `def func():
-    """This function returns the material without any change (as conventional cell)"""
-    poscar_data = globals()["data"]["poscar_data"]
-    print("Pyodide poscar_data:", poscar_data)
-    return poscar_data[0]
+    """This function returns materials without any change"""
+    materials = globals()["data_in"]["materials"]
+    print(materials[0])
+    globals()["data_out"] = {"materials": materials}
+    return globals()
 func()`,
     createInterface:
-        "https://raw.githubusercontent.com/Exabyte-io/api-examples/c11ad683037cbdeb5ff2d8633f9a3698fa8191de/other/two_dimensional_materials/layer_on_a_surface.py",
+        "https://raw.githubusercontent.com/Exabyte-io/api-examples/953a9a5bd749721a299bb68d898a6fa18e88b931/other/two_dimensional_materials/layer_on_a_surface.py",
 };
 
 async function fetchPythonCode(transformationName) {

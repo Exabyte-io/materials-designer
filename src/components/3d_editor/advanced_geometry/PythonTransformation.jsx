@@ -18,9 +18,8 @@ class PythonTransformation extends React.Component {
         this.state = {
             pythonCode: "",
             materials: props.materials,
-            material: {},
+            newMaterials: [],
             isLoading: false,
-            // eslint-disable-next-line react/no-unused-state
             transformationParameters: { transformationName: "default" },
         };
         this.handleCodeChange = this.handleCodeChange.bind(this);
@@ -55,10 +54,18 @@ class PythonTransformation extends React.Component {
 
     async handleRun() {
         try {
-            const result = await this.runPythonCode(); // not generic!
-            const config = Made.parsers.poscar.fromPoscar(result);
-            const newMaterial = new Made.Material(config);
-            this.setState({ material: newMaterial });
+            const dataOut = await this.runPythonCode();
+            const materials = dataOut.get("materials");
+            const newMaterials = materials.map((m) => {
+                const material = this.mapToObject(m);
+                const config = Made.parsers.poscar.fromPoscar(material.poscar);
+                config.lattice = material.material.lattice; // not generic
+                const newMaterial = new Made.Material(config);
+                newMaterial.metadata = material.metadata;
+                return newMaterial;
+            });
+
+            this.setState({ newMaterials });
         } catch (error) {
             console.error(error);
         }
@@ -66,10 +73,8 @@ class PythonTransformation extends React.Component {
 
     handleSubmit() {
         const { onSubmit } = this.props;
-        const { material } = this.state;
-        const newMaterial = material.getACopyWithConventionalCell();
-        const newMaterials = [];
-        newMaterials.push(newMaterial);
+        const { newMaterials } = this.state;
+
         onSubmit(newMaterials);
     }
 
@@ -83,42 +88,55 @@ class PythonTransformation extends React.Component {
         }
     };
 
+    mapToObject(map) {
+        const obj = {};
+        map.forEach((value, key) => {
+            if (value instanceof Map) {
+                obj[key] = this.mapToObject(value);
+            } else {
+                obj[key] = value;
+            }
+        });
+        return obj;
+    }
+
     async initializePyodide() {
         this.pyodide = await window.loadPyodide();
-        await this.pyodide.loadPackage("numpy");
         await this.pyodide.loadPackage("micropip");
         const micropip = this.pyodide.pyimport("micropip");
         await micropip.install("ase");
-        await this.pyodide.pyimport("ase");
         document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
     }
 
     async runPythonCode() {
-        let result = null;
-        // eslint-disable-next-line no-unused-vars
-        const { pythonCode } = this.state;
+        let dataOut = null;
+        const { pythonCode, materials } = this.state;
 
-        const { materials } = this.state;
-        const materialsAsPoscar = materials.map((material) =>
-            material.getACopyWithConventionalCell().getAsPOSCAR(),
-        );
-        const data = {
-            poscar_data: materialsAsPoscar,
-        };
+        const materialsData = materials.map((material, id) => {
+            const materialConfig = material.toJSON();
+            const materialPoscar = material.getAsPOSCAR();
+            return {
+                id,
+                material: materialConfig,
+                poscar: materialPoscar,
+                metadata: material.metadata,
+            };
+        });
 
-        const convertedData = this.pyodide.toPy({ data });
+        const dataIn = { materials: materialsData };
+        const convertedData = this.pyodide.toPy({ data_in: dataIn, data_out: {} });
         try {
-            result = await this.pyodide.runPythonAsync(pythonCode, {
+            const result = await this.pyodide.runPythonAsync(pythonCode, {
                 globals: convertedData,
             });
-            result = result
-                ? result.toJs().get("content")
+            dataOut = (await result)
+                ? result.toJs().get("data_out")
                 : { content: "Nothing was returned from the Pyodide" };
-            console.log("RESULT:", result);
+            console.log("RESULT:", dataOut);
         } catch (error) {
             console.error("Error executing Python code:", error);
         }
-        return result;
+        return dataOut;
     }
 
     render() {
