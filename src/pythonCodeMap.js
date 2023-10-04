@@ -7,7 +7,7 @@ const transformationsMap = {
     return globals()
 func()`,
     createInterface:
-        "https://raw.githubusercontent.com/Exabyte-io/api-examples/953a9a5bd749721a299bb68d898a6fa18e88b931/other/two_dimensional_materials/layer_on_a_surface.py",
+        "https://raw.githubusercontent.com/Exabyte-io/api-examples/262832d9300901b8e7b9d9b09c47436f55d9846d/other/two_dimensional_materials/layer_on_a_surface.py",
 };
 
 async function fetchPythonCode(transformationName) {

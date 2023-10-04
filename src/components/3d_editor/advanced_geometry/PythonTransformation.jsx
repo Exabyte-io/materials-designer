@@ -59,9 +59,9 @@ class PythonTransformation extends React.Component {
             const newMaterials = materials.map((m) => {
                 const material = this.mapToObject(m);
                 const config = Made.parsers.poscar.fromPoscar(material.poscar);
-                config.lattice = material.material.lattice; // not generic
                 const newMaterial = new Made.Material(config);
                 newMaterial.metadata = material.metadata;
+
                 return newMaterial;
             });
 
