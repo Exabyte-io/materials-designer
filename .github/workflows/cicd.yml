@@ -46,7 +46,7 @@ jobs:
       - name: Validate JS package
         uses: ./actions/js/validate
         with:
-          node-version: 12.21.x
+          node-version: 14.19.x
 
       - name: Validate test dockerfile
         uses: ./actions/docker/validate
@@ -74,7 +74,7 @@ jobs:
       - name: Publish release
         uses: ./actions/js/publish
         with:
-          node-version: 12.21.x
+          node-version: 14.19.x
           npm-token: ${{ secrets.NPM_TOKEN }}
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           verify-tests: false
