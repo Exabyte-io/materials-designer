@@ -152,4 +152,4 @@ In case you need to link Cove.js into the app for local development you need
     npm start
 ```
 
-If you need to re-link it again, remove node_modules in cove.js and web-app, run npm install, then run npm start again. 
+If you need to re-link it again, remove node_modules in cove.js and the app, run npm install, then run npm start again. 
