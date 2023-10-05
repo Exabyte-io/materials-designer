@@ -141,7 +141,7 @@ docker-compose run materials-designer-test
 
 ## Cove.js local development
 
-In case you need to link Cove.js into web-app for local development you need
+In case you need to link Cove.js into the app for local development you need
 
 1. Add local path of Cove.js to package.json
 ```bash
