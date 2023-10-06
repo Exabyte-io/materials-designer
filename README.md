@@ -138,3 +138,18 @@ docker-compose up -d materials-designer
 sleep 30  # let the app actually start
 docker-compose run materials-designer-test
 ```
+
+## Cove.js local development
+
+In case you need to link Cove.js into the app for local development you need
+
+1. Add local path of Cove.js to package.json
+```bash
+    "@exabyte-io/code.js": "file:../../cove.js"
+```
+2. Run the app
+```bash
+    npm start
+```
+
+If you need to re-link it again, remove node_modules in cove.js and the app, run npm install, then run npm start again. 
