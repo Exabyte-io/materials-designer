@@ -39,7 +39,7 @@ As below:
 
 ## Installation
 
-Run with `Node` v12.21.0, tested with `Node` v8.11.4. The corresponding version(s) of npm should be fine, tested with v6.4.1. We recommend using `nvm` for version management.
+Run with `Node` v14.19.3, tested with `Node` v8.11.4. The corresponding version(s) of npm should be fine, tested with v6.4.1. We recommend using `nvm` for version management.
 
 Materials Designer can be installed from source as follow:
 
@@ -138,3 +138,18 @@ docker-compose up -d materials-designer
 sleep 30  # let the app actually start
 docker-compose run materials-designer-test
 ```
+
+## Cove.js local development
+
+In case you need to link Cove.js into the app for local development you need
+
+1. Add local path of Cove.js to package.json
+```bash
+    "@exabyte-io/code.js": "file:../../cove.js"
+```
+2. Run the app
+```bash
+    npm start
+```
+
+If you need to re-link it again, remove node_modules in cove.js and the app, run npm install, then run npm start again. 
