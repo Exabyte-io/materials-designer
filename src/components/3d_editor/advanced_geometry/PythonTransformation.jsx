@@ -105,6 +105,10 @@ class PythonTransformation extends React.Component {
         await this.pyodide.loadPackage("micropip");
         const micropip = this.pyodide.pyimport("micropip");
         await micropip.install("ase");
+        const pkgs = ["lzma", "monty", "networkx", "scipy", "sqlite3", "tabulate", "uncertainties"];
+        // eslint-disable-next-line no-return-await
+        pkgs.map(async (pkg) => await micropip.install(pkg));
+        await micropip.install("src/public/pkg/pymatgen-2023.9.10-py3-none-any.whl");
         document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
     }
 
