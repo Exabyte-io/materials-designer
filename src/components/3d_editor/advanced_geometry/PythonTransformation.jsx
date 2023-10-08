@@ -36,7 +36,7 @@ class PythonTransformation extends React.Component {
             pythonCode,
         });
 
-        await this.initializePyodide();
+        this.initializePyodide();
         this.setState({ isLoading: false });
     }
 
@@ -101,10 +101,7 @@ class PythonTransformation extends React.Component {
     }
 
     async initializePyodide() {
-        this.pyodide = await window.loadPyodide();
-        await this.pyodide.loadPackage("micropip");
-        const micropip = this.pyodide.pyimport("micropip");
-        await micropip.install("ase");
+        this.pyodide = await window.initializePyodide();
         document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
     }
 
