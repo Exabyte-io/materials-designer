@@ -230,7 +230,7 @@ class DefaultImportModalDialog extends React.Component {
                 sx={{ flexGrow: 1, mr: 2, height: "100%" }}
                 disablePortal
                 // eslint-disable-next-line react/jsx-props-no-spreading
-                renderInput={(params) => <TextField {...params} label="Default Collection" />}
+                renderInput={(params) => <TextField {...params} label="Default set of Materials" />}
                 options={defaultMaterialsList}
                 getOptionLabel={(option) => option.label}
                 onChange={(event, value) => this.setState({ selectedMaterial: value })}
@@ -245,7 +245,7 @@ class DefaultImportModalDialog extends React.Component {
 
     render() {
         const { show, onClose, onSubmit, title } = this.props;
-        const { files, dragging } = this.state;
+        const { files, dragging, selectedMaterial } = this.state;
 
         const rows = files.map((file, i) => ({
             id: i,
@@ -315,14 +315,17 @@ class DefaultImportModalDialog extends React.Component {
                 <DialogContent>
                     <Box
                         sx={{
+                            padding: "10px 0",
                             display: "flex",
                             flexDirection: "row",
-                            alignItems: "stretch",
+                            alignItems: "center",
                             width: "100%",
                         }}
                     >
                         {this.renderAutocomplete()}
-                        <Button onClick={this.addMaterialAsJSONFile}>Add</Button>
+                        <Button onClick={this.addMaterialAsJSONFile} disabled={!selectedMaterial}>
+                            Add
+                        </Button>
                     </Box>
                     <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
                         {files.length > 0 ? (
