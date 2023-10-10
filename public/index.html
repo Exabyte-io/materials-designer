@@ -4,16 +4,19 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
     <script src="https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js"></script>
-        <script type="text/javascript">
+    <script type="text/javascript">
         async function initializePyodide(){
         let pyodide = await loadPyodide();
         await pyodide.loadPackage("micropip");
-        pyodide.runPythonAsync("https://raw.githubusercontent.com/Exabyte-io/api-examples/3c95311b2dca54e7ac486913fe1217334afee6e4/other/pyodide/import.py");
+        let response = await fetch("https://raw.githubusercontent.com/Exabyte-io/api-examples/3c95311b2dca54e7ac486913fe1217334afee6e4/other/pyodide/imports.py");
+        let pythonCode = await response.text();
+        pyodide.runPythonAsync(pythonCode);
+
         return pyodide;
         };
 
         window.initializePyodide = initializePyodide;
-          </script>
+    </script>
 
     <title>Materials Designer</title>
 </head>
