@@ -171,14 +171,9 @@ class DefaultImportModalDialog extends React.Component {
     getDefaultMaterialsAsync() {
         return (
             // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
-            import("@exabyte-io/standata/lib/runtime_data/materials")
-                .then((standata) => {
-                    return Object.values(standata.filesMapByName);
-                })
-                .catch((error) => {
-                    console.log(error.message);
-                    return [];
-                })
+            import("@exabyte-io/standata/lib/runtime_data/materials").then((standata) => {
+                return Object.values(standata.filesMapByName);
+            })
         );
     }
 
@@ -200,11 +195,10 @@ class DefaultImportModalDialog extends React.Component {
         }));
     };
 
-    handleDefaultMaterials = async () => {
+    addMaterialAsJSONFile = async () => {
         const { selectedMaterial, files } = this.state;
 
         if (!selectedMaterial) {
-            console.error("No material selected");
             return;
         }
         const config = selectedMaterial.value;
@@ -217,8 +211,10 @@ class DefaultImportModalDialog extends React.Component {
             lastModified: this.formatDate(new Date()),
         };
 
-        this.setState({ files: [...files, newFile] });
-        this.setState({ selectedMaterial: null });
+        this.setState({
+            files: [...files, newFile],
+            selectedMaterial: null,
+        });
     };
 
     onSubmit = () => {
@@ -228,19 +224,19 @@ class DefaultImportModalDialog extends React.Component {
     };
 
     renderAutocomplete = () => {
+        const { defaultMaterialsList } = this.state;
         return (
             <Autocomplete
                 sx={{ flexGrow: 1, mr: 2, height: "100%" }}
                 disablePortal
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 renderInput={(params) => <TextField {...params} label="Default Collection" />}
-                // eslint-disable-next-line react/destructuring-assignment
-                options={this.state.defaultMaterialsList}
+                options={defaultMaterialsList}
                 getOptionLabel={(option) => option.label}
                 onChange={(event, value) => this.setState({ selectedMaterial: value })}
                 onKeyDown={async (e) => {
                     if (e.key === "Enter") {
-                        await this.handleDefaultMaterials();
+                        await this.addMaterialAsJSONFile();
                     }
                 }}
             />
@@ -326,7 +322,7 @@ class DefaultImportModalDialog extends React.Component {
                         }}
                     >
                         {this.renderAutocomplete()}
-                        <Button onClick={this.handleDefaultMaterials}>Import</Button>
+                        <Button onClick={this.addMaterialAsJSONFile}>Add</Button>
                     </Box>
                     <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
                         {files.length > 0 ? (

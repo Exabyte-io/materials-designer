@@ -10,7 +10,7 @@ WORKDIR /opt/app
 # https://stackoverflow.com/questions/35774714/how-to-cache-the-run-npm-install-instruction-when-docker-build-a-dockerfile
 COPY package.json package.json
 
-RUN npm cache clean --force && rm -rf node_modules && npm cache verify && npm install
+RUN npm install
 
 
 COPY . .
