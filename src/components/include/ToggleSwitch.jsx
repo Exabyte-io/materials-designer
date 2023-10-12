@@ -16,7 +16,7 @@ const ToggleSwitch = function ToggleSwitch({
     const htmlFor = "form-" + id + "-label";
     return (
         <div className={setClass("toggle-switch", cls)} data-ts-color={color}>
-            <label id={id + "-label"} className="ts-label" htmlFor={htmlFor}>
+            <label id={id + "-label"} htmlFor={htmlFor}>
                 {title}
             </label>
             <Switch
@@ -27,8 +27,6 @@ const ToggleSwitch = function ToggleSwitch({
                 onChange={onStateChange}
                 inputProps={{ "aria-label": "controlled" }}
             />
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label htmlFor={id} className="ts-helper" />
         </div>
     );
 };
