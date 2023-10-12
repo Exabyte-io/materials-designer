@@ -8,7 +8,7 @@
         async function initializePyodide(){
         let pyodide = await loadPyodide();
         await pyodide.loadPackage("micropip");
-        let response = await fetch("https://raw.githubusercontent.com/Exabyte-io/api-examples/3c95311b2dca54e7ac486913fe1217334afee6e4/other/pyodide/imports.py");
+        let response = await fetch("https://raw.githubusercontent.com/Exabyte-io/api-examples/48f86e29c069fc0205216c50b1b98c19634a6445/other/pyodide/imports.py");
         let pythonCode = await response.text();
         pyodide.runPythonAsync(pythonCode);
 
