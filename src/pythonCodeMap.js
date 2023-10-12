@@ -10,7 +10,7 @@ def func():
     return globals()
 func()`,
     createInterface:
-        "https://raw.githubusercontent.com/Exabyte-io/api-examples/48f86e29c069fc0205216c50b1b98c19634a6445/other/two_dimensional_materials/layer_on_a_surface.py",
+        "https://raw.githubusercontent.com/Exabyte-io/api-examples/4d650febd43127fc216c8e71b139ab48db120c91/other/two_dimensional_materials/simple_material_interface.py",
 };
 
 async function fetchPythonCode(transformationName) {
