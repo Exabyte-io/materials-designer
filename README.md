@@ -39,7 +39,7 @@ As below:
 
 ## Installation
 
-Run with `Node` v14.19.3, tested with `Node` v8.11.4. The corresponding version(s) of npm should be fine, tested with v6.4.1. We recommend using `nvm` for version management.
+Run with `Node` v14.19.3, tested with `Node` v14.19.3. The corresponding version(s) of npm should be fine, tested with v6.4.1. We recommend using `nvm` for version management.
 
 Materials Designer can be installed from source as follow:
 
