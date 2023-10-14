@@ -45,8 +45,17 @@ Materials Designer can be installed from source as follow:
 
 ```bash
 git clone git@github.com:Exabyte-io/materials-designer.git
-cd materials-designer
+```
+Or use https, if no SSH authentication is set up with GitHub:
 
+```bash
+git clone https://github.com/Exabyte-io/materials-designer.git
+```
+
+then start the application:
+
+```bash
+cd materials-designer
 sh run-application.sh
 ```
 
