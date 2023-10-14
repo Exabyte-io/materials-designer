@@ -127,6 +127,7 @@ class CombinatorialBasisDialog extends ModalDialog {
 
 CombinatorialBasisDialog.PropTypes = {
     onSubmit: PropTypes.func,
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object,
     maxCombinatorialBasesCount: PropTypes.number,
 };
