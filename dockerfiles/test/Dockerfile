@@ -12,8 +12,8 @@ RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_x86_
     && yum localinstall -y google-chrome-stable_current_x86_64.rpm
 
 # Tests run on an older version of node currently
-ENV NODE_VERSION 8.11.4
-ENV NPM_VERSION 6.4.1
+ENV NODE_VERSION 14.19.3
+ENV NPM_VERSION 6.14.18
 RUN source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm use $NODE_VERSION \
