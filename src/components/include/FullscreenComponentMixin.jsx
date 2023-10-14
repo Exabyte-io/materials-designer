@@ -13,7 +13,15 @@ export const FullscreenComponentMixin = (superclass) =>
                 isFullscreen: false,
             };
             this.onFullscreen = this.onFullscreen.bind(this);
-            this.goFullscreen = this.goFullscreen.bind(this);
+            this.toggleFullscreen = this.toggleFullscreen.bind(this);
+        }
+
+        toggleFullscreen() {
+            if (this.state.isFullscreen) {
+                this.exitFullscreen();
+            } else {
+                this.goFullscreen();
+            }
         }
 
         goFullscreen() {
@@ -21,6 +29,12 @@ export const FullscreenComponentMixin = (superclass) =>
                 isFullscreen: true,
             });
             triggerChartsResize();
+        }
+
+        exitFullscreen() {
+            this.setState({
+                isFullscreen: false,
+            });
         }
 
         // eslint-disable-next-line class-methods-use-this
