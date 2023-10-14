@@ -178,7 +178,9 @@ class InterpolateBasesDialog extends ModalDialog {
 
 InterpolateBasesDialog.PropTypes = {
     onSubmit: PropTypes.func,
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object, // initial
+    // eslint-disable-next-line react/forbid-prop-types
     material2: PropTypes.object, // final
 };
 
