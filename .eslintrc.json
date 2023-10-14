@@ -1,5 +1,5 @@
 {
-    "extends": ["@exabyte-io/eslint-config", "plugin:react/recommended"],
+    "extends": ["@exabyte-io/eslint-config"],
     "settings": {
         "import/resolver": {
             "node": {
@@ -9,9 +9,7 @@
     },
     "plugins": ["react"],
     "rules": {
-        "react/jsx-filename-extension": "error",
-        "jsx-a11y/label-has-associated-control": ["error", { "assert": "either" }],
-        "react/forbid-prop-types": "warn",
-        "import/extensions": "off"
+        "jsx-a11y/label-has-associated-control": "off",
+        "react/function-component-definition": "off"
     }
 }
