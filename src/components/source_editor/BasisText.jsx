@@ -23,13 +23,11 @@ class BasisText extends React.Component {
     }
 
     // eslint-disable-next-line no-unused-vars
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState) {
         const { content } = this.props;
-        if (content !== prevProps.content) {
+        if (prevProps.content !== content) {
             const { manualEditStarted } = this.state;
-            if (!manualEditStarted) {
-                this.reformatContentAndUpdateStateIfNoManualEdit(content);
-            }
+            if (!manualEditStarted) this.reformatContentAndUpdateStateIfNoManualEdit(content);
         }
     }
 
@@ -80,12 +78,6 @@ class BasisText extends React.Component {
         });
     }
 
-    handleBlur = () => {
-        this.setState({ manualEditStarted: false });
-        const { content } = this.state;
-        this.reformatContentAndUpdateStateIfNoManualEdit(content);
-    };
-
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
         const { content, isContentValidated, message } = this.state;
@@ -99,7 +91,8 @@ class BasisText extends React.Component {
                         updateContent={(newContent) => {
                             this.updateContent(newContent);
                         }}
-                        onBlur={this.handleBlur}
+                        onFocus={() => this.setState({ manualEditStarted: true })}
+                        onBlur={() => this.setState({ manualEditStarted: false })}
                         readOnly={readOnly}
                         options={{
                             lineNumbers: true,
