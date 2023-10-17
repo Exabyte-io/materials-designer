@@ -23,10 +23,13 @@ class BasisText extends React.Component {
     }
 
     // eslint-disable-next-line no-unused-vars
-    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const { content } = this.props;
-        if (content !== nextProps.content) {
-            this.reformatContentAndUpdateStateIfNoManualEdit(nextProps.content);
+        if (content !== prevProps.content) {
+            const { manualEditStarted } = this.state;
+            if (!manualEditStarted) {
+                this.reformatContentAndUpdateStateIfNoManualEdit(content);
+            }
         }
     }
 
@@ -70,12 +73,18 @@ class BasisText extends React.Component {
         const { onChange, content } = this.props;
         // Avoid triggering update actions when content is set from props
         if (content === newContent) return;
-        this.setState({ content: newContent }, () => {
+        this.setState(() => {
             if (this.isContentPassingValidation(newContent)) {
                 onChange(newContent);
             }
         });
     }
+
+    handleBlur = () => {
+        this.setState({ manualEditStarted: false });
+        const { content } = this.state;
+        this.reformatContentAndUpdateStateIfNoManualEdit(content);
+    };
 
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
@@ -87,9 +96,10 @@ class BasisText extends React.Component {
                         className="xyz-codemirror"
                         // eslint-disable-next-line react/no-unused-class-component-methods
                         content={content}
-                        updateContent={this.updateContent}
-                        onFocus={() => this.setState({ manualEditStarted: true })}
-                        onBlur={() => this.setState({ manualEditStarted: false })}
+                        updateContent={(newContent) => {
+                            this.updateContent(newContent);
+                        }}
+                        onBlur={this.handleBlur}
                         readOnly={readOnly}
                         options={{
                             lineNumbers: true,
