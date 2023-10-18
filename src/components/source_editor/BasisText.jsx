@@ -15,8 +15,8 @@ class BasisText extends React.Component {
             content: props.content,
             isContentValidated: true, // assuming that initial content is valid
             message: "",
-            manualEditStarted: false,
         };
+        this.codeMirrorRef = React.createRef();
         this.updateContent = this.updateContent.bind(this);
         // TODO: adjust tests to accommodate for the delay and re-enable
         // this.updateContent = _.debounce(this.updateContent, 700);
@@ -24,10 +24,12 @@ class BasisText extends React.Component {
 
     // eslint-disable-next-line no-unused-vars
     componentDidUpdate(prevProps, prevState) {
+        console.log("BasisText componentDidUpdate");
         const { content } = this.props;
         if (prevProps.content !== content) {
-            const { manualEditStarted } = this.state;
-            if (!manualEditStarted) this.reformatContentAndUpdateStateIfNoManualEdit(content);
+            // eslint-disable-next-line react/destructuring-assignment
+            const isEditing = this.codeMirrorRef.current?.state.isEditing;
+            if (!isEditing) this.reformatContentAndUpdateStateIfNoManualEdit(content);
         }
     }
 
@@ -53,11 +55,10 @@ class BasisText extends React.Component {
     }
 
     reformatContentAndUpdateStateIfNoManualEdit = (newContent) => {
-        const { manualEditStarted, content } = this.state;
+        const codeMirrorState = this.codeMirrorRef.current?.state;
+        const { content, isEditing } = codeMirrorState;
         // Change state only if user is not editing basis
-        if (!manualEditStarted && content !== newContent) {
-            // NOTE: from v 1.0.0 ReactCodeMirror is not handling the content updates properly (thus use v0.3.0)
-            // https://github.com/JedWatson/react-codemirror/issues/106
+        if (!isEditing && content !== newContent) {
             this.setState({
                 content: newContent,
                 // assuming that the content passed here is safe and valid
@@ -67,8 +68,9 @@ class BasisText extends React.Component {
         }
     };
 
-    updateContent(newContent) {
+    updateContent() {
         const { onChange, content } = this.props;
+        const newContent = this.codeMirrorRef.current?.state.content;
         // Avoid triggering update actions when content is set from props
         if (content === newContent) return;
         this.setState(() => {
@@ -85,14 +87,11 @@ class BasisText extends React.Component {
             <div className={setClass("xyz", className)}>
                 <div id="basis-xyz">
                     <CodeMirror
+                        ref={this.codeMirrorRef}
                         className="xyz-codemirror"
                         // eslint-disable-next-line react/no-unused-class-component-methods
                         content={content}
-                        updateContent={(newContent) => {
-                            this.updateContent(newContent);
-                        }}
-                        onFocus={() => this.setState({ manualEditStarted: true })}
-                        onBlur={() => this.setState({ manualEditStarted: false })}
+                        updateContent={(newContent) => this.updateContent(newContent)}
                         readOnly={readOnly}
                         options={{
                             lineNumbers: true,
