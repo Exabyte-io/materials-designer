@@ -195,7 +195,7 @@ class DefaultImportModalDialog extends React.Component {
         }));
     };
 
-    addMaterialAsJSONFile = async () => {
+    addMaterialAsJSONFile = () => {
         const { selectedMaterial, files } = this.state;
 
         if (!selectedMaterial) {
