@@ -60,14 +60,12 @@ class DefaultImportModalDialog extends React.Component {
     }
 
     componentDidMount() {
-        if (process.env.NODE_ENV !== "production") {
-            this.getDefaultMaterialsAsync().then((defaultMaterials) => {
-                const defaultMaterialsList = defaultMaterials.map((material) => {
-                    return { label: material.name || "Not available", value: material };
-                });
-                this.setState({ defaultMaterialsList });
-            });
-        }
+        const { defaultMaterialsSet } = this.props;
+        const defaultMaterialsList = defaultMaterialsSet.map((material) => {
+            return { label: material.name || "Not available", value: material };
+        });
+
+        this.setState({ defaultMaterialsList });
     }
 
     handleFileRead = (evt) => {
@@ -161,19 +159,6 @@ class DefaultImportModalDialog extends React.Component {
                 }
             };
             reader.readAsText(file);
-        });
-    }
-
-    /**
-     * Get default materials from Standata during local development
-     * and return an empty array when installed in Web-app.
-     * @returns {Promise<unknown[] | *[]>}
-     */
-    // eslint-disable-next-line class-methods-use-this
-    getDefaultMaterialsAsync() {
-        // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
-        return import("@exabyte-io/standata/lib/runtime_data/materials").then((standata) => {
-            return Object.values(standata.filesMapByName);
         });
     }
 
@@ -388,6 +373,11 @@ DefaultImportModalDialog.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    defaultMaterialsSet: PropTypes.array,
+};
+
+DefaultImportModalDialog.defaultProps = {
+    defaultMaterialsSet: [],
 };
 
 export default DefaultImportModalDialog;
