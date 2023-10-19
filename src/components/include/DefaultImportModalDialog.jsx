@@ -60,12 +60,14 @@ class DefaultImportModalDialog extends React.Component {
     }
 
     componentDidMount() {
-        this.getDefaultMaterialsAsync().then((defaultMaterials) => {
-            const defaultMaterialsList = defaultMaterials.map((material) => {
-                return { label: material.name || "Not available", value: material };
+        if (process.env.NODE_ENV !== "production") {
+            this.getDefaultMaterialsAsync().then((defaultMaterials) => {
+                const defaultMaterialsList = defaultMaterials.map((material) => {
+                    return { label: material.name || "Not available", value: material };
+                });
+                this.setState({ defaultMaterialsList });
             });
-            this.setState({ defaultMaterialsList });
-        });
+        }
     }
 
     handleFileRead = (evt) => {
@@ -169,12 +171,10 @@ class DefaultImportModalDialog extends React.Component {
      */
     // eslint-disable-next-line class-methods-use-this
     getDefaultMaterialsAsync() {
-        return (
-            // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
-            import("@exabyte-io/standata/lib/runtime_data/materials").then((standata) => {
-                return Object.values(standata.filesMapByName);
-            })
-        );
+        // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
+        return import("@exabyte-io/standata/lib/runtime_data/materials").then((standata) => {
+            return Object.values(standata.filesMapByName);
+        });
     }
 
     formatDate = (date) => {
