@@ -38,7 +38,7 @@
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@exabyte-io/wave.js": "2023.8.23-2",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#a97df74598e6de9812eb7e42f32da3e88bb3e442",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#472c0bd00e835c25ac6e971080affb82d2d93bc9",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
@@ -72,7 +72,7 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#2c6290b74be5f4001ec72950f2c67d0880ebbe57",
+        "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#3eb3e812265cb75bac2c06a007cb76e684c1d0f9",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#fd6887b37d8feb62deea5f3730ac387e4b7a4449",
         "babel-eslint": "^10.1.0",
