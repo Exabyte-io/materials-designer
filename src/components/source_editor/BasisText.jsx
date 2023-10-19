@@ -24,7 +24,6 @@ class BasisText extends React.Component {
 
     // eslint-disable-next-line no-unused-vars
     componentDidUpdate(prevProps, prevState) {
-        console.log("BasisText componentDidUpdate");
         const { content } = this.props;
         if (prevProps.content !== content) {
             // eslint-disable-next-line react/destructuring-assignment
