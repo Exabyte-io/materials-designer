@@ -79,6 +79,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     maxCombinatorialBasesCount={
                                         this.props.maxCombinatorialBasesCount
                                     }
+                                    defaultMaterialsSet={this.props.defaultMaterialsSet}
                                 />
                                 <div className="bgm-dark col-xs-12">
                                     <ItemsList
@@ -170,6 +171,8 @@ MaterialsDesigner.propTypes = {
     onRemove: PropTypes.func,
 
     maxCombinatorialBasesCount: PropTypes.number,
+
+    defaultMaterialsSet: PropTypes.array,
 };
 
 export default MaterialsDesigner;
