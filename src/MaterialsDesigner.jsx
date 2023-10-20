@@ -1,4 +1,4 @@
-import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/FullscreenComponent";
+import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import setClass from "classnames";
 import { mix } from "mixwith";
