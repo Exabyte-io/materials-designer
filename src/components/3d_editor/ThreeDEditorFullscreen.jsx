@@ -16,6 +16,7 @@ export class ThreeDEditorFullscreen extends mix(ThreeDEditor).with(FullscreenCom
                 title: "Fullscreen",
                 leftIcon: <FullscreenIcon />,
                 onClick: () => {
+                    clsInstance.setState({ viewerTriggerResize: true });
                     clsInstance.toggleFullscreen();
                 },
             },
