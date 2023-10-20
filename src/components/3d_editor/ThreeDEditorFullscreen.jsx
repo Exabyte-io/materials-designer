@@ -1,4 +1,4 @@
-import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/FullscreenComponent";
+import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import { ThreeDEditor } from "@exabyte-io/wave.js";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import setClass from "classnames";
