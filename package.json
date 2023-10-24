@@ -36,7 +36,7 @@
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@exabyte-io/wave.js": "2023.8.23-2",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#620b8fa14cc23e1aaba4a591d1fa9b70f11545f7",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#d3b5c59f29e68069f12fcefc3dd322514c4e401a",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",

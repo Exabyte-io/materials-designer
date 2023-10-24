@@ -9,6 +9,8 @@ import React from "react";
 import { displayMessage } from "../../i18n/messages";
 
 class BasisText extends React.Component {
+    codeMirrorRef = React.createRef();
+
     constructor(props) {
         super(props);
         this.state = {
@@ -16,7 +18,6 @@ class BasisText extends React.Component {
             checks: props.checks,
             isContentValidated: true, // assuming that initial content is valid
             message: "",
-            manualEditStarted: false,
         };
         this.updateContent = this.updateContent.bind(this);
         // TODO: adjust tests to accommodate for the delay and re-enable
@@ -56,9 +57,9 @@ class BasisText extends React.Component {
     }
 
     reformatContentAndUpdateStateIfNoManualEdit = (newContent) => {
-        const { manualEditStarted, content } = this.state;
+        const { content } = this.state;
         // Change state only if user is not editing basis
-        if (!manualEditStarted && content !== newContent) {
+        if (!this.codeMirrorRef.current?.state.isEditing && content !== newContent) {
             // NOTE: from v 1.0.0 ReactCodeMirror is not handling the content updates properly (thus use v0.3.0)
             // https://github.com/JedWatson/react-codemirror/issues/106
             this.setState({
@@ -88,12 +89,11 @@ class BasisText extends React.Component {
             <div className={setClass("xyz", className)}>
                 <div id="basis-xyz">
                     <CodeMirror
+                        ref={this.codeMirrorRef}
                         className="xyz-codemirror"
                         // eslint-disable-next-line react/no-unused-class-component-methods
                         content={content}
                         updateContent={this.updateContent}
-                        onFocus={() => this.setState({ manualEditStarted: true })}
-                        onBlur={() => this.setState({ manualEditStarted: false })}
                         readOnly={readOnly}
                         options={{
                             lineNumbers: true,
