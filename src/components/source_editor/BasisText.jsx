@@ -120,7 +120,7 @@ BasisText.propTypes = {
     className: PropTypes.string,
     content: PropTypes.string,
     // eslint-disable-next-line react/forbid-prop-types
-    checks: PropTypes.object,
+    checks: PropTypes.array,
     readOnly: PropTypes.bool,
     // eslint-disable-next-line react/forbid-prop-types
     codeMirrorOptions: PropTypes.object,

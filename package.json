@@ -33,12 +33,10 @@
         "@babel/preset-react": "7.16.7",
         "@babel/runtime": "7.16.7",
         "@babel/runtime-corejs2": "7.16.7",
-        "@codemirror/language": "^6.6.0",
-        "@codemirror/legacy-modes": "^6.3.1",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@exabyte-io/wave.js": "2023.8.23-2",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#472c0bd00e835c25ac6e971080affb82d2d93bc9",
+        "@exabyte-io/cove.js": "file:../cove.js",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
@@ -72,9 +70,9 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#3eb3e812265cb75bac2c06a007cb76e684c1d0f9",
+        "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#9483a3b2c4b1084cb6f8f1937bca3e3288f7cba0",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
-        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#fd6887b37d8feb62deea5f3730ac387e4b7a4449",
+        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#717c1aa3e58c7849dfa979bb8d178f9f88e27887",
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
@@ -109,7 +107,7 @@
         "not op_mini all"
     ],
     "engines": {
-        "node": ">=12.0",
+        "node": ">=14.0",
         "npm": ">=6.14"
     }
 }
