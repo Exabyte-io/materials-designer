@@ -103,6 +103,7 @@ class BasisText extends React.Component {
                         updateOnFirstLoad
                         language="exaxyz"
                         checks={checks}
+                        triggerReload
                     />
                     <div className="col-xs-12 p-5 text-center">
                         <span className={isContentValidated ? "text-success" : "text-danger"}>
