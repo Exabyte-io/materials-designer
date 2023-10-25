@@ -106,7 +106,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                                 Material.createFromMadeMaterial(material);
                                             newMaterial.metadata =
                                                 this.props.material.metadata || {};
-                                            this.props.onUpdate(newMaterial);
                                         }}
                                     />
                                 </div>
