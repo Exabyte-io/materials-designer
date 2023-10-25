@@ -75,16 +75,15 @@ class BasisText extends React.Component {
         const { onChange, content } = this.props;
         // Avoid triggering update actions when content is set from props
         if (content === newContent) return;
-        this.setState({ content: newContent }, () => {
-            if (this.isContentPassingValidation(newContent)) {
-                onChange(newContent);
-            }
-        });
+        if (this.isContentPassingValidation(newContent)) {
+            onChange(newContent);
+        }
     }
 
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
         const { content, isContentValidated, message, checks } = this.state;
+
         return (
             <div className={setClass("xyz", className)}>
                 <div id="basis-xyz">
@@ -131,7 +130,7 @@ BasisText.defaultProps = {
     className: "",
     readOnly: false,
     content: "---- No content passed ----\n",
-    checks: {},
+    checks: [],
     codeMirrorOptions: {},
     onChange: () => {},
 };
