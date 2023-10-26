@@ -6,6 +6,8 @@ import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { displayMessage } from "../../i18n/messages";
 
 class BasisText extends React.Component {
@@ -100,11 +102,14 @@ class BasisText extends React.Component {
                         updateOnFirstLoad
                         language="fortran"
                     />
-                    <div className="col-xs-12 p-5 text-center">
-                        <span className={isContentValidated ? "text-success" : "text-danger"}>
+                    <Box sx={{ p: 1, textAlign: "center" }}>
+                        <Typography
+                            variant="body1"
+                            color={isContentValidated ? "success" : "error"}
+                        >
                             {message}&nbsp;
-                        </span>
-                    </div>
+                        </Typography>
+                    </Box>
                 </div>
             </div>
         );

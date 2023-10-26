@@ -1,16 +1,26 @@
+import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
 import _ from "underscore";
+
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import DialogActions from "@mui/material/DialogActions";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
 
 import { displayMessage } from "../../../i18n/messages";
 import { Material } from "../../../material";
-import { ShowIf } from "../../../utils/react/showif";
-import { ModalDialog } from "../../include/ModalDialog";
 import BasisText from "../../source_editor/BasisText";
 
-class InterpolateBasesDialog extends ModalDialog {
+class InterpolateBasesDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,28 +43,19 @@ class InterpolateBasesDialog extends ModalDialog {
         }
     }
 
-    getOptions = () => {
-        return ["initial", "final"].map((value, idx) => {
-            return (
-                // eslint-disable-next-line react/no-array-index-key
-                <option key={idx} value={idx}>
-                    {value}
-                </option>
-            );
-        });
-    };
-
     handleSubmit() {
+        const { message, numberOfSteps } = this.state;
         // do nothing when bases elements are not equal
-        if (this.state.message) return;
+        if (message) return;
 
-        const basis1 = this.props.material.Basis;
-        const basis2 = this.props.material2.Basis;
-        const { material } = this.props;
+        const { material, material2, onSubmit } = this.props;
+
+        const basis1 = material.Basis;
+        const basis2 = material2.Basis;
 
         // create combinatorial set from a given basis
         // eslint-disable-next-line new-cap
-        const newBases = new Made.tools.basis.interpolate(basis1, basis2, this.state.numberOfSteps);
+        const newBases = new Made.tools.basis.interpolate(basis1, basis2, numberOfSteps);
 
         const newMaterials = [];
         _.each(newBases, (newBasis, idx) => {
@@ -69,117 +70,129 @@ class InterpolateBasesDialog extends ModalDialog {
             newMaterials.push(newMaterial);
         });
         // pass up the chain and add materials with `atIndex = true`
-        this.props.onSubmit(newMaterials, true);
+        onSubmit(newMaterials, true);
     }
 
-    renderHeader() {
+    getOptions = () => {
+        return ["initial", "final"].map((value, idx) => {
+            return (
+                // eslint-disable-next-line react/no-array-index-key
+                <MenuItem key={idx} value={idx}>
+                    {value}
+                </MenuItem>
+            );
+        });
+    };
+
+    render() {
+        const { materialIndex, message, validated, numberOfSteps } = this.state;
+        const { isOpen, onHide, title, material, material2 } = this.props;
+        const xyzContent = [material, material2][materialIndex].getBasisAsXyz();
+
         return (
-            <ModalHeader className="bgm-dark" closeButton>
-                <h4 className="modal-title">
-                    {this.props.title}
-                    <a
-                        className="m-l-10 combinatorial-info"
-                        href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <i className="zmdi zmdi-info" />
-                    </a>
-                </h4>
-            </ModalHeader>
-        );
-    }
-
-    renderBody() {
-        const xyzContent = [this.props.material, this.props.material2][
-            this.state.materialIndex
-        ].getBasisAsXyz();
-        return (
-            <ModalBody className="bgm-dark">
-                <div className="xyz" style={{ minHeight: "65vmin" }}>
-                    <div className="col-xs-4 form-group fg-float">
-                        <div className="fg-line ">
-                            <label htmlFor="form-number-immediate-steps">
-                                # of intermediate steps
-                            </label>
-                            <input
-                                id="form-number-immediate-steps"
-                                type="number"
-                                className="form-control fg-input numberOfSteps"
-                                step="1"
-                                min="0"
-                                value={this.state.numberOfSteps}
-                                onChange={(e) => {
-                                    this.setState({ numberOfSteps: parseInt(e.target.value, 10) });
-                                }}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="col-xs-4 form-group fg-float">
-                        <div className="fg-line ">
-                            <label htmlFor="form-initial-final-structures">
-                                Initial/Final structures
-                            </label>
-                            <select
-                                id="form-initial-final-structures"
-                                type="number"
-                                className="form-control fg-input materialIndex"
-                                value={this.state.materialIndex}
-                                onChange={(e) => {
-                                    this.setState({ materialIndex: parseInt(e.target.value, 10) });
-                                }}
-                            >
-                                {this.getOptions()}
-                            </select>
-                        </div>
-                    </div>
-
-                    <BasisText
-                        readOnly
-                        ref={(el) => {
-                            this.BasisTextComponent = el;
+            <Dialog
+                open={isOpen}
+                renderHeaderCustom={() => (
+                    <Box
+                        sx={{
+                            m: 3,
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                         }}
-                        className="col-xs-12 interpolated-bases"
-                        content={xyzContent}
-                    />
-
-                    <div className="col-xs-12 m-t-15">
-                        <button
-                            type="submit"
+                    >
+                        <Typography variant="h6">
+                            {title}
+                            <a
+                                className="m-l-10 combinatorial-info"
+                                href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <IconByName name="shapes.info" />
+                            </a>
+                        </Typography>
+                        <IconButton color="neutral" onClick={onHide}>
+                            <IconByName name="actions.close" fontSize="small" />
+                        </IconButton>
+                    </Box>
+                )}
+                renderFooterCustom={() => (
+                    <DialogActions>
+                        <Button
                             id="generate-interpolated-set"
-                            className="btn btn-custom btn-block"
                             onClick={this.handleSubmit}
+                            variant="outlined"
+                            fullWidth
+                            sx={{ m: 2 }}
                         >
                             Generate Interpolated Set
-                        </button>
-                    </div>
-                </div>
-            </ModalBody>
-        );
-    }
+                        </Button>
+                    </DialogActions>
+                )}
+            >
+                <Box gap={1} sx={{ display: "flex", mb: 1 }}>
+                    <FormControl fullWidth>
+                        <TextField
+                            id="form-number-immediate-steps"
+                            label="# of intermediate steps"
+                            variant="outlined"
+                            size="small"
+                            value={numberOfSteps}
+                            type="number"
+                            className="numberOfSteps"
+                            onChange={(e) => {
+                                this.setState({ numberOfSteps: parseInt(e.target.value, 10) });
+                            }}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0,
+                                    step: 1,
+                                },
+                            }}
+                        />
+                    </FormControl>
 
-    renderFooter() {
-        return (
-            <ShowIf condition={Boolean(this.state.message)}>
-                <ModalFooter className="bgm-dark">
-                    <div className="row">
-                        <div className="col-md-12 text-center">
-                            <span className={this.state.validated ? "text-success" : "text-danger"}>
-                                {this.state.message}
-                            </span>
-                        </div>
-                    </div>
-                </ModalFooter>
-            </ShowIf>
+                    <FormControl fullWidth>
+                        <InputLabel id="form-initial-final-structures">
+                            Initial/Final structures
+                        </InputLabel>
+                        <Select
+                            className="materialIndex"
+                            labelId="form-initial-final-structures"
+                            id="form-initial-final-structures"
+                            value={materialIndex}
+                            label="Initial/Final structures"
+                            size="small"
+                            onChange={(e) => {
+                                this.setState({ materialIndex: parseInt(e.target.value, 10) });
+                            }}
+                        >
+                            {this.getOptions()}
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box className="xyz" sx={{ minHeight: "65vmin" }}>
+                    <BasisText readOnly className="interpolated-bases" content={xyzContent} />
+                </Box>
+
+                {message && (
+                    <Typography variant="body1" color={validated ? "success" : "error"}>
+                        {message}
+                    </Typography>
+                )}
+            </Dialog>
         );
     }
 }
 
-InterpolateBasesDialog.PropTypes = {
-    onSubmit: PropTypes.func,
-    material: PropTypes.object, // initial
-    material2: PropTypes.object, // final
+InterpolateBasesDialog.propTypes = {
+    title: PropTypes.string.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    material: PropTypes.object.isRequired,
+    material2: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired,
 };
 
 export default InterpolateBasesDialog;
