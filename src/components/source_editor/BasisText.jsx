@@ -84,6 +84,7 @@ class BasisText extends React.Component {
         const { className, readOnly, codeMirrorOptions } = this.props;
         const { content, isContentValidated, message, checks } = this.state;
 
+        console.log(checks);
         return (
             <div className={setClass("xyz", className)}>
                 <div id="basis-xyz">
@@ -102,7 +103,7 @@ class BasisText extends React.Component {
                         completions={() => {}}
                         updateOnFirstLoad
                         language="exaxyz"
-                        checks={{ checks }}
+                        checks={checks}
                         triggerReload
                     />
                     <div className="col-xs-12 p-5 text-center">
