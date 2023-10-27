@@ -102,7 +102,7 @@ class BasisText extends React.Component {
                         completions={() => {}}
                         updateOnFirstLoad
                         language="exaxyz"
-                        checks={checks}
+                        checks={{ checks }}
                         triggerReload
                     />
                     <div className="col-xs-12 p-5 text-center">
