@@ -71,10 +71,10 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#9045ec911de21b5332ee7fa9ad35299d10c1923b",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#b5a7d48719027db7a3ab2e359a9d710aad9b7cfb",
         "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#2a8cc864fbec54a98084c727fa7c3698fbeb82e4",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
-        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#3a2a016068b08d8bff4fccb3fddf50d0ca59a12e",
+        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#10980488da233d915f2a4a35ff732d44978fa8ae",
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
