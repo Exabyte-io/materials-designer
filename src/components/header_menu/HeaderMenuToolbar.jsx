@@ -50,7 +50,6 @@ class HeaderMenuToolbar extends React.Component {
             showSurfaceDialog: false,
             showImportMaterialsDialog: false,
             showExportMaterialsDialog: false,
-            showSaveMaterialsDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
@@ -80,10 +79,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Export
                 </MenuItem>
-                <MenuItem
-                    disabled={!renderSaveActionDialog}
-                    onClick={() => this.setState({ showSaveMaterialsDialog: true })}
-                >
+                <MenuItem disabled={!renderSaveActionDialog} onClick={this.renderSaveActionDialog}>
                     <ListItemIcon>
                         <SaveIcon />
                     </ListItemIcon>
@@ -296,14 +292,8 @@ class HeaderMenuToolbar extends React.Component {
 
     renderSaveActionDialog() {
         const { renderSaveActionDialog, material, onSave } = this.props;
-        const { showSaveMaterialsDialog } = this.state;
         return renderSaveActionDialog
-            ? renderSaveActionDialog({
-                  show: showSaveMaterialsDialog,
-                  material,
-                  onClose: () => this.setState({ showSaveMaterialsDialog: false }),
-                  onSubmit: onSave,
-              })
+            ? renderSaveActionDialog({ show: true, material, onSubmit: onSave })
             : null;
     }
 
@@ -351,8 +341,6 @@ class HeaderMenuToolbar extends React.Component {
             maxCombinatorialBasesCount,
         } = this.props;
         if (showThreejsEditorModal) return this.renderThreejsEditorModal();
-
-        this.renderSaveActionDialog();
 
         return (
             <Toolbar
