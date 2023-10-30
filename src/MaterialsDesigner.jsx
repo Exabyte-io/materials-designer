@@ -72,7 +72,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     onSave={this.props.onSave}
                                     onExit={this.props.onExit}
                                     ImportModal={this.props.ImportModal || DefaultImportModalDialog}
-                                    SaveActionDialog={this.props.SaveActionDialog}
+                                    renderSaveActionDialog={this.props.renderSaveActionDialog}
                                     onGenerateSupercell={this.props.onGenerateSupercell}
                                     onGenerateSurface={this.props.onGenerateSurface}
                                     onSetBoundaryConditions={this.props.onSetBoundaryConditions}
@@ -165,7 +165,7 @@ MaterialsDesigner.propTypes = {
     onExit: PropTypes.func,
 
     ImportModal: PropTypes.func,
-    SaveActionDialog: PropTypes.func,
+    renderSaveActionDialog: PropTypes.func,
 
     onRemove: PropTypes.func,
 
