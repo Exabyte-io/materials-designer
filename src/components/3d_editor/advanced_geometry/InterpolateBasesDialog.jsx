@@ -173,14 +173,17 @@ class InterpolateBasesDialog extends React.Component {
                     </FormControl>
                 </Box>
                 <Box className="xyz" sx={{ minHeight: "65vmin" }}>
-                    <BasisText readOnly className="interpolated-bases" content={xyzContent} />
+                    <BasisText readOnly content={xyzContent} />
+                    {message && (
+                        <Typography
+                            variant="body1"
+                            color={validated ? "success" : "error"}
+                            textAlign="center"
+                        >
+                            {message}
+                        </Typography>
+                    )}
                 </Box>
-
-                {message && (
-                    <Typography variant="body1" color={validated ? "success" : "error"}>
-                        {message}
-                    </Typography>
-                )}
             </Dialog>
         );
     }
