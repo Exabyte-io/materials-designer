@@ -351,6 +351,9 @@ class HeaderMenuToolbar extends React.Component {
             maxCombinatorialBasesCount,
         } = this.props;
         if (showThreejsEditorModal) return this.renderThreejsEditorModal();
+
+        this.renderSaveActionDialog();
+
         return (
             <Toolbar
                 className={setClass(className, "materials-designer-header-menu")}
@@ -395,8 +398,6 @@ class HeaderMenuToolbar extends React.Component {
                     onClose={() => this.setState({ showExportMaterialsDialog: false })}
                     onSubmit={onExport}
                 />
-
-                {this.renderSaveActionDialog()}
 
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
