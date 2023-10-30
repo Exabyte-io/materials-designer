@@ -65,7 +65,7 @@ class HeaderMenuToolbar extends React.Component {
     };
 
     renderIOMenu() {
-        const { SaveActionDialog, onExit } = this.props;
+        const { renderSaveActionDialog, onExit } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
                 <MenuItem onClick={() => this.setState({ showImportMaterialsDialog: true })}>
@@ -81,7 +81,7 @@ class HeaderMenuToolbar extends React.Component {
                     Export
                 </MenuItem>
                 <MenuItem
-                    disabled={!SaveActionDialog}
+                    disabled={!renderSaveActionDialog}
                     onClick={() => this.setState({ showSaveMaterialsDialog: true })}
                 >
                     <ListItemIcon>
@@ -295,16 +295,16 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderSaveActionDialog() {
-        const { SaveActionDialog, material, onSave } = this.props;
+        const { renderSaveActionDialog, material, onSave } = this.props;
         const { showSaveMaterialsDialog } = this.state;
-        return SaveActionDialog ? (
-            <SaveActionDialog
-                show={showSaveMaterialsDialog}
-                material={material}
-                onClose={() => this.setState({ showSaveMaterialsDialog: false })}
-                onSubmit={onSave}
-            />
-        ) : null;
+        return renderSaveActionDialog
+            ? renderSaveActionDialog({
+                  show: showSaveMaterialsDialog,
+                  material,
+                  onClose: () => this.setState({ showSaveMaterialsDialog: false }),
+                  onSubmit: onSave,
+              })
+            : null;
     }
 
     renderThreejsEditorModal() {
@@ -456,12 +456,13 @@ HeaderMenuToolbar.propTypes = {
     onSetBoundaryConditions: PropTypes.func.isRequired,
 
     ImportModal: PropTypes.func.isRequired,
-    SaveActionDialog: PropTypes.func.isRequired,
     toggleFullscreen: PropTypes.func.isRequired,
+    renderSaveActionDialog: PropTypes.func,
 };
 
 HeaderMenuToolbar.defaultProps = {
     className: undefined,
+    renderSaveActionDialog: null,
 };
 
 export default HeaderMenuToolbar;
