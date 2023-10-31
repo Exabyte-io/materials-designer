@@ -290,12 +290,12 @@ class HeaderMenuToolbar extends React.Component {
         ) : null;
     }
 
-    renderSaveActionDialog() {
+    renderSaveActionDialog = () => {
         const { renderSaveActionDialog, material, onSave } = this.props;
         return renderSaveActionDialog
             ? renderSaveActionDialog({ show: true, material, onSubmit: onSave })
             : null;
-    }
+    };
 
     renderThreejsEditorModal() {
         const { onAdd, materials } = this.props;
