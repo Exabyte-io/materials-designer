@@ -48,7 +48,6 @@ class HeaderMenuToolbar extends React.Component {
         this.state = {
             showSupercellDialog: false,
             showSurfaceDialog: false,
-            showImportMaterialsDialog: false,
             showExportMaterialsDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
@@ -64,10 +63,10 @@ class HeaderMenuToolbar extends React.Component {
     };
 
     renderIOMenu() {
-        const { renderSaveActionDialog, onExit } = this.props;
+        const { openSaveActionDialog, onExit } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
-                <MenuItem onClick={() => this.setState({ showImportMaterialsDialog: true })}>
+                <MenuItem onClick={this.renderImportModal}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
@@ -79,7 +78,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Export
                 </MenuItem>
-                <MenuItem disabled={!renderSaveActionDialog} onClick={this.renderSaveActionDialog}>
+                <MenuItem disabled={!openSaveActionDialog} onClick={this.renderSaveActionDialog}>
                     <ListItemIcon>
                         <SaveIcon />
                     </ListItemIcon>
@@ -273,27 +272,25 @@ class HeaderMenuToolbar extends React.Component {
         );
     }
 
-    renderImportModal() {
-        const { showImportMaterialsDialog } = this.state;
-        const { ImportModal, onAdd } = this.props;
-        return ImportModal ? (
-            <ImportModal
-                modalId="defaultImportModalDialog"
-                show={showImportMaterialsDialog}
-                onHide={() => this.setState({ showImportMaterialsDialog: false })}
-                onSubmit={(materials) => {
-                    onAdd(materials);
-                    this.setState({ showImportMaterialsDialog: false });
-                }}
-                onClose={() => this.setState({ showImportMaterialsDialog: false })}
-            />
-        ) : null;
-    }
+    renderImportModal = () => {
+        const { onAdd, openImportModal, closeImportModal } = this.props;
+        return openImportModal
+            ? openImportModal({
+                  modalId: "defaultImportModalDialog",
+                  show: true,
+                  onSubmit: (materials) => {
+                      onAdd(materials);
+                      closeImportModal();
+                  },
+                  onClose: closeImportModal,
+              })
+            : null;
+    };
 
     renderSaveActionDialog = () => {
-        const { renderSaveActionDialog, material, onSave } = this.props;
-        return renderSaveActionDialog
-            ? renderSaveActionDialog({ show: true, material, onSubmit: onSave })
+        const { openSaveActionDialog, material, onSave } = this.props;
+        return openSaveActionDialog
+            ? openSaveActionDialog({ show: true, material, onSubmit: onSave })
             : null;
     };
 
@@ -379,8 +376,6 @@ class HeaderMenuToolbar extends React.Component {
                     onHide={() => this.setState({ showBoundaryConditionsDialog: false })}
                 />
 
-                {this.renderImportModal()}
-
                 <ExportActionDialog
                     show={showExportMaterialsDialog}
                     onClose={() => this.setState({ showExportMaterialsDialog: false })}
@@ -444,14 +439,15 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSurface: PropTypes.func.isRequired,
     onSetBoundaryConditions: PropTypes.func.isRequired,
 
-    ImportModal: PropTypes.func.isRequired,
+    openImportModal: PropTypes.func.isRequired,
+    closeImportModal: PropTypes.func.isRequired,
     toggleFullscreen: PropTypes.func.isRequired,
-    renderSaveActionDialog: PropTypes.func,
+    openSaveActionDialog: PropTypes.func,
 };
 
 HeaderMenuToolbar.defaultProps = {
     className: undefined,
-    renderSaveActionDialog: null,
+    openSaveActionDialog: null,
 };
 
 export default HeaderMenuToolbar;

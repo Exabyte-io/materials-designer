@@ -130,7 +130,7 @@ MaterialsDesignerContainer.propTypes = {
     // eslint-disable-next-line react/require-default-props
     ImportModal: PropTypes.func,
     // eslint-disable-next-line react/require-default-props
-    SaveActionDialog: PropTypes.func,
+    renderSaveActionDialog: PropTypes.func,
     // eslint-disable-next-line react/require-default-props
     materialsSave: PropTypes.func,
     // eslint-disable-next-line react/require-default-props
