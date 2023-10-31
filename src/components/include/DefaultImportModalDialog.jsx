@@ -50,22 +50,13 @@ class DefaultImportModalDialog extends React.Component {
         this.state = {
             files: [],
             dragging: false,
-            defaultMaterialsList: [],
+            defaultMaterialsList: this.getDefaultMaterialsList() || [],
             selectedMaterial: null,
         };
         this.title = "Import Materials";
 
         this.reader = new FileReader();
         this.reader.onloadend = this.handleFileRead;
-    }
-
-    componentDidMount() {
-        const { defaultMaterialsSet } = this.props;
-        const defaultMaterialsList = defaultMaterialsSet.map((material) => {
-            return { label: material.name || "Not available", value: material };
-        });
-
-        this.setState({ defaultMaterialsList });
     }
 
     handleFileRead = (evt) => {
@@ -161,6 +152,13 @@ class DefaultImportModalDialog extends React.Component {
             reader.readAsText(file);
         });
     }
+
+    getDefaultMaterialsList = () => {
+        const { defaultMaterialsSet } = this.props;
+        return defaultMaterialsSet.map((material) => {
+            return { label: material.name || "Not available", value: material };
+        });
+    };
 
     formatDate = (date) => {
         const hours = date.getHours().toString().padStart(2, "0");
