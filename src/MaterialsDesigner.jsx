@@ -1,3 +1,4 @@
+import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import setClass from "classnames";
 import { mix } from "mixwith";
@@ -8,7 +9,6 @@ import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFulls
 import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
 import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
-import { FullscreenComponentMixin } from "./components/include/FullscreenComponentMixin";
 import { DarkMaterialUITheme } from "./components/include/material-ui/theme";
 import ItemsList from "./components/items_list/ItemsList";
 import SourceEditor from "./components/source_editor/SourceEditor";
