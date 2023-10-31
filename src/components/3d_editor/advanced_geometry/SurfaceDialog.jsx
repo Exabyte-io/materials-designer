@@ -1,10 +1,14 @@
+import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PropTypes from "prop-types";
 import React from "react";
-import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import DialogActions from "@mui/material/DialogActions";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
 
-import { ModalDialog } from "../../include/ModalDialog";
-
-class SurfaceDialog extends ModalDialog {
+class SurfaceDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,186 +25,196 @@ class SurfaceDialog extends ModalDialog {
     }
 
     handleGenerateSurface() {
+        const { onSubmit, onHide } = this.props;
+
         this.setState(
             {
                 message: "",
             },
             () => {
-                this.props.onSubmit(this.state);
-                this.props.onHide();
+                onSubmit(this.state);
+                onHide();
             },
         );
     }
 
-    renderHeader() {
+    render() {
+        const { message, h, k, l, thickness, vacuumRatio, vx, vy } = this.state;
+        const { isOpen, onHide } = this.props;
+
         return (
-            <ModalHeader className="bgm-dark" closeButton>
-                <h4 className="modal-title">{this.props.title || "Generate surface/slab"}</h4>
-            </ModalHeader>
-        );
-    }
-
-    renderBody() {
-        return (
-            <ModalBody className="bgm-dark">
-                <div id="surface" className="surface">
-                    <div className="row" id="surface-matrix">
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line " data-tid="miller-h">
-                                <label htmlFor="form-miller-index-h">Miller h</label>
-                                <input
-                                    id="form-miller-index-h"
-                                    type="number"
-                                    className="form-control fg-input"
-                                    step="1"
-                                    min="0"
-                                    value={this.state.h}
-                                    onChange={(e) =>
-                                        this.setState({ h: parseFloat(e.target.value) })
-                                    }
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-4 form-group fg-float" data-tid="miller-k">
-                            <div className="fg-line ">
-                                <label htmlFor="form-miller-index-k">Miller k</label>
-                                <input
-                                    id="form-miller-index-k"
-                                    type="number"
-                                    className="form-control fg-input"
-                                    step="1"
-                                    min="0"
-                                    value={this.state.k}
-                                    onChange={(e) =>
-                                        this.setState({ k: parseFloat(e.target.value) })
-                                    }
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-4 form-group fg-float" data-tid="miller-l">
-                            <div className="fg-line ">
-                                <label htmlFor="form-miller-index-l">Miller l</label>
-                                <input
-                                    id="form-miller-index-l"
-                                    type="number"
-                                    className="form-control fg-input"
-                                    step="1"
-                                    min="0"
-                                    value={this.state.l}
-                                    onChange={(e) =>
-                                        this.setState({ l: parseFloat(e.target.value) })
-                                    }
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-xs-6 form-group fg-float" data-tid="thickness">
-                            <div className="fg-line ">
-                                <label htmlFor="form-slab-thickness-layers">
-                                    Thickness in layers
-                                </label>
-                                <input
-                                    id="form-slab-thickness-layers"
-                                    type="number"
-                                    className="form-control fg-input m21"
-                                    step="1"
-                                    min="1"
-                                    value={this.state.thickness}
-                                    onChange={(e) =>
-                                        this.setState({ thickness: parseFloat(e.target.value) })
-                                    }
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-xs-6 form-group fg-float" data-tid="vacuum-ratio">
-                            <div className="fg-line ">
-                                <label htmlFor="form-vacuum-ratio">Vacuum ratio</label>
-                                <input
-                                    id="form-vacuum-ratio"
-                                    type="number"
-                                    className="form-control fg-input m21"
-                                    step="0.01"
-                                    min="0"
-                                    max="0.99"
-                                    value={this.state.vacuumRatio}
-                                    onChange={(e) =>
-                                        this.setState({ vacuumRatio: parseFloat(e.target.value) })
-                                    }
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-xs-6 form-group fg-float" data-tid="vx">
-                            <div className="fg-line ">
-                                <label htmlFor="form-supercell-dimension-x">
-                                    Supercell dimension x
-                                </label>
-                                <input
-                                    id="form-supercell-dimension-x"
-                                    type="number"
-                                    className="form-control fg-input m21"
-                                    step="1"
-                                    min="1"
-                                    value={this.state.vx}
-                                    onChange={(e) =>
-                                        this.setState({ vx: parseFloat(e.target.value) })
-                                    }
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-xs-6 form-group fg-float" data-tid="vy">
-                            <div className="fg-line ">
-                                <label htmlFor="form-supercell-dimension-y">
-                                    Supercell dimension y
-                                </label>
-                                <input
-                                    id="form-supercell-dimension-y"
-                                    type="number"
-                                    className="form-control fg-input m21"
-                                    step="1"
-                                    min="1"
-                                    value={this.state.vy}
-                                    onChange={(e) =>
-                                        this.setState({ vy: parseFloat(e.target.value) })
-                                    }
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ModalBody>
-        );
-    }
-
-    renderFooter() {
-        return (
-            <ModalFooter className="bgm-dark">
-                <div className="row">
-                    <div className="col-xs-12">
-                        <button
-                            type="submit"
+            <Dialog
+                open={isOpen}
+                title="Generate surface/slab"
+                onClose={onHide}
+                renderFooterCustom={() => (
+                    <DialogActions>
+                        <Button
                             id="make-surface"
-                            className="btn btn-custom btn-block"
                             onClick={this.handleGenerateSurface}
+                            variant="outlined"
+                            fullWidth
+                            sx={{ m: 2 }}
                         >
                             Submit
-                        </button>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-12">
-                        <span className="text-danger">{this.state.message}</span>
-                    </div>
-                </div>
-            </ModalFooter>
+                        </Button>
+                    </DialogActions>
+                )}
+            >
+                <Box
+                    id="surface"
+                    className="surface"
+                    gap={1}
+                    sx={{ display: "flex", flexDirection: "column", mb: 1, pt: 1 }}
+                >
+                    <Box gap={1} sx={{ display: "flex", mb: 1 }}>
+                        <FormControl data-tid="miller-h">
+                            <TextField
+                                label="Miller h"
+                                variant="outlined"
+                                size="small"
+                                value={h}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ h: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl data-tid="miller-k">
+                            <TextField
+                                label="Miller k"
+                                variant="outlined"
+                                size="small"
+                                value={k}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ k: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl data-tid="miller-l">
+                            <TextField
+                                label="Miller l"
+                                variant="outlined"
+                                size="small"
+                                value={l}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ l: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box gap={1} sx={{ display: "flex", mb: 1 }}>
+                        <FormControl data-tid="thickness" fullWidth>
+                            <TextField
+                                label="Thickness in layers"
+                                variant="outlined"
+                                size="small"
+                                value={thickness}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ thickness: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 1,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl data-tid="vacuum-ratio" fullWidth>
+                            <TextField
+                                label="Vacuum ratio"
+                                variant="outlined"
+                                size="small"
+                                value={vacuumRatio}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ vacuumRatio: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        step: 0.01,
+                                        min: 0,
+                                        max: 0.99,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box gap={1} sx={{ display: "flex", mb: 1 }}>
+                        <FormControl data-tid="vx" fullWidth>
+                            <TextField
+                                label="Supercell dimension x"
+                                variant="outlined"
+                                size="small"
+                                value={vx}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ vx: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 1,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl data-tid="vy" fullWidth>
+                            <TextField
+                                label="Supercell dimension y"
+                                variant="outlined"
+                                size="small"
+                                value={vy}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ vy: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 1,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
+                {message && (
+                    <Typography variant="body1" color="error" textAlign="center">
+                        {message}
+                    </Typography>
+                )}
+            </Dialog>
         );
     }
 }
 
-SurfaceDialog.PropTypes = {
-    onSubmit: PropTypes.func,
+SurfaceDialog.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
 };
 
 export default SurfaceDialog;

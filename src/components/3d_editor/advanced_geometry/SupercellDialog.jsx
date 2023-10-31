@@ -1,11 +1,15 @@
+import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import math from "mathjs";
 import PropTypes from "prop-types";
 import React from "react";
-import { ModalBody, ModalFooter, ModalHeader } from "react-bootstrap";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import DialogActions from "@mui/material/DialogActions";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
 
-import { ModalDialog } from "../../include/ModalDialog";
-
-class SupercellDialog extends ModalDialog {
+class SupercellDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,15 +27,8 @@ class SupercellDialog extends ModalDialog {
         this.handleGenerateSupercell = this.handleGenerateSupercell.bind(this);
     }
 
-    getMatrix() {
-        return math.matrix([
-            [this.state.m11, this.state.m12, this.state.m13],
-            [this.state.m21, this.state.m22, this.state.m23],
-            [this.state.m31, this.state.m32, this.state.m33],
-        ]);
-    }
-
     handleGenerateSupercell() {
+        const { onSubmit, onHide } = this.props;
         const matrix = this.getMatrix();
         if (math.det(matrix) === 0) {
             this.setState({ message: "Matrix determinant must be non-zero." });
@@ -42,177 +39,229 @@ class SupercellDialog extends ModalDialog {
                 message: "",
             },
             () => {
-                this.props.onSubmit(matrix.toArray());
-                this.props.onHide();
+                onSubmit(matrix.toArray());
+                onHide();
             },
         );
     }
 
-    renderHeader() {
-        return (
-            <ModalHeader className="bgm-dark" closeButton>
-                <h4 className="modal-title">{this.props.title || "Generate supercell"}</h4>
-            </ModalHeader>
-        );
+    getMatrix() {
+        const { m11, m12, m13, m21, m22, m23, m31, m32, m33 } = this.state;
+
+        return math.matrix([
+            [m11, m12, m13],
+            [m21, m22, m23],
+            [m31, m32, m33],
+        ]);
     }
 
-    renderBody() {
+    render() {
+        const { message, m11, m12, m13, m21, m22, m23, m31, m32, m33 } = this.state;
+        const { isOpen, onHide } = this.props;
+
         return (
-            <ModalBody className="bgm-dark">
-                <div id="supercell" className="supercell">
-                    <div className="row" id="supercell-matrix">
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m11"
-                                    step="1"
-                                    value={this.state.m11}
-                                    onChange={(e) => {
-                                        this.setState({ m11: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m12"
-                                    step="1"
-                                    value={this.state.m12}
-                                    onChange={(e) => {
-                                        this.setState({ m12: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m13"
-                                    step="1"
-                                    value={this.state.m13}
-                                    onChange={(e) => {
-                                        this.setState({ m13: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m21"
-                                    step="1"
-                                    value={this.state.m21}
-                                    onChange={(e) => {
-                                        this.setState({ m21: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m22"
-                                    step="1"
-                                    value={this.state.m22}
-                                    onChange={(e) => {
-                                        this.setState({ m22: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m23"
-                                    step="1"
-                                    value={this.state.m23}
-                                    onChange={(e) => {
-                                        this.setState({ m23: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m31"
-                                    step="1"
-                                    value={this.state.m31}
-                                    onChange={(e) => {
-                                        this.setState({ m31: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m32"
-                                    step="1"
-                                    value={this.state.m32}
-                                    onChange={(e) => {
-                                        this.setState({ m32: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-4 form-group fg-float">
-                            <div className="fg-line ">
-                                <input
-                                    type="number"
-                                    className="form-control fg-input m33"
-                                    step="1"
-                                    value={this.state.m33}
-                                    onChange={(e) => {
-                                        this.setState({ m33: parseFloat(e.target.value) });
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ModalBody>
-        );
-    }
-
-    renderFooter() {
-        return (
-            <ModalFooter className="bgm-dark">
-                <div className="row">
-                    <div className="col-xs-12">
-                        <button
-                            type="submit"
+            <Dialog
+                open={isOpen}
+                title="Generate supercell"
+                onClose={onHide}
+                renderFooterCustom={() => (
+                    <DialogActions>
+                        <Button
                             id="make-supercell"
-                            className="btn btn-custom btn-block"
                             onClick={this.handleGenerateSupercell}
+                            variant="outlined"
+                            fullWidth
+                            sx={{ m: 2 }}
                         >
                             Submit
-                        </button>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-12">
-                        <span className="text-danger">{this.state.message}</span>
-                    </div>
-                </div>
-            </ModalFooter>
+                        </Button>
+                    </DialogActions>
+                )}
+            >
+                <Box gap={1} sx={{ display: "flex", flexDirection: "column", mb: 1, pt: 1 }}>
+                    <Box gap={1} sx={{ display: "flex" }}>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m11}
+                                type="number"
+                                className="m11"
+                                onChange={(e) => {
+                                    this.setState({ m11: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m12}
+                                type="number"
+                                className="m12"
+                                onChange={(e) => {
+                                    this.setState({ m12: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m13}
+                                type="number"
+                                className="m13"
+                                onChange={(e) => {
+                                    this.setState({ m13: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box gap={1} sx={{ display: "flex" }}>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m21}
+                                type="number"
+                                className="m21"
+                                onChange={(e) => {
+                                    this.setState({ m21: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m22}
+                                type="number"
+                                className="m22"
+                                onChange={(e) => {
+                                    this.setState({ m22: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m23}
+                                type="number"
+                                className="m23"
+                                onChange={(e) => {
+                                    this.setState({ m23: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box gap={1} sx={{ display: "flex" }}>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m31}
+                                type="number"
+                                className="m31"
+                                onChange={(e) => {
+                                    this.setState({ m31: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m32}
+                                type="number"
+                                className="m32"
+                                onChange={(e) => {
+                                    this.setState({ m32: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                value={m33}
+                                type="number"
+                                className="m33"
+                                onChange={(e) => {
+                                    this.setState({ m33: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
+                {message && (
+                    <Typography variant="body1" color="error" textAlign="center">
+                        {message}
+                    </Typography>
+                )}
+            </Dialog>
         );
     }
 }
 
-SupercellDialog.PropTypes = {
-    onSubmit: PropTypes.func,
+SupercellDialog.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
 };
 
 export default SupercellDialog;

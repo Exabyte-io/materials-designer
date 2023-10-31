@@ -364,7 +364,7 @@ class HeaderMenuToolbar extends React.Component {
                 {this.renderSpinner()}
 
                 <SupercellDialog
-                    show={showSupercellDialog}
+                    isOpen={showSupercellDialog}
                     modalId="supercellModal"
                     backdropColor="dark"
                     onSubmit={onGenerateSupercell}
@@ -372,7 +372,7 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 <SurfaceDialog
-                    show={showSurfaceDialog}
+                    isOpen={showSurfaceDialog}
                     modalId="surfaceModal"
                     backdropColor="dark"
                     onSubmit={onGenerateSurface}

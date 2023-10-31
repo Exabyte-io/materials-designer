@@ -1,6 +1,7 @@
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import { StyledEngineProvider } from "@mui/material/styles";
+import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import setClass from "classnames";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
@@ -12,7 +13,6 @@ import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFulls
 import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
 import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
-import { FullscreenComponentMixin } from "./components/include/FullscreenComponentMixin";
 import ItemsList from "./components/items_list/ItemsList";
 import SourceEditor from "./components/source_editor/SourceEditor";
 import { Material } from "./material";
@@ -96,7 +96,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                             onUpdate={this.props.onUpdate}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={6}>
+                                    <Grid item xs={12} md={6} sx={{ position: "relative" }}>
                                         <ThreeDEditorFullscreen
                                             editable
                                             material={this.props.material}
