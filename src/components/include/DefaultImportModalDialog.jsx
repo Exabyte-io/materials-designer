@@ -219,9 +219,9 @@ class DefaultImportModalDialog extends React.Component {
                 options={defaultMaterialsList}
                 getOptionLabel={(option) => option.label}
                 onChange={(event, value) => this.setState({ selectedMaterial: value })}
-                onKeyDown={async (e) => {
+                onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                        await this.addMaterialAsJSONFile();
+                        this.addMaterialAsJSONFile();
                     }
                 }}
             />
@@ -373,6 +373,7 @@ DefaultImportModalDialog.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array,
 };
 
