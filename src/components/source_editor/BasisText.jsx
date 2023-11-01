@@ -26,12 +26,11 @@ class BasisText extends React.Component {
 
     // eslint-disable-next-line no-unused-vars
     UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+        const { content: nextContent, checks: nextChecks } = nextProps;
         const { content, checks } = this.props;
-        if (content !== nextProps.content) {
-            this.reformatContentAndUpdateStateIfNoManualEdit(nextProps.content);
-        }
-        if (checks !== nextProps.checks) {
-            this.setState({ checks: nextProps.checks });
+        if (content !== nextContent || checks !== nextChecks) {
+            this.reformatContentAndUpdateStateIfNoManualEdit(nextContent);
+            this.setState({ checks: nextChecks });
         }
     }
 
