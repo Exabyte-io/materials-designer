@@ -8,7 +8,6 @@ import Dialog from "@mui/material/Dialog";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
-import { loadPyodide } from "pyodide";
 import React from "react";
 
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
@@ -37,7 +36,7 @@ class PythonTransformation extends React.Component {
             pythonCode,
         });
 
-        await this.initializePyodide();
+        this.initializePyodide();
         this.setState({ isLoading: false });
     }
 
@@ -102,17 +101,31 @@ class PythonTransformation extends React.Component {
     }
 
     async initializePyodide() {
-        const pyodide = await loadPyodide({
-            indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js",
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js";
+        document.body.appendChild(script);
+
+        // Ensure the script is loaded before proceeding
+        await new Promise((resolve) => {
+            script.onload = resolve;
         });
-        await pyodide.loadPackage("micropip");
+
+        // Once the script is loaded, 'loadPyodide' should be available in the global scope
+        if (typeof window.loadPyodide === "undefined") {
+            throw new Error("loadPyodide is not available. Please check the CDN URL.");
+        }
+
+        this.pyodide = await window.loadPyodide();
+
+        console.log(this.pyodide);
+
+        await this.pyodide.loadPackage("micropip");
         const response = await fetch(
             "https://raw.githubusercontent.com/Exabyte-io/api-examples/48f86e29c069fc0205216c50b1b98c19634a6445/other/pyodide/imports.py",
         );
         const pythonCode = await response.text();
-        pyodide.runPythonAsync(pythonCode);
+        await this.pyodide.runPythonAsync(pythonCode);
 
-        this.pyodide = pyodide;
         document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
     }
 
