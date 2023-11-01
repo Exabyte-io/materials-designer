@@ -2,6 +2,7 @@
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import Terminal from "@mui/icons-material/Terminal";
 // TODO: rename other menu icons similarly
 import SupercellIcon from "@mui/icons-material/BorderClear";
 import CheckIcon from "@mui/icons-material/Check";
@@ -233,7 +234,7 @@ class HeaderMenuToolbar extends React.Component {
                 </MenuItem>
                 <MenuItem onClick={() => this.setState({ showPythonTransformation: true })}>
                     <ListItemIcon>
-                        <DeviceHubIcon />
+                        <Terminal />
                     </ListItemIcon>
                     Python Transformation
                 </MenuItem>
