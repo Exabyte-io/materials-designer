@@ -231,6 +231,12 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Nanotube
                 </MenuItem>
+                <MenuItem onClick={() => this.setState({ showPythonTransformation: true })}>
+                    <ListItemIcon>
+                        <DeviceHubIcon />
+                    </ListItemIcon>
+                    Python Transformation
+                </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
     }
