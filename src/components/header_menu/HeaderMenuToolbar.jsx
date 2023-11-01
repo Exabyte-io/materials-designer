@@ -37,6 +37,7 @@ import { Material } from "../../material";
 import { BoundaryConditionsDialog } from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
+import PythonTransformation from "../3d_editor/advanced_geometry/PythonTransformation";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
@@ -55,6 +56,7 @@ class HeaderMenuToolbar extends React.Component {
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
             showBoundaryConditionsDialog: false,
+            showPythonTransformation: false,
         };
     }
 
@@ -337,6 +339,7 @@ class HeaderMenuToolbar extends React.Component {
             showCombinatorialDialog,
             showExportMaterialsDialog,
             showInterpolateDialog,
+            showPythonTransformation,
         } = this.state;
         const {
             className,
@@ -423,6 +426,17 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={(...args) => {
                         onAdd(...args);
                         this.setState({ showInterpolateDialog: false });
+                    }}
+                />
+                <PythonTransformation
+                    show={showPythonTransformation}
+                    materials={materials}
+                    transformationParameters={{ transformationName: "createInterface" }}
+                    onHide={() => this.setState({ showPythonTransformation: false })}
+                    onSubmit={(...args) => {
+                        // onRunPythonCode();
+                        onAdd(...args);
+                        this.setState({ showPythonTransformation: false });
                     }}
                 />
             </Toolbar>

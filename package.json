@@ -3,7 +3,7 @@
     "version": "2022.1.9-0",
     "description": "Materials Designer",
     "scripts": {
-        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
+        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start --experimental-wasm-bigint",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --extensions '.js,.jsx,.ts,.tsx' --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
@@ -26,6 +26,7 @@
     "license": "Apache-2.0",
     "homepage": "https://github.com/Exabyte-io/materials-designer",
     "dependencies": {
+        "pyodide": "0.24.1",
         "@babel/cli": "7.16.0",
         "@babel/core": "7.16.0",
         "@babel/plugin-proposal-class-properties": "7.16.0",
@@ -62,7 +63,8 @@
         "redux-undo": "^1.0.0-beta9-9-7",
         "sprintf-js": "^1.1.2",
         "underscore": "^1.12.1",
-        "underscore.string": "^3.3.4"
+        "underscore.string": "^3.3.4",
+        "node-fetch": "^2.6.7"
     },
     "peerDependencies": {
         "@exabyte-io/made.js": "*",
