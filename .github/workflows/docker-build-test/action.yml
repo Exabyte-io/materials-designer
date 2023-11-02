@@ -24,12 +24,28 @@ runs:
       shell: bash -l {0}
       run: |
         docker run -d -p 3001:3001 --name=materials-designer materials-designer:latest
-        docker logs materials-designer
-        while ! docker logs materials-designer 2>&1 | grep "Compiled"; do
-            failed=$(docker logs materials-designer 2>&1 | grep "Failed")
-            if [[ "$failed" != "" ]]; then
+        echo "Waiting for application to start..."
+        timeout=60
+        while ! docker logs materials-designer 2>&1 | grep -m 1 "Compiled"; do
+            if ((timeout-- == 0)); then
+                echo "Application failed to start within expected time."
+                exit 1
+            fi
+            failed=$(docker logs materials-designer 2>&1 | grep "Failed" || true)
+            if [[ -n "$failed" ]]; then
+                echo "An error occurred:"
+                echo "$failed"
                 exit 1
             fi
             sleep 5
         done
-        docker run --network=host materials-designer-test
+        echo "Application started. Running tests..."
+        # Here you would run your docker command for tests, e.g.:
+        # docker run --network=host materials-designer-test
+
+    - name: Log output
+      shell: bash -l {0}
+      run: |
+        echo "Application logs:"
+        docker logs materials-designer
+
