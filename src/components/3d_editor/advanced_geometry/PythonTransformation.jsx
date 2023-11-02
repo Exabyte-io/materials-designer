@@ -35,7 +35,7 @@ class PythonTransformation extends React.Component {
         if (prevProps.materials !== materials) {
             this.setState({ materials });
         }
-        if (prevProps.show !== show) {
+        if (prevProps.show !== show && show) {
             this.setState({ isLoading: true });
             this.loadPythonCode();
             this.initializePyodide();
@@ -102,10 +102,10 @@ class PythonTransformation extends React.Component {
     }
 
     async initializePyodide() {
-        if (!document.querySelector("[data-pyodide-script]")) {
+        if (!document.querySelector(".pyodide-script")) {
             const script = document.createElement("script");
             script.src = pyodideSource;
-            script.dataset.pyodideScript = "true";
+            script.className = "pyodide-script";
             document.body.appendChild(script);
 
             await new Promise((resolve, reject) => {
