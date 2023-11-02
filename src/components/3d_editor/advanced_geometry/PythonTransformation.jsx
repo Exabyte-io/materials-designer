@@ -12,6 +12,8 @@ import React from "react";
 
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
 
+const pyodideSource = "https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js";
+
 class PythonTransformation extends React.Component {
     constructor(props) {
         super(props);
@@ -28,23 +30,16 @@ class PythonTransformation extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    async componentDidMount() {
-        this.setState({ isLoading: true });
-        const { transformationParameters } = this.state;
-        const pythonCode = await fetchPythonCode(transformationParameters.transformationName);
-        this.setState({
-            pythonCode,
-        });
-
-        this.initializePyodide();
-        this.setState({ isLoading: false });
-    }
-
-    componentDidUpdate(prevProps) {
-        const { materials } = this.props;
+    UNSAFE_componentWillReceiveProps(prevProps) {
+        const { materials, show } = this.props;
         if (prevProps.materials !== materials) {
-            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ materials });
+        }
+        if (prevProps.show !== show) {
+            this.setState({ isLoading: true });
+            this.loadPythonCode();
+            this.initializePyodide();
+            this.setState({ isLoading: false });
         }
     }
 
@@ -52,7 +47,7 @@ class PythonTransformation extends React.Component {
         this.setState({ pythonCode: newContent });
     }
 
-    async handleRun() {
+    handleRun = async () => {
         try {
             const dataOut = await this.runPythonCode();
             const materials = dataOut.get("materials");
@@ -69,7 +64,7 @@ class PythonTransformation extends React.Component {
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     handleSubmit() {
         const { onSubmit } = this.props;
@@ -78,7 +73,13 @@ class PythonTransformation extends React.Component {
         onSubmit(newMaterials);
     }
 
-    handleTransformationChange = async (event, newValue) => {
+    loadPythonCode = async () => {
+        const { transformationParameters } = this.state;
+        const pythonCode = await fetchPythonCode(transformationParameters.transformationName);
+        this.setState({ pythonCode });
+    };
+
+    handleTransformationParametersChange = async (event, newValue) => {
         if (newValue) {
             const pythonCode = await fetchPythonCode(newValue);
             this.setState({
@@ -101,25 +102,26 @@ class PythonTransformation extends React.Component {
     }
 
     async initializePyodide() {
-        const script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js";
-        document.body.appendChild(script);
+        if (!document.querySelector("[data-pyodide-script]")) {
+            const script = document.createElement("script");
+            script.src = pyodideSource;
+            script.dataset.pyodideScript = "true";
+            document.body.appendChild(script);
 
-        // Ensure the script is loaded before proceeding
-        await new Promise((resolve) => {
-            script.onload = resolve;
-        });
+            await new Promise((resolve, reject) => {
+                script.onload = resolve;
+                script.onerror = reject;
+            });
+        }
 
-        // Once the script is loaded, 'loadPyodide' should be available in the global scope
         if (typeof window.loadPyodide === "undefined") {
             throw new Error("loadPyodide is not available. Please check the CDN URL.");
         }
 
         this.pyodide = await window.loadPyodide();
 
-        console.log(this.pyodide);
-
         await this.pyodide.loadPackage("micropip");
+        // TODO: consider using CDN like jsDelivr above for distributing our python code
         const response = await fetch(
             "https://raw.githubusercontent.com/Exabyte-io/api-examples/48f86e29c069fc0205216c50b1b98c19634a6445/other/pyodide/imports.py",
         );
@@ -206,7 +208,7 @@ class PythonTransformation extends React.Component {
                         value={transformationParameters.transformationName}
                         getOptionLabel={(option) => option}
                         options={transformationNames}
-                        onChange={this.handleTransformationChange}
+                        onChange={this.handleTransformationParametersChange}
                         sx={{ flex: "1" }}
                         renderInput={(params) => (
                             // eslint-disable-next-line react/jsx-props-no-spreading
