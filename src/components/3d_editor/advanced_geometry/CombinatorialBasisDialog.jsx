@@ -84,6 +84,7 @@ class CombinatorialBasisDialog extends ModalDialog {
                         href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label="Combinatorial Basis Info"
                     >
                         <i className="zmdi zmdi-info" />
                     </a>
