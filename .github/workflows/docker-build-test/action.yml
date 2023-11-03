@@ -4,6 +4,11 @@ description: Building docker images using ECR or github containers
 runs:
   using: composite
   steps:
+    - name: Cache Docker images.
+      uses: ScribeMD/docker-cache@0.3.6
+      with:
+        key: docker-${{ runner.os }}-${{ hashFiles('package.json') }}
+
     - name: Pull existing image for the application container
       shell: bash -l {0}
       run: |
