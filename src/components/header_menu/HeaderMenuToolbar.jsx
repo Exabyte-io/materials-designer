@@ -279,7 +279,7 @@ class HeaderMenuToolbar extends React.Component {
 
     renderImportModal() {
         const { showImportMaterialsDialog } = this.state;
-        const { ImportModal, onAdd } = this.props;
+        const { ImportModal, onAdd, defaultMaterialsSet } = this.props;
         return ImportModal ? (
             <ImportModal
                 modalId="defaultImportModalDialog"
@@ -290,6 +290,7 @@ class HeaderMenuToolbar extends React.Component {
                     this.setState({ showImportMaterialsDialog: false });
                 }}
                 onClose={() => this.setState({ showImportMaterialsDialog: false })}
+                defaultMaterialsSet={defaultMaterialsSet}
             />
         ) : null;
     }
@@ -440,6 +441,7 @@ HeaderMenuToolbar.propTypes = {
     index: PropTypes.number.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
     maxCombinatorialBasesCount: PropTypes.number.isRequired,
+    defaultMaterialsSet: PropTypes.array.isRequired,
 
     onUpdate: PropTypes.func.isRequired,
     onUndo: PropTypes.func.isRequired,

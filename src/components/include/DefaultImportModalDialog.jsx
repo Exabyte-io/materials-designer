@@ -1,10 +1,13 @@
 import { Made } from "@exabyte-io/made.js";
+import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import React from "react";
@@ -47,6 +50,8 @@ class DefaultImportModalDialog extends React.Component {
         this.state = {
             files: [],
             dragging: false,
+            defaultMaterialsList: this.getDefaultMaterialsList() || [],
+            selectedMaterial: null,
         };
         this.title = "Import Materials";
 
@@ -117,7 +122,7 @@ class DefaultImportModalDialog extends React.Component {
         // Filter out invalid files
         const validFiles = Array.from(files).filter((file) => file && file.size);
         if (validFiles.length === 0) {
-            NPMsAlert.warning("Error: file(s) cannot be read (unaccessible?)");
+            NPMsAlert.warning("Error: file(s) cannot be read (inaccessible?)");
             return;
         }
 
@@ -148,6 +153,13 @@ class DefaultImportModalDialog extends React.Component {
         });
     }
 
+    getDefaultMaterialsList = () => {
+        const { defaultMaterialsSet } = this.props;
+        return defaultMaterialsSet.map((material) => {
+            return { label: material.name || "Not available", value: material };
+        });
+    };
+
     formatDate = (date) => {
         const hours = date.getHours().toString().padStart(2, "0");
         const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -166,15 +178,57 @@ class DefaultImportModalDialog extends React.Component {
         }));
     };
 
+    addMaterialAsJSONFile = () => {
+        const { selectedMaterial, files } = this.state;
+
+        if (!selectedMaterial) {
+            return;
+        }
+        const config = selectedMaterial.value;
+
+        const newFile = {
+            id: config.id || files.length,
+            fileName: config.name || "Not available",
+            format: "json",
+            text: JSON.stringify(config) || "Not available",
+            lastModified: this.formatDate(new Date()),
+        };
+
+        this.setState({
+            files: [...files, newFile],
+            selectedMaterial: null,
+        });
+    };
+
     onSubmit = () => {
         this.handleSubmit();
         // eslint-disable-next-line react/destructuring-assignment
         this.props.onClose();
     };
 
+    renderAutocomplete = () => {
+        const { defaultMaterialsList } = this.state;
+        return (
+            <Autocomplete
+                sx={{ flexGrow: 1, mr: 2, height: "100%" }}
+                disablePortal
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                renderInput={(params) => <TextField {...params} label="Default set of Materials" />}
+                options={defaultMaterialsList}
+                getOptionLabel={(option) => option.label}
+                onChange={(event, value) => this.setState({ selectedMaterial: value })}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        this.addMaterialAsJSONFile();
+                    }
+                }}
+            />
+        );
+    };
+
     render() {
         const { show, onClose, onSubmit, title } = this.props;
-        const { files, dragging } = this.state;
+        const { files, dragging, selectedMaterial } = this.state;
 
         const rows = files.map((file, i) => ({
             id: i,
@@ -242,6 +296,20 @@ class DefaultImportModalDialog extends React.Component {
                 <DialogTitle>{this.title || title}</DialogTitle>
 
                 <DialogContent>
+                    <Box
+                        sx={{
+                            padding: "10px 0",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            width: "100%",
+                        }}
+                    >
+                        {this.renderAutocomplete()}
+                        <Button onClick={this.addMaterialAsJSONFile} disabled={!selectedMaterial}>
+                            Add
+                        </Button>
+                    </Box>
                     <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
                         {files.length > 0 ? (
                             <div
@@ -303,6 +371,12 @@ DefaultImportModalDialog.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    defaultMaterialsSet: PropTypes.array,
+};
+
+DefaultImportModalDialog.defaultProps = {
+    defaultMaterialsSet: [],
 };
 
 export default DefaultImportModalDialog;
