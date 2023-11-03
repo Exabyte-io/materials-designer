@@ -20,11 +20,7 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
         this.setState({ isOpen: !isOpen });
     };
 
-    handleClose = () => {
-        const { isOpen } = this.state;
-        if (!isOpen) return;
-        this.setState({ isOpen: false });
-    };
+    handleClose = () => this.setState({ isOpen: false });
 
     render() {
         const { isOpen, anchorEl } = this.state;
