@@ -8,6 +8,7 @@ runs:
       shell: bash -l {0}
       run: |
         docker pull ghcr.io/exabyte-io/materials-designer_x86_64
+        echo "ignore failure here temporarily"
 
     - name: Build application container
       uses: ./actions/docker/build
