@@ -23,6 +23,7 @@ class PythonTransformation extends React.Component {
             newMaterials: [],
             isLoading: false,
             transformationParameters: { transformationName: "default" },
+            pyodideInitialized: false,
         };
         this.handleCodeChange = this.handleCodeChange.bind(this);
         this.runPythonCode = this.runPythonCode.bind(this);
@@ -35,7 +36,7 @@ class PythonTransformation extends React.Component {
         if (prevProps.materials !== materials) {
             this.setState({ materials });
         }
-        if (prevProps.show !== show && show) {
+        if (prevProps.show !== show) {
             this.setState({ isLoading: true });
             this.loadPythonCode();
             this.initializePyodide();
@@ -102,33 +103,39 @@ class PythonTransformation extends React.Component {
     }
 
     async initializePyodide() {
-        if (!document.querySelector(".pyodide-script")) {
-            const script = document.createElement("script");
-            script.src = pyodideSource;
-            script.className = "pyodide-script";
-            document.body.appendChild(script);
+        // eslint-disable-next-line react/destructuring-assignment
+        if (!this.state.pyodideInitialized) {
+            const script =
+                document.querySelector(".pyodide-script") || document.createElement("script");
+            if (!document.querySelector(".pyodide-script")) {
+                script.src = pyodideSource;
+                script.className = "pyodide-script";
+                document.body.appendChild(script);
+                await new Promise((resolve, reject) => {
+                    script.onload = () => {
+                        this.state.pyodideInitialized = true;
+                        resolve();
+                    };
+                    script.onerror = reject;
+                });
+            }
 
-            await new Promise((resolve, reject) => {
-                script.onload = resolve;
-                script.onerror = reject;
-            });
+            if (typeof window.loadPyodide === "undefined") {
+                throw new Error("loadPyodide is not available. Please check the CDN URL.");
+            }
+
+            this.pyodide = await window.loadPyodide();
+            await this.pyodide.loadPackage("micropip");
+
+            // TODO: add caching for our code as well
+            const response = await fetch(
+                "https://raw.githubusercontent.com/Exabyte-io/api-examples/48f86e29c069fc0205216c50b1b98c19634a6445/other/pyodide/imports.py",
+            );
+            const pythonCode = await response.text();
+            await this.pyodide.runPythonAsync(pythonCode);
+
+            document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
         }
-
-        if (typeof window.loadPyodide === "undefined") {
-            throw new Error("loadPyodide is not available. Please check the CDN URL.");
-        }
-
-        this.pyodide = await window.loadPyodide();
-
-        await this.pyodide.loadPackage("micropip");
-        // TODO: consider using CDN like jsDelivr above for distributing our python code
-        const response = await fetch(
-            "https://raw.githubusercontent.com/Exabyte-io/api-examples/48f86e29c069fc0205216c50b1b98c19634a6445/other/pyodide/imports.py",
-        );
-        const pythonCode = await response.text();
-        await this.pyodide.runPythonAsync(pythonCode);
-
-        document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
     }
 
     async runPythonCode() {
