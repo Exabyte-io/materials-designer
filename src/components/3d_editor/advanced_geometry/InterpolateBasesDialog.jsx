@@ -82,6 +82,7 @@ class InterpolateBasesDialog extends ModalDialog {
                         href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label="Interpolate Basis"
                     >
                         <i className="zmdi zmdi-info" />
                     </a>
