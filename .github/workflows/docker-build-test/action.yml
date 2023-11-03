@@ -12,19 +12,19 @@ runs:
     - name: Pull existing image for the application container
       shell: bash -l {0}
       run: |
-        docker pull ghcr.io/exabyte-io/materials-designer_x86_64
-        echo "ignore failure here temporarily"
+        docker pull ghcr.io/exabyte-io/materials-designer_x86_64:latest
 
     - name: Build application container
       uses: ./actions/docker/build
       with:
         image-name: ghcr.io/exabyte-io/materials-designer_x86_64
+        image-tag: latest
         dockerfile: ./dockerfiles/app/Dockerfile-cached
 
     - name: Push updated application container
       shell: bash -l {0}
       run: |
-        docker push ghcr.io/exabyte-io/materials-designer_x86_64
+        docker push ghcr.io/exabyte-io/materials-designer_x86_64:latest
 
     - name: Build test container
       uses: ./actions/docker/build
