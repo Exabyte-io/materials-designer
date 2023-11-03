@@ -74,7 +74,7 @@
         "@exabyte-io/cove.js": "2023.11.1-0",
         "@exabyte-io/code.js": "2023.11.1-0",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
-        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js#d9ece447174cae31be93d109d8d15ed582dd0e83",
+        "@exabyte-io/made.js": "2023.11.3-0",
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
