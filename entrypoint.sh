@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+source $NVM_DIR/nvm.sh
+nvm use ${NODE_VERSION}
+
 if [[ "${BASE_DIR}" == "" ]]; then
     BASE_DIR=.
 fi
