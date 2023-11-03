@@ -32,10 +32,3 @@ runs:
             sleep 5
         done
         docker run --network=host materials-designer-test
-
-    - name: Log output
-      shell: bash -l {0}
-      run: |
-        echo "Application logs:"
-        docker logs materials-designer
-
