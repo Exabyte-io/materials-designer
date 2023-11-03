@@ -441,6 +441,7 @@ HeaderMenuToolbar.propTypes = {
     index: PropTypes.number.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
     maxCombinatorialBasesCount: PropTypes.number.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array.isRequired,
 
     onUpdate: PropTypes.func.isRequired,

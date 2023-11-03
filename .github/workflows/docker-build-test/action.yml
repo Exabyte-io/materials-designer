@@ -25,10 +25,10 @@ runs:
       run: |
         docker run -d -p 3001:3001 --name=materials-designer materials-designer:latest
         while ! docker logs materials-designer 2>&1 | grep "Compiled"; do
-          failed=$(docker logs materials-designer 2>&1 | grep "Failed")
-          if [[ "$failed" != "" ]]; then
-              exit 1
-          fi
-          sleep 5
+            failed=$(docker logs materials-designer 2>&1 | grep "Failed")
+            if [[ "$failed" != "" ]]; then
+                exit 1
+            fi
+            sleep 5
         done
         docker run --network=host materials-designer-test
