@@ -107,6 +107,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                                 Material.createFromMadeMaterial(material);
                                             newMaterial.metadata =
                                                 this.props.material.metadata || {};
+                                            this.props.onUpdate(newMaterial);
                                         }}
                                     />
                                 </div>
@@ -170,7 +171,7 @@ MaterialsDesigner.propTypes = {
     onRemove: PropTypes.func,
 
     maxCombinatorialBasesCount: PropTypes.number,
-
+    // eslint-disable-next-line react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array,
 };
 
