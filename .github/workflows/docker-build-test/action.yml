@@ -32,7 +32,7 @@ runs:
     - name: Run tests
       shell: bash -l {0}
       run: |
-        docker run -d -p 3001:3001 --name=materials-designer materials-designer:latest
+        docker run -d -p 3001:3001 --name=materials-designer ghcr.io/exabyte-io/materials-designer_x86_64:latest
         while ! docker logs materials-designer 2>&1 | grep "Compiled"; do
             failed=$(docker logs materials-designer 2>&1 | grep "Failed")
             if [[ "$failed" != "" ]]; then
