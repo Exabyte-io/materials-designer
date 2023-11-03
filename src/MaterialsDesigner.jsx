@@ -100,6 +100,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     maxCombinatorialBasesCount={
                                         this.props.maxCombinatorialBasesCount
                                     }
+                                    defaultMaterialsSet={this.props.defaultMaterialsSet}
                                 />
                                 {this.renderDefaultImportModal()}
                                 <div className="bgm-dark col-xs-12">
@@ -193,6 +194,8 @@ MaterialsDesigner.propTypes = {
     onRemove: PropTypes.func,
 
     maxCombinatorialBasesCount: PropTypes.number,
+
+    defaultMaterialsSet: PropTypes.array,
 };
 
 export default MaterialsDesigner;
