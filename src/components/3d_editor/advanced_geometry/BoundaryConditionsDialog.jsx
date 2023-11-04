@@ -111,6 +111,7 @@ export class BoundaryConditionsDialog extends ModalDialog {
 }
 
 BoundaryConditionsDialog.PropTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object,
     onSubmit: PropTypes.func,
 };
