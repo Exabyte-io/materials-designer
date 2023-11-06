@@ -1,20 +1,19 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DialogActions from "@mui/material/DialogActions";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";
-
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
-import IconButton from "@mui/material/IconButton";
-import DialogActions from "@mui/material/DialogActions";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import TextField from "@mui/material/TextField";
 
 import { displayMessage } from "../../../i18n/messages";
 import { Material } from "../../../material";
@@ -108,6 +107,7 @@ class InterpolateBasesDialog extends React.Component {
                                 href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                aria-label="Interpolate Basis"
                             >
                                 <IconByName name="shapes.info" />
                             </a>
@@ -192,7 +192,9 @@ class InterpolateBasesDialog extends React.Component {
 InterpolateBasesDialog.propTypes = {
     title: PropTypes.string.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     material2: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
