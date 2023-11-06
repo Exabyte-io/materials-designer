@@ -137,7 +137,7 @@ MaterialsDesignerContainer.propTypes = {
     maxCombinatorialBasesCount: PropTypes.number,
     // eslint-disable-next-line react/require-default-props
     isConventionalCellShown: PropTypes.bool,
-    // eslint-disable-next-line react/require-default-props
+    // eslint-disable-next-line react/require-default-props,react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array,
 };
 
