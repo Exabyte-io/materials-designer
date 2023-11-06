@@ -79,6 +79,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     maxCombinatorialBasesCount={
                                         this.props.maxCombinatorialBasesCount
                                     }
+                                    defaultMaterialsSet={this.props.defaultMaterialsSet}
                                 />
                                 <Grid container>
                                     <Grid item xs={12} md={2}>
@@ -169,6 +170,8 @@ MaterialsDesigner.propTypes = {
     onRemove: PropTypes.func,
 
     maxCombinatorialBasesCount: PropTypes.number,
+    // eslint-disable-next-line react/forbid-prop-types
+    defaultMaterialsSet: PropTypes.array,
 };
 
 export default MaterialsDesigner;
