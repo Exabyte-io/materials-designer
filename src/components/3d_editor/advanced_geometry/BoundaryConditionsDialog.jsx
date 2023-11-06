@@ -114,6 +114,7 @@ export class BoundaryConditionsDialog extends React.Component {
 BoundaryConditionsDialog.propTypes = {
     title: PropTypes.string.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,

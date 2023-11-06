@@ -1,16 +1,15 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 import _ from "underscore";
-
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import DialogActions from "@mui/material/DialogActions";
 
 import { displayMessage } from "../../../i18n/messages";
 import { Material } from "../../../material";
@@ -105,6 +104,7 @@ class CombinatorialBasisDialog extends React.Component {
                                 href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                aria-label="Combinatorial Basis"
                             >
                                 <IconByName name="shapes.info" />
                             </a>
@@ -144,6 +144,7 @@ class CombinatorialBasisDialog extends React.Component {
 CombinatorialBasisDialog.propTypes = {
     title: PropTypes.string.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
