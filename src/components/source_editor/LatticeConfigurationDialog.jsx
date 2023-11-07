@@ -1,17 +1,16 @@
 /* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
-import $ from "jquery";
-import PropTypes from "prop-types";
-import React from "react";
-
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
+import PropTypes from "prop-types";
+import React from "react";
+
 import { Material } from "../../material";
 import { deepClone } from "../../utils/index";
 import ToggleSwitch from "../include/ToggleSwitch";
@@ -82,7 +81,7 @@ class LatticeConfigurationDialog extends React.Component {
 
     handleLatticeUnitSelected(e) {
         const { lattice } = this.state;
-        const units = $(e.target).val();
+        const units = e.target.value;
         const newLattice = new Made.Lattice({
             ...lattice,
             units,
@@ -92,11 +91,12 @@ class LatticeConfigurationDialog extends React.Component {
 
     handleLatticeTypeSelected(e) {
         const { lattice } = this.state;
-        const type = $(e.target).val();
+        const { type } = e.target.value;
         const newLattice = Made.Lattice.getDefaultPrimitiveLatticeConfigByType({
             ...lattice,
             type,
         });
+        console.log(newLattice);
         this.setState({ lattice: newLattice });
     }
 
