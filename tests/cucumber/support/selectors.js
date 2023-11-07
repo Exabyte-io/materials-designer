@@ -11,7 +11,7 @@ export const SELECTORS = {
         supercellDialog: {
             wrapper: "#supercellModal",
             submitButton: "#make-supercell",
-            matrixElementByIndices: (i, j) => `input.m${i + 1}${j + 1}`,
+            matrixElementByIndices: (i, j) => `div.m${i + 1}${j + 1} input`,
         },
         interpolatedSetDialog: {
             wrapper: "#interpolatedSetModal",
