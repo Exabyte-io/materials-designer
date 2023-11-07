@@ -1,16 +1,15 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import { BOUNDARY_CONDITIONS } from "@exabyte-io/wave.js/dist/enums";
-import PropTypes from "prop-types";
-import React from "react";
-
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DialogActions from "@mui/material/DialogActions";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import DialogActions from "@mui/material/DialogActions";
+import PropTypes from "prop-types";
+import React from "react";
 
 export class BoundaryConditionsDialog extends React.Component {
     constructor(props) {
@@ -49,11 +48,12 @@ export class BoundaryConditionsDialog extends React.Component {
     }
 
     render() {
-        const { isOpen, title, onHide } = this.props;
+        const { isOpen, title, onHide, modalId } = this.props;
         const { boundaryType, boundaryOffset } = this.state;
 
         return (
             <Dialog
+                id={modalId}
                 title={title || "Set Boundary Conditions"}
                 open={isOpen}
                 onClose={onHide}
@@ -118,4 +118,5 @@ BoundaryConditionsDialog.propTypes = {
     material: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
+    modalId: PropTypes.string.isRequired,
 };
