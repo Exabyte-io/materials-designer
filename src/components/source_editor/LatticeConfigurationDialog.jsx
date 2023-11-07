@@ -91,12 +91,11 @@ class LatticeConfigurationDialog extends React.Component {
 
     handleLatticeTypeSelected(e) {
         const { lattice } = this.state;
-        const { type } = e.target.value;
+        const type = e.target.value;
         const newLattice = Made.Lattice.getDefaultPrimitiveLatticeConfigByType({
             ...lattice,
             type,
         });
-        console.log(newLattice);
         this.setState({ lattice: newLattice });
     }
 
