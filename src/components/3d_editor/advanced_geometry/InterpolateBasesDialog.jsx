@@ -85,11 +85,12 @@ class InterpolateBasesDialog extends React.Component {
 
     render() {
         const { materialIndex, message, validated, numberOfSteps } = this.state;
-        const { isOpen, onHide, title, material, material2 } = this.props;
+        const { isOpen, onHide, title, material, material2, modalId } = this.props;
         const xyzContent = [material, material2][materialIndex].getBasisAsXyz();
 
         return (
             <Dialog
+                id={modalId}
                 open={isOpen}
                 renderHeaderCustom={() => (
                     <Box
@@ -198,6 +199,7 @@ InterpolateBasesDialog.propTypes = {
     material2: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
+    modalId: PropTypes.string.isRequired,
 };
 
 export default InterpolateBasesDialog;

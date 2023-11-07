@@ -1,12 +1,12 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
-import PropTypes from "prop-types";
-import React from "react";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
+import React from "react";
 
 class SurfaceDialog extends React.Component {
     constructor(props) {
@@ -40,10 +40,11 @@ class SurfaceDialog extends React.Component {
 
     render() {
         const { message, h, k, l, thickness, vacuumRatio, vx, vy } = this.state;
-        const { isOpen, onHide } = this.props;
+        const { isOpen, onHide, modalId } = this.props;
 
         return (
             <Dialog
+                id={modalId}
                 open={isOpen}
                 title="Generate surface/slab"
                 onClose={onHide}
@@ -215,6 +216,7 @@ SurfaceDialog.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    modalId: PropTypes.string.isRequired,
 };
 
 export default SurfaceDialog;
