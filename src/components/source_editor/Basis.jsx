@@ -4,13 +4,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import setClass from "classnames";
+import ToggleButton from "@mui/material/ToggleButton/";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import PropTypes from "prop-types";
 import React from "react";
 import s from "underscore.string";
 
-import ToggleButton from "@mui/material/ToggleButton/";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import BasisText from "./BasisText";
 
 class BasisEditor extends React.Component {
@@ -93,9 +92,8 @@ class BasisEditor extends React.Component {
     }
 
     render() {
-        const { className } = this.props;
         return (
-            <Accordion defaultExpanded className={setClass(className, "crystal-basis")}>
+            <Accordion defaultExpanded className="crystal-basis">
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Basis</AccordionSummary>
                 <AccordionDetails
                     style={{
@@ -115,7 +113,6 @@ BasisEditor.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onUpdate: PropTypes.func.isRequired,
-    className: PropTypes.string.isRequired,
 };
 
 export default BasisEditor;
