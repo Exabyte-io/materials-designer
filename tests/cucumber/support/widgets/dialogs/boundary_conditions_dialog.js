@@ -9,7 +9,7 @@ export class BoundaryConditionsDialogWidget extends Widget {
 
     addBoundaryConditions({ type, offset }) {
         exabrowser.selectByValue(this.selectors.type, type);
-        exabrowser.setValue(this.selectors.offset, offset);
+        exabrowser.setValueWithBackspaceClear(this.selectors.offset, offset);
     }
 
     submit() {

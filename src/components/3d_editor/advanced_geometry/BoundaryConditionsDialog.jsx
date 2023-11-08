@@ -72,7 +72,7 @@ export class BoundaryConditionsDialog extends React.Component {
                 )}
             >
                 <Box id="boundary-conditions" pt={3} gap={1} sx={{ display: "flex" }}>
-                    <FormControl fullWidth>
+                    <FormControl fullWidth data-tid="type">
                         <InputLabel id="form-boundary-conditions-type">Type</InputLabel>
                         <Select
                             labelId="form-boundary-conditions-type"
@@ -85,7 +85,7 @@ export class BoundaryConditionsDialog extends React.Component {
                             {this.getBoundaryTypeOptions()}
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
+                    <FormControl fullWidth data-tid="offset">
                         <TextField
                             id="form-boundary-conditions-offset-a"
                             label="Offset (A)"

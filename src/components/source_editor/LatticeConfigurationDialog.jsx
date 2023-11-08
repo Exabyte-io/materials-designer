@@ -161,6 +161,7 @@ class LatticeConfigurationDialog extends React.Component {
                             <Select
                                 labelId="form-lattice-type"
                                 id="form-lattice-type"
+                                data-tid="type"
                                 value={lattice.type}
                                 label="Lattice type"
                                 size="small"
