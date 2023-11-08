@@ -8,7 +8,7 @@ export class InterpolatedSetDialogWidget extends Widget {
     }
 
     setInterpolatedSetImagesCount(nImages) {
-        exabrowser.setValue(this.selectors.intermediateImagesInput, nImages);
+        exabrowser.setValueWithBackspaceClear(this.selectors.intermediateImagesInput, nImages);
     }
 
     submit() {
