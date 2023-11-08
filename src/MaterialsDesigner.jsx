@@ -194,7 +194,7 @@ MaterialsDesigner.propTypes = {
     onRemove: PropTypes.func,
 
     maxCombinatorialBasesCount: PropTypes.number,
-
+    // eslint-disable-next-line react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array,
 };
 
