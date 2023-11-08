@@ -148,6 +148,7 @@ class LatticeConfigurationDialog extends React.Component {
                             <Select
                                 labelId="form-lattice-units"
                                 id="form-lattice-units"
+                                data-tid="units"
                                 value={lattice.units.length}
                                 label="Lattice units"
                                 size="small"
@@ -183,6 +184,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 value={lattice.a}
                                 type="number"
                                 onChange={this.handleLatticeInputChanged}
+                                onFocus={(event) => event.target.select()}
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
@@ -202,6 +204,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 value={lattice.b}
                                 type="number"
                                 onChange={this.handleLatticeInputChanged}
+                                onFocus={(event) => event.target.select()}
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
@@ -221,6 +224,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 value={lattice.c}
                                 type="number"
                                 onChange={this.handleLatticeInputChanged}
+                                onFocus={(event) => event.target.select()}
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
