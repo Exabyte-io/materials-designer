@@ -22,6 +22,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         super(props);
         this.state = {
             isFullscreen: false,
+            importMaterialsDialogProps: null,
         };
     }
 
@@ -37,6 +38,21 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
 
     toggleFullscreen = () => {
         this.setState({ isFullscreen: !this.state.isFullscreen });
+    };
+
+    renderDefaultImportModal = () => {
+        return this.state.importMaterialsDialogProps ? (
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            <DefaultImportModalDialog open {...this.state.importMaterialsDialogProps} />
+        ) : null;
+    };
+
+    openDefaultImportModal = (props) => {
+        this.setState({ importMaterialsDialogProps: props });
+    };
+
+    closeDefaultImportModal = () => {
+        this.setState({ importMaterialsDialogProps: null });
     };
 
     render() {
@@ -71,8 +87,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     onExport={this.props.onExport}
                                     onSave={this.props.onSave}
                                     onExit={this.props.onExit}
-                                    ImportModal={this.props.ImportModal || DefaultImportModalDialog}
-                                    SaveActionDialog={this.props.SaveActionDialog}
+                                    openImportModal={
+                                        this.props.openImportModal || this.openDefaultImportModal
+                                    }
+                                    closeImportModal={
+                                        this.props.closeImportModal || this.closeDefaultImportModal
+                                    }
+                                    openSaveActionDialog={this.props.openSaveActionDialog}
                                     onGenerateSupercell={this.props.onGenerateSupercell}
                                     onGenerateSurface={this.props.onGenerateSurface}
                                     onSetBoundaryConditions={this.props.onSetBoundaryConditions}
@@ -81,6 +102,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     }
                                     defaultMaterialsSet={this.props.defaultMaterialsSet}
                                 />
+                                {this.renderDefaultImportModal()}
                                 <Grid container>
                                     <Grid item xs={12} md={2}>
                                         <ItemsList
@@ -164,8 +186,9 @@ MaterialsDesigner.propTypes = {
     onSave: PropTypes.func,
     onExit: PropTypes.func,
 
-    ImportModal: PropTypes.func,
-    SaveActionDialog: PropTypes.func,
+    openImportModal: PropTypes.func,
+    closeImportModal: PropTypes.func,
+    openSaveActionDialog: PropTypes.func,
 
     onRemove: PropTypes.func,
 
