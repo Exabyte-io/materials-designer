@@ -77,6 +77,7 @@ export class BoundaryConditionsDialog extends React.Component {
                         <Select
                             labelId="form-boundary-conditions-type"
                             id="form-boundary-conditions-type"
+                            data-tid="type"
                             value={boundaryType}
                             label="Type"
                             size="small"
