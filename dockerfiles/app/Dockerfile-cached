@@ -1,0 +1,8 @@
+FROM ghcr.io/exabyte-io/materials-designer_x86_64:latest
+
+WORKDIR /opt/app
+COPY . .
+RUN npm install
+EXPOSE 3001
+
+ENTRYPOINT ["/opt/app/entrypoint.sh"]
