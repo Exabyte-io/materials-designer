@@ -87,7 +87,7 @@ class BasisText extends React.Component {
 
         return (
             <div className={setClass("xyz", className)}>
-                <Box id="basis-xyz" sx={{ minHeight: "200px" }}>
+                <Box id="basis-xyz">
                     <CodeMirror
                         ref={this.codeMirrorRef}
                         className="xyz-codemirror"
