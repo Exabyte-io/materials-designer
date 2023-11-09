@@ -1,4 +1,5 @@
 /* eslint-disable react/sort-comp */
+import theme from "@exabyte-io/cove.js/dist/theme";
 import { Made } from "@exabyte-io/made.js";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
@@ -60,7 +61,16 @@ class BasisEditor extends React.Component {
     }
 
     renderBasisUnitsLabel = (unitsType = "crystal") => {
-        return <ToggleButton value={unitsType}>{s.capitalize(unitsType)} Units</ToggleButton>;
+        return (
+            <ToggleButton
+                value={unitsType}
+                sx={{
+                    fontSize: theme.typography.caption.fontSize,
+                }}
+            >
+                {s.capitalize(unitsType)} Units
+            </ToggleButton>
+        );
     };
 
     renderBasisUnitOptions() {
