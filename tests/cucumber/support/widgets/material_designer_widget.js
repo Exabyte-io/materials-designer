@@ -40,6 +40,7 @@ export class MaterialDesignerWidget extends Widget {
     }
 
     openSaveDialog() {
+        exabrowser.waitForVisible(SELECTORS.headerMenu.wrapper);
         this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 3);
     }
 
