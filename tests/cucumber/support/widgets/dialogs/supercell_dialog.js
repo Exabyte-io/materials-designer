@@ -26,5 +26,6 @@ export class SupercellDialogWidget extends Widget {
 
     submit() {
         exabrowser.scrollAndClick(this._selectors.submitButton);
+        exabrowser.waitForDisappear(this._selectors.wrapper);
     }
 }
