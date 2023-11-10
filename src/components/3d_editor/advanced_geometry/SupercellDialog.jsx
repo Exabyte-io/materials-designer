@@ -80,10 +80,10 @@ class SupercellDialog extends React.Component {
                 )}
             >
                 <Box gap={1} sx={{ display: "flex", flexDirection: "column", mb: 1, pt: 1 }}>
-                    <Box gap={1} sx={{ display: "flex" }}>
+                    <Box gap={2} sx={{ display: "flex" }}>
                         <FormControl>
                             <TextField
-                                variant="outlined"
+                                fullWidth
                                 size="small"
                                 value={m11}
                                 type="number"
@@ -101,7 +101,7 @@ class SupercellDialog extends React.Component {
                         </FormControl>
                         <FormControl>
                             <TextField
-                                variant="outlined"
+                                fullWidth
                                 size="small"
                                 value={m12}
                                 type="number"
@@ -119,7 +119,7 @@ class SupercellDialog extends React.Component {
                         </FormControl>
                         <FormControl>
                             <TextField
-                                variant="outlined"
+                                fullWidth
                                 size="small"
                                 value={m13}
                                 type="number"
@@ -136,9 +136,10 @@ class SupercellDialog extends React.Component {
                             />
                         </FormControl>
                     </Box>
-                    <Box gap={1} sx={{ display: "flex" }}>
+                    <Box gap={2} sx={{ display: "flex", justifyItems: "spread-evenly" }}>
                         <FormControl>
                             <TextField
+                                fullWidth
                                 variant="outlined"
                                 size="small"
                                 value={m21}
@@ -157,7 +158,7 @@ class SupercellDialog extends React.Component {
                         </FormControl>
                         <FormControl>
                             <TextField
-                                variant="outlined"
+                                fullWidth
                                 size="small"
                                 value={m22}
                                 type="number"
@@ -175,7 +176,7 @@ class SupercellDialog extends React.Component {
                         </FormControl>
                         <FormControl>
                             <TextField
-                                variant="outlined"
+                                fullWidth
                                 size="small"
                                 value={m23}
                                 type="number"
@@ -192,10 +193,10 @@ class SupercellDialog extends React.Component {
                             />
                         </FormControl>
                     </Box>
-                    <Box gap={1} sx={{ display: "flex" }}>
+                    <Box gap={2} sx={{ display: "flex" }}>
                         <FormControl>
                             <TextField
-                                variant="outlined"
+                                fullWidth
                                 size="small"
                                 value={m31}
                                 type="number"
@@ -213,7 +214,7 @@ class SupercellDialog extends React.Component {
                         </FormControl>
                         <FormControl>
                             <TextField
-                                variant="outlined"
+                                fullWidth
                                 size="small"
                                 value={m32}
                                 type="number"
@@ -231,7 +232,7 @@ class SupercellDialog extends React.Component {
                         </FormControl>
                         <FormControl>
                             <TextField
-                                variant="outlined"
+                                fullWidth
                                 size="small"
                                 value={m33}
                                 type="number"
