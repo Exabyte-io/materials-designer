@@ -181,7 +181,7 @@ class LatticeConfigurationDialog extends React.Component {
                 >
                     <Box flexGrow={1}>
                         <TextField
-                            sx={{ width: "100%" }}
+                            sx={{ maxWidth: "30%" }}
                             id="lattice-a-length"
                             label="Lattice 'a'"
                             variant="outlined"
@@ -202,7 +202,7 @@ class LatticeConfigurationDialog extends React.Component {
                     </Box>
                     <Box flexGrow={1}>
                         <TextField
-                            sx={{ width: "100%" }}
+                            sx={{ maxWidth: "30%" }}
                             id="lattice-b-length"
                             label="Lattice 'b'"
                             variant="outlined"
@@ -223,7 +223,7 @@ class LatticeConfigurationDialog extends React.Component {
                     </Box>
                     <Box flexGrow={1}>
                         <TextField
-                            sx={{ width: "100%" }}
+                            sx={{ maxWidth: "30%" }}
                             id="lattice-c-length"
                             label="Lattice 'c'"
                             variant="outlined"
