@@ -18,6 +18,7 @@ class BasisEditor extends React.Component {
         this.state = {
             xyz: props.material.getBasisAsXyz(),
             coordUnits: Made.ATOMIC_COORD_UNITS.crystal,
+            checks: props.material.getConsistencyChecks(),
         };
 
         this.handleBasisTextChange = this.handleBasisTextChange.bind(this);
@@ -27,7 +28,10 @@ class BasisEditor extends React.Component {
     UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         const { material } = this.props;
         if (material !== nextProps.material) {
-            this.setState({ xyz: nextProps.material.getBasisAsXyz() });
+            this.setState({
+                xyz: nextProps.material.getBasisAsXyz(),
+                checks: nextProps.material.getConsistencyChecks(),
+            });
         }
     }
 
@@ -90,8 +94,8 @@ class BasisEditor extends React.Component {
     }
 
     renderBasisText() {
-        const { xyz } = this.state;
-        return <BasisText content={xyz} onChange={this.handleBasisTextChange} />;
+        const { xyz, checks } = this.state;
+        return <BasisText content={xyz} checks={checks} onChange={this.handleBasisTextChange} />;
     }
 
     render() {

@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
 
-source $NVM_DIR/nvm.sh
-nvm use ${NODE_VERSION}
-
-if [[ "${BASE_DIR}" == "" ]]; then
-    BASE_DIR=.
-fi
-
-export DEBUG_LEVEL=3
-export DEBUG="exachimp:*"
-export ROOT_URL="http://127.0.0.1:3001"
-export DISPLAY=":99"
-
-# Chimp can also be started within an xvfb-run command
-# by prepending the following line to the chimp call.
-# xvfb-run -s "-ac -screen 0 1920x1080x24"
-
 if [[ "$1" == "test" ]]; then
+    # If "test" is passed as a parameter - run the chimpy tests
+    source $NVM_DIR/nvm.sh
+    nvm use ${NODE_VERSION}
+
+    if [[ "${BASE_DIR}" == "" ]]; then
+        BASE_DIR=.
+    fi
+
+    export DEBUG_LEVEL=3
+    export DEBUG="exachimp:*"
+    export ROOT_URL="http://127.0.0.1:3001"
+    export DISPLAY=":99"
+
+    # Chimp can also be started within an xvfb-run command
+    # by prepending the following line to the chimp call.
+    # xvfb-run -s "-ac -screen 0 1920x1080x24"
+
     Xvfb -ac $DISPLAY -screen 0 1280x1024x16 &
     # If "test" is passed as a parameter - running tests/chimp
     ${BASE_DIR}/node_modules/.bin/chimp \

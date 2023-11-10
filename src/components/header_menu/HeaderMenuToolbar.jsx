@@ -50,9 +50,7 @@ class HeaderMenuToolbar extends React.Component {
         this.state = {
             showSupercellDialog: false,
             showSurfaceDialog: false,
-            showImportMaterialsDialog: false,
             showExportMaterialsDialog: false,
-            showSaveMaterialsDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
@@ -68,10 +66,10 @@ class HeaderMenuToolbar extends React.Component {
     };
 
     renderIOMenu() {
-        const { SaveActionDialog, onExit } = this.props;
+        const { openSaveActionDialog, onExit } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
-                <MenuItem onClick={() => this.setState({ showImportMaterialsDialog: true })}>
+                <MenuItem onClick={this.renderImportModal}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
@@ -83,10 +81,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Export
                 </MenuItem>
-                <MenuItem
-                    disabled={!SaveActionDialog}
-                    onClick={() => this.setState({ showSaveMaterialsDialog: true })}
-                >
+                <MenuItem disabled={!openSaveActionDialog} onClick={this.renderSaveActionDialog}>
                     <ListItemIcon>
                         <SaveIcon />
                     </ListItemIcon>
@@ -286,36 +281,28 @@ class HeaderMenuToolbar extends React.Component {
         );
     }
 
-    renderImportModal() {
-        const { showImportMaterialsDialog } = this.state;
-        const { ImportModal, onAdd, defaultMaterialsSet } = this.props;
-        return ImportModal ? (
-            <ImportModal
-                modalId="defaultImportModalDialog"
-                show={showImportMaterialsDialog}
-                onHide={() => this.setState({ showImportMaterialsDialog: false })}
-                onSubmit={(materials) => {
-                    onAdd(materials);
-                    this.setState({ showImportMaterialsDialog: false });
-                }}
-                onClose={() => this.setState({ showImportMaterialsDialog: false })}
-                defaultMaterialsSet={defaultMaterialsSet}
-            />
-        ) : null;
-    }
+    renderImportModal = () => {
+        const { onAdd, openImportModal, closeImportModal, defaultMaterialsSet } = this.props;
+        return openImportModal
+            ? openImportModal({
+                  modalId: "defaultImportModalDialog",
+                  show: true,
+                  onSubmit: (materials) => {
+                      onAdd(materials);
+                      closeImportModal();
+                  },
+                  onClose: closeImportModal,
+                  defaultMaterialsSet,
+              })
+            : null;
+    };
 
-    renderSaveActionDialog() {
-        const { SaveActionDialog, material, onSave } = this.props;
-        const { showSaveMaterialsDialog } = this.state;
-        return SaveActionDialog ? (
-            <SaveActionDialog
-                show={showSaveMaterialsDialog}
-                material={material}
-                onClose={() => this.setState({ showSaveMaterialsDialog: false })}
-                onSubmit={onSave}
-            />
-        ) : null;
-    }
+    renderSaveActionDialog = () => {
+        const { openSaveActionDialog, material, onSave } = this.props;
+        return openSaveActionDialog
+            ? openSaveActionDialog({ show: true, material, onSubmit: onSave })
+            : null;
+    };
 
     renderThreejsEditorModal() {
         const { onAdd, materials } = this.props;
@@ -362,6 +349,7 @@ class HeaderMenuToolbar extends React.Component {
             maxCombinatorialBasesCount,
         } = this.props;
         if (showThreejsEditorModal) return this.renderThreejsEditorModal();
+
         return (
             <Toolbar
                 className={setClass(className, "materials-designer-header-menu")}
@@ -399,15 +387,11 @@ class HeaderMenuToolbar extends React.Component {
                     onHide={() => this.setState({ showBoundaryConditionsDialog: false })}
                 />
 
-                {this.renderImportModal()}
-
                 <ExportActionDialog
                     show={showExportMaterialsDialog}
                     onClose={() => this.setState({ showExportMaterialsDialog: false })}
                     onSubmit={onExport}
                 />
-
-                {this.renderSaveActionDialog()}
 
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
@@ -462,6 +446,7 @@ HeaderMenuToolbar.propTypes = {
     index: PropTypes.number.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
     maxCombinatorialBasesCount: PropTypes.number.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array.isRequired,
 
     onUpdate: PropTypes.func.isRequired,
@@ -478,13 +463,15 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSurface: PropTypes.func.isRequired,
     onSetBoundaryConditions: PropTypes.func.isRequired,
 
-    ImportModal: PropTypes.func.isRequired,
-    SaveActionDialog: PropTypes.func.isRequired,
+    openImportModal: PropTypes.func.isRequired,
+    closeImportModal: PropTypes.func.isRequired,
     toggleFullscreen: PropTypes.func.isRequired,
+    openSaveActionDialog: PropTypes.func,
 };
 
 HeaderMenuToolbar.defaultProps = {
     className: undefined,
+    openSaveActionDialog: null,
 };
 
 export default HeaderMenuToolbar;

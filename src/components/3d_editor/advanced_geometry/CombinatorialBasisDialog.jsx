@@ -84,7 +84,7 @@ class CombinatorialBasisDialog extends ModalDialog {
                         href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Combinatorial Basis Info"
+                        aria-label="Combinatorial Basis"
                     >
                         <i className="zmdi zmdi-info" />
                     </a>
@@ -128,6 +128,7 @@ class CombinatorialBasisDialog extends ModalDialog {
 
 CombinatorialBasisDialog.PropTypes = {
     onSubmit: PropTypes.func,
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object,
     maxCombinatorialBasesCount: PropTypes.number,
 };
