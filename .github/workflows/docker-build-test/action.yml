@@ -14,7 +14,7 @@ runs:
       with:
         image-name: ghcr.io/exabyte-io/materials-designer_x86_64
         image-tag: latest
-        dockerfile: ./dockerfiles/app/Dockerfile-cached
+        dockerfile: ./dockerfiles/app/Dockerfile
 
     - name: Push updated application container
       shell: bash -l {0}
