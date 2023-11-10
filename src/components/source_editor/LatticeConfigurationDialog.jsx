@@ -135,6 +135,7 @@ class LatticeConfigurationDialog extends React.Component {
         return (
             <div className="crystal-lattice-config">
                 <FormControl
+                    fullWidth
                     className="crystal-lattice-config"
                     ref={(e) => {
                         // eslint-disable-next-line react/no-unused-class-component-methods
