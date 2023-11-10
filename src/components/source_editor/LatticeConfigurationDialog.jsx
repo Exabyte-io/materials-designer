@@ -3,7 +3,6 @@ import { Made } from "@exabyte-io/made.js";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -142,7 +141,7 @@ class LatticeConfigurationDialog extends React.Component {
                         this.form = e;
                     }}
                 >
-                    <Box className="lattice-basics" sx={{ display: "flex", gap: 1 }}>
+                    <Box className="lattice-basics" sx={{ display: "flex", gap: 2 }}>
                         <FormControl>
                             <InputLabel id="form-lattice-units">Lattice units</InputLabel>
                             <Select
@@ -172,11 +171,16 @@ class LatticeConfigurationDialog extends React.Component {
                             </Select>
                         </FormControl>
                     </Box>
-                    <Grid container spacing={1} className="lattice-params" mt={3}>
-                        <Grid item xs={4} sx={{ mb: 2 }}>
+                    <Box
+                        container
+                        className="lattice-params"
+                        mt={3}
+                        sx={{ display: "flex", flexDirection: "row" }}
+                    >
+                        <Box xs={4} sx={{ mr: 1 }}>
                             <TextField
                                 id="lattice-a-length"
-                                label="Lattice 'a'"
+                                label="Lattice 'a' "
                                 variant="outlined"
                                 name="a"
                                 size="small"
@@ -192,8 +196,8 @@ class LatticeConfigurationDialog extends React.Component {
                                     },
                                 }}
                             />
-                        </Grid>
-                        <Grid item xs={4}>
+                        </Box>
+                        <Box xs={4} sx={{ mr: 1 }}>
                             <TextField
                                 id="lattice-b-length"
                                 label="Lattice 'b'"
@@ -212,8 +216,8 @@ class LatticeConfigurationDialog extends React.Component {
                                     },
                                 }}
                             />
-                        </Grid>
-                        <Grid item xs={4}>
+                        </Box>
+                        <Box xs={4} sx={{ mr: 1 }}>
                             <TextField
                                 id="lattice-c-length"
                                 label="Lattice 'c'"
@@ -232,10 +236,16 @@ class LatticeConfigurationDialog extends React.Component {
                                     },
                                 }}
                             />
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={1} sx={{ mb: 2 }} className="lattice-params">
-                        <Grid item xs={4}>
+                        </Box>
+                    </Box>
+                    <Box
+                        container
+                        className="lattice-params"
+                        mt={3}
+                        mb={3}
+                        sx={{ display: "flex", flexDirection: "row" }}
+                    >
+                        <Box xs={4} sx={{ mr: 1 }}>
                             <TextField
                                 id="form-angle-b-c"
                                 label="angle (b^c)"
@@ -253,8 +263,8 @@ class LatticeConfigurationDialog extends React.Component {
                                     },
                                 }}
                             />
-                        </Grid>
-                        <Grid item xs={4}>
+                        </Box>
+                        <Box xs={4} sx={{ mr: 1 }}>
                             <TextField
                                 id="form-angle-a-c"
                                 label="angle (a^c)"
@@ -272,8 +282,8 @@ class LatticeConfigurationDialog extends React.Component {
                                     },
                                 }}
                             />
-                        </Grid>
-                        <Grid item xs={4}>
+                        </Box>
+                        <Box xs={4} sx={{ mr: 1 }}>
                             <TextField
                                 id="form-angle-a-b"
                                 label="angle (a^b)"
@@ -291,8 +301,8 @@ class LatticeConfigurationDialog extends React.Component {
                                     },
                                 }}
                             />
-                        </Grid>
-                    </Grid>
+                        </Box>
+                    </Box>
                 </form>
             </div>
         );
