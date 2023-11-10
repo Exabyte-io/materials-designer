@@ -142,7 +142,15 @@ class LatticeConfigurationDialog extends React.Component {
                     this.form = e;
                 }}
             >
-                <Box className="lattice-basics" sx={{ width: "100%", display: "flex", gap: 2 }}>
+                <Box
+                    className="lattice-basics"
+                    sx={{
+                        width: "100%",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(2, 1fr)",
+                        gap: 2,
+                    }}
+                >
                     <FormControl fullWidth>
                         <InputLabel id="form-lattice-units">Lattice units</InputLabel>
                         <Select
@@ -177,11 +185,15 @@ class LatticeConfigurationDialog extends React.Component {
                 <Box
                     className="lattice-params"
                     mt={3}
-                    sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 2 }}
+                    sx={{
+                        width: "100%",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(3, 1fr)",
+                        gap: 2,
+                    }}
                 >
                     <Box flexGrow={1}>
                         <TextField
-                            sx={{ maxWidth: "30%" }}
                             id="lattice-a-length"
                             label="Lattice 'a'"
                             variant="outlined"
@@ -202,7 +214,6 @@ class LatticeConfigurationDialog extends React.Component {
                     </Box>
                     <Box flexGrow={1}>
                         <TextField
-                            sx={{ maxWidth: "30%" }}
                             id="lattice-b-length"
                             label="Lattice 'b'"
                             variant="outlined"
@@ -223,7 +234,6 @@ class LatticeConfigurationDialog extends React.Component {
                     </Box>
                     <Box flexGrow={1}>
                         <TextField
-                            sx={{ maxWidth: "30%" }}
                             id="lattice-c-length"
                             label="Lattice 'c'"
                             variant="outlined"
