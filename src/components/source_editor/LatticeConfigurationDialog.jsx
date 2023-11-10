@@ -134,7 +134,7 @@ class LatticeConfigurationDialog extends React.Component {
         const { lattice } = this.state;
         return (
             <div className="crystal-lattice-config">
-                <form
+                <FormControl
                     className="crystal-lattice-config"
                     ref={(e) => {
                         // eslint-disable-next-line react/no-unused-class-component-methods
@@ -172,15 +172,14 @@ class LatticeConfigurationDialog extends React.Component {
                         </FormControl>
                     </Box>
                     <Box
-                        container
                         className="lattice-params"
                         mt={3}
-                        sx={{ display: "flex", flexDirection: "row" }}
+                        sx={{ display: "flex", flexDirection: "row", gap: 2 }}
                     >
-                        <Box xs={4} sx={{ mr: 1 }}>
+                        <Box>
                             <TextField
                                 id="lattice-a-length"
-                                label="Lattice 'a' "
+                                label="Lattice 'a'"
                                 variant="outlined"
                                 name="a"
                                 size="small"
@@ -197,7 +196,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 }}
                             />
                         </Box>
-                        <Box xs={4} sx={{ mr: 1 }}>
+                        <Box>
                             <TextField
                                 id="lattice-b-length"
                                 label="Lattice 'b'"
@@ -217,7 +216,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 }}
                             />
                         </Box>
-                        <Box xs={4} sx={{ mr: 1 }}>
+                        <Box>
                             <TextField
                                 id="lattice-c-length"
                                 label="Lattice 'c'"
@@ -239,13 +238,12 @@ class LatticeConfigurationDialog extends React.Component {
                         </Box>
                     </Box>
                     <Box
-                        container
                         className="lattice-params"
                         mt={3}
                         mb={3}
-                        sx={{ display: "flex", flexDirection: "row" }}
+                        sx={{ display: "flex", flexDirection: "row", gap: 2 }}
                     >
-                        <Box xs={4} sx={{ mr: 1 }}>
+                        <Box>
                             <TextField
                                 id="form-angle-b-c"
                                 label="angle (b^c)"
@@ -264,7 +262,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 }}
                             />
                         </Box>
-                        <Box xs={4} sx={{ mr: 1 }}>
+                        <Box>
                             <TextField
                                 id="form-angle-a-c"
                                 label="angle (a^c)"
@@ -283,7 +281,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 }}
                             />
                         </Box>
-                        <Box xs={4} sx={{ mr: 1 }}>
+                        <Box>
                             <TextField
                                 id="form-angle-a-b"
                                 label="angle (a^b)"
@@ -303,7 +301,7 @@ class LatticeConfigurationDialog extends React.Component {
                             />
                         </Box>
                     </Box>
-                </form>
+                </FormControl>
             </div>
         );
     }
