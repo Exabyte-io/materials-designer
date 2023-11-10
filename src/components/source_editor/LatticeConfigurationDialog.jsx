@@ -179,60 +179,69 @@ class LatticeConfigurationDialog extends React.Component {
                     mt={3}
                     sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 2 }}
                 >
-                    <TextField
-                        id="lattice-a-length"
-                        label="Lattice 'a'"
-                        variant="outlined"
-                        name="a"
-                        size="small"
-                        disabled={this.isDisabled("a")}
-                        value={lattice.a}
-                        type="number"
-                        onChange={this.handleLatticeInputChanged}
-                        onFocus={(event) => event.target.select()}
-                        InputProps={{
-                            inputProps: {
-                                min: 0,
-                                step: 0.05,
-                            },
-                        }}
-                    />
-                    <TextField
-                        id="lattice-b-length"
-                        label="Lattice 'b'"
-                        variant="outlined"
-                        name="b"
-                        size="small"
-                        disabled={this.isDisabled("b")}
-                        value={lattice.b}
-                        type="number"
-                        onChange={this.handleLatticeInputChanged}
-                        onFocus={(event) => event.target.select()}
-                        InputProps={{
-                            inputProps: {
-                                min: 0,
-                                step: 0.05,
-                            },
-                        }}
-                    />
-                    <TextField
-                        id="lattice-c-length"
-                        label="Lattice 'c'"
-                        variant="outlined"
-                        name="c"
-                        size="small"
-                        disabled={this.isDisabled("b")}
-                        value={lattice.c}
-                        type="number"
-                        onChange={this.handleLatticeInputChanged}
-                        onFocus={(event) => event.target.select()}
-                        InputProps={{
-                            inputProps: {
-                                min: 0,
-                                step: 0.05,
-                            },
-                        }}
-                    />
+                    <Box flexGrow={1}>
+                        <TextField
+                            sx={{ width: "100%" }}
+                            id="lattice-a-length"
+                            label="Lattice 'a'"
+                            variant="outlined"
+                            name="a"
+                            size="small"
+                            disabled={this.isDisabled("a")}
+                            value={lattice.a}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            onFocus={(event) => event.target.select()}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Box>
+                    <Box flexGrow={1}>
+                        <TextField
+                            sx={{ width: "100%" }}
+                            id="lattice-b-length"
+                            label="Lattice 'b'"
+                            variant="outlined"
+                            name="b"
+                            size="small"
+                            disabled={this.isDisabled("b")}
+                            value={lattice.b}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            onFocus={(event) => event.target.select()}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Box>
+                    <Box flexGrow={1}>
+                        <TextField
+                            sx={{ width: "100%" }}
+                            id="lattice-c-length"
+                            label="Lattice 'c'"
+                            variant="outlined"
+                            name="c"
+                            size="small"
+                            disabled={this.isDisabled("b")}
+                            value={lattice.c}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            onFocus={(event) => event.target.select()}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Box>
                 </Box>
                 <Box
                     className="lattice-params"
@@ -240,57 +249,63 @@ class LatticeConfigurationDialog extends React.Component {
                     mb={3}
                     sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 2 }}
                 >
-                    <TextField
-                        id="form-angle-b-c"
-                        label="angle (b^c)"
-                        variant="outlined"
-                        name="alpha"
-                        size="small"
-                        disabled={this.isDisabled("alpha")}
-                        value={lattice.alpha}
-                        type="number"
-                        onChange={this.handleLatticeInputChanged}
-                        InputProps={{
-                            inputProps: {
-                                min: 0,
-                                step: 0.05,
-                            },
-                        }}
-                    />
-                    <TextField
-                        id="form-angle-a-c"
-                        label="angle (a^c)"
-                        variant="outlined"
-                        name="beta"
-                        size="small"
-                        disabled={this.isDisabled("beta")}
-                        value={lattice.beta}
-                        type="number"
-                        onChange={this.handleLatticeInputChanged}
-                        InputProps={{
-                            inputProps: {
-                                min: 0,
-                                step: 0.05,
-                            },
-                        }}
-                    />
-                    <TextField
-                        id="form-angle-a-b"
-                        label="angle (a^b)"
-                        variant="outlined"
-                        name="gamma"
-                        size="small"
-                        disabled={this.isDisabled("gamma")}
-                        value={lattice.gamma}
-                        type="number"
-                        onChange={this.handleLatticeInputChanged}
-                        InputProps={{
-                            inputProps: {
-                                min: 0,
-                                step: 0.05,
-                            },
-                        }}
-                    />
+                    <Box>
+                        <TextField
+                            id="form-angle-b-c"
+                            label="angle (b^c)"
+                            variant="outlined"
+                            name="alpha"
+                            size="small"
+                            disabled={this.isDisabled("alpha")}
+                            value={lattice.alpha}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Box>
+                    <Box>
+                        <TextField
+                            id="form-angle-a-c"
+                            label="angle (a^c)"
+                            variant="outlined"
+                            name="beta"
+                            size="small"
+                            disabled={this.isDisabled("beta")}
+                            value={lattice.beta}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Box>
+                    <Box>
+                        <TextField
+                            id="form-angle-a-b"
+                            label="angle (a^b)"
+                            variant="outlined"
+                            name="gamma"
+                            size="small"
+                            disabled={this.isDisabled("gamma")}
+                            value={lattice.gamma}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Box>
                 </Box>
             </FormControl>
         );
