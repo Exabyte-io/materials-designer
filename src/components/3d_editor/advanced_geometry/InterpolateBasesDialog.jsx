@@ -82,7 +82,7 @@ class InterpolateBasesDialog extends ModalDialog {
                         href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Interpolate Basis Info"
+                        aria-label="Interpolate Basis"
                     >
                         <i className="zmdi zmdi-info" />
                     </a>
@@ -179,7 +179,9 @@ class InterpolateBasesDialog extends ModalDialog {
 
 InterpolateBasesDialog.PropTypes = {
     onSubmit: PropTypes.func,
+    // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object, // initial
+    // eslint-disable-next-line react/forbid-prop-types
     material2: PropTypes.object, // final
 };
 
