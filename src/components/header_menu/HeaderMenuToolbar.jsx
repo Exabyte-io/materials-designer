@@ -421,7 +421,7 @@ class HeaderMenuToolbar extends React.Component {
                         this.setState({ showInterpolateDialog: false });
                     }}
                 />
-                <PyodideLoader>
+                <PyodideLoader triggerLoad={showPythonTransformation}>
                     <PythonTransformation
                         show={showPythonTransformation}
                         materials={materials}
