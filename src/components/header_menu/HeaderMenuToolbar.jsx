@@ -1,8 +1,8 @@
 /* eslint-disable react/sort-comp */
+import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide-loader";
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import Terminal from "@mui/icons-material/Terminal";
 // TODO: rename other menu icons similarly
 import SupercellIcon from "@mui/icons-material/BorderClear";
 import CheckIcon from "@mui/icons-material/Check";
@@ -22,6 +22,7 @@ import CombinatorialSetIcon from "@mui/icons-material/LibraryAdd";
 import RedoIcon from "@mui/icons-material/Redo";
 import SaveIcon from "@mui/icons-material/Save";
 import InterpolatedSetIcon from "@mui/icons-material/SwapVert";
+import Terminal from "@mui/icons-material/Terminal";
 import ThreeDEditorIcon from "@mui/icons-material/ThreeDRotation";
 import PolymerIcon from "@mui/icons-material/Timeline";
 import UndoIcon from "@mui/icons-material/Undo";
@@ -420,17 +421,19 @@ class HeaderMenuToolbar extends React.Component {
                         this.setState({ showInterpolateDialog: false });
                     }}
                 />
-                <PythonTransformation
-                    show={showPythonTransformation}
-                    materials={materials}
-                    transformationParameters={{ transformationName: "default" }}
-                    onHide={() => this.setState({ showPythonTransformation: false })}
-                    onSubmit={(...args) => {
-                        // onRunPythonCode();
-                        onAdd(...args);
-                        this.setState({ showPythonTransformation: false });
-                    }}
-                />
+                <PyodideLoader>
+                    <PythonTransformation
+                        show={showPythonTransformation}
+                        materials={materials}
+                        transformationParameters={{ transformationName: "default" }}
+                        onHide={() => this.setState({ showPythonTransformation: false })}
+                        onSubmit={(...args) => {
+                            // onRunPythonCode();
+                            onAdd(...args);
+                            this.setState({ showPythonTransformation: false });
+                        }}
+                    />
+                </PyodideLoader>
             </Toolbar>
         );
     }
