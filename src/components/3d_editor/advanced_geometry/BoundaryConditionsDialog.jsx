@@ -13,6 +13,9 @@ export class BoundaryConditionsDialog extends ModalDialog {
     }
 
     initializeState() {
+        if (!this.props.material.boundaryConditions) {
+            this.props.material.boundaryConditions = {};
+        }
         this.state = {
             boundaryType: this.props.material.boundaryConditions.type || "pbc",
             boundaryOffset: this.props.material.boundaryConditions.offset || 0,
