@@ -153,6 +153,7 @@ class LatticeConfigurationDialog extends React.Component {
                                 label="Lattice units"
                                 size="small"
                                 onChange={this.handleLatticeUnitSelected}
+                                sx={{ minWidth: 0 }}
                             >
                                 {this.getLatticeUnitOptions()}
                             </Select>
@@ -190,6 +191,7 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
@@ -210,6 +212,7 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
@@ -230,6 +233,7 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
@@ -251,6 +255,7 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
@@ -270,6 +275,7 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
@@ -289,6 +295,7 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
