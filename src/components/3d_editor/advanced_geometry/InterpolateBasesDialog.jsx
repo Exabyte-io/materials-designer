@@ -150,6 +150,7 @@ class InterpolateBasesDialog extends React.Component {
                                     min: 0,
                                     step: 1,
                                 },
+                                minWidth: 0,
                             }}
                         />
                     </FormControl>
@@ -165,6 +166,7 @@ class InterpolateBasesDialog extends React.Component {
                             value={materialIndex}
                             label="Initial/Final structures"
                             size="small"
+                            sx={{ minWidth: 0 }}
                             onChange={(e) => {
                                 this.setState({ materialIndex: parseInt(e.target.value, 10) });
                             }}

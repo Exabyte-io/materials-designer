@@ -81,6 +81,7 @@ export class BoundaryConditionsDialog extends React.Component {
                             value={boundaryType}
                             label="Type"
                             size="small"
+                            sx={{ minWidth: 0 }}
                             onChange={(e) => this.setState({ boundaryType: e.target.value })}
                         >
                             {this.getBoundaryTypeOptions()}
@@ -92,6 +93,7 @@ export class BoundaryConditionsDialog extends React.Component {
                             label="Offset (A)"
                             variant="outlined"
                             size="small"
+                            sx={{ minWidth: 0 }}
                             value={boundaryOffset}
                             type="number"
                             onChange={(e) =>

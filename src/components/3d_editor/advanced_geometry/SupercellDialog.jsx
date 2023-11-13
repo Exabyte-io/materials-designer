@@ -94,8 +94,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
@@ -112,8 +113,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
@@ -130,8 +132,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
@@ -151,8 +154,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
@@ -169,8 +173,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
@@ -187,8 +192,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
@@ -207,8 +213,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
@@ -225,8 +232,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
@@ -243,8 +251,9 @@ class SupercellDialog extends React.Component {
                                 InputProps={{
                                     inputProps: {
                                         min: 0,
-                                        step: 1,
+                                        step: 0.05,
                                     },
+                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </FormControl>
