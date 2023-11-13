@@ -142,7 +142,7 @@ class LatticeConfigurationDialog extends React.Component {
                         this.form = e;
                     }}
                 >
-                    <Box className="lattice-basics" sx={{ display: "flex", gap: 1 }}>
+                    <Box className="lattice-basics" sx={{ display: "flex", gap: 2 }}>
                         <FormControl>
                             <InputLabel id="form-lattice-units">Lattice units</InputLabel>
                             <Select
@@ -173,9 +173,10 @@ class LatticeConfigurationDialog extends React.Component {
                             </Select>
                         </FormControl>
                     </Box>
-                    <Grid container spacing={1} className="lattice-params" mt={3}>
+                    <Grid container spacing={2} className="lattice-params" mt={3}>
                         <Grid item xs={4} sx={{ mb: 2 }}>
                             <TextField
+                                fullWidth
                                 id="lattice-a-length"
                                 label="Lattice 'a'"
                                 variant="outlined"
@@ -191,12 +192,12 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
-                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
+                                fullWidth
                                 id="lattice-b-length"
                                 label="Lattice 'b'"
                                 variant="outlined"
@@ -212,12 +213,12 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
-                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
+                                fullWidth
                                 id="lattice-c-length"
                                 label="Lattice 'c'"
                                 variant="outlined"
@@ -233,14 +234,14 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
-                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
                     </Grid>
-                    <Grid container spacing={1} sx={{ mb: 2 }} className="lattice-params">
+                    <Grid container spacing={2} sx={{ mb: 2 }} className="lattice-params">
                         <Grid item xs={4}>
                             <TextField
+                                fullWidth
                                 id="form-angle-b-c"
                                 label="angle (b^c)"
                                 variant="outlined"
@@ -255,12 +256,12 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
-                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
+                                fullWidth
                                 id="form-angle-a-c"
                                 label="angle (a^c)"
                                 variant="outlined"
@@ -275,12 +276,12 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
-                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
+                                fullWidth
                                 id="form-angle-a-b"
                                 label="angle (a^b)"
                                 variant="outlined"
@@ -295,7 +296,6 @@ class LatticeConfigurationDialog extends React.Component {
                                         min: 0,
                                         step: 0.05,
                                     },
-                                    sx: { minWidth: 0 },
                                 }}
                             />
                         </Grid>
