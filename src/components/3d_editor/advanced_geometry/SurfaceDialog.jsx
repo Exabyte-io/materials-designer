@@ -69,7 +69,7 @@ class SurfaceDialog extends React.Component {
                     sx={{ display: "flex", flexDirection: "column", mb: 1, pt: 1 }}
                 >
                     <Box gap={1} sx={{ display: "flex", mb: 1 }}>
-                        <FormControl data-tid="miller-h">
+                        <FormControl data-tid="miller-h" fullWidth>
                             <TextField
                                 label="Miller h"
                                 variant="outlined"
@@ -87,7 +87,7 @@ class SurfaceDialog extends React.Component {
                                 }}
                             />
                         </FormControl>
-                        <FormControl data-tid="miller-k">
+                        <FormControl data-tid="miller-k" fullWidth>
                             <TextField
                                 label="Miller k"
                                 variant="outlined"
@@ -105,7 +105,7 @@ class SurfaceDialog extends React.Component {
                                 }}
                             />
                         </FormControl>
-                        <FormControl data-tid="miller-l">
+                        <FormControl data-tid="miller-l" fullWidth>
                             <TextField
                                 label="Miller l"
                                 variant="outlined"
