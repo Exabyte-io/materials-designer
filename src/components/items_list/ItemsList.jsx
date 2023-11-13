@@ -12,6 +12,7 @@ import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
+import Box from "@mui/material/Box";
 import { ShowIf } from "../../utils/react/showif";
 
 class ItemsList extends React.Component {
@@ -132,7 +133,7 @@ class ItemsList extends React.Component {
                     className="list-item-text"
                     primary={
                         <TextField
-                            className="m-0 list-item-text_primary"
+                            className="list-item-text_primary"
                             InputProps={{ disableUnderline: true }}
                             onFocus={(e) => this.focusListItem(e, index)}
                             value={isBeingEdited ? editedName : entity.name}
@@ -162,11 +163,11 @@ class ItemsList extends React.Component {
     render() {
         const { className, materials, index } = this.props;
         return (
-            <div className={setClass(className, "materials-designer-items-list")}>
+            <Box className={setClass(className, "materials-designer-items-list")} sx={{ p: 1 }}>
                 <List component="nav" dense>
                     {materials.map((m, i) => this.renderListItem(m, i, index))}
                 </List>
-            </div>
+            </Box>
         );
     }
 }
