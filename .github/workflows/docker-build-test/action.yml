@@ -4,12 +4,17 @@ description: Building docker images using ECR or github containers
 runs:
   using: composite
   steps:
+    - name: Cache Docker images.
+      uses: ScribeMD/docker-cache@0.3.6
+      with:
+        key: docker-${{ runner.os }}-${{ hashFiles('package.json') }}
+
     - name: Build application container
       uses: ./actions/docker/build
       with:
         image-name: ghcr.io/exabyte-io/materials-designer_x86_64
         image-tag: latest
-        dockerfile: ./dockerfiles/app/Dockerfile
+        dockerfile: ./dockerfiles/app/Dockerfile-cached
 
     - name: Push updated application container
       shell: bash -l {0}
