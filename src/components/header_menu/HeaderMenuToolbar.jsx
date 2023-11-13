@@ -1,5 +1,4 @@
 /* eslint-disable react/sort-comp */
-import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide-loader";
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -421,19 +420,17 @@ class HeaderMenuToolbar extends React.Component {
                         this.setState({ showInterpolateDialog: false });
                     }}
                 />
-                <PyodideLoader triggerLoad={showPythonTransformation}>
-                    <PythonTransformation
-                        show={showPythonTransformation}
-                        materials={materials}
-                        transformationParameters={{ transformationName: "default" }}
-                        onHide={() => this.setState({ showPythonTransformation: false })}
-                        onSubmit={(...args) => {
-                            // onRunPythonCode();
-                            onAdd(...args);
-                            this.setState({ showPythonTransformation: false });
-                        }}
-                    />
-                </PyodideLoader>
+                <PythonTransformation
+                    show={showPythonTransformation}
+                    materials={materials}
+                    transformationParameters={{ transformationName: "default" }}
+                    onHide={() => this.setState({ showPythonTransformation: false })}
+                    onSubmit={(...args) => {
+                        // onRunPythonCode();
+                        onAdd(...args);
+                        this.setState({ showPythonTransformation: false });
+                    }}
+                />
             </Toolbar>
         );
     }
