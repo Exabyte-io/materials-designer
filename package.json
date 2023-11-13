@@ -69,7 +69,7 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/cove.js": "2023.11.3-0",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#ce6b1dd2b6b49607514687f5ffd606a0a6928e0d",
         "@exabyte-io/code.js": "2023.11.1-0",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/made.js": "2023.11.3-0",
