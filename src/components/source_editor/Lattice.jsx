@@ -3,7 +3,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";
@@ -40,13 +39,10 @@ class Lattice extends React.Component {
     };
 
     render() {
-        const { className, material, onUpdate } = this.props;
+        const { material, onUpdate } = this.props;
         const { showLatticeConfigurationDialog } = this.state;
         return (
-            <Accordion
-                style={{ flexBasis: "100%" }}
-                className={setClass(className, "crystal-lattice")}
-            >
+            <Accordion sx={{ flexBasis: "100%", p: 0 }} className="crystal-lattice">
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Lattice</AccordionSummary>
                 <AccordionDetails
                     style={{
@@ -55,7 +51,6 @@ class Lattice extends React.Component {
                     }}
                 >
                     <LatticeConfigurationDialog
-                        className="col-xs-12 p-0"
                         modalId="update-lattice"
                         unitOptions={this.latticeUnitOptions()}
                         typeOptions={this.latticeTypeOptions()}
@@ -80,7 +75,6 @@ Lattice.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onUpdate: PropTypes.func.isRequired,
-    className: PropTypes.string.isRequired,
 };
 
 export default Lattice;
