@@ -1,5 +1,5 @@
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
-import { PyodideContext } from "@exabyte-io/cove.js/dist/other/pyodide-loader";
+import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide-loader";
 import { Made } from "@exabyte-io/made.js";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
@@ -9,57 +9,55 @@ import Dialog from "@mui/material/Dialog";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
 
-const PythonTransformation = ({
-    materials: initialMaterials,
-    // eslint-disable-next-line no-unused-vars
-    transformationParameters: initialTransformationParameters,
-    show,
-    onHide,
-    onSubmit,
-}) => {
-    const [pythonCode, setPythonCode] = useState("");
-    // eslint-disable-next-line no-unused-vars
-    const [materials, setMaterials] = useState(initialMaterials);
-    const [newMaterials, setNewMaterials] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [transformationParameters, setTransformationParameters] = useState({
-        transformationName: "default",
-    });
+class PythonTransformation extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            pythonCode: "",
+            materials: props.materials,
+            newMaterials: [],
+            isLoading: false,
+            transformationParameters: {
+                transformationName: "default",
+            },
+        };
+        const pyodideRef = React.createRef();
+    }
 
-    const pyodide = useContext(PyodideContext);
-
-    const loadPythonCode = async () => {
-        const code = await fetchPythonCode(transformationParameters.transformationName);
-        setPythonCode(code);
-        setIsLoading(false);
-    };
-
-    useEffect(async () => {
-        if (show) {
-            setIsLoading(true);
-            await loadPythonCode();
+    componentDidUpdate(prevProps) {
+        const { show } = this.props;
+        if (show && !prevProps.show) {
+            this.loadPythonCode();
         }
-    }, [show, materials]);
+    }
 
-    // eslint-disable-next-line no-unused-vars
-    const handleCodeChange = (newContent) => {
-        setPythonCode(newContent);
+    loadPythonCode = async () => {
+        const { transformationParameters } = this.state;
+        const code = await fetchPythonCode(transformationParameters.transformationName);
+        this.setState({ pythonCode: code });
     };
 
-    const mapToObject = (map) => {
+    // eslint-disable-next-line no-unused-vars
+    handleCodeChange = (newContent) => {
+        this.setState({ pythonCode: newContent });
+    };
+
+    mapToObject = (map) => {
         const obj = {};
         map.forEach((value, key) => {
-            obj[key] = value instanceof Map ? mapToObject(value) : value;
+            obj[key] = value instanceof Map ? this.mapToObject(value) : value;
         });
         return obj;
     };
 
-    const runPythonCode = async () => {
+    runPythonCode = async () => {
         let dataOut = null;
+        const { pyodide } = this.pyodideRef.current;
+        const { pythonCode, materials } = this.state;
 
         const materialsData = materials.map((material, id) => {
             const materialConfig = material.toJSON();
@@ -90,132 +88,152 @@ const PythonTransformation = ({
         return dataOut;
     };
 
-    const handleRun = async () => {
+    handleRun = async () => {
+        this.setState({ isLoading: true });
         try {
-            const dataOut = await runPythonCode();
+            const dataOut = await this.runPythonCode();
             const materialsData = dataOut.get("materials");
             const newMaterialsData = materialsData.map((m) => {
-                const material = mapToObject(m);
+                const material = this.mapToObject(m);
                 const config = Made.parsers.poscar.fromPoscar(material.poscar);
                 const newMaterial = new Made.Material(config);
                 newMaterial.metadata = material.metadata;
 
                 return newMaterial;
             });
-
-            setNewMaterials(newMaterialsData);
+            this.setState({ newMaterials: newMaterialsData });
         } catch (error) {
             console.error(error);
+        } finally {
+            this.setState({ isLoading: false });
         }
     };
 
-    const handleSubmit = () => {
+    handleSubmit = () => {
+        const { onSubmit } = this.props;
+        const { newMaterials } = this.state;
         onSubmit(newMaterials);
     };
 
-    const handleTransformationParametersChange = async (event, newValue) => {
+    handleTransformationParametersChange = async (event, newValue) => {
         if (newValue) {
             const code = await fetchPythonCode(newValue);
-            setTransformationParameters({ transformationName: newValue });
-            setPythonCode(code);
+            this.setState({
+                transformationParameters: { transformationName: newValue },
+                pythonCode: code,
+            });
         }
     };
 
-    const transformationNames = Object.keys(transformationsMap);
-    return (
-        <Dialog
-            open={show}
-            onClose={onHide}
-            fullWidth
-            maxWidth="lg"
-            PaperProps={{ sx: { width: "60vw", height: "60vh", padding: "20px" } }}
-        >
-            <Box flexDirection="row">
-                <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
-                    Available Materials:
-                </InputLabel>
-                <Box
-                    id="available-materials"
-                    display="flex"
-                    flexDirection="row"
-                    overflowX="auto"
-                    gap={1}
-                    sx={{
-                        flex: "1",
-                        alignItems: "center",
-                        border: "1px solid grey",
-                        borderRadius: "4px",
-                    }}
-                >
-                    {materials
-                        ? materials.map((material) => (
-                              <Chip key={material.name} label={material.name} />
-                          ))
-                        : null}
-                </Box>
-            </Box>
-            <Box flexDirection="row" sx={{ alignItems: "center", gap: 2, mt: 2 }}>
-                <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
-                    Transformations:
-                </InputLabel>
-                <Autocomplete
-                    label="Transformation name:"
-                    value={transformationParameters.transformationName}
-                    getOptionLabel={(option) => option}
-                    options={transformationNames}
-                    onChange={handleTransformationParametersChange}
-                    sx={{ flex: "1" }}
-                    renderInput={(params) => (
-                        // eslint-disable-next-line react/jsx-props-no-spreading
-                        <TextField {...params} label=" " />
-                    )}
-                />
-            </Box>
+    render() {
+        const defaultPackages = `await micropip.install("https://files.mat3ra.com:44318/uploads/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
+await micropip.install("https://files.mat3ra.com:44318/web/pyodide/spglib-2.0.2-py3-none-any.whl", deps=False)
+await micropip.install("https://files.pythonhosted.org/packages/d9/0e/2a05efa11ea33513fbdf4a2e2576fe94fd8fa5ad226dbb9c660886390974/ruamel.yaml-0.17.32-py3-none-any.whl", deps=False)
+for pkg in ["ase", "networkx", "monty", "scipy", "lzma", "tabulate", "sqlite3", "sympy"]:
+await micropip.install(pkg)`;
 
-            <Box flexDirection="column" maxHeight={600} overflow="auto">
-                <CodeMirror
-                    className="xyz-codemirror"
-                    content={pythonCode}
-                    updateContent={handleCodeChange}
-                    readOnly={false}
-                    rows={20}
-                    options={{
-                        lineNumbers: true,
-                    }}
-                    theme="dark"
-                    completions={() => {}}
-                    updateOnFirstLoad
-                    language="python"
-                />
-            </Box>
+        const { isLoading, transformationParameters, materials } = this.state;
+        const { show, onHide } = this.props;
+        const transformationNames = Object.keys(transformationsMap);
 
-            <Box
-                flexDirection="row"
-                sx={{ justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
-            >
-                <Button
-                    variant="contained"
-                    color="primary"
-                    disabled={isLoading}
-                    style={{ marginTop: "10px" }}
-                    onClick={handleRun}
+        const { pythonCode } = this.state;
+        return (
+            <PyodideLoader pythonCode={defaultPackages} ref={this.pyodideRef}>
+                <Dialog
+                    open={show}
+                    onClose={onHide}
+                    fullWidth
+                    maxWidth="lg"
+                    PaperProps={{ sx: { width: "60vw", height: "60vh", padding: "20px" } }}
                 >
-                    Run Code
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    disabled={isLoading}
-                    style={{ marginTop: "10px" }}
-                    onClick={handleSubmit}
-                >
-                    Submit
-                </Button>
-            </Box>
-            <Box id="pyodide-plot-target" />
-        </Dialog>
-    );
-};
+                    <Box flexDirection="row">
+                        <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
+                            Available Materials:
+                        </InputLabel>
+                        <Box
+                            id="available-materials"
+                            display="flex"
+                            flexDirection="row"
+                            overflowX="auto"
+                            gap={1}
+                            sx={{
+                                flex: "1",
+                                alignItems: "center",
+                                border: "1px solid grey",
+                                borderRadius: "4px",
+                            }}
+                        >
+                            {materials
+                                ? materials.map((material) => (
+                                      <Chip key={material.name} label={material.name} />
+                                  ))
+                                : null}
+                        </Box>
+                    </Box>
+                    <Box flexDirection="row" sx={{ alignItems: "center", gap: 2, mt: 2 }}>
+                        <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
+                            Transformations:
+                        </InputLabel>
+                        <Autocomplete
+                            label="Transformation name:"
+                            value={transformationParameters.transformationName}
+                            getOptionLabel={(option) => option}
+                            options={transformationNames}
+                            onChange={this.handleTransformationParametersChange}
+                            sx={{ flex: "1" }}
+                            renderInput={(params) => (
+                                // eslint-disable-next-line react/jsx-props-no-spreading
+                                <TextField {...params} label=" " />
+                            )}
+                        />
+                    </Box>
+
+                    <Box flexDirection="column" maxHeight={600} overflow="auto">
+                        <CodeMirror
+                            className="xyz-codemirror"
+                            content={pythonCode}
+                            updateContent={this.handleCodeChange}
+                            readOnly={false}
+                            rows={20}
+                            options={{
+                                lineNumbers: true,
+                            }}
+                            theme="dark"
+                            completions={() => {}}
+                            updateOnFirstLoad
+                            language="python"
+                        />
+                    </Box>
+
+                    <Box
+                        flexDirection="row"
+                        sx={{ justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
+                    >
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            disabled={isLoading}
+                            style={{ marginTop: "10px" }}
+                            onClick={this.handleRun}
+                        >
+                            Run Code
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            disabled={isLoading}
+                            style={{ marginTop: "10px" }}
+                            onClick={this.handleSubmit}
+                        >
+                            Submit
+                        </Button>
+                    </Box>
+                    <Box id="pyodide-plot-target" />
+                </Dialog>
+            </PyodideLoader>
+        );
+    }
+}
 
 PythonTransformation.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
