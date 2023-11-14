@@ -119,7 +119,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                             onUpdate={this.props.onUpdate}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={6} sx={{ position: "relative" }}>
+                                    <Grid item xs={12} md={6}>
                                         <ThreeDEditorFullscreen
                                             editable
                                             material={this.props.material}
