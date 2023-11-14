@@ -1,14 +1,14 @@
-import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
-import { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
-import { StyledEngineProvider } from "@mui/material/styles";
 import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
+import { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
+import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { StyledEngineProvider } from "@mui/material/styles";
 import setClass from "classnames";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
 import React from "react";
 
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
 import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
