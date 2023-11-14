@@ -1,6 +1,13 @@
 /* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
-import $ from "jquery";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -44,9 +51,9 @@ class LatticeConfigurationDialog extends React.Component {
         unitOptions.forEach((item, i) => {
             result.push(
                 // eslint-disable-next-line react/no-array-index-key
-                <option value={item.value} key={"unit" + i}>
+                <MenuItem value={item.value} key={"type" + i}>
                     {item.label}
-                </option>,
+                </MenuItem>,
             );
         });
         return result;
@@ -58,9 +65,9 @@ class LatticeConfigurationDialog extends React.Component {
         typeOptions.forEach((item, i) => {
             result.push(
                 // eslint-disable-next-line react/no-array-index-key
-                <option value={item.value} key={"type" + i}>
+                <MenuItem value={item.value} key={"type" + i}>
                     {item.label}
-                </option>,
+                </MenuItem>,
             );
         });
         return result;
@@ -74,7 +81,7 @@ class LatticeConfigurationDialog extends React.Component {
 
     handleLatticeUnitSelected(e) {
         const { lattice } = this.state;
-        const units = $(e.target).val();
+        const units = e.target.value;
         const newLattice = new Made.Lattice({
             ...lattice,
             units,
@@ -84,7 +91,7 @@ class LatticeConfigurationDialog extends React.Component {
 
     handleLatticeTypeSelected(e) {
         const { lattice } = this.state;
-        const type = $(e.target).val();
+        const type = e.target.value;
         const newLattice = Made.Lattice.getDefaultPrimitiveLatticeConfigByType({
             ...lattice,
             type,
@@ -94,8 +101,8 @@ class LatticeConfigurationDialog extends React.Component {
 
     handleLatticeInputChanged(e) {
         const { lattice } = this.state;
-        const val = Number($(e.target).val());
-        const name = $(e.target).attr("name");
+        const val = Number(e.target.value);
+        const { name } = e.target;
         const latticeConf = deepClone(lattice);
         latticeConf[name] = val;
         const newLattice = Made.Lattice.getDefaultPrimitiveLatticeConfigByType(latticeConf, true);
@@ -135,166 +142,164 @@ class LatticeConfigurationDialog extends React.Component {
                         this.form = e;
                     }}
                 >
-                    <div className="col-xs-12 p-0 lattice-basics">
-                        <div className="col-md-6">
-                            <div className="form-group">
-                                <div className="fg-line">
-                                    <label htmlFor="form-lattice-units">Lattice units</label>
-                                    <select
-                                        id="form-lattice-units"
-                                        label="Lattice Units"
-                                        name="units"
-                                        className="form-control fc-alt"
-                                        value={lattice.units.length}
-                                        onChange={this.handleLatticeUnitSelected}
-                                    >
-                                        {this.getLatticeUnitOptions()}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="form-group ">
-                                <div className="fg-line">
-                                    <label htmlFor="form-lattice-type">Lattice type</label>
-                                    <select
-                                        id="form-lattice-type"
-                                        label="Lattice type"
-                                        name="type"
-                                        className="form-control fc-alt"
-                                        value={lattice.type}
-                                        onChange={this.handleLatticeTypeSelected}
-                                    >
-                                        {this.getLatticeTypeOptions()}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-xs-12 p-0 lattice-params m-t-20">
-                        <div className="col-xs-4">
-                            <div className="form-group">
-                                <div className="fg-line">
-                                    <label className="fg-label" htmlFor="lattice-a-length">
-                                        Lattice &#39;a&#39;
-                                    </label>
-                                    <input
-                                        id="lattice-a-length"
-                                        type="number"
-                                        name="a"
-                                        className="form-control fc-alt fg-input"
-                                        min="0"
-                                        step="0.05"
-                                        disabled={this.isDisabled("a")}
-                                        value={lattice.a}
-                                        onChange={this.handleLatticeInputChanged}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xs-4">
-                            <div className="form-group">
-                                <div className="fg-line">
-                                    <label className="fg-label" htmlFor="lattice-b-length">
-                                        Lattice &#39;b&#39;
-                                    </label>
-                                    <input
-                                        id="lattice-b-length"
-                                        type="number"
-                                        name="b"
-                                        className="form-control fc-alt fg-input"
-                                        min="0"
-                                        step="0.05"
-                                        disabled={this.isDisabled("b")}
-                                        value={lattice.b}
-                                        onChange={this.handleLatticeInputChanged}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xs-4">
-                            <div className="form-group">
-                                <div className="fg-line">
-                                    <label className="fg-label" htmlFor="lattice-c-length">
-                                        Lattice &#39;c&#39;
-                                    </label>
-                                    <input
-                                        id="lattice-c-length"
-                                        type="number"
-                                        name="c"
-                                        className="form-control fc-alt fg-input"
-                                        min="0"
-                                        step="0.05"
-                                        disabled={this.isDisabled("c")}
-                                        value={lattice.c}
-                                        onChange={this.handleLatticeInputChanged}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-xs-12 p-0 lattice-params m-b-20">
-                        <div className="col-xs-4">
-                            <div className="form-group">
-                                <div className="fg-line">
-                                    <label className="fg-label" htmlFor="form-angle-b-c">
-                                        angle (b^c)
-                                    </label>
-                                    <input
-                                        id="form-angle-b-c"
-                                        type="number"
-                                        name="alpha"
-                                        className="form-control fc-alt fg-input"
-                                        min="0"
-                                        step="0.05"
-                                        disabled={this.isDisabled("alpha")}
-                                        value={lattice.alpha}
-                                        onChange={this.handleLatticeInputChanged}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xs-4">
-                            <div className="form-group">
-                                <div className="fg-line">
-                                    <label className="fg-label" htmlFor="form-angle-a-c">
-                                        angle (a^c)
-                                    </label>
-                                    <input
-                                        id="form-angle-a-c"
-                                        type="number"
-                                        name="beta"
-                                        className="form-control fc-alt fg-input"
-                                        min="0"
-                                        step="0.05"
-                                        disabled={this.isDisabled("beta")}
-                                        value={lattice.beta}
-                                        onChange={this.handleLatticeInputChanged}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xs-4">
-                            <div className="form-group">
-                                <div className="fg-line">
-                                    <label className="fg-label" htmlFor="form-angle-a-b">
-                                        angle (a^b)
-                                    </label>
-                                    <input
-                                        id="form-angle-a-b"
-                                        type="number"
-                                        name="gamma"
-                                        className="form-control fc-alt fg-input"
-                                        min="0"
-                                        step="0.05"
-                                        disabled={this.isDisabled("gamma")}
-                                        value={lattice.gamma}
-                                        onChange={this.handleLatticeInputChanged}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <Box className="lattice-basics" sx={{ display: "flex", gap: 2 }}>
+                        <FormControl>
+                            <InputLabel id="form-lattice-units">Lattice units</InputLabel>
+                            <Select
+                                labelId="form-lattice-units"
+                                id="form-lattice-units"
+                                data-tid="units"
+                                value={lattice.units.length}
+                                label="Lattice units"
+                                size="small"
+                                onChange={this.handleLatticeUnitSelected}
+                                sx={{ minWidth: 0 }}
+                            >
+                                {this.getLatticeUnitOptions()}
+                            </Select>
+                        </FormControl>
+                        <FormControl>
+                            <InputLabel id="form-lattice-type">Lattice type</InputLabel>
+                            <Select
+                                labelId="form-lattice-type"
+                                id="form-lattice-type"
+                                data-tid="type"
+                                value={lattice.type}
+                                label="Lattice type"
+                                size="small"
+                                onChange={this.handleLatticeTypeSelected}
+                            >
+                                {this.getLatticeTypeOptions()}
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <Grid container spacing={2} className="lattice-params" mt={3}>
+                        <Grid item xs={4} sx={{ mb: 2 }}>
+                            <TextField
+                                fullWidth
+                                id="lattice-a-length"
+                                label="Lattice 'a'"
+                                variant="outlined"
+                                name="a"
+                                size="small"
+                                disabled={this.isDisabled("a")}
+                                value={lattice.a}
+                                type="number"
+                                onChange={this.handleLatticeInputChanged}
+                                onFocus={(event) => event.target.select()}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 0.05,
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                fullWidth
+                                id="lattice-b-length"
+                                label="Lattice 'b'"
+                                variant="outlined"
+                                name="b"
+                                size="small"
+                                disabled={this.isDisabled("b")}
+                                value={lattice.b}
+                                type="number"
+                                onChange={this.handleLatticeInputChanged}
+                                onFocus={(event) => event.target.select()}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 0.05,
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                fullWidth
+                                id="lattice-c-length"
+                                label="Lattice 'c'"
+                                variant="outlined"
+                                name="c"
+                                size="small"
+                                disabled={this.isDisabled("b")}
+                                value={lattice.c}
+                                type="number"
+                                onChange={this.handleLatticeInputChanged}
+                                onFocus={(event) => event.target.select()}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 0.05,
+                                    },
+                                }}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={2} sx={{ mb: 2 }} className="lattice-params">
+                        <Grid item xs={4}>
+                            <TextField
+                                fullWidth
+                                id="form-angle-b-c"
+                                label="angle (b^c)"
+                                variant="outlined"
+                                name="alpha"
+                                size="small"
+                                disabled={this.isDisabled("alpha")}
+                                value={lattice.alpha}
+                                type="number"
+                                onChange={this.handleLatticeInputChanged}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 0.05,
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                fullWidth
+                                id="form-angle-a-c"
+                                label="angle (a^c)"
+                                variant="outlined"
+                                name="beta"
+                                size="small"
+                                disabled={this.isDisabled("beta")}
+                                value={lattice.beta}
+                                type="number"
+                                onChange={this.handleLatticeInputChanged}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 0.05,
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                fullWidth
+                                id="form-angle-a-b"
+                                label="angle (a^b)"
+                                variant="outlined"
+                                name="gamma"
+                                size="small"
+                                disabled={this.isDisabled("gamma")}
+                                value={lattice.gamma}
+                                type="number"
+                                onChange={this.handleLatticeInputChanged}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 0.05,
+                                    },
+                                }}
+                            />
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
         );
@@ -304,40 +309,37 @@ class LatticeConfigurationDialog extends React.Component {
         const { submitButtonTxt } = this.props;
         const { preserveBasis } = this.state;
         return (
-            <div className="col-xs-12 p-0">
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <ToggleSwitch
                     color="blue"
                     title="Preserve Basis"
-                    cls="pull-left"
                     onStateChange={() => this.setState({ preserveBasis: !preserveBasis })}
                     checked={preserveBasis}
                     id="access-level"
                 />
-                <button
-                    type="submit"
-                    className="btn btn-custom pull-right save-lattice-config"
-                    data-dismiss="modal"
+                <Button
+                    size="small"
+                    variant="outlined"
+                    className="save-lattice-config"
                     onClick={this.handleUpdateLattice}
                 >
                     {submitButtonTxt}
-                </button>
-            </div>
+                </Button>
+            </Box>
         );
     }
 
     render() {
-        const { className } = this.props;
         return (
-            <div className={className}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
                 {this.renderBody()}
                 {this.renderFooter()}
-            </div>
+            </Box>
         );
     }
 }
 
 LatticeConfigurationDialog.propTypes = {
-    className: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     unitOptions: PropTypes.array.isRequired,
     // eslint-disable-next-line react/forbid-prop-types

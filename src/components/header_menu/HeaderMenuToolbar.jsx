@@ -363,7 +363,7 @@ class HeaderMenuToolbar extends React.Component {
                 {this.renderSpinner()}
 
                 <SupercellDialog
-                    show={showSupercellDialog}
+                    isOpen={showSupercellDialog}
                     modalId="supercellModal"
                     backdropColor="dark"
                     onSubmit={onGenerateSupercell}
@@ -371,7 +371,7 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 <SurfaceDialog
-                    show={showSurfaceDialog}
+                    isOpen={showSurfaceDialog}
                     modalId="surfaceModal"
                     backdropColor="dark"
                     onSubmit={onGenerateSurface}
@@ -379,7 +379,7 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 <BoundaryConditionsDialog
-                    show={showBoundaryConditionsDialog}
+                    isOpen={showBoundaryConditionsDialog}
                     modalId="BoundaryConditionsModal"
                     backdropColor="dark"
                     material={material}
@@ -396,7 +396,7 @@ class HeaderMenuToolbar extends React.Component {
                 <CombinatorialBasisDialog
                     title="Generate Combinatorial Set"
                     modalId="combinatorialSetModal"
-                    show={showCombinatorialDialog}
+                    isOpen={showCombinatorialDialog}
                     maxCombinatorialBasesCount={maxCombinatorialBasesCount}
                     backdropColor="dark"
                     material={material}
@@ -410,7 +410,7 @@ class HeaderMenuToolbar extends React.Component {
                 <InterpolateBasesDialog
                     title="Generate Interpolated Set"
                     modalId="interpolatedSetModal"
-                    show={showInterpolateDialog}
+                    isOpen={showInterpolateDialog}
                     backdropColor="dark"
                     material={material}
                     material2={materials[index + 1 === materials.length ? 0 : index + 1]}
