@@ -1,10 +1,12 @@
 /* eslint-disable react/sort-comp */
+import theme from "@exabyte-io/cove.js/dist/theme";
 import { Made } from "@exabyte-io/made.js";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import setClass from "classnames";
+import ToggleButton from "@mui/material/ToggleButton/";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import PropTypes from "prop-types";
 import React from "react";
 import s from "underscore.string";
@@ -58,38 +60,39 @@ class BasisEditor extends React.Component {
         onUpdate(newMaterial);
     }
 
-    renderBasisUnitsLabel(unitsType = "crystal") {
+    renderBasisUnitsLabel = (unitsType = "crystal") => {
+        return (
+            <ToggleButton
+                value={unitsType}
+                sx={{
+                    fontSize: theme.typography.caption.fontSize,
+                }}
+            >
+                {s.capitalize(unitsType)} Units
+            </ToggleButton>
+        );
+    };
+
+    renderBasisUnitOptions() {
         const { coordUnits } = this.state;
         const { material } = this.props;
+
         return (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-            <label
-                className={setClass("btn btn-custom", {
-                    active: coordUnits === unitsType,
-                })}
-                id="basis-units-crystal"
-                onClick={() => {
+            <ToggleButtonGroup
+                id="basis-options"
+                value={coordUnits}
+                fullWidth
+                exclusive
+                onChange={(e, unitsType) => {
                     this.setState({
                         coordUnits: unitsType,
                         xyz: this.getXYZInCoordUnits(material, unitsType),
                     });
                 }}
             >
-                {s.capitalize(unitsType)} Units
-            </label>
-        );
-    }
-
-    renderBasisUnitOptions() {
-        return (
-            <div
-                className="bgm-dark basis-options btn-group btn-group-justified"
-                data-toggle="buttons"
-                id="basis-options"
-            >
                 {this.renderBasisUnitsLabel(Made.ATOMIC_COORD_UNITS.crystal)}
                 {this.renderBasisUnitsLabel(Made.ATOMIC_COORD_UNITS.cartesian)}
-            </div>
+            </ToggleButtonGroup>
         );
     }
 
@@ -99,9 +102,8 @@ class BasisEditor extends React.Component {
     }
 
     render() {
-        const { className } = this.props;
         return (
-            <Accordion defaultExpanded className={setClass(className, "crystal-basis")}>
+            <Accordion defaultExpanded className="crystal-basis">
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Basis</AccordionSummary>
                 <AccordionDetails
                     style={{
@@ -109,8 +111,8 @@ class BasisEditor extends React.Component {
                         height: "100%",
                     }}
                 >
-                    <div className="col-xs-12 p-0">{this.renderBasisUnitOptions()}</div>
-                    <div className="col-xs-12 p-0">{this.renderBasisText()}</div>
+                    <div>{this.renderBasisUnitOptions()}</div>
+                    <div>{this.renderBasisText()}</div>
                 </AccordionDetails>
             </Accordion>
         );
@@ -121,7 +123,6 @@ BasisEditor.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onUpdate: PropTypes.func.isRequired,
-    className: PropTypes.string.isRequired,
 };
 
 export default BasisEditor;

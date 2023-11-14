@@ -19,9 +19,9 @@ As below:
     - Fullscreen mode
 - Advanced Menu
     - Creating supercell
+    - Creating surface/slab
     - Creating combinatorial set
     - Creating interpolated set
-    - Creating surface/slab
 - Basis Editor
     - Adding/Removing/Modifying sites
     - Adding/Removing/Modifying atomic constraints

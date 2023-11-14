@@ -2,6 +2,8 @@
 /* eslint-disable react/sort-comp */
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import { Made } from "@exabyte-io/made.js";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
@@ -85,11 +87,10 @@ class BasisText extends React.Component {
 
         return (
             <div className={setClass("xyz", className)}>
-                <div id="basis-xyz">
+                <Box id="basis-xyz">
                     <CodeMirror
                         ref={this.codeMirrorRef}
                         className="xyz-codemirror"
-                        // eslint-disable-next-line react/no-unused-class-component-methods
                         content={content}
                         updateContent={this.updateContent}
                         readOnly={readOnly}
@@ -102,14 +103,16 @@ class BasisText extends React.Component {
                         updateOnFirstLoad
                         language="exaxyz"
                         checks={checks}
-                        triggerReload
                     />
-                    <div className="col-xs-12 p-5 text-center">
-                        <span className={isContentValidated ? "text-success" : "text-danger"}>
+                    <Box sx={{ p: 1, textAlign: "center" }}>
+                        <Typography
+                            variant="body1"
+                            color={isContentValidated ? "success" : "error"}
+                        >
                             {message}&nbsp;
-                        </span>
-                    </div>
-                </div>
+                        </Typography>
+                    </Box>
+                </Box>
             </div>
         );
     }

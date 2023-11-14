@@ -16,12 +16,16 @@ export class SupercellDialogWidget extends Widget {
             .map((row) => row.trim().split(" ").map(parseFloat));
         scalingMatrix.forEach((scalingVector, i) => {
             scalingVector.forEach((scalingNumber, j) => {
-                exabrowser.setValue(this._selectors.matrixElementByIndices(i, j), scalingNumber);
+                exabrowser.setValueWithBackspaceClear(
+                    this._selectors.matrixElementByIndices(i, j),
+                    scalingNumber,
+                );
             });
         });
     }
 
     submit() {
         exabrowser.scrollAndClick(this._selectors.submitButton);
+        exabrowser.waitForClickable(SELECTORS.headerMenu.wrapper, 500);
     }
 }

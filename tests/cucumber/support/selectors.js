@@ -11,7 +11,7 @@ export const SELECTORS = {
         supercellDialog: {
             wrapper: "#supercellModal",
             submitButton: "#make-supercell",
-            matrixElementByIndices: (i, j) => `input.m${i + 1}${j + 1}`,
+            matrixElementByIndices: (i, j) => `div.m${i + 1}${j + 1} input`,
         },
         interpolatedSetDialog: {
             wrapper: "#interpolatedSetModal",
@@ -32,7 +32,7 @@ export const SELECTORS = {
         boundaryConditionsDialog: {
             wrapper: "#BoundaryConditionsModal",
             submitButton: "#boundary-conditions-submit",
-            type: '[data-tid="type"] select',
+            type: '[data-tid="type"]',
             offset: '[data-tid="offset"] input',
         },
         defaultImportModalDialog: {
@@ -66,7 +66,7 @@ export const SELECTORS = {
             latticeFormTrigger: '[role="button"]',
             latticeFormBody: ".crystal-lattice-config",
             latticeOptionSelectorByNameInput: (name) => `input[name="${name}"]`,
-            latticeOptionSelectorByNameSelect: (name) => `select[name="${name}"]`,
+            latticeOptionSelectorByNameSelect: (name) => `[data-tid="${name}"]`,
             latticeFormSaveButton: "button.save-lattice-config",
         },
     },

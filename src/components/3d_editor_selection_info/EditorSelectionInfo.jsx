@@ -1,10 +1,11 @@
+import Box from "@mui/material/Box";
 import React from "react";
 
 const EditorSelectionInfo = function EditorSelectionInfo() {
     return (
-        <div className="text-center p-t-20">
+        <Box sx={{ textAlign: "center", pt: 3 }}>
             <p />
-        </div>
+        </Box>
     );
 };
 
