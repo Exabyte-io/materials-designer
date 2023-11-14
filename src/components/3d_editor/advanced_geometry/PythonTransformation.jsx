@@ -1,5 +1,5 @@
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
-import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide-loader";
+import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import { Made } from "@exabyte-io/made.js";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
