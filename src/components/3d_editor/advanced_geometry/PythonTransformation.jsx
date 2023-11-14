@@ -13,8 +13,12 @@ import React from "react";
 
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
 
-const importsUrl =
-    "https://raw.githubusercontent.com/Exabyte-io/api-examples/48f86e29c069fc0205216c50b1b98c19634a6445/other/pyodide/imports.py";
+const installPkg = `import micropip
+await micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
+await micropip.install("https://files.mat3ra.com:44318/web/pyodide/spglib-2.0.2-py3-none-any.whl", deps=False)
+await micropip.install("https://files.pythonhosted.org/packages/d9/0e/2a05efa11ea33513fbdf4a2e2576fe94fd8fa5ad226dbb9c660886390974/ruamel.yaml-0.17.32-py3-none-any.whl", deps=False)
+for pkg in ["networkx", "monty", "scipy", "lzma", "tabulate", "sqlite3"]:
+  await micropip.install(pkg)`;
 
 class PythonTransformation extends React.Component {
     constructor(props) {
@@ -46,9 +50,6 @@ class PythonTransformation extends React.Component {
 
     loadPackages = async () => {
         const { pyodide } = this.state;
-
-        const response = await fetch(importsUrl);
-        const installPkg = await response.text();
 
         if (pyodide) {
             await pyodide.runPythonAsync(installPkg);
