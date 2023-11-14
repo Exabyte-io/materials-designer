@@ -13,6 +13,9 @@ import React from "react";
 
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
 
+const importsUrl =
+    "https://raw.githubusercontent.com/Exabyte-io/api-examples/48f86e29c069fc0205216c50b1b98c19634a6445/other/pyodide/imports.py";
+
 class PythonTransformation extends React.Component {
     constructor(props) {
         super(props);
@@ -24,8 +27,8 @@ class PythonTransformation extends React.Component {
             transformationParameters: {
                 transformationName: "default",
             },
+            pyodide: null,
         };
-        const pyodideRef = React.createRef();
     }
 
     componentDidUpdate(prevProps) {
@@ -35,29 +38,36 @@ class PythonTransformation extends React.Component {
         }
     }
 
+    getPyodide = (pyodideInstance) => {
+        this.setState({ pyodide: pyodideInstance }, () => {
+            this.loadPackages();
+        });
+    };
+
+    loadPackages = async () => {
+        const { pyodide } = this.state;
+
+        const response = await fetch(importsUrl);
+        const installPkg = await response.text();
+
+        if (pyodide) {
+            await pyodide.runPythonAsync(installPkg);
+        }
+    };
+
     loadPythonCode = async () => {
         const { transformationParameters } = this.state;
         const code = await fetchPythonCode(transformationParameters.transformationName);
         this.setState({ pythonCode: code });
     };
 
-    // eslint-disable-next-line no-unused-vars
     handleCodeChange = (newContent) => {
         this.setState({ pythonCode: newContent });
     };
 
-    mapToObject = (map) => {
-        const obj = {};
-        map.forEach((value, key) => {
-            obj[key] = value instanceof Map ? this.mapToObject(value) : value;
-        });
-        return obj;
-    };
-
     runPythonCode = async () => {
         let dataOut = null;
-        const { pyodide } = this.pyodideRef.current;
-        const { pythonCode, materials } = this.state;
+        const { pyodide, pythonCode, materials } = this.state;
 
         const materialsData = materials.map((material, id) => {
             const materialConfig = material.toJSON();
@@ -71,7 +81,6 @@ class PythonTransformation extends React.Component {
         });
 
         const dataIn = { materials: materialsData };
-        console.log("Running Python code... PYODIDE:", pyodide);
         const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
 
         try {
@@ -125,20 +134,23 @@ class PythonTransformation extends React.Component {
         }
     };
 
-    render() {
-        const defaultPackages = `await micropip.install("https://files.mat3ra.com:44318/uploads/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
-await micropip.install("https://files.mat3ra.com:44318/web/pyodide/spglib-2.0.2-py3-none-any.whl", deps=False)
-await micropip.install("https://files.pythonhosted.org/packages/d9/0e/2a05efa11ea33513fbdf4a2e2576fe94fd8fa5ad226dbb9c660886390974/ruamel.yaml-0.17.32-py3-none-any.whl", deps=False)
-for pkg in ["ase", "networkx", "monty", "scipy", "lzma", "tabulate", "sqlite3", "sympy"]:
-await micropip.install(pkg)`;
+    mapToObject = (map) => {
+        const obj = {};
+        map.forEach((value, key) => {
+            obj[key] = value instanceof Map ? this.mapToObject(value) : value;
+        });
+        return obj;
+    };
 
+    render() {
         const { isLoading, transformationParameters, materials } = this.state;
         const { show, onHide } = this.props;
         const transformationNames = Object.keys(transformationsMap);
 
         const { pythonCode } = this.state;
         return (
-            <PyodideLoader pythonCode={defaultPackages} ref={this.pyodideRef}>
+            <>
+                <PyodideLoader getPyodide={this.getPyodide} triggerLoad={show} />
                 <Dialog
                     open={show}
                     onClose={onHide}
@@ -230,7 +242,7 @@ await micropip.install(pkg)`;
                     </Box>
                     <Box id="pyodide-plot-target" />
                 </Dialog>
-            </PyodideLoader>
+            </>
         );
     }
 }
