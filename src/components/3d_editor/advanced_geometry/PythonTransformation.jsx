@@ -38,6 +38,7 @@ class PythonTransformation extends React.Component {
                 transformationName: "default",
             },
             pyodide: null,
+            pythonOutput: "",
         };
     }
 
@@ -51,10 +52,20 @@ class PythonTransformation extends React.Component {
         }
     }
 
+    handleStdout = (text) => {
+        this.setState({ pythonOutput: text })
+    };
+
+    handleStderr = (text) => {
+        this.setState({ pythonOutput: text })
+    };
+
     getPyodide = (pyodideInstance) => {
         this.setState({ pyodide: pyodideInstance }, () => {
             this.loadPackages();
-        document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
+            pyodideInstance.stdout = this.handleStdout;
+            pyodideInstance.stderr = this.handleStderr;
+            document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
         });
     };
 
@@ -161,7 +172,7 @@ class PythonTransformation extends React.Component {
         const { pythonCode } = this.state;
         return (
             <ThemeProvider theme={theme}>
-                <PyodideLoader getPyodide={this.getPyodide} triggerLoad={show} />
+                <PyodideLoader onLoad={this.getPyodide} triggerLoad={show} />
                 <Dialog
                     open={show}
                     onClose={onHide}
@@ -170,16 +181,14 @@ class PythonTransformation extends React.Component {
                     onSubmit={this.handleSubmit}
                     title="Python Transformation"
                 >
-                    <Paper sx={{height: "80vh", padding: theme.spacing(2)}}>
+                    <Paper sx={{minHeight: "80vh", padding: theme.spacing(2)}}>
 
-                    <Box flexDirection="row">
+                    <Box   sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2, mt: 2 }}>
                         <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
                             Available Materials:
                         </InputLabel>
                         <Box
                             id="available-materials"
-                            display="flex"
-                            flexDirection="row"
                             overflowX="auto"
                             gap={1}
                             sx={{
@@ -196,7 +205,7 @@ class PythonTransformation extends React.Component {
                                 : null}
                         </Box>
                     </Box>
-                    <Box flexDirection="row" sx={{ alignItems: "center", gap: 2, mt: 2 }}>
+                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2, mt: 2 }}>
                         <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
                             Transformations:
                         </InputLabel>
@@ -241,8 +250,14 @@ class PythonTransformation extends React.Component {
                             color="primary"
                             onClick={this.handleRun}
                         >Run</Button>
+                        <Box>
 
-                    <Box id="pyodide-plot-target" fullWidth />
+                    <TextField
+                        fullWidth
+                        value={this.state.pythonOutput}
+                        />
+                        </Box>
+                    <Box id="pyodide-plot-target" />
                     </Paper>
                 </Dialog>
             </ThemeProvider>
