@@ -51,6 +51,7 @@ class PythonTransformation extends React.Component {
     getPyodide = (pyodideInstance) => {
         this.setState({ pyodide: pyodideInstance }, () => {
             this.loadPackages();
+        document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
         });
     };
 
@@ -163,7 +164,7 @@ class PythonTransformation extends React.Component {
                     onClose={onHide}
                     fullWidth
                     maxWidth="xl"
-                    onSubmit={() => {this.handleRun(); this.handleSubmit}}
+                    onSubmit={this.handleSubmit}
                 >
                     <Paper sx={{height: "80vh", padding: theme.spacing(2)}}>
 
@@ -231,7 +232,12 @@ class PythonTransformation extends React.Component {
                         sx={{ justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
                     >
                     </Box>
-                    <Box id="pyodide-plot-target" />
+                        <Button
+                            variant="outlined"
+                            onClick={this.handleRun}
+                            />
+
+                    <Box id="pyodide-plot-target" fullWidth />
                     </Paper>
                 </Dialog>
             </ThemeProvider>
