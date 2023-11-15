@@ -22,7 +22,7 @@ const installPkg = `import micropip
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/spglib-2.0.2-py3-none-any.whl", deps=False)
 await micropip.install("https://files.pythonhosted.org/packages/d9/0e/2a05efa11ea33513fbdf4a2e2576fe94fd8fa5ad226dbb9c660886390974/ruamel.yaml-0.17.32-py3-none-any.whl", deps=False)
-for pkg in ["networkx", "monty", "scipy", "lzma", "tabulate", "sqlite3"]:
+for pkg in ["ase", "networkx", "monty", "scipy", "lzma", "tabulate", "sqlite3"]:
   await micropip.install(pkg)`;
 
 class PythonTransformation extends React.Component {
@@ -45,6 +45,9 @@ class PythonTransformation extends React.Component {
         const { show } = this.props;
         if (show && !prevProps.show) {
             this.loadPythonCode();
+        }
+        if (prevProps.materials !== this.props.materials) {
+            this.setState({ materials: this.props.materials });
         }
     }
 
@@ -165,6 +168,7 @@ class PythonTransformation extends React.Component {
                     fullWidth
                     maxWidth="xl"
                     onSubmit={this.handleSubmit}
+                    title="Python Transformation"
                 >
                     <Paper sx={{height: "80vh", padding: theme.spacing(2)}}>
 
@@ -234,8 +238,9 @@ class PythonTransformation extends React.Component {
                     </Box>
                         <Button
                             variant="outlined"
+                            color="primary"
                             onClick={this.handleRun}
-                            />
+                        >Run</Button>
 
                     <Box id="pyodide-plot-target" fullWidth />
                     </Paper>
