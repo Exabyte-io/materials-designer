@@ -1,17 +1,22 @@
+/* eslint-disable */
+
+import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
+import theme from "@exabyte-io/cove.js/dist/theme";
+import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { Made } from "@exabyte-io/made.js";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import Dialog from "@mui/material/Dialog";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import React from "react";
 
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
+import { Paper } from "@mui/material";
 
 const installPkg = `import micropip
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
@@ -28,6 +33,7 @@ class PythonTransformation extends React.Component {
             materials: props.materials,
             newMaterials: [],
             isLoading: false,
+            isRunning: false,
             transformationParameters: {
                 transformationName: "default",
             },
@@ -99,7 +105,7 @@ class PythonTransformation extends React.Component {
     };
 
     handleRun = async () => {
-        this.setState({ isLoading: true });
+        this.setState({ isRunning: true });
         try {
             const dataOut = await this.runPythonCode();
             const materialsData = dataOut.get("materials");
@@ -115,7 +121,7 @@ class PythonTransformation extends React.Component {
         } catch (error) {
             console.error(error);
         } finally {
-            this.setState({ isLoading: false });
+            this.setState({ isRunning: false });
         }
     };
 
@@ -144,21 +150,23 @@ class PythonTransformation extends React.Component {
     };
 
     render() {
-        const { isLoading, transformationParameters, materials } = this.state;
+        const { isLoading, isRunning, transformationParameters, materials } = this.state;
         const { show, onHide } = this.props;
         const transformationNames = Object.keys(transformationsMap);
 
         const { pythonCode } = this.state;
         return (
-            <>
+            <ThemeProvider theme={theme}>
                 <PyodideLoader getPyodide={this.getPyodide} triggerLoad={show} />
                 <Dialog
                     open={show}
                     onClose={onHide}
                     fullWidth
-                    maxWidth="lg"
-                    PaperProps={{ sx: { width: "60vw", height: "60vh", padding: "20px" } }}
+                    maxWidth="xl"
+                    onSubmit={() => {this.handleRun(); this.handleSubmit}}
                 >
+                    <Paper sx={{height: "80vh", padding: theme.spacing(2)}}>
+
                     <Box flexDirection="row">
                         <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
                             Available Materials:
@@ -222,28 +230,11 @@ class PythonTransformation extends React.Component {
                         flexDirection="row"
                         sx={{ justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
                     >
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            disabled={isLoading}
-                            style={{ marginTop: "10px" }}
-                            onClick={this.handleRun}
-                        >
-                            Run Code
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            disabled={isLoading}
-                            style={{ marginTop: "10px" }}
-                            onClick={this.handleSubmit}
-                        >
-                            Submit
-                        </Button>
                     </Box>
                     <Box id="pyodide-plot-target" />
+                    </Paper>
                 </Dialog>
-            </>
+            </ThemeProvider>
         );
     }
 }
