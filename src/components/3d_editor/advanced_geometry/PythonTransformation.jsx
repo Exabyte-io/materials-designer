@@ -1,10 +1,8 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-// eslint-disable-next-line no-unused-vars
 import LightMaterialUITheme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
-import { Made } from "@exabyte-io/made.js";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
 import { Checkbox, Chip, Paper } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -18,8 +16,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
-import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
-
+// TODO: remove in the next task to fetch all code fully from remote
 const installPkg = `import micropip
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/spglib-2.0.2-py3-none-any.whl", deps=False)
@@ -27,29 +24,33 @@ await micropip.install("https://files.pythonhosted.org/packages/d9/0e/2a05efa11e
 for pkg in ["ase", "networkx", "monty", "scipy", "lzma", "tabulate", "sqlite3"]:
  await micropip.install(pkg)`;
 
+const transformationsMap = {
+    default: {
+        name: "Default",
+        content: `print("Hello World!")`,
+    },
+};
+
 class PythonTransformation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             theme: LightMaterialUITheme,
-            pythonCode: "",
             materials: props.materials,
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
             isLoading: true,
             isRunning: false,
-            transformationParameters: {
-                transformationName: "default",
-            },
             pyodide: null,
+            pythonCode: "",
             pythonOutput: "",
+            transformationParameters: props.transformationParameters,
         };
         this.handleRun = this.handleRun.bind(this);
     }
 
-    componentDidUpdate(prevProps) {
-        const { show } = this.props;
-        if (show && !prevProps.show) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.pythonCode === "") {
             this.loadPythonCode();
         }
         const { materials } = this.props;
@@ -65,7 +66,7 @@ class PythonTransformation extends React.Component {
         }));
     };
 
-    getPyodide = (pyodideInstance) => {
+    onPyodideLoad = (pyodideInstance) => {
         this.setState({ pyodide: pyodideInstance }, () => {
             this.loadPackages();
             pyodideInstance.setStdout({ batched: (text) => this.handleStdout(text) });
@@ -82,9 +83,9 @@ class PythonTransformation extends React.Component {
         this.setState({ isLoading: false });
     };
 
-    loadPythonCode = async () => {
+    loadPythonCode = () => {
         const { transformationParameters } = this.state;
-        const code = await fetchPythonCode(transformationParameters.transformationName);
+        const code = transformationsMap[transformationParameters.transformationKey].content;
         this.setState({ pythonCode: code });
     };
 
@@ -93,33 +94,14 @@ class PythonTransformation extends React.Component {
     };
 
     runPythonCode = async () => {
-        let dataOut = null;
-        const { pyodide, pythonCode, materials } = this.state;
+        const dataOut = null;
+        const { pyodide, pythonCode } = this.state;
         this.setState({ pythonOutput: "" });
         document.pyodideMplTarget.innerHTML = "";
 
-        const materialsData = materials.map((material, id) => {
-            const materialConfig = material.toJSON();
-            const materialPoscar = material.getAsPOSCAR();
-            return {
-                id,
-                material: materialConfig,
-                poscar: materialPoscar,
-                metadata: material.metadata,
-            };
-        });
-
-        const dataIn = { materials: materialsData };
-        const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
-
         try {
-            const result = await pyodide.runPythonAsync(pythonCode, {
-                globals: convertedData,
-            });
-            dataOut = (await result)
-                ? result.toJs().get("data_out")
-                : { content: "Nothing was returned from the Pyodide" };
-            console.log("RESULT:", dataOut);
+            const result = await pyodide.runPythonAsync(pythonCode);
+            console.log(result);
         } catch (error) {
             this.setState({ pythonOutput: error.message });
         }
@@ -129,17 +111,7 @@ class PythonTransformation extends React.Component {
     handleRun = async () => {
         this.setState({ isRunning: true });
         try {
-            const dataOut = await this.runPythonCode();
-            const materialsData = dataOut.get("materials");
-            const newMaterialsData = materialsData.map((m) => {
-                const material = this.mapToObject(m);
-                const config = Made.parsers.poscar.fromPoscar(material.poscar);
-                const newMaterial = new Made.Material(config);
-                newMaterial.metadata = material.metadata;
-
-                return newMaterial;
-            });
-            this.setState({ newMaterials: newMaterialsData });
+            await this.runPythonCode();
         } catch (error) {
             NPMsAlert.error(error.message);
         } finally {
@@ -153,26 +125,17 @@ class PythonTransformation extends React.Component {
         onSubmit(newMaterials);
     };
 
-    handleTransformationParametersChange = async (event, newValue) => {
+    handleTransformationParametersChange = (event, newValue) => {
         if (newValue) {
-            const code = await fetchPythonCode(newValue.content);
             const { transformationParameters } = this.state;
             this.setState({
                 transformationParameters: {
                     ...transformationParameters,
                     transformation: newValue,
                 },
-                pythonCode: code,
             });
+            this.loadPythonCode();
         }
-    };
-
-    mapToObject = (map) => {
-        const obj = {};
-        map.forEach((value, key) => {
-            obj[key] = value instanceof Map ? this.mapToObject(value) : value;
-        });
-        return obj;
     };
 
     handleMaterialSelectionChange = (event, newValue) => {
@@ -263,7 +226,7 @@ class PythonTransformation extends React.Component {
                         }}
                     >
                         <Autocomplete
-                            value={transformationParameters.transformationName}
+                            value={transformationsMap[transformationParameters.transformationKey]}
                             getOptionLabel={(option) => option.name}
                             options={Object.values(transformationsMap)}
                             onChange={this.handleTransformationParametersChange}
@@ -274,7 +237,7 @@ class PythonTransformation extends React.Component {
                                     // eslint-disable-next-line react/jsx-props-no-spreading
                                     {...params}
                                     label="Transformation"
-                                    placeholder="Loading options..."
+                                    placeholder="Select transformation"
                                 />
                             )}
                         />
@@ -305,7 +268,7 @@ class PythonTransformation extends React.Component {
 
         return (
             <ThemeProvider theme={theme}>
-                <PyodideLoader onLoad={this.getPyodide} triggerLoad={show} />
+                <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <Dialog
                     open={show}
                     onClose={onHide}
