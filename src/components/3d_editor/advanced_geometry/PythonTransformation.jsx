@@ -6,7 +6,7 @@ import LightMaterialUITheme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { Made } from "@exabyte-io/made.js";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
-import { Checkbox, Paper } from "@mui/material";
+import { Checkbox, Chip, Paper } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -171,8 +171,6 @@ class PythonTransformation extends React.Component {
 
     handleMaterialSelectionChange = (event, newValue) => {
         this.setState({ selectedMaterials: newValue });
-        // eslint-disable-next-line react/destructuring-assignment
-        console.log(this.state.selectedMaterials);
     };
 
     render() {
@@ -239,6 +237,15 @@ class PythonTransformation extends React.Component {
                                     placeholder="Select materials"
                                 />
                             )}
+                            renderTags={(value, getTagProps) =>
+                                value.map((option, index) => (
+                                    <Chip
+                                        label={`${index}: ${option.name}`}
+                                        // eslint-disable-next-line react/jsx-props-no-spreading
+                                        {...getTagProps({ index })}
+                                    />
+                                ))
+                            }
                         />
                     </Box>
                     <Box
