@@ -1,23 +1,24 @@
-/* eslint-disable */
-
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-import LightMaterialUITheme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
+// eslint-disable-next-line no-unused-vars
+import LightMaterialUITheme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { Made } from "@exabyte-io/made.js";
+// import { Paper } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
+import DialogContent from "@mui/material/DialogContent";
+import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
+import NPMsAlert from "react-s-alert";
 
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
-import { Paper } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import NPMsAlert from "react-s-alert";
 
 const installPkg = `import micropip
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
@@ -49,8 +50,10 @@ class PythonTransformation extends React.Component {
         if (show && !prevProps.show) {
             this.loadPythonCode();
         }
-        if (prevProps.materials !== this.props.materials) {
-            this.setState({ materials: this.props.materials });
+        const { materials } = this.props;
+        if (prevProps.materials !== materials) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ materials });
         }
     }
 
@@ -166,12 +169,99 @@ class PythonTransformation extends React.Component {
     };
 
     render() {
-        const { theme, isLoading, isRunning, transformationParameters, materials } = this.state;
+        const { theme, isLoading, isRunning, pythonCode, transformationParameters, materials } =
+            this.state;
         const codemirrorTheme = theme === LightMaterialUITheme ? "light" : "dark";
         const { show, onHide } = this.props;
         const transformationNames = Object.keys(transformationsMap);
 
-        const { pythonCode } = this.state;
+        const getStatusText = () => {
+            if (isLoading) return "Loading...";
+            if (isRunning) return "Running...";
+            return "Ready";
+        };
+
+        const controls = () => (
+            <Box id="controls">
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 2,
+                        mt: 2,
+                    }}
+                >
+                    <Typography variant="body1" sx={{ marginRight: theme.spacing(1) }}>
+                        Available Materials:
+                    </Typography>
+                    <Box
+                        id="available-materials"
+                        overflowX="auto"
+                        gap={1}
+                        sx={{
+                            alignItems: "center",
+                            border: "1px solid grey",
+                            borderRadius: "4px",
+                            width: 300,
+                        }}
+                    >
+                        {materials
+                            ? materials.map((material) => (
+                                  <Chip key={material.name} label={material.name} />
+                              ))
+                            : null}
+                    </Box>
+                </Box>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 2,
+                        mt: 2,
+                    }}
+                >
+                    <Typography variant="body1" sx={{ marginRight: theme.spacing(1) }}>
+                        Transformations:
+                    </Typography>
+                    <Autocomplete
+                        label="Transformation name:"
+                        value={transformationParameters.transformationName}
+                        getOptionLabel={(option) => option}
+                        options={transformationNames}
+                        onChange={this.handleTransformationParametersChange}
+                        size="medium"
+                        sx={{ width: 300 }}
+                        renderInput={(params) => (
+                            // eslint-disable-next-line react/jsx-props-no-spreading
+                            <TextField {...params} label=" " />
+                        )}
+                    />
+                </Box>
+
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        gap: 2,
+                        mt: 2,
+                        width: "100%",
+                    }}
+                >
+                    <Typography variant="body1">{getStatusText()}</Typography>
+                    <Button
+                        variant="contained"
+                        color={isLoading ? "inherit" : "success"}
+                        onClick={this.handleRun}
+                    >
+                        Run
+                    </Button>
+                </Box>
+            </Box>
+        );
+        const { pythonOutput } = this.state;
         return (
             <ThemeProvider theme={theme}>
                 <PyodideLoader onLoad={this.getPyodide} triggerLoad={show} />
@@ -184,88 +274,10 @@ class PythonTransformation extends React.Component {
                     title="Python Transformation"
                     isSubmitButtonDisabled={isLoading || isRunning}
                 >
-                    <Paper sx={{ minHeight: "80vh", padding: theme.spacing(2) }}>
-                        <Box>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    gap: 2,
-                                    mt: 2,
-                                }}
-                            >
-                                <Typography variant={"body1"} sx={{ marginRight: theme.spacing(1)}}>
-                                    Available Materials:
-                                </Typography>
-                                <Box
-                                    id="available-materials"
-                                    overflowX="auto"
-                                    gap={1}
-                                    sx={{
-                                        alignItems: "center",
-                                        border: "1px solid grey",
-                                        borderRadius: "4px",
-                                        width: 300,
-                                    }}
-                                >
-                                    {materials
-                                        ? materials.map((material) => (
-                                              <Chip key={material.name} label={material.name} />
-                                          ))
-                                        : null}
-                                </Box>
-                            </Box>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    gap: 2,
-                                    mt: 2,
-                                }}
-                            >
-                                <Typography variant={"body1"} sx={{ marginRight: theme.spacing(1)}}>
-                                    Transformations:
-                                </Typography>
-                                <Autocomplete
-                                    label="Transformation name:"
-                                    value={transformationParameters.transformationName}
-                                    getOptionLabel={(option) => option}
-                                    options={transformationNames}
-                                    onChange={this.handleTransformationParametersChange}
-                                    size={"medium"}
-                                    sx={{ width: 300 }}
-                                    renderInput={(params) => (
-                                        // eslint-disable-next-line react/jsx-props-no-spreading
-                                        <TextField {...params} label=" " />
-                                    )}
-                                />
-                            </Box>
-                        </Box>
-
+                    <DialogContent sx={{ overflow: "hidden", p: 0, minHeight: 600 }}>
+                        {controls()}
                         <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "flex-end",
-                                gap: 2,
-                                mt: 2,
-                                width: "100%",
-                            }}
-                        >
-                            <Typography variant="body1">
-                                {isLoading ? "Loading..." : "Ready"}
-                            </Typography>
-                            <Button
-                                variant="contained"
-                                color={this.state.isLoading ? "inherit" : "success"}
-                                onClick={this.handleRun}
-                            >
-                                Run
-                            </Button>
-                        </Box>
-                        <Box
+                            id="python-code"
                             minHeight={40}
                             maxHeight={800}
                             overflow="scroll"
@@ -275,7 +287,7 @@ class PythonTransformation extends React.Component {
                             }}
                         >
                             <CodeMirror
-                                className="codemirror-python-runtime"
+                                className="codemirror-python-code"
                                 content={pythonCode}
                                 updateContent={this.handleCodeChange}
                                 readOnly={false}
@@ -289,13 +301,13 @@ class PythonTransformation extends React.Component {
                                 language="python"
                             />
                         </Box>
-
-                        <Box>
-                            {this.state.pythonOutput && (
+                        <Divider variant="fullWidth" />
+                        <Box id="python-output" maxHeight={800} overflow="scroll">
+                            {pythonOutput && (
                                 <CodeMirror
                                     className="codemirror-python-output"
-                                    content={this.state.pythonOutput}
-                                    readOnly={true}
+                                    content={pythonOutput}
+                                    readOnly
                                     rows={20}
                                     options={{
                                         lineNumbers: false,
@@ -309,7 +321,7 @@ class PythonTransformation extends React.Component {
                             )}
                         </Box>
                         <Box id="pyodide-plot-target" />
-                    </Paper>
+                    </DialogContent>
                 </Dialog>
             </ThemeProvider>
         );
