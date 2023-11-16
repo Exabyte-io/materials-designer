@@ -154,9 +154,13 @@ class PythonTransformation extends React.Component {
 
     handleTransformationParametersChange = async (event, newValue) => {
         if (newValue) {
-            const code = await fetchPythonCode(newValue);
+            const code = await fetchPythonCode(newValue.content);
+            const { transformationParameters } = this.state;
             this.setState({
-                transformationParameters: { transformationName: newValue },
+                transformationParameters: {
+                    ...transformationParameters,
+                    transformation: newValue,
+                },
                 pythonCode: code,
             });
         }
@@ -187,7 +191,6 @@ class PythonTransformation extends React.Component {
         } = this.state;
         const codemirrorTheme = theme === LightMaterialUITheme ? "light" : "dark";
         const { show, onHide } = this.props;
-        const transformationNames = Object.keys(transformationsMap);
 
         const getStatusText = () => {
             if (isLoading) return "Loading...";
@@ -260,14 +263,18 @@ class PythonTransformation extends React.Component {
                     >
                         <Autocomplete
                             value={transformationParameters.transformationName}
-                            getOptionLabel={(option) => option}
-                            options={transformationNames}
+                            getOptionLabel={(option) => option.name}
+                            options={Object.values(transformationsMap)}
                             onChange={this.handleTransformationParametersChange}
                             size="medium"
-                            sx={{ width: 300 }}
+                            sx={{ width: 600 }}
                             renderInput={(params) => (
-                                // eslint-disable-next-line react/jsx-props-no-spreading
-                                <TextField {...params} label="Transformation" />
+                                <TextField
+                                    // eslint-disable-next-line react/jsx-props-no-spreading
+                                    {...params}
+                                    label="Transformation"
+                                    placeholder="Loading options..."
+                                />
                             )}
                         />
                     </Box>
