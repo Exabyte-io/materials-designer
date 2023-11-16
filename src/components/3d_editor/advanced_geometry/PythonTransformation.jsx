@@ -5,11 +5,11 @@ import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import LightMaterialUITheme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { Made } from "@exabyte-io/made.js";
-// import { Paper } from "@mui/material";
+import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
+import { Checkbox, Paper } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
@@ -34,6 +34,7 @@ class PythonTransformation extends React.Component {
             theme: LightMaterialUITheme,
             pythonCode: "",
             materials: props.materials,
+            selectedMaterials: [],
             newMaterials: [],
             isLoading: true,
             isRunning: false,
@@ -168,9 +169,23 @@ class PythonTransformation extends React.Component {
         return obj;
     };
 
+    handleMaterialSelectionChange = (event, newValue) => {
+        this.setState({ selectedMaterials: newValue });
+        // eslint-disable-next-line react/destructuring-assignment
+        console.log(this.state.selectedMaterials);
+    };
+
     render() {
-        const { theme, isLoading, isRunning, pythonCode, transformationParameters, materials } =
-            this.state;
+        const {
+            theme,
+            isLoading,
+            isRunning,
+            pythonCode,
+            pythonOutput,
+            transformationParameters,
+            materials,
+            selectedMaterials,
+        } = this.state;
         const codemirrorTheme = theme === LightMaterialUITheme ? "light" : "dark";
         const { show, onHide } = this.props;
         const transformationNames = Object.keys(transformationsMap);
@@ -181,87 +196,97 @@ class PythonTransformation extends React.Component {
             return "Ready";
         };
 
-        const controls = () => (
-            <Box id="controls">
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 2,
-                        mt: 2,
-                    }}
-                >
-                    <Typography variant="body1" sx={{ marginRight: theme.spacing(1) }}>
-                        Available Materials:
-                    </Typography>
+        const icon = <CheckBoxOutlineBlank fontSize="small" />;
+        const checkedIcon = <CheckBox fontSize="small" />;
+
+        const controls = () => {
+            return (
+                <Box id="controls">
                     <Box
-                        id="available-materials"
-                        overflowX="auto"
-                        gap={1}
                         sx={{
+                            display: "flex",
+                            flexDirection: "row",
                             alignItems: "center",
-                            border: "1px solid grey",
-                            borderRadius: "4px",
-                            width: 300,
+                            gap: 2,
+                            mt: 2,
                         }}
                     >
-                        {materials
-                            ? materials.map((material) => (
-                                  <Chip key={material.name} label={material.name} />
-                              ))
-                            : null}
+                        <Autocomplete
+                            multiple
+                            id="materials-autocomplete"
+                            size="medium"
+                            sx={{ minWidth: 300 }}
+                            options={materials}
+                            getOptionLabel={(option) => option.name}
+                            value={selectedMaterials}
+                            onChange={this.handleMaterialSelectionChange}
+                            renderOption={(props, option, { selected }) => (
+                                // eslint-disable-next-line react/jsx-props-no-spreading
+                                <li {...props}>
+                                    <Checkbox
+                                        icon={icon}
+                                        checkedIcon={checkedIcon}
+                                        checked={selected}
+                                    />
+                                    {option.name}
+                                </li>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    // eslint-disable-next-line react/jsx-props-no-spreading
+                                    {...params}
+                                    label="Selected Materials"
+                                    placeholder="Select materials"
+                                />
+                            )}
+                        />
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 2,
+                            mt: 2,
+                        }}
+                    >
+                        <Autocomplete
+                            value={transformationParameters.transformationName}
+                            getOptionLabel={(option) => option}
+                            options={transformationNames}
+                            onChange={this.handleTransformationParametersChange}
+                            size="medium"
+                            sx={{ width: 300 }}
+                            renderInput={(params) => (
+                                // eslint-disable-next-line react/jsx-props-no-spreading
+                                <TextField {...params} label="Transformation" />
+                            )}
+                        />
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "flex-end",
+                            gap: 2,
+                            mt: 2,
+                            width: "100%",
+                        }}
+                    >
+                        <Typography variant="body1">{getStatusText()}</Typography>
+                        <Button
+                            variant="contained"
+                            color={isLoading ? "inherit" : "success"}
+                            onClick={this.handleRun}
+                        >
+                            Run
+                        </Button>
                     </Box>
                 </Box>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 2,
-                        mt: 2,
-                    }}
-                >
-                    <Typography variant="body1" sx={{ marginRight: theme.spacing(1) }}>
-                        Transformations:
-                    </Typography>
-                    <Autocomplete
-                        label="Transformation name:"
-                        value={transformationParameters.transformationName}
-                        getOptionLabel={(option) => option}
-                        options={transformationNames}
-                        onChange={this.handleTransformationParametersChange}
-                        size="medium"
-                        sx={{ width: 300 }}
-                        renderInput={(params) => (
-                            // eslint-disable-next-line react/jsx-props-no-spreading
-                            <TextField {...params} label=" " />
-                        )}
-                    />
-                </Box>
+            );
+        };
 
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-end",
-                        gap: 2,
-                        mt: 2,
-                        width: "100%",
-                    }}
-                >
-                    <Typography variant="body1">{getStatusText()}</Typography>
-                    <Button
-                        variant="contained"
-                        color={isLoading ? "inherit" : "success"}
-                        onClick={this.handleRun}
-                    >
-                        Run
-                    </Button>
-                </Box>
-            </Box>
-        );
-        const { pythonOutput } = this.state;
         return (
             <ThemeProvider theme={theme}>
                 <PyodideLoader onLoad={this.getPyodide} triggerLoad={show} />
@@ -276,51 +301,53 @@ class PythonTransformation extends React.Component {
                 >
                     <DialogContent sx={{ overflow: "hidden", p: 0, minHeight: 600 }}>
                         {controls()}
-                        <Box
-                            id="python-code"
-                            minHeight={40}
-                            maxHeight={800}
-                            overflow="scroll"
-                            sx={{
-                                backgroundColor: theme.palette.background.paper,
-                                resize: "vertical",
-                            }}
-                        >
-                            <CodeMirror
-                                className="codemirror-python-code"
-                                content={pythonCode}
-                                updateContent={this.handleCodeChange}
-                                readOnly={false}
-                                rows={20}
-                                options={{
-                                    lineNumbers: true,
+                        <Paper sx={{ minHeight: 800, overflow: "scroll" }}>
+                            <Box
+                                id="python-code"
+                                minHeight={40}
+                                maxHeight={800}
+                                overflow="scroll"
+                                sx={{
+                                    backgroundColor: theme.palette.background.paper,
+                                    resize: "vertical",
                                 }}
-                                theme={codemirrorTheme}
-                                completions={() => {}}
-                                updateOnFirstLoad
-                                language="python"
-                            />
-                        </Box>
-                        <Divider variant="fullWidth" />
-                        <Box id="python-output" maxHeight={800} overflow="scroll">
-                            {pythonOutput && (
+                            >
                                 <CodeMirror
-                                    className="codemirror-python-output"
-                                    content={pythonOutput}
-                                    readOnly
+                                    className="codemirror-python-code"
+                                    content={pythonCode}
+                                    updateContent={this.handleCodeChange}
+                                    readOnly={false}
                                     rows={20}
                                     options={{
-                                        lineNumbers: false,
-                                        lineWrapping: true,
+                                        lineNumbers: true,
                                     }}
                                     theme={codemirrorTheme}
                                     completions={() => {}}
                                     updateOnFirstLoad
                                     language="python"
                                 />
-                            )}
-                        </Box>
-                        <Box id="pyodide-plot-target" />
+                            </Box>
+                            <Divider variant="fullWidth" />
+                            <Box id="python-output" maxHeight={800} overflow="scroll">
+                                {pythonOutput && (
+                                    <CodeMirror
+                                        className="codemirror-python-output"
+                                        content={pythonOutput}
+                                        readOnly
+                                        rows={20}
+                                        options={{
+                                            lineNumbers: false,
+                                            lineWrapping: true,
+                                        }}
+                                        theme={codemirrorTheme}
+                                        completions={() => {}}
+                                        updateOnFirstLoad
+                                        language="python"
+                                    />
+                                )}
+                            </Box>
+                            <Box id="pyodide-plot-target" />
+                        </Paper>
                     </DialogContent>
                 </Dialog>
             </ThemeProvider>
