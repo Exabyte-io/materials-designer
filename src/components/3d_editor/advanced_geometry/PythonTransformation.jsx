@@ -3,7 +3,7 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-import theme from "@exabyte-io/cove.js/dist/theme";
+import LightMaterialUITheme, {DarkMaterialUITheme} from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { Made } from "@exabyte-io/made.js";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -17,22 +17,24 @@ import React from "react";
 
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
 import { Paper } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 const installPkg = `import micropip
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/spglib-2.0.2-py3-none-any.whl", deps=False)
 await micropip.install("https://files.pythonhosted.org/packages/d9/0e/2a05efa11ea33513fbdf4a2e2576fe94fd8fa5ad226dbb9c660886390974/ruamel.yaml-0.17.32-py3-none-any.whl", deps=False)
 for pkg in ["ase", "networkx", "monty", "scipy", "lzma", "tabulate", "sqlite3"]:
-  await micropip.install(pkg)`;
+ await micropip.install(pkg)`;
 
 class PythonTransformation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            theme: LightMaterialUITheme,
             pythonCode: "",
             materials: props.materials,
             newMaterials: [],
-            isLoading: false,
+            isLoading: true,
             isRunning: false,
             transformationParameters: {
                 transformationName: "default",
@@ -75,6 +77,7 @@ class PythonTransformation extends React.Component {
         if (pyodide) {
             await pyodide.runPythonAsync(installPkg);
         }
+        this.setState({ isLoading: false });
     };
 
     loadPythonCode = async () => {
@@ -165,7 +168,8 @@ class PythonTransformation extends React.Component {
     };
 
     render() {
-        const { isLoading, isRunning, transformationParameters, materials } = this.state;
+        const { theme, isLoading, isRunning, transformationParameters, materials } = this.state;
+        const codemirrorTheme = theme === LightMaterialUITheme ? "light" : "dark";
         const { show, onHide } = this.props;
         const transformationNames = Object.keys(transformationsMap);
 
@@ -180,8 +184,10 @@ class PythonTransformation extends React.Component {
                     maxWidth="xl"
                     onSubmit={this.handleSubmit}
                     title="Python Transformation"
+                    isSubmitButtonDisabled={isLoading || isRunning}
                 >
                     <Paper sx={{ minHeight: "80vh", padding: theme.spacing(2) }}>
+<Box>
 
                         <Box
                             sx={{
@@ -238,15 +244,17 @@ class PythonTransformation extends React.Component {
                                 )}
                             />
                         </Box>
+</Box>
 
                         <Box
-                            sx={{display: "flex", justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
+                            sx={{display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
                         >
-                            <Button variant="outlined" color={this.state.isLoading? "error" : "success"} onClick={this.handleRun}>
+                            <Typography variant="body1" >{isLoading? "Loading..." : "Ready"}</Typography>
+                            <Button variant="contained" color={this.state.isLoading? "inherit" : "success"} onClick={this.handleRun}>
                                 Run
                             </Button>
                         </Box>
-                        <Box flexDirection="column" maxHeight={600} overflow="auto">
+                        <Box minHeight={40} maxHeight={800} overflow="scroll" sx={{backgroundColor: theme.palette.background.paper, resize: "vertical"}}>
                             <CodeMirror
                                 className="codemirror-python-runtime"
                                 content={pythonCode}
@@ -256,7 +264,7 @@ class PythonTransformation extends React.Component {
                                 options={{
                                     lineNumbers: true,
                                 }}
-                                theme="dark"
+                                theme={codemirrorTheme}
                                 completions={() => {}}
                                 updateOnFirstLoad
                                 language="python"
@@ -275,7 +283,7 @@ class PythonTransformation extends React.Component {
                                     lineNumbers: false,
                                     lineWrapping: true,
                                 }}
-                                theme="dark"
+                                theme={codemirrorTheme}
                                 completions={() => {}}
                                 updateOnFirstLoad
                                 language="python"
