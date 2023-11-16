@@ -10,7 +10,6 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import React from "react";
@@ -196,18 +195,18 @@ class PythonTransformation extends React.Component {
                                     mt: 2,
                                 }}
                             >
-                                <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
+                                <Typography variant={"body1"} sx={{ marginRight: theme.spacing(1)}}>
                                     Available Materials:
-                                </InputLabel>
+                                </Typography>
                                 <Box
                                     id="available-materials"
                                     overflowX="auto"
                                     gap={1}
                                     sx={{
-                                        flex: "1",
                                         alignItems: "center",
                                         border: "1px solid grey",
                                         borderRadius: "4px",
+                                        width: 300,
                                     }}
                                 >
                                     {materials
@@ -226,16 +225,17 @@ class PythonTransformation extends React.Component {
                                     mt: 2,
                                 }}
                             >
-                                <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
+                                <Typography variant={"body1"} sx={{ marginRight: theme.spacing(1)}}>
                                     Transformations:
-                                </InputLabel>
+                                </Typography>
                                 <Autocomplete
                                     label="Transformation name:"
                                     value={transformationParameters.transformationName}
                                     getOptionLabel={(option) => option}
                                     options={transformationNames}
                                     onChange={this.handleTransformationParametersChange}
-                                    sx={{ flex: "1" }}
+                                    size={"medium"}
+                                    sx={{ width: 300 }}
                                     renderInput={(params) => (
                                         // eslint-disable-next-line react/jsx-props-no-spreading
                                         <TextField {...params} label=" " />
