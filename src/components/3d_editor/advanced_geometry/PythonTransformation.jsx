@@ -18,6 +18,7 @@ import React from "react";
 import { fetchPythonCode, transformationsMap } from "../../../pythonCodeMap";
 import { Paper } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import NPMsAlert from "react-s-alert";
 
 const installPkg = `import micropip
 await micropip.install("https://files.mat3ra.com:44318/web/pyodide/pymatgen-2023.9.10-py3-none-any.whl", deps=False)
@@ -55,18 +56,15 @@ class PythonTransformation extends React.Component {
     }
 
     handleStdout = (text) => {
-        this.setState({ pythonOutput: text });
-    };
-
-    handleStderr = (text) => {
-        this.setState({ pythonOutput: text });
+        this.setState(prevState => ({
+            pythonOutput: prevState.pythonOutput + text + "\n"
+        }));
     };
 
     getPyodide = (pyodideInstance) => {
         this.setState({ pyodide: pyodideInstance }, () => {
             this.loadPackages();
             pyodideInstance.setStdout({ batched: (text) => this.handleStdout(text) });
-            pyodideInstance.setStderr({ batched: (text) => this.handleStderr(text) });
             document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
         });
     };
@@ -93,6 +91,7 @@ class PythonTransformation extends React.Component {
     runPythonCode = async () => {
         let dataOut = null;
         const { pyodide, pythonCode, materials } = this.state;
+        this.setState({ pythonOutput: "" })
 
         const materialsData = materials.map((material, id) => {
             const materialConfig = material.toJSON();
@@ -117,7 +116,7 @@ class PythonTransformation extends React.Component {
                 : { content: "Nothing was returned from the Pyodide" };
             console.log("RESULT:", dataOut);
         } catch (error) {
-            console.error("Error executing Python code:", error);
+            this.setState({ pythonOutput: error.message })
         }
         return dataOut;
     };
@@ -137,7 +136,7 @@ class PythonTransformation extends React.Component {
             });
             this.setState({ newMaterials: newMaterialsData });
         } catch (error) {
-            console.error(error);
+            NPMsAlert.error(error.message);
         } finally {
             this.setState({ isRunning: false });
         }
@@ -188,7 +187,6 @@ class PythonTransformation extends React.Component {
                 >
                     <Paper sx={{ minHeight: "80vh", padding: theme.spacing(2) }}>
 <Box>
-
                         <Box
                             sx={{
                                 display: "flex",
