@@ -53,18 +53,18 @@ class PythonTransformation extends React.Component {
     }
 
     handleStdout = (text) => {
-        this.setState({ pythonOutput: text })
+        this.setState({ pythonOutput: text });
     };
 
     handleStderr = (text) => {
-        this.setState({ pythonOutput: text })
+        this.setState({ pythonOutput: text });
     };
 
     getPyodide = (pyodideInstance) => {
         this.setState({ pyodide: pyodideInstance }, () => {
             this.loadPackages();
-            pyodideInstance.stdout = this.handleStdout;
-            pyodideInstance.stderr = this.handleStderr;
+            pyodideInstance.setStdout({ batched: (text) => this.handleStdout(text) });
+            pyodideInstance.setStderr({ batched: (text) => this.handleStderr(text) });
             document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
         });
     };
