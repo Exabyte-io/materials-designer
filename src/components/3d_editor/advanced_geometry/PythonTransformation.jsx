@@ -2,7 +2,7 @@ import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 // eslint-disable-next-line no-unused-vars
-import LightMaterialUITheme from "@exabyte-io/cove.js/dist/theme";
+import LightMaterialUITheme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { Made } from "@exabyte-io/made.js";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
@@ -95,6 +95,7 @@ class PythonTransformation extends React.Component {
         let dataOut = null;
         const { pyodide, pythonCode, materials } = this.state;
         this.setState({ pythonOutput: "" });
+        document.pyodideMplTarget.innerHTML = "";
 
         const materialsData = materials.map((material, id) => {
             const materialConfig = material.toJSON();
@@ -308,15 +309,16 @@ class PythonTransformation extends React.Component {
                 >
                     <DialogContent sx={{ overflow: "hidden", p: 0, minHeight: 600 }}>
                         {controls()}
-                        <Paper sx={{ minHeight: 800, overflow: "scroll" }}>
+                        <Paper
+                            sx={{ minHeight: 800, overflow: "scroll", mt: theme.spacing(1), p: 0 }}
+                        >
                             <Box
                                 id="python-code"
-                                minHeight={40}
+                                minHeight={30}
                                 maxHeight={800}
                                 overflow="scroll"
                                 sx={{
                                     backgroundColor: theme.palette.background.paper,
-                                    resize: "vertical",
                                 }}
                             >
                                 <CodeMirror
@@ -335,7 +337,12 @@ class PythonTransformation extends React.Component {
                                 />
                             </Box>
                             <Divider variant="fullWidth" />
-                            <Box id="python-output" maxHeight={800} overflow="scroll">
+                            <Box
+                                id="python-output"
+                                maxHeight={800}
+                                overflow="scroll"
+                                mt={theme.spacing(1)}
+                            >
                                 {pythonOutput && (
                                     <CodeMirror
                                         className="codemirror-python-output"
@@ -344,7 +351,6 @@ class PythonTransformation extends React.Component {
                                         rows={20}
                                         options={{
                                             lineNumbers: false,
-                                            lineWrapping: true,
                                         }}
                                         theme={codemirrorTheme}
                                         completions={() => {}}
