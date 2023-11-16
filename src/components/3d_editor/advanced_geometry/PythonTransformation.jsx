@@ -2,7 +2,7 @@ import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 // eslint-disable-next-line no-unused-vars
-import LightMaterialUITheme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
+import LightMaterialUITheme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { Made } from "@exabyte-io/made.js";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
@@ -34,7 +34,7 @@ class PythonTransformation extends React.Component {
             theme: LightMaterialUITheme,
             pythonCode: "",
             materials: props.materials,
-            selectedMaterials: [],
+            selectedMaterials: [props.materials[0]],
             newMaterials: [],
             isLoading: true,
             isRunning: false,
@@ -44,6 +44,7 @@ class PythonTransformation extends React.Component {
             pyodide: null,
             pythonOutput: "",
         };
+        this.handleRun = this.handleRun.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -203,7 +204,7 @@ class PythonTransformation extends React.Component {
 
         const controls = () => {
             return (
-                <Box id="controls">
+                <Paper id="controls" elevation={0} sx={{ top: 0, m: theme.spacing(1), p: 0 }}>
                     <Box
                         sx={{
                             display: "flex",
@@ -217,7 +218,7 @@ class PythonTransformation extends React.Component {
                             multiple
                             id="materials-autocomplete"
                             size="medium"
-                            sx={{ minWidth: 300 }}
+                            sx={{ minWidth: 600 }}
                             options={materials}
                             getOptionLabel={(option) => option.name}
                             value={selectedMaterials}
@@ -298,7 +299,7 @@ class PythonTransformation extends React.Component {
                             Run
                         </Button>
                     </Box>
-                </Box>
+                </Paper>
             );
         };
 
@@ -317,7 +318,7 @@ class PythonTransformation extends React.Component {
                     <DialogContent sx={{ overflow: "hidden", p: 0, minHeight: 600 }}>
                         {controls()}
                         <Paper
-                            sx={{ minHeight: 800, overflow: "scroll", mt: theme.spacing(1), p: 0 }}
+                            sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1), p: 0 }}
                         >
                             <Box
                                 id="python-code"
