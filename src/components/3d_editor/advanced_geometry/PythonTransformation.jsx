@@ -181,83 +181,107 @@ class PythonTransformation extends React.Component {
                     onSubmit={this.handleSubmit}
                     title="Python Transformation"
                 >
-                    <Paper sx={{minHeight: "80vh", padding: theme.spacing(2)}}>
+                    <Paper sx={{ minHeight: "80vh", padding: theme.spacing(2) }}>
 
-                    <Box   sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2, mt: 2 }}>
-                        <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
-                            Available Materials:
-                        </InputLabel>
                         <Box
-                            id="available-materials"
-                            overflowX="auto"
-                            gap={1}
                             sx={{
-                                flex: "1",
+                                display: "flex",
+                                flexDirection: "row",
                                 alignItems: "center",
-                                border: "1px solid grey",
-                                borderRadius: "4px",
+                                gap: 2,
+                                mt: 2,
                             }}
                         >
-                            {materials
-                                ? materials.map((material) => (
-                                      <Chip key={material.name} label={material.name} />
-                                  ))
-                                : null}
+                            <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
+                                Available Materials:
+                            </InputLabel>
+                            <Box
+                                id="available-materials"
+                                overflowX="auto"
+                                gap={1}
+                                sx={{
+                                    flex: "1",
+                                    alignItems: "center",
+                                    border: "1px solid grey",
+                                    borderRadius: "4px",
+                                }}
+                            >
+                                {materials
+                                    ? materials.map((material) => (
+                                          <Chip key={material.name} label={material.name} />
+                                      ))
+                                    : null}
+                            </Box>
                         </Box>
-                    </Box>
-                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2, mt: 2 }}>
-                        <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
-                            Transformations:
-                        </InputLabel>
-                        <Autocomplete
-                            label="Transformation name:"
-                            value={transformationParameters.transformationName}
-                            getOptionLabel={(option) => option}
-                            options={transformationNames}
-                            onChange={this.handleTransformationParametersChange}
-                            sx={{ flex: "1" }}
-                            renderInput={(params) => (
-                                // eslint-disable-next-line react/jsx-props-no-spreading
-                                <TextField {...params} label=" " />
-                            )}
-                        />
-                    </Box>
-
-                    <Box flexDirection="column" maxHeight={600} overflow="auto">
-                        <CodeMirror
-                            className="xyz-codemirror"
-                            content={pythonCode}
-                            updateContent={this.handleCodeChange}
-                            readOnly={false}
-                            rows={20}
-                            options={{
-                                lineNumbers: true,
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                gap: 2,
+                                mt: 2,
                             }}
-                            theme="dark"
-                            completions={() => {}}
-                            updateOnFirstLoad
-                            language="python"
-                        />
-                    </Box>
-
-                    <Box
-                        flexDirection="row"
-                        sx={{ justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
-                    >
-                    </Box>
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={this.handleRun}
-                        >Run</Button>
-                        <Box>
-
-                    <TextField
-                        fullWidth
-                        value={this.state.pythonOutput}
-                        />
+                        >
+                            <InputLabel sx={{ flexShrink: 0, marginRight: "16px" }}>
+                                Transformations:
+                            </InputLabel>
+                            <Autocomplete
+                                label="Transformation name:"
+                                value={transformationParameters.transformationName}
+                                getOptionLabel={(option) => option}
+                                options={transformationNames}
+                                onChange={this.handleTransformationParametersChange}
+                                sx={{ flex: "1" }}
+                                renderInput={(params) => (
+                                    // eslint-disable-next-line react/jsx-props-no-spreading
+                                    <TextField {...params} label=" " />
+                                )}
+                            />
                         </Box>
-                    <Box id="pyodide-plot-target" />
+
+                        <Box
+                            sx={{display: "flex", justifyContent: "flex-end", gap: 2, mt: 2, width: "100%" }}
+                        >
+                            <Button variant="outlined" color={this.state.isLoading? "error" : "success"} onClick={this.handleRun}>
+                                Run
+                            </Button>
+                        </Box>
+                        <Box flexDirection="column" maxHeight={600} overflow="auto">
+                            <CodeMirror
+                                className="codemirror-python-runtime"
+                                content={pythonCode}
+                                updateContent={this.handleCodeChange}
+                                readOnly={false}
+                                rows={20}
+                                options={{
+                                    lineNumbers: true,
+                                }}
+                                theme="dark"
+                                completions={() => {}}
+                                updateOnFirstLoad
+                                language="python"
+                            />
+                        </Box>
+
+
+                        <Box>
+                            {this.state.pythonOutput &&
+                            <CodeMirror
+                                className="codemirror-python-output"
+                                content={this.state.pythonOutput}
+                                readOnly={true}
+                                rows={20}
+                                options={{
+                                    lineNumbers: false,
+                                    lineWrapping: true,
+                                }}
+                                theme="dark"
+                                completions={() => {}}
+                                updateOnFirstLoad
+                                language="python"
+                            />}
+                        </Box>
+                        <Box id="pyodide-plot-target" />
                     </Paper>
                 </Dialog>
             </ThemeProvider>
