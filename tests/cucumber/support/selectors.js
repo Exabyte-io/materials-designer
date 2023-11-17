@@ -52,6 +52,7 @@ export const SELECTORS = {
             dialog: 'div[role="dialog"]',
             codeInput: "python-code-input",
             pythonOutput: '[data-tid="python-output"]',
+            runButton: `button#python-transformation-dialog-run-button`,
             submitButton: `button#python-transformation-dialog-submit-button`,
             cancelButton: `button#python-transformation-dialog-cancel-button`,
         },
