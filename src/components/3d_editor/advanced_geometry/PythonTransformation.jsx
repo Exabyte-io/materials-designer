@@ -1,7 +1,8 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-import LightMaterialUITheme from "@exabyte-io/cove.js/dist/theme";
+// eslint-disable-next-line no-unused-vars
+import LightMaterialUITheme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
 import { Checkbox, Chip, Paper } from "@mui/material";
@@ -277,6 +278,7 @@ class PythonTransformation extends React.Component {
                     onSubmit={this.handleSubmit}
                     title="Python Transformation"
                     isSubmitButtonDisabled={isLoading || isRunning}
+                    data-tid="python-transformation-dialog"
                 >
                     <DialogContent sx={{ overflow: "hidden", p: 0, minHeight: 600 }}>
                         {controls()}
