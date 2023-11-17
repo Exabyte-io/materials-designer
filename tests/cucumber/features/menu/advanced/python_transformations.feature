@@ -17,7 +17,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Then I see PythonTransformationDialog is closed
     # Code persists
     When I open PythonTransformationDialog
-    Then I see input with the following data
+    Then I see input with the following data:
     """
     print('Hello Matera!')
     """

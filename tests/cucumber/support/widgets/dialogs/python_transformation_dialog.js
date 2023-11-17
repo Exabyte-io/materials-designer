@@ -7,10 +7,6 @@ export class PythonTransformationDialogWidget extends Widget {
         this.selectors = this.getWrappedSelectors(SELECTORS.headerMenu.pythonTransformationDialog);
     }
 
-    setPythonTransformationCode(code) {
-        exabrowser.setValueWithBackspaceClear(this.selectors.codeInput, code);
-    }
-
     // eslint-disable-next-line class-methods-use-this
     setCodeMirrorContent(editorId, content, preserveExistingContent = false) {
         exabrowser.execute(
@@ -37,8 +33,14 @@ export class PythonTransformationDialogWidget extends Widget {
         );
     }
 
-    getPythonTransformationCode() {
-        return exabrowser.getValue(this.selectors.codeInput);
+    // eslint-disable-next-line class-methods-use-this
+    getCodeMirrorContent(editorId) {
+        // eslint-disable-next-line no-shadow
+        return exabrowser.execute((editorId) => {
+            const element = document.getElementById(editorId);
+            console.log("element", element);
+            return element.getElementsByClassName("cm-content")[0].cmView.view.state.doc.toString();
+        }, editorId).value;
     }
 
     getPythonTransformationOutput() {
