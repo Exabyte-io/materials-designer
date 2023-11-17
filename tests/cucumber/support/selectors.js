@@ -48,10 +48,12 @@ export const SELECTORS = {
             cancelButton: 'button[data-name="Cancel"]',
         },
         pythonTransformationDialog: {
-            wrapper: '[data-tid="python-transformation-dialog"]',
+            wrapper: "#python-transformation-dialog",
             dialog: 'div[role="dialog"]',
-            submitButton: "button#modal-dialog-submit-button",
-            cancelButton: "button#modal-dialog-cancel-button",
+            codeInput: "python-code-input",
+            pythonOutput: '[data-tid="python-output"]',
+            submitButton: `button#python-transformation-dialog-submit-button`,
+            cancelButton: `button#python-transformation-dialog-cancel-button`,
         },
     },
     itemsList: {
