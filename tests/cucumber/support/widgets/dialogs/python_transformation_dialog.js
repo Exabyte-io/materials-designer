@@ -1,5 +1,5 @@
-import { SELECTORS } from "../selectors";
-import { Widget } from "../widget";
+import { SELECTORS } from "../../selectors";
+import { Widget } from "../../widget";
 
 export class PythonTransformationDialogWidget extends Widget {
     constructor(selector) {
