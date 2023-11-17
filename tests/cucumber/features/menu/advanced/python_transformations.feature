@@ -9,14 +9,18 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Then I see PythonTransformationDialog
 
     # Change code
-    When I set input with the following data
-      | code | print('Hello world') |
-    And I close PythonTransformationDialog
+    When I set input with the following data:
+    """
+    print('Hello Matera!')
+    """
+    And I cancel PythonTransformationDialog
     Then I see PythonTransformationDialog is closed
-    And I open PythonTransformationDialog
+    # Code persists
+    When I open PythonTransformationDialog
     Then I see input with the following data
-      | code | print('Hello world') |
-    Then I see code "print('Hello world')"
+    """
+    print('Hello Matera!')
+    """
 
     # Run
     When I click the Run button
