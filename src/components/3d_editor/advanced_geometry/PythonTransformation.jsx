@@ -256,6 +256,7 @@ class PythonTransformation extends React.Component {
                     >
                         <Typography variant="body1">{getStatusText()}</Typography>
                         <Button
+                            id="python-transformation-dialog-run-button"
                             variant="contained"
                             color={isLoading ? "inherit" : "success"}
                             onClick={this.handleRun}
