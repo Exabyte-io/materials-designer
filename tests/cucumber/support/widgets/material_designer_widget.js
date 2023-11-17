@@ -33,6 +33,9 @@ export class MaterialDesignerWidget extends Widget {
         this.defaultImportModalDialog = new DefaultImportModalDialogWidget(
             SELECTORS.headerMenu.defaultImportModalDialog.wrapper,
         );
+        this.pythonTransformationDialog = new DefaultImportModalDialogWidget(
+            SELECTORS.headerMenu.pythonTransformationDialog.wrapper,
+        );
     }
 
     openSupercellDialog() {
