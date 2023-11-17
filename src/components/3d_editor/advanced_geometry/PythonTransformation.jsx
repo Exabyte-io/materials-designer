@@ -45,6 +45,8 @@ class PythonTransformation extends React.Component {
             pythonCode: "",
             pythonOutput: "",
             transformationParameters: props.transformationParameters,
+            fileNames: [],
+            fileContents: {},
         };
         this.handleRun = this.handleRun.bind(this);
     }
@@ -58,7 +60,50 @@ class PythonTransformation extends React.Component {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ materials });
         }
+        this.fetchFileNames();
     }
+
+    fetchFileNames = () => {
+        const url = "https://api.github.com/repos/Exabyte-io/jupyter-lite/contents/transformations";
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                const fileNames = data.map((file) => file.name);
+                this.setState({ fileNames });
+                this.fetchFileContents(fileNames);
+            });
+        // eslint-disable-next-line react/destructuring-assignment
+        console.log(this.state.fileNames);
+    };
+
+    fetchFileContent = async (fileName) => {
+        const url = `https://raw.githubusercontent.com/Exabyte-io/jupyter-lite/main/transformations/${fileName}`;
+        try {
+            fetch(url)
+                .then((response) => response.text())
+                .then((data) => {
+                    this.setState((prevState) => ({
+                        fileContents: {
+                            ...prevState.fileContents,
+                            [fileName]: data,
+                        },
+                        pythonCode: data,
+                    }));
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    handleFileNameSelection = async (event, newValue) => {
+        if (!newValue) return;
+        const { fileContents } = this.state;
+        if (fileContents[newValue]) {
+            this.setState({ pythonCode: fileContents[newValue] });
+        } else {
+            await this.fetchFileContent(newValue);
+        }
+    };
 
     handleStdout = (text) => {
         this.setState((prevState) => ({
@@ -125,18 +170,18 @@ class PythonTransformation extends React.Component {
         onSubmit(newMaterials);
     };
 
-    handleTransformationParametersChange = (event, newValue) => {
-        if (newValue) {
-            const { transformationParameters } = this.state;
-            this.setState({
-                transformationParameters: {
-                    ...transformationParameters,
-                    transformation: newValue,
-                },
-            });
-            this.loadPythonCode();
-        }
-    };
+    // handleTransformationParametersChange = (event, newValue) => {
+    //     if (newValue) {
+    //         const { transformationParameters } = this.state;
+    //         this.setState({
+    //             transformationParameters: {
+    //                 ...transformationParameters,
+    //                 transformation: newValue,
+    //             },
+    //         });
+    //         this.loadPythonCode();
+    //     }
+    // };
 
     handleMaterialSelectionChange = (event, newValue) => {
         this.setState({ selectedMaterials: newValue });
@@ -152,6 +197,7 @@ class PythonTransformation extends React.Component {
             transformationParameters,
             materials,
             selectedMaterials,
+            fileNames,
         } = this.state;
         const codemirrorTheme = theme === LightMaterialUITheme ? "light" : "dark";
         const { show, onHide } = this.props;
@@ -228,8 +274,8 @@ class PythonTransformation extends React.Component {
                         <Autocomplete
                             value={transformationsMap[transformationParameters.transformationKey]}
                             getOptionLabel={(option) => option.name}
-                            options={Object.values(transformationsMap)}
-                            onChange={this.handleTransformationParametersChange}
+                            options={fileNames}
+                            onChange={this.handleFileNameSelection}
                             size="medium"
                             sx={{ width: 600 }}
                             renderInput={(params) => (
