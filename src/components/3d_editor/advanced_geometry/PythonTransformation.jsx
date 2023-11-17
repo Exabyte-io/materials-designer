@@ -271,6 +271,7 @@ class PythonTransformation extends React.Component {
             <ThemeProvider theme={theme}>
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <Dialog
+                    id="python-transformation-dialog"
                     open={show}
                     onClose={onHide}
                     fullWidth
@@ -278,7 +279,6 @@ class PythonTransformation extends React.Component {
                     onSubmit={this.handleSubmit}
                     title="Python Transformation"
                     isSubmitButtonDisabled={isLoading || isRunning}
-                    data-tid="python-transformation-dialog"
                 >
                     <DialogContent sx={{ overflow: "hidden", p: 0, minHeight: 600 }}>
                         {controls()}
@@ -286,7 +286,7 @@ class PythonTransformation extends React.Component {
                             sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1), p: 0 }}
                         >
                             <Box
-                                id="python-code"
+                                id="python-code-input"
                                 minHeight={30}
                                 maxHeight={800}
                                 overflow="scroll"
@@ -295,7 +295,6 @@ class PythonTransformation extends React.Component {
                                 }}
                             >
                                 <CodeMirror
-                                    className="codemirror-python-code"
                                     content={pythonCode}
                                     updateContent={this.handleCodeChange}
                                     readOnly={false}
@@ -318,7 +317,6 @@ class PythonTransformation extends React.Component {
                             >
                                 {pythonOutput && (
                                     <CodeMirror
-                                        className="codemirror-python-output"
                                         content={pythonOutput}
                                         readOnly
                                         rows={20}
