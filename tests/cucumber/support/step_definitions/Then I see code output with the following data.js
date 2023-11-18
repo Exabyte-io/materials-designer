@@ -1,4 +1,4 @@
-import expect from "expect";
+import { deepEqual } from "assert";
 
 import { SELECTORS } from "../selectors";
 import { materialDesignerPage } from "../widgets/material_designer_page";
@@ -8,8 +8,6 @@ export default function () {
         const { pythonTransformationDialog } = materialDesignerPage.designerWidget;
         const editorId = SELECTORS.headerMenu.pythonTransformationDialog.pythonOutput;
         const content = pythonTransformationDialog.getCodeMirrorContent(editorId);
-        console.log("X:", content);
-        console.log("X:", docString);
-        expect(content.trim()).toEqual(docString);
+        deepEqual(content.trim(), docString);
     });
 }

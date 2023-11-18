@@ -38,13 +38,8 @@ export class PythonTransformationDialogWidget extends Widget {
         // eslint-disable-next-line no-shadow
         return exabrowser.execute((editorId) => {
             const element = document.getElementById(editorId);
-            console.log("element", element);
             return element.getElementsByClassName("cm-content")[0].cmView.view.state.doc.toString();
         }, editorId).value;
-    }
-
-    getPythonTransformationOutput() {
-        return exabrowser.getText(this.selectors.pythonOutput);
     }
 
     run() {
