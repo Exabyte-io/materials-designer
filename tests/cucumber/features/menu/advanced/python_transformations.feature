@@ -9,7 +9,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Then I see PythonTransformationDialog
 
     # Change code
-    When I set input with the following data:
+    When I set code input with the following data:
     """
     print('Hello Matera!')
     """
@@ -18,12 +18,15 @@ Feature: User can open Python Transformation dialog, change python code and run 
 
     # Code persists
     When I open PythonTransformationDialog
-    Then I see input with the following data:
+    Then I see code input with the following data:
     """
     print('Hello Matera!')
     """
 
     # Run
     When I click the Run button
-    Then I see code output "Hello world"
+    Then I see code output with the following data:
+    """
+    Hello Matera!
+    """
 
