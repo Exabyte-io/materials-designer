@@ -179,7 +179,7 @@ class PythonTransformation extends React.Component {
                     }}
                 >
                     <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={5}>
+                        <Grid item sm={12} md={6}>
                             <Autocomplete
                                 sx={{ flexGrow: 1, minWidth: 300 }}
                                 multiple
@@ -220,7 +220,7 @@ class PythonTransformation extends React.Component {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item sm={12} md={4}>
                             <Autocomplete
                                 sx={{ flexGrow: 1, minWidth: 300 }}
                                 value={
@@ -243,7 +243,8 @@ class PythonTransformation extends React.Component {
 
                         <Grid
                             item
-                            xs={2}
+                            sm={12}
+                            md={2}
                             style={{
                                 display: "flex",
                                 justifyContent: "flex-end",
