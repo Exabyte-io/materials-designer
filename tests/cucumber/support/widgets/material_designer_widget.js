@@ -5,6 +5,7 @@ import { SAlertWidget } from "./alert/s_alert_widget";
 import { BoundaryConditionsDialogWidget } from "./dialogs/boundary_conditions_dialog";
 import { DefaultImportModalDialogWidget } from "./dialogs/default_import_modal_dialog";
 import { InterpolatedSetDialogWidget } from "./dialogs/interpolated_set_dialog";
+import { PythonTransformationDialogWidget } from "./dialogs/python_transformation_dialog";
 import { SupercellDialogWidget } from "./dialogs/supercell_dialog";
 import { SurfaceDialogWidget } from "./dialogs/surface_dialog";
 import { HeaderMenuWidget } from "./header_menu_widget";
@@ -32,6 +33,9 @@ export class MaterialDesignerWidget extends Widget {
         );
         this.defaultImportModalDialog = new DefaultImportModalDialogWidget(
             SELECTORS.headerMenu.defaultImportModalDialog.wrapper,
+        );
+        this.pythonTransformationDialog = new PythonTransformationDialogWidget(
+            SELECTORS.headerMenu.pythonTransformationDialog.wrapper,
         );
     }
 

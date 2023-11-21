@@ -1,7 +1,8 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-import LightMaterialUITheme from "@exabyte-io/cove.js/dist/theme";
+// eslint-disable-next-line no-unused-vars
+import LightMaterialUITheme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
 import { Checkbox, Chip, Paper } from "@mui/material";
@@ -10,6 +11,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
@@ -112,8 +114,8 @@ class PythonTransformation extends React.Component {
     };
 
     onPyodideLoad = (pyodideInstance) => {
-        this.setState({ pyodide: pyodideInstance }, () => {
-            this.loadPackages();
+        this.setState({ pyodide: pyodideInstance }, async () => {
+            await this.loadPackages();
             pyodideInstance.setStdout({ batched: (text) => this.handleStdout(text) });
             document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
         });
@@ -213,101 +215,101 @@ class PythonTransformation extends React.Component {
 
         const controls = () => {
             return (
-                <Paper id="controls" elevation={0} sx={{ top: 0, m: theme.spacing(1), p: 0 }}>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 2,
-                            mt: 2,
-                        }}
-                    >
-                        <Autocomplete
-                            multiple
-                            id="materials-autocomplete"
-                            size="medium"
-                            sx={{ minWidth: 600 }}
-                            options={materials}
-                            getOptionLabel={(option) => option.name}
-                            value={selectedMaterials}
-                            onChange={this.handleMaterialSelectionChange}
-                            renderOption={(props, option, { selected }) => (
-                                // eslint-disable-next-line react/jsx-props-no-spreading
-                                <li {...props}>
-                                    <Checkbox
-                                        icon={icon}
-                                        checkedIcon={checkedIcon}
-                                        checked={selected}
-                                    />
-                                    {option.name}
-                                </li>
-                            )}
-                            renderInput={(params) => (
-                                <TextField
+                <Paper
+                    id="controls"
+                    elevation={0}
+                    sx={{
+                        top: 0,
+                        m: theme.spacing(1),
+                        p: 0,
+                    }}
+                >
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item sm={12} md={6}>
+                            <Autocomplete
+                                sx={{ flexGrow: 1, minWidth: 300 }}
+                                multiple
+                                id="materials-autocomplete"
+                                size="medium"
+                                options={materials}
+                                getOptionLabel={(option) => option.name}
+                                value={selectedMaterials}
+                                onChange={this.handleMaterialSelectionChange}
+                                renderOption={(props, option, { selected }) => (
                                     // eslint-disable-next-line react/jsx-props-no-spreading
-                                    {...params}
-                                    label="Selected Materials"
-                                    placeholder="Select materials"
-                                />
-                            )}
-                            renderTags={(value, getTagProps) =>
-                                value.map((option, index) => (
-                                    <Chip
-                                        label={`${index}: ${option.name}`}
+                                    <li {...props}>
+                                        <Checkbox
+                                            icon={icon}
+                                            checkedIcon={checkedIcon}
+                                            checked={selected}
+                                        />
+                                        {option.name}
+                                    </li>
+                                )}
+                                renderInput={(params) => (
+                                    <TextField
                                         // eslint-disable-next-line react/jsx-props-no-spreading
-                                        {...getTagProps({ index })}
+                                        {...params}
+                                        label="Selected Materials"
+                                        placeholder="Select materials"
                                     />
-                                ))
-                            }
-                        />
-                    </Box>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 2,
-                            mt: 2,
-                        }}
-                    >
-                        <Autocomplete
-                            value={transformationsMap[transformationParameters.transformationKey]}
-                            getOptionLabel={(option) => option.name}
-                            options={fileNames}
-                            onChange={this.handleFileNameSelection}
-                            size="medium"
-                            sx={{ width: 600 }}
-                            renderInput={(params) => (
-                                <TextField
-                                    // eslint-disable-next-line react/jsx-props-no-spreading
-                                    {...params}
-                                    label="Transformation"
-                                    placeholder="Select transformation"
-                                />
-                            )}
-                        />
-                    </Box>
+                                )}
+                                renderTags={(value, getTagProps) =>
+                                    value.map((option, index) => (
+                                        <Chip
+                                            key={option.id}
+                                            label={`${index}: ${option.name}`}
+                                            // eslint-disable-next-line react/jsx-props-no-spreading
+                                            {...getTagProps({ index })}
+                                        />
+                                    ))
+                                }
+                            />
+                        </Grid>
+                        <Grid item sm={12} md={4}>
+                            <Autocomplete
+                                sx={{ flexGrow: 1, minWidth: 300 }}
+                                value={
+                                    transformationsMap[transformationParameters.transformationKey]
+                                }
+                                getOptionLabel={(option) => option.name}
+                                options={fileNames}
+                                onChange={this.handleFileNameSelection}
+                                size="medium"
+                                renderInput={(params) => (
+                                    <TextField
+                                        // eslint-disable-next-line react/jsx-props-no-spreading
+                                        {...params}
+                                        label="Transformation"
+                                        placeholder="Select transformation"
+                                    />
+                                )}
+                            />
+                        </Grid>
 
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-end",
-                            gap: 2,
-                            mt: 2,
-                            width: "100%",
-                        }}
-                    >
-                        <Typography variant="body1">{getStatusText()}</Typography>
-                        <Button
-                            variant="contained"
-                            color={isLoading ? "inherit" : "success"}
-                            onClick={this.handleRun}
+                        <Grid
+                            item
+                            sm={12}
+                            md={2}
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
+                                gap: theme.spacing(1),
+                            }}
                         >
-                            Run
-                        </Button>
-                    </Box>
+                            <Typography variant="body1">{getStatusText()}</Typography>
+                            <Button
+                                id="python-transformation-dialog-run-button"
+                                variant="contained"
+                                color={isLoading ? "inherit" : "success"}
+                                onClick={this.handleRun}
+                                disabled={isLoading || isRunning}
+                            >
+                                Run
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Paper>
             );
         };
@@ -316,6 +318,7 @@ class PythonTransformation extends React.Component {
             <ThemeProvider theme={theme}>
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <Dialog
+                    id="python-transformation-dialog"
                     open={show}
                     onClose={onHide}
                     fullWidth
@@ -330,7 +333,7 @@ class PythonTransformation extends React.Component {
                             sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1), p: 0 }}
                         >
                             <Box
-                                id="python-code"
+                                id="python-code-input"
                                 minHeight={30}
                                 maxHeight={800}
                                 overflow="scroll"
@@ -339,7 +342,6 @@ class PythonTransformation extends React.Component {
                                 }}
                             >
                                 <CodeMirror
-                                    className="codemirror-python-code"
                                     content={pythonCode}
                                     updateContent={this.handleCodeChange}
                                     readOnly={false}
@@ -362,7 +364,6 @@ class PythonTransformation extends React.Component {
                             >
                                 {pythonOutput && (
                                     <CodeMirror
-                                        className="codemirror-python-output"
                                         content={pythonOutput}
                                         readOnly
                                         rows={20}
