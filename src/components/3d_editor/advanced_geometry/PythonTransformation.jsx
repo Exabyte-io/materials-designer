@@ -179,7 +179,7 @@ class PythonTransformation extends React.Component {
                     }}
                 >
                     <Grid container spacing={2} alignItems="center">
-                        <Grid item xs>
+                        <Grid item xs={5}>
                             <Autocomplete
                                 sx={{ flexGrow: 1, minWidth: 300 }}
                                 multiple
@@ -211,6 +211,7 @@ class PythonTransformation extends React.Component {
                                 renderTags={(value, getTagProps) =>
                                     value.map((option, index) => (
                                         <Chip
+                                            key={option.id}
                                             label={`${index}: ${option.name}`}
                                             // eslint-disable-next-line react/jsx-props-no-spreading
                                             {...getTagProps({ index })}
@@ -219,7 +220,7 @@ class PythonTransformation extends React.Component {
                                 }
                             />
                         </Grid>
-                        <Grid item xs>
+                        <Grid item xs={5}>
                             <Autocomplete
                                 sx={{ flexGrow: 1, minWidth: 300 }}
                                 value={
@@ -242,7 +243,7 @@ class PythonTransformation extends React.Component {
 
                         <Grid
                             item
-                            xs
+                            xs={2}
                             style={{
                                 display: "flex",
                                 justifyContent: "flex-end",
