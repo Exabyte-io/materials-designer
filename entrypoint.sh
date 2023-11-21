@@ -37,7 +37,7 @@ if [[ "$1" == "test" ]]; then
         --webdriverio.desiredCapabilities.chromeOptions.args=disable-gpu \
         --webdriverio.desiredCapabilities.chromeOptions.args=disable-dev-shm-usage \
         --webdriverio.desiredCapabilities.chromeOptions.args=no-sandbox \
-        --watch
+
 
 else
     # If "test" is not passed as a parameter - running the application itself
