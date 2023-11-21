@@ -98,7 +98,7 @@ class PythonTransformation extends React.Component {
         const dataOut = null;
         const { pyodide, pythonCode } = this.state;
         this.setState({ pythonOutput: "" });
-        document.pyodideMplTarget.innerHTML = "";
+        // document.pyodideMplTarget.innerHTML = "";
 
         try {
             const result = await pyodide.runPythonAsync(pythonCode);
