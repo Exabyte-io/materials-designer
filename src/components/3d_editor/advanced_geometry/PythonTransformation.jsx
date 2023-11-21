@@ -260,6 +260,7 @@ class PythonTransformation extends React.Component {
                             variant="contained"
                             color={isLoading ? "inherit" : "success"}
                             onClick={this.handleRun}
+                            disabled={isLoading || isRunning}
                         >
                             Run
                         </Button>
