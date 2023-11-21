@@ -68,8 +68,8 @@ class PythonTransformation extends React.Component {
     };
 
     onPyodideLoad = (pyodideInstance) => {
-        this.setState({ pyodide: pyodideInstance }, () => {
-            this.loadPackages();
+        this.setState({ pyodide: pyodideInstance }, async () => {
+            await this.loadPackages();
             pyodideInstance.setStdout({ batched: (text) => this.handleStdout(text) });
             document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
         });
@@ -98,7 +98,7 @@ class PythonTransformation extends React.Component {
         const dataOut = null;
         const { pyodide, pythonCode } = this.state;
         this.setState({ pythonOutput: "" });
-        // document.pyodideMplTarget.innerHTML = "";
+        document.pyodideMplTarget.innerHTML = "";
 
         try {
             const result = await pyodide.runPythonAsync(pythonCode);
