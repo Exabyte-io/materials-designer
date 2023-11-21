@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
@@ -168,103 +169,99 @@ class PythonTransformation extends React.Component {
 
         const controls = () => {
             return (
-                <Paper id="controls" elevation={0} sx={{ top: 0, m: theme.spacing(1), p: 0 }}>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 2,
-                            mt: 2,
-                        }}
-                    >
-                        <Autocomplete
-                            multiple
-                            id="materials-autocomplete"
-                            size="medium"
-                            sx={{ minWidth: 600 }}
-                            options={materials}
-                            getOptionLabel={(option) => option.name}
-                            value={selectedMaterials}
-                            onChange={this.handleMaterialSelectionChange}
-                            renderOption={(props, option, { selected }) => (
-                                // eslint-disable-next-line react/jsx-props-no-spreading
-                                <li {...props}>
-                                    <Checkbox
-                                        icon={icon}
-                                        checkedIcon={checkedIcon}
-                                        checked={selected}
-                                    />
-                                    {option.name}
-                                </li>
-                            )}
-                            renderInput={(params) => (
-                                <TextField
+                <Paper
+                    id="controls"
+                    elevation={0}
+                    sx={{
+                        top: 0,
+                        m: theme.spacing(1),
+                        p: 0,
+                    }}
+                >
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item xs>
+                            <Autocomplete
+                                sx={{ flexGrow: 1, minWidth: 300 }}
+                                multiple
+                                id="materials-autocomplete"
+                                size="medium"
+                                options={materials}
+                                getOptionLabel={(option) => option.name}
+                                value={selectedMaterials}
+                                onChange={this.handleMaterialSelectionChange}
+                                renderOption={(props, option, { selected }) => (
                                     // eslint-disable-next-line react/jsx-props-no-spreading
-                                    {...params}
-                                    label="Selected Materials"
-                                    placeholder="Select materials"
-                                />
-                            )}
-                            renderTags={(value, getTagProps) =>
-                                value.map((option, index) => (
-                                    <Chip
-                                        label={`${index}: ${option.name}`}
+                                    <li {...props}>
+                                        <Checkbox
+                                            icon={icon}
+                                            checkedIcon={checkedIcon}
+                                            checked={selected}
+                                        />
+                                        {option.name}
+                                    </li>
+                                )}
+                                renderInput={(params) => (
+                                    <TextField
                                         // eslint-disable-next-line react/jsx-props-no-spreading
-                                        {...getTagProps({ index })}
+                                        {...params}
+                                        label="Selected Materials"
+                                        placeholder="Select materials"
                                     />
-                                ))
-                            }
-                        />
-                    </Box>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 2,
-                            mt: 2,
-                        }}
-                    >
-                        <Autocomplete
-                            value={transformationsMap[transformationParameters.transformationKey]}
-                            getOptionLabel={(option) => option.name}
-                            options={Object.values(transformationsMap)}
-                            onChange={this.handleTransformationParametersChange}
-                            size="medium"
-                            sx={{ width: 600 }}
-                            renderInput={(params) => (
-                                <TextField
-                                    // eslint-disable-next-line react/jsx-props-no-spreading
-                                    {...params}
-                                    label="Transformation"
-                                    placeholder="Select transformation"
-                                />
-                            )}
-                        />
-                    </Box>
+                                )}
+                                renderTags={(value, getTagProps) =>
+                                    value.map((option, index) => (
+                                        <Chip
+                                            label={`${index}: ${option.name}`}
+                                            // eslint-disable-next-line react/jsx-props-no-spreading
+                                            {...getTagProps({ index })}
+                                        />
+                                    ))
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs>
+                            <Autocomplete
+                                sx={{ flexGrow: 1, minWidth: 300 }}
+                                value={
+                                    transformationsMap[transformationParameters.transformationKey]
+                                }
+                                getOptionLabel={(option) => option.name}
+                                options={Object.values(transformationsMap)}
+                                onChange={this.handleTransformationParametersChange}
+                                size="medium"
+                                renderInput={(params) => (
+                                    <TextField
+                                        // eslint-disable-next-line react/jsx-props-no-spreading
+                                        {...params}
+                                        label="Transformation"
+                                        placeholder="Select transformation"
+                                    />
+                                )}
+                            />
+                        </Grid>
 
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-end",
-                            gap: 2,
-                            mt: 2,
-                            width: "100%",
-                        }}
-                    >
-                        <Typography variant="body1">{getStatusText()}</Typography>
-                        <Button
-                            id="python-transformation-dialog-run-button"
-                            variant="contained"
-                            color={isLoading ? "inherit" : "success"}
-                            onClick={this.handleRun}
-                            disabled={isLoading || isRunning}
+                        <Grid
+                            item
+                            xs
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
+                                gap: theme.spacing(1),
+                            }}
                         >
-                            Run
-                        </Button>
-                    </Box>
+                            <Typography variant="body1">{getStatusText()}</Typography>
+                            <Button
+                                id="python-transformation-dialog-run-button"
+                                variant="contained"
+                                color={isLoading ? "inherit" : "success"}
+                                onClick={this.handleRun}
+                                disabled={isLoading || isRunning}
+                            >
+                                Run
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Paper>
             );
         };
