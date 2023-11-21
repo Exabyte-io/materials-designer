@@ -1,4 +1,3 @@
-@watch
 Feature: User can create a material, then undo the changes and/or reset to the initial state
 
   Scenario:
