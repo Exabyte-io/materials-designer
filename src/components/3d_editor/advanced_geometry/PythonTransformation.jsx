@@ -1,15 +1,16 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
-import { Checkbox, Chip, Paper } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import { Checkbox, Chip, CircularProgress, Paper } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
-import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -52,7 +53,7 @@ class PythonTransformation extends React.Component {
     }
 
     onPyodideLoad = (pyodideInstance) => {
-        this.setState({ pyodide: pyodideInstance }, async () => {
+        this.setState({ pyodide: pyodideInstance, isLoading: false }, async () => {
             // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
             pyodideInstance.setStdout({ batched: (text) => this.redirectPyodideStdout(text) });
         });
@@ -229,15 +230,26 @@ class PythonTransformation extends React.Component {
                                         gap: theme.spacing(1),
                                     }}
                                 >
-                                    <Typography variant="body1">{getStatusText()}</Typography>
+                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                        <Typography variant="body1">{getStatusText()}</Typography>
+                                        {isLoading || isRunning ? (
+                                            <CircularProgress
+                                                color="primary"
+                                                size={theme.typography.button.fontSize}
+                                            />
+                                        ) : (
+                                            <CheckIcon />
+                                        )}
+                                    </Box>
                                     <Button
                                         id="python-transformation-dialog-run-button"
                                         variant="contained"
-                                        color={isLoading ? "inherit" : "success"}
+                                        color={isLoading ? "secondary" : "success"}
                                         onClick={this.handleRun}
                                         disabled={isLoading || isRunning}
                                     >
                                         Run
+                                        <IconByName name="actions.execute" />
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -261,7 +273,7 @@ class PythonTransformation extends React.Component {
                                     language="python"
                                 />
                             </Box>
-                            <Divider variant="fullWidth" />
+
                             <Box id="python-output" mt={theme.spacing(1)}>
                                 {pythonOutput && (
                                     <CodeMirror
