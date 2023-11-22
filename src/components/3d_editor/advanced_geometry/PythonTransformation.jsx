@@ -143,7 +143,7 @@ class PythonTransformation extends React.Component {
                     title="Python Transformation"
                     isSubmitButtonDisabled={isLoading || isRunning}
                 >
-                    <DialogContent sx={{ overflow: "none", p: 0, minHeight: 400 }}>
+                    <DialogContent sx={{ p: 0, minHeight: 400 }}>
                         <Paper
                             elevation={0}
                             sx={{
@@ -153,14 +153,17 @@ class PythonTransformation extends React.Component {
                             <Grid container spacing={2} alignItems="center">
                                 <Grid item xs>
                                     <Autocomplete
-                                        sx={{ flexGrow: 1, minWidth: 300 }}
+                                        sx={{
+                                            flexGrow: 1,
+                                            minWidth: 300,
+                                        }}
                                         multiple
                                         id="materials-autocomplete"
                                         size="medium"
                                         options={materials}
                                         getOptionLabel={(option) => option.name}
                                         value={selectedMaterials}
-                                        onChange={(newValue) =>
+                                        onChange={(event, newValue) =>
                                             this.setState({ selectedMaterials: newValue })
                                         }
                                         renderOption={(props, option, { selected }) => (
