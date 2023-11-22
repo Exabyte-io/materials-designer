@@ -6,11 +6,10 @@ import theme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
 import CheckIcon from "@mui/icons-material/Check";
-import { Checkbox, Chip, CircularProgress, Paper } from "@mui/material";
+import { Checkbox, Chip, CircularProgress, Paper, Stack } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -144,151 +143,151 @@ class PythonTransformation extends React.Component {
                     title="Python Transformation"
                     isSubmitButtonDisabled={isLoading || isRunning}
                 >
-                    <DialogContent sx={{ p: 0, minHeight: 400 }}>
-                        <Paper
-                            elevation={0}
-                            sx={{
-                                m: theme.spacing(1),
-                            }}
-                        >
-                            <Grid container spacing={2} alignItems="center">
-                                <Grid item xs>
-                                    <Autocomplete
-                                        sx={{
-                                            flexGrow: 1,
-                                            minWidth: 300,
-                                        }}
-                                        multiple
-                                        id="materials-autocomplete"
-                                        size="medium"
-                                        options={materials}
-                                        getOptionLabel={(option) => option.name}
-                                        value={selectedMaterials}
-                                        onChange={(event, newValue) =>
-                                            this.setState({ selectedMaterials: newValue })
-                                        }
-                                        renderOption={(props, option, { selected }) => (
-                                            // eslint-disable-next-line react/jsx-props-no-spreading
-                                            <li {...props}>
-                                                <Checkbox
-                                                    icon={<CheckBoxOutlineBlank fontSize="small" />}
-                                                    checkedIcon={<CheckBox fontSize="small" />}
-                                                    checked={selected}
-                                                />
-                                                {option.name}
-                                            </li>
-                                        )}
-                                        renderInput={(params) => (
-                                            <TextField
-                                                // eslint-disable-next-line react/jsx-props-no-spreading
-                                                {...params}
-                                                label="Selected Materials"
-                                                placeholder="Select materials"
-                                            />
-                                        )}
-                                        renderTags={(value, getTagProps) =>
-                                            value.map((option, index) => (
-                                                <Chip
-                                                    label={`${index}: ${option.name}`}
-                                                    // eslint-disable-next-line react/jsx-props-no-spreading
-                                                    {...getTagProps({ index })}
-                                                />
-                                            ))
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs>
-                                    <Autocomplete
-                                        sx={{ flexGrow: 1, minWidth: 300 }}
-                                        value={
-                                            transformationsMap[
-                                                transformationParameters.transformationKey
-                                            ]
-                                        }
-                                        getOptionLabel={(option) => option.name}
-                                        options={Object.values(transformationsMap)}
-                                        onChange={this.handleTransformationParametersChange}
-                                        size="medium"
-                                        renderInput={(params) => (
-                                            <TextField
-                                                // eslint-disable-next-line react/jsx-props-no-spreading
-                                                {...params}
-                                                label="Transformation"
-                                                placeholder="Select transformation"
-                                            />
-                                        )}
-                                    />
-                                </Grid>
-
-                                <Grid
-                                    item
-                                    xs
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "flex-end",
-                                        alignItems: "center",
-                                        gap: theme.spacing(1),
-                                    }}
-                                >
-                                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                                        <Typography variant="body1">{getStatusText()}</Typography>
-                                        {isLoading || isRunning ? (
-                                            <CircularProgress
-                                                color="primary"
-                                                size={theme.typography.button.fontSize}
-                                            />
-                                        ) : (
-                                            <CheckIcon />
-                                        )}
-                                    </Box>
-                                    <Button
-                                        id="python-transformation-dialog-run-button"
-                                        variant="contained"
-                                        color={isLoading ? "secondary" : "success"}
-                                        onClick={this.handleRun}
-                                        disabled={isLoading || isRunning}
-                                    >
-                                        Run
-                                        <IconByName name="actions.execute" />
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </Paper>
-                        <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>
-                            <Box
-                                id="python-code-input"
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            m: theme.spacing(1),
+                            height: "100%",
+                        }}
+                    >
+                        <Stack spacing={2} alignItems="center" direction="row">
+                            <Autocomplete
                                 sx={{
-                                    backgroundColor: theme.palette.background.paper,
+                                    flexGrow: 1,
+                                    minWidth: 300,
+                                    p: 0,
+                                }}
+                                multiple
+                                id="materials-autocomplete"
+                                size="small"
+                                options={materials}
+                                getOptionLabel={(option) => option.name}
+                                value={selectedMaterials}
+                                onChange={(event, newValue) =>
+                                    this.setState({ selectedMaterials: newValue })
+                                }
+                                renderOption={(props, option, { selected }) => (
+                                    // eslint-disable-next-line react/jsx-props-no-spreading
+                                    <li {...props}>
+                                        <Checkbox
+                                            icon={<CheckBoxOutlineBlank fontSize="small" />}
+                                            checkedIcon={<CheckBox fontSize="small" />}
+                                            checked={selected}
+                                        />
+                                        {option.name}
+                                    </li>
+                                )}
+                                renderInput={(params) => (
+                                    <TextField
+                                        // eslint-disable-next-line react/jsx-props-no-spreading
+                                        {...params}
+                                        label="Selected Materials"
+                                        placeholder="Select materials"
+                                    />
+                                )}
+                                renderTags={(value, getTagProps) =>
+                                    value.map((option, index) => (
+                                        <Chip
+                                            size="small"
+                                            label={`${index}: ${option.name}`}
+                                            // eslint-disable-next-line react/jsx-props-no-spreading
+                                            {...getTagProps({ index })}
+                                        />
+                                    ))
+                                }
+                            />
+                            <Grid item xs>
+                                <Autocomplete
+                                    sx={{ flexGrow: 1, minWidth: 300 }}
+                                    size="small"
+                                    value={
+                                        transformationsMap[
+                                            transformationParameters.transformationKey
+                                        ]
+                                    }
+                                    getOptionLabel={(option) => option.name}
+                                    options={Object.values(transformationsMap)}
+                                    onChange={this.handleTransformationParametersChange}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            // eslint-disable-next-line react/jsx-props-no-spreading
+                                            {...params}
+                                            label="Transformation"
+                                            placeholder="Select transformation"
+                                        />
+                                    )}
+                                />
+                            </Grid>
+
+                            <Grid
+                                item
+                                xs
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    alignItems: "center",
+                                    gap: theme.spacing(1),
                                 }}
                             >
+                                <Box sx={{ display: "flex", alignItems: "center" }}>
+                                    <Typography variant="body2">{getStatusText()}</Typography>
+                                    {isLoading || isRunning ? (
+                                        <CircularProgress
+                                            color="primary"
+                                            size={theme.typography.button.fontSize}
+                                        />
+                                    ) : (
+                                        <CheckIcon color="secondary" />
+                                    )}
+                                </Box>
+                                <Button
+                                    id="python-transformation-dialog-run-button"
+                                    variant="contained"
+                                    size="small"
+                                    color={isLoading ? "secondary" : "success"}
+                                    onClick={this.handleRun}
+                                    disabled={isLoading || isRunning}
+                                >
+                                    Run
+                                    <IconByName name="actions.execute" />
+                                </Button>
+                            </Grid>
+                        </Stack>
+                    </Paper>
+                    <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>
+                        <Box
+                            id="python-code-input"
+                            sx={{
+                                backgroundColor: theme.palette.background.paper,
+                            }}
+                        >
+                            <CodeMirror
+                                content={pythonCode}
+                                updateContent={(newContent) =>
+                                    this.setState({ pythonCode: newContent })
+                                }
+                                options={{
+                                    lineNumbers: true,
+                                }}
+                                theme="light"
+                                language="python"
+                            />
+                        </Box>
+
+                        <Box id="python-output" mt={theme.spacing(1)}>
+                            {pythonOutput && (
                                 <CodeMirror
-                                    content={pythonCode}
-                                    updateContent={(newContent) =>
-                                        this.setState({ pythonCode: newContent })
-                                    }
+                                    content={pythonOutput}
+                                    readOnly
                                     options={{
-                                        lineNumbers: true,
+                                        lineNumbers: false,
                                     }}
                                     theme="light"
                                     language="python"
                                 />
-                            </Box>
-
-                            <Box id="python-output" mt={theme.spacing(1)}>
-                                {pythonOutput && (
-                                    <CodeMirror
-                                        content={pythonOutput}
-                                        readOnly
-                                        options={{
-                                            lineNumbers: false,
-                                        }}
-                                        theme="light"
-                                        language="python"
-                                    />
-                                )}
-                            </Box>
-                        </Paper>
-                    </DialogContent>
+                            )}
+                        </Box>
+                    </Paper>
                 </Dialog>
             </ThemeProvider>
         );
