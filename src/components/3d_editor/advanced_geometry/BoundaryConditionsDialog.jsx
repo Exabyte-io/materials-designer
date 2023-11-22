@@ -40,7 +40,9 @@ export class BoundaryConditionsDialog extends React.Component {
 
     initializeState() {
         const { material } = this.props;
-
+        if (!material.boundaryConditions) {
+            material.boundaryConditions = {};
+        }
         this.state = {
             boundaryType: material.boundaryConditions.type || "pbc",
             boundaryOffset: material.boundaryConditions.offset || 0,
