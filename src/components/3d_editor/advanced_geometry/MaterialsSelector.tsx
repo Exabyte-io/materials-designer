@@ -1,11 +1,19 @@
-import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
-import { Checkbox, Chip } from "@mui/material";
+import CheckBox from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
+import Checkbox from "@mui/material/Checkbox";
+import Chip from "@mui/material/Chip";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import React from "react";
 
-function MaterialsSelector(props) {
-    const { materials, selectedMaterials } = props;
+interface MaterialsSelectorProps {
+    materials: any[];
+    selectedMaterials: any[];
+    setSelectedMaterials: (selectedMaterials: any[]) => void;
+}
+
+function MaterialsSelector(props: MaterialsSelectorProps) {
+    const { materials, selectedMaterials, setSelectedMaterials } = props;
 
     return (
         <Autocomplete
@@ -20,14 +28,15 @@ function MaterialsSelector(props) {
             options={materials}
             getOptionLabel={(option) => option.name}
             value={selectedMaterials}
-            onChange={(event, newValue) => this.setState({ selectedMaterials: newValue })}
+            onChange={(event, newValue) => setSelectedMaterials(newValue)}
             renderOption={(props, option, { selected }) => (
                 // eslint-disable-next-line react/jsx-props-no-spreading
-                <li {...props}>
+                <li {...props} >
                     <Checkbox
                         icon={<CheckBoxOutlineBlank fontSize="small" />}
                         checkedIcon={<CheckBox fontSize="small" />}
                         checked={selected}
+                        size="small"
                     />
                     {option.name}
                 </li>
@@ -38,6 +47,7 @@ function MaterialsSelector(props) {
                     {...params}
                     label="Selected Materials"
                     placeholder="Select materials"
+                    size="small"
                 />
             )}
             renderTags={(value, getTagProps) =>

@@ -4,9 +4,10 @@ import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
-import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
 import CheckIcon from "@mui/icons-material/Check";
-import { Checkbox, Chip, CircularProgress, Paper, Stack } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -16,6 +17,8 @@ import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
 import NPMsAlert from "react-s-alert";
+
+import MaterialsSelector from "./MaterialsSelector.tsx";
 
 const transformationsMap = {
     default: {
@@ -151,49 +154,11 @@ class PythonTransformation extends React.Component {
                         }}
                     >
                         <Stack spacing={2} alignItems="center" direction="row">
-                            <Autocomplete
-                                sx={{
-                                    flexGrow: 1,
-                                    minWidth: 300,
-                                    p: 0,
-                                }}
-                                multiple
-                                id="materials-autocomplete"
-                                size="small"
-                                options={materials}
-                                getOptionLabel={(option) => option.name}
-                                value={selectedMaterials}
-                                onChange={(event, newValue) =>
-                                    this.setState({ selectedMaterials: newValue })
-                                }
-                                renderOption={(props, option, { selected }) => (
-                                    // eslint-disable-next-line react/jsx-props-no-spreading
-                                    <li {...props}>
-                                        <Checkbox
-                                            icon={<CheckBoxOutlineBlank fontSize="small" />}
-                                            checkedIcon={<CheckBox fontSize="small" />}
-                                            checked={selected}
-                                        />
-                                        {option.name}
-                                    </li>
-                                )}
-                                renderInput={(params) => (
-                                    <TextField
-                                        // eslint-disable-next-line react/jsx-props-no-spreading
-                                        {...params}
-                                        label="Selected Materials"
-                                        placeholder="Select materials"
-                                    />
-                                )}
-                                renderTags={(value, getTagProps) =>
-                                    value.map((option, index) => (
-                                        <Chip
-                                            size="small"
-                                            label={`${index}: ${option.name}`}
-                                            // eslint-disable-next-line react/jsx-props-no-spreading
-                                            {...getTagProps({ index })}
-                                        />
-                                    ))
+                            <MaterialsSelector
+                                materials={materials}
+                                selectedMaterials={selectedMaterials}
+                                setSelectedMaterials={(newMaterials) =>
+                                    this.setState({ selectedMaterials: newMaterials })
                                 }
                             />
                             <Grid item xs>
