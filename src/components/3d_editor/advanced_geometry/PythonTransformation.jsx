@@ -11,7 +11,7 @@ class PythonTransformation extends React.Component {
         };
     }
 
-    getPyodide = (pyodideInstance) => {
+    onLoad = (pyodideInstance) => {
         this.setState({ pyodide: pyodideInstance });
     };
 
@@ -20,7 +20,7 @@ class PythonTransformation extends React.Component {
 
         return (
             <>
-                <PyodideLoader getPyodide={this.getPyodide} triggerLoad={show} />
+                <PyodideLoader onLoad={this.onLoad} triggerLoad={show} />
                 <Dialog
                     open={show}
                     onClose={onHide}
