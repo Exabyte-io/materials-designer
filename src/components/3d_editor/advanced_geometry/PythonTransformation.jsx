@@ -258,7 +258,7 @@ class PythonTransformation extends React.Component {
                         <Box
                             id="python-code-input"
                             sx={{
-                                backgroundColor: theme.palette.background.paper,
+                                border: `1px solid ${theme.palette.secondary.light}`,
                             }}
                         >
                             <CodeMirror
@@ -267,6 +267,7 @@ class PythonTransformation extends React.Component {
                                     this.setState({ pythonCode: newContent })
                                 }
                                 options={{
+                                    autoSave: true,
                                     lineNumbers: true,
                                 }}
                                 theme="light"
