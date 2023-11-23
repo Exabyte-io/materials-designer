@@ -2,10 +2,11 @@ import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import WidgetsIcon from "@mui/icons-material/Widgets";
+import { Avatar, ListItemAvatar } from "@mui/material";
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import TextField from "@mui/material/TextField";
 import setClass from "classnames";
@@ -111,23 +112,35 @@ class ItemsList extends React.Component {
         return (
             <ListItem
                 key={name + "-" + index}
-                button
                 dense
                 onClick={(e) => this.onItemListClick(e, index)}
                 className={setClass(
                     { active: isBeingEdited || isBeingActive },
                     { updated: isUpdated || isBeingEdited },
                 )}
+                secondaryAction={
+                    <IconButton
+                        className="list-item-icon icon-button-delete"
+                        onClick={(e) => {
+                            this.onDeleteIconClick(e, index);
+                        }}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                }
             >
-                <ShowIf condition={Boolean(entity.id)}>
-                    <ListItemIcon className="list-item-icon superscript-icon">
-                        <CheckIcon />
-                    </ListItemIcon>
-                </ShowIf>
-
-                <ListItemIcon className="list-item-icon non-periodic-icon">
-                    {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
-                </ListItemIcon>
+                <ListItemAvatar>
+                    <Avatar>
+                        <ShowIf condition={Boolean(entity.id)}>
+                            <IconButton className="list-item-icon superscript-icon">
+                                <CheckIcon />
+                            </IconButton>
+                        </ShowIf>
+                        <IconButton className="list-item-icon non-periodic-icon">
+                            {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
+                        </IconButton>
+                    </Avatar>
+                </ListItemAvatar>
 
                 <ListItemText
                     className="list-item-text"
@@ -147,15 +160,6 @@ class ItemsList extends React.Component {
                         </span>
                     }
                 />
-
-                <ListItemIcon
-                    className="list-item-icon icon-button-delete"
-                    onClick={(e) => {
-                        this.onDeleteIconClick(e, index);
-                    }}
-                >
-                    <DeleteIcon />
-                </ListItemIcon>
             </ListItem>
         );
     }
