@@ -9,8 +9,8 @@ import React from "react";
 import NPMsAlert from "react-s-alert";
 
 import MaterialsSelector from "./MaterialsSelector";
+import PythonCodeDisplay from "./PythonCodeDisplay";
 import PythonCodeExecution from "./PythonCodeExecution";
-import PythonExecutionControls from "./PythonExecutionControls";
 import TransformationSelector from "./TransformationSelector";
 
 const transformationsMap = {
@@ -140,7 +140,7 @@ class PythonTransformation extends React.Component {
                                     this.setState({ pythonCode: newPythonCode })
                                 }
                             />
-                            <PythonExecutionControls
+                            <PythonCodeExecution
                                 isLoading={isLoading}
                                 isRunning={isRunning}
                                 handleRun={this.handleRun}
@@ -148,7 +148,7 @@ class PythonTransformation extends React.Component {
                         </Stack>
                     </Paper>
                     <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>
-                        <PythonCodeExecution pythonCode={pythonCode} pythonOutput={pythonOutput} />
+                        <PythonCodeDisplay pythonCode={pythonCode} pythonOutput={pythonOutput} />
                     </Paper>
                 </Dialog>
             </ThemeProvider>

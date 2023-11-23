@@ -1,69 +1,50 @@
-import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror";
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import theme from "@exabyte-io/cove.js/dist/theme";
+import CheckIcon from "@mui/icons-material/Check";
 import Box from "@mui/material/Box";
-import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import React from "react";
 
-interface PythonCodeExecutionProps {
-    pythonCode: string;
-    pythonOutput: string;
+interface PythonExecutionControlsProps {
+    isLoading: boolean;
+    isRunning: boolean;
+    handleRun: () => void;
 }
 
-const PythonCodeExecution = (props: PythonCodeExecutionProps) => {
-    const { pythonOutput } = props;
-    // eslint-disable-next-line react/destructuring-assignment
-    const [pythonCode, setPythonCode] = useState("");
-    const [isFocused, setIsFocused] = useState(false);
+function PythonCodeExecution(props: PythonExecutionControlsProps) {
+    const { isLoading, isRunning, handleRun } = props;
 
-    const handleFocus = () => setIsFocused(true);
-    const handleBlur = () => setIsFocused(false);
-
-    // Define the border color for the focused and unfocused states
-    const borderFocused = `2px solid blue`; // Change as per your active color
-    const borderUnfocused = `1px solid ${theme.palette.secondary.light}`;
-
-    useEffect(() => {
-        // eslint-disable-next-line react/destructuring-assignment
-        setPythonCode(props.pythonCode);
-    });
+    const getStatusText = () => {
+        if (isLoading) return "Loading...";
+        if (isRunning) return "Running...";
+        return "Ready";
+    };
 
     return (
         <>
-            <Box
-                id="python-code-input"
-                sx={{
-                    border: isFocused ? borderFocused : borderUnfocused,
-                }}
-            >
-                {/* @ts-ignore */}
-                <CodeMirror
-                    value={pythonCode}
-                    onChange={(newContent: string) => setPythonCode(newContent)}
-                    options={{
-                        autoSave: true,
-                        lineNumbers: true,
-                    }}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    theme="light"
-                    language="python"
-                />
-            </Box>
-            <Box id="python-output" mt={theme.spacing(1)}>
-                {pythonOutput && (
-                    // @ts-ignore
-                    <CodeMirror
-                        content={pythonOutput}
-                        readOnly
-                        options={{
-                            lineNumbers: false,
-                        }}
-                        theme="light"
-                        language="python"
-                    />
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="body2">{getStatusText()}</Typography>
+                {isLoading || isRunning ? (
+                    <CircularProgress color="primary" size={theme.typography.button.fontSize} />
+                ) : (
+                    <CheckIcon color="secondary" />
                 )}
             </Box>
+            <Button
+                id="python-transformation-dialog-run-button"
+                variant="contained"
+                size="small"
+                color={isLoading ? "secondary" : "success"}
+                onClick={handleRun}
+                disabled={isLoading || isRunning}
+            >
+                Run
+                <IconByName name="actions.execute" />
+            </Button>
         </>
     );
-};
+}
 
 export default PythonCodeExecution;
