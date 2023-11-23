@@ -11,19 +11,13 @@ interface PythonCodeDisplayProps {
 
 const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
     const { pythonCode, pythonOutput, setPythonCode } = props;
-    const [isFocused, setIsFocused] = useState(false);
-
-    const handleFocus = () => setIsFocused(true);
-    const handleBlur = () => setIsFocused(false);
-
-    const borderFocused = `1px solid ${theme.palette.secondary.light}`;
 
     return (
         <>
             <Box
                 id="python-code-input"
                 sx={{
-                    border: isFocused ? borderFocused : "none",
+                    border: `1px solid ${theme.palette.secondary.light}`,
                 }}
             >
                 {/* @ts-ignore */}
@@ -36,8 +30,6 @@ const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
                     }}
                     // eslint-disable-next-line @typescript-eslint/no-empty-function
                     completions={() => {}}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
                     theme="light"
                     language="python"
                 />
