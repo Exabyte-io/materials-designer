@@ -101,7 +101,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 />
                                 {this.renderDefaultImportModal()}
                                 <Grid container>
-                                    <Grid item xs={12} md={2.5}>
+                                    <Grid item xs={12} md={2.5} lg={2} xl={1.5}>
                                         <ItemsList
                                             materials={this.props.materials}
                                             index={this.props.index}
@@ -110,13 +110,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                             onNameUpdate={this.props.onNameUpdate}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={4.5}>
+                                    <Grid item xs={12} md={4.75} lg={4.375} xl={4}>
                                         <SourceEditor
                                             material={this.props.material}
                                             onUpdate={this.props.onUpdate}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={5}>
+                                    <Grid item xs={12} md={4.75} lg={5.625} xl={6.5}>
                                         <ThreeDEditorFullscreen
                                             editable
                                             material={this.props.material}
