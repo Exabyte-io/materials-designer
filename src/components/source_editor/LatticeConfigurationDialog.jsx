@@ -27,11 +27,6 @@ class LatticeConfigurationDialog extends React.Component {
             // used to preserve Basis in Angstroms
             preserveBasis: false,
         };
-
-        this.handleUpdateLattice = this.handleUpdateLattice.bind(this);
-        this.handleLatticeUnitSelected = this.handleLatticeUnitSelected.bind(this);
-        this.handleLatticeTypeSelected = this.handleLatticeTypeSelected.bind(this);
-        this.handleLatticeInputChanged = this.handleLatticeInputChanged.bind(this);
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -121,7 +116,7 @@ class LatticeConfigurationDialog extends React.Component {
         this.setState({ lattice: newLattice });
     };
 
-    handleUpdateLattice() {
+    handleUpdateLattice = () => {
         const { material, onUpdate, onSubmit } = this.props;
         const { preserveBasis, lattice } = this.state;
         const oldMaterialCopy = material.clone();
@@ -141,7 +136,7 @@ class LatticeConfigurationDialog extends React.Component {
         newMaterial.toCrystal();
         onUpdate(newMaterial);
         onSubmit();
-    }
+    };
 
     renderBody() {
         const { lattice } = this.state;
