@@ -7,7 +7,6 @@ import CheckIcon from "@mui/icons-material/Check";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -17,6 +16,7 @@ import NPMsAlert from "react-s-alert";
 
 import MaterialsSelector from "./MaterialsSelector";
 import PythonCodeExecution from "./PythonCodeExecution";
+import PythonExecutionControls from "./PythonExecutionControls";
 import TransformationSelector from "./TransformationSelector";
 
 const transformationsMap = {
@@ -111,12 +111,6 @@ class PythonTransformation extends React.Component {
         } = this.state;
         const { show, onHide } = this.props;
 
-        const getStatusText = () => {
-            if (isLoading) return "Loading...";
-            if (isRunning) return "Running...";
-            return "Ready";
-        };
-
         return (
             // TODO: fix DarkMaterialUITheme in cove.js and remove ThemeProvider
             <ThemeProvider theme={theme}>
@@ -152,28 +146,11 @@ class PythonTransformation extends React.Component {
                                     this.setState({ pythonCode: newPythonCode })
                                 }
                             />
-                            <Box sx={{ display: "flex", alignItems: "center" }}>
-                                <Typography variant="body2">{getStatusText()}</Typography>
-                                {isLoading || isRunning ? (
-                                    <CircularProgress
-                                        color="primary"
-                                        size={theme.typography.button.fontSize}
-                                    />
-                                ) : (
-                                    <CheckIcon color="secondary" />
-                                )}
-                            </Box>
-                            <Button
-                                id="python-transformation-dialog-run-button"
-                                variant="contained"
-                                size="small"
-                                color={isLoading ? "secondary" : "success"}
-                                onClick={this.handleRun}
-                                disabled={isLoading || isRunning}
-                            >
-                                Run
-                                <IconByName name="actions.execute" />
-                            </Button>
+                            <PythonExecutionControls
+                                isLoading={isLoading}
+                                isRunning={isRunning}
+                                handleRun={this.handleRun}
+                            />
                         </Stack>
                     </Paper>
                     <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>

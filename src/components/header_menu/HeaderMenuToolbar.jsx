@@ -423,7 +423,6 @@ class HeaderMenuToolbar extends React.Component {
                 <PythonTransformation
                     show={showPythonTransformation}
                     materials={materials}
-                    transformationParameters={{ transformationKey: "default" }}
                     onHide={() => this.setState({ showPythonTransformation: false })}
                     onSubmit={(...args) => {
                         onAdd(...args);

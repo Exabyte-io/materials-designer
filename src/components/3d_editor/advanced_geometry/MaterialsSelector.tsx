@@ -24,7 +24,7 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
             }}
             multiple
             id="materials-autocomplete"
-            size="small"
+            size="medium"
             options={materials}
             getOptionLabel={(option) => option.name}
             value={selectedMaterials}
@@ -36,7 +36,6 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
                         icon={<CheckBoxOutlineBlank fontSize="small" />}
                         checkedIcon={<CheckBox fontSize="small" />}
                         checked={selected}
-                        size="small"
                     />
                     {option.name}
                 </li>
@@ -47,13 +46,13 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
                     {...params}
                     label="Selected Materials"
                     placeholder="Select materials"
-                    size="small"
+                    size="medium"
                 />
             )}
             renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
                     <Chip
-                        size="small"
+                        size="medium"
                         label={`${index}: ${option.name}`}
                         // eslint-disable-next-line react/jsx-props-no-spreading
                         {...getTagProps({ index })}
