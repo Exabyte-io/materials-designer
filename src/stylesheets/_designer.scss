@@ -10,6 +10,11 @@ $materials-designer-height-fullscreen: calc(
         100vmin - #{$editor-info-height} - #{$header-menu-height}
 );
 
+#materials-designer {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
 // menu items in materials designer header
 .button-activated-menu {
     position: absolute !important; // to override default Mui classes
