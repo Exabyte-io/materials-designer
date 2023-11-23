@@ -25,7 +25,6 @@ class PythonTransformation extends React.Component {
             pythonCode: "",
             pythonOutput: "",
         };
-        this.handleRun = this.handleRun.bind(this);
     }
 
     // eslint-disable-next-line no-unused-vars
@@ -124,7 +123,13 @@ class PythonTransformation extends React.Component {
                         </Stack>
                     </Paper>
                     <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>
-                        <PythonCodeDisplay pythonCode={pythonCode} pythonOutput={pythonOutput} />
+                        <PythonCodeDisplay
+                            pythonCode={pythonCode}
+                            pythonOutput={pythonOutput}
+                            setPythonCode={(newContent) =>
+                                this.setState({ pythonCode: newContent })
+                            }
+                        />
                     </Paper>
                 </Dialog>
             </ThemeProvider>
