@@ -1,8 +1,8 @@
 import CheckBox from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
+import Autocomplete from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
 import Chip from "@mui/material/Chip";
-import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import React from "react";
 
@@ -31,7 +31,7 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
             onChange={(event, newValue) => setSelectedMaterials(newValue)}
             renderOption={(props, option, { selected }) => (
                 // eslint-disable-next-line react/jsx-props-no-spreading
-                <li {...props} >
+                <li {...props}>
                     <Checkbox
                         icon={<CheckBoxOutlineBlank fontSize="small" />}
                         checkedIcon={<CheckBox fontSize="small" />}
