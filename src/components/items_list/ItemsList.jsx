@@ -1,8 +1,8 @@
-/* eslint-disable react/sort-comp */
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import WidgetsIcon from "@mui/icons-material/Widgets";
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -12,7 +12,6 @@ import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
-import Box from "@mui/material/Box";
 import { ShowIf } from "../../utils/react/showif";
 
 class ItemsList extends React.Component {
@@ -82,6 +81,7 @@ class ItemsList extends React.Component {
      * @param {React.MouseEvent} e - JS DOM event
      * @param {Number} index - index of element that should be removed
      */
+    // eslint-disable-next-line react/sort-comp
     onDeleteIconClick(e, index) {
         const { onRemove } = this.props;
         e.preventDefault();
