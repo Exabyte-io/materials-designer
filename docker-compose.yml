@@ -11,11 +11,9 @@ services:
     volumes:
       - ./src/:/opt/app/src/
       - ./entrypoint.sh:/opt/app/entrypoint.sh
-
+  # Meant to be used for CI/CD testing
   materials-designer-test:
-    image: ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-chrome_amd64:latest
-    ports:
-      - 5999:5999
+    image: materials-designer-test:${IMAGE_TAG}
     build:
       args:
         BASE_TAG: ${IMAGE_TAG}
@@ -23,7 +21,31 @@ services:
       dockerfile: ./dockerfiles/app/test/Dockerfile
     depends_on:
       - materials-designer
+    network_mode: host
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:${PORT}" ]
+      interval: 5s
+      timeout: 2s
+      retries: 20
     volumes:
       - ./tests/cucumber/:/opt/test/tests/cucumber/
       - ./entrypoint.sh:/opt/test/entrypoint.sh
+  # To be used for interactive development/troubleshooting
+  materials-designer-test-dev:
+    # Uncomment to use the pre-built image
+    # image: ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-firefox_${ARCH}:latest
+    image: materials-designer-test:${IMAGE_TAG}
+    build:
+      args:
+        BASE_TAG: ${IMAGE_TAG}
+      context: .
+      dockerfile: ./dockerfiles/app/test/Dockerfile
+    depends_on:
+      - materials-designer
+    ports:
+      - 5999:5999
+    volumes:
+      - ./tests/cucumber/:/opt/test/cucumber/
+      - ./entrypoint-dev.sh:/opt/test/entrypoint.sh
       - ./tests/.screenshots:/opt/test/.screenshots
+
