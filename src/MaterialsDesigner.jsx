@@ -64,7 +64,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
             >
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={DarkMaterialUITheme}>
-                        <div className={setClass("", this.props.className)} id="materialEditForm">
+                        <div id="materials-designer" className={setClass("", this.props.className)}>
                             <div className="bgm-dark">
                                 {/* TODO: find out how to avoid passing material to header */}
                                 <HeaderMenuToolbar
