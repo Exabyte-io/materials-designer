@@ -4,21 +4,20 @@ import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import CheckIcon from "@mui/icons-material/Check";
-import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
-import MaterialsSelector from "./MaterialsSelector.tsx";
+import MaterialsSelector from "./MaterialsSelector";
 import PythonCodeExecution from "./PythonCodeExecution";
+import TransformationSelector from "./TransformationSelector";
 
 const transformationsMap = {
     default: {
@@ -38,7 +37,6 @@ class PythonTransformation extends React.Component {
             pyodide: null,
             pythonCode: "",
             pythonOutput: "",
-            transformationParameters: props.transformationParameters,
         };
         this.handleRun = this.handleRun.bind(this);
     }
@@ -101,19 +99,6 @@ class PythonTransformation extends React.Component {
         onSubmit(newMaterials);
     };
 
-    handleTransformationParametersChange = (event, newValue) => {
-        if (newValue) {
-            const { transformationParameters } = this.state;
-            this.setState({
-                transformationParameters: {
-                    ...transformationParameters,
-                    transformation: newValue,
-                },
-            });
-            this.loadPythonCode();
-        }
-    };
-
     render() {
         const {
             isLoading,
@@ -161,62 +146,34 @@ class PythonTransformation extends React.Component {
                                     this.setState({ selectedMaterials: newMaterials })
                                 }
                             />
-                            <Grid item xs>
-                                <Autocomplete
-                                    sx={{ flexGrow: 1, minWidth: 300 }}
-                                    size="small"
-                                    value={
-                                        transformationsMap[
-                                            transformationParameters.transformationKey
-                                        ]
-                                    }
-                                    getOptionLabel={(option) => option.name}
-                                    options={Object.values(transformationsMap)}
-                                    onChange={this.handleTransformationParametersChange}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            // eslint-disable-next-line react/jsx-props-no-spreading
-                                            {...params}
-                                            label="Transformation"
-                                            placeholder="Select transformation"
-                                        />
-                                    )}
-                                />
-                            </Grid>
-
-                            <Grid
-                                item
-                                xs
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "flex-end",
-                                    alignItems: "center",
-                                    gap: theme.spacing(1),
-                                }}
+                            <TransformationSelector
+                                transformationParameters={transformationParameters}
+                                setTransformationParameters={(newPythonCode) =>
+                                    this.setState({ pythonCode: newPythonCode })
+                                }
+                            />
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                                <Typography variant="body2">{getStatusText()}</Typography>
+                                {isLoading || isRunning ? (
+                                    <CircularProgress
+                                        color="primary"
+                                        size={theme.typography.button.fontSize}
+                                    />
+                                ) : (
+                                    <CheckIcon color="secondary" />
+                                )}
+                            </Box>
+                            <Button
+                                id="python-transformation-dialog-run-button"
+                                variant="contained"
+                                size="small"
+                                color={isLoading ? "secondary" : "success"}
+                                onClick={this.handleRun}
+                                disabled={isLoading || isRunning}
                             >
-                                <Box sx={{ display: "flex", alignItems: "center" }}>
-                                    <Typography variant="body2">{getStatusText()}</Typography>
-                                    {isLoading || isRunning ? (
-                                        <CircularProgress
-                                            color="primary"
-                                            size={theme.typography.button.fontSize}
-                                        />
-                                    ) : (
-                                        <CheckIcon color="secondary" />
-                                    )}
-                                </Box>
-                                <Button
-                                    id="python-transformation-dialog-run-button"
-                                    variant="contained"
-                                    size="small"
-                                    color={isLoading ? "secondary" : "success"}
-                                    onClick={this.handleRun}
-                                    disabled={isLoading || isRunning}
-                                >
-                                    Run
-                                    <IconByName name="actions.execute" />
-                                </Button>
-                            </Grid>
+                                Run
+                                <IconByName name="actions.execute" />
+                            </Button>
                         </Stack>
                     </Paper>
                     <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>
@@ -231,8 +188,6 @@ class PythonTransformation extends React.Component {
 PythonTransformation.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     materials: PropTypes.array.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    transformationParameters: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
