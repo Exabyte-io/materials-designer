@@ -56,7 +56,7 @@ export class BoundaryConditionsDialog extends React.Component {
         return (
             <Dialog
                 id={modalId}
-                title={title || "Set Boundary Conditions"}
+                title={title}
                 open={isOpen}
                 onClose={onHide}
                 renderFooterCustom={() => (
@@ -117,11 +117,15 @@ export class BoundaryConditionsDialog extends React.Component {
 }
 
 BoundaryConditionsDialog.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     isOpen: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
     modalId: PropTypes.string.isRequired,
+};
+
+BoundaryConditionsDialog.defaultProps = {
+    title: "Set Boundary Conditions",
 };
