@@ -352,6 +352,7 @@ class HeaderMenuToolbar extends React.Component {
 
         return (
             <Toolbar
+                variant="dense"
                 className={setClass(className, "materials-designer-header-menu")}
                 style={{ borderBottom: "1px solid" }}
             >
