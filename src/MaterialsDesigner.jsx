@@ -137,9 +137,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                         />
                                     </Grid>
                                 </Grid>
-                                <Box className="bgm-dark" sx={{ borderTop: "1px solid" }}>
-                                    <EditorSelectionInfo />
-                                </Box>
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <Box className="bgm-dark" sx={{ borderTop: "1px solid" }}>
+                                            <EditorSelectionInfo />
+                                        </Box>
+                                    </Grid>
+                                </Grid>
                             </div>
                         </div>
                     </ThemeProvider>
