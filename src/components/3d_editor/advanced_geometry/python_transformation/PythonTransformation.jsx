@@ -13,13 +13,6 @@ import PythonCodeDisplay from "./PythonCodeDisplay";
 import PythonCodeExecution from "./PythonCodeExecution";
 import TransformationSelector from "./TransformationSelector";
 
-const transformationsMap = {
-    default: {
-        name: "Default",
-        content: `print("Hello World!")`,
-    },
-};
-
 class PythonTransformation extends React.Component {
     constructor(props) {
         super(props);
@@ -59,12 +52,6 @@ class PythonTransformation extends React.Component {
         }));
     };
 
-    loadPythonCode = () => {
-        const { transformationParameters } = this.state;
-        const code = transformationsMap[transformationParameters.transformationKey].content;
-        this.setState({ pythonCode: code });
-    };
-
     runPythonCode = async () => {
         const { pyodide, pythonCode } = this.state;
         this.setState({ pythonOutput: "" });
@@ -94,15 +81,8 @@ class PythonTransformation extends React.Component {
     };
 
     render() {
-        const {
-            isLoading,
-            isRunning,
-            pythonCode,
-            pythonOutput,
-            transformationParameters,
-            materials,
-            selectedMaterials,
-        } = this.state;
+        const { isLoading, isRunning, pythonCode, pythonOutput, materials, selectedMaterials } =
+            this.state;
         const { show, onHide } = this.props;
 
         return (
@@ -123,7 +103,6 @@ class PythonTransformation extends React.Component {
                         elevation={0}
                         sx={{
                             m: theme.spacing(1),
-                            height: "100%",
                         }}
                     >
                         <Stack spacing={2} alignItems="center" direction="row">
@@ -135,8 +114,7 @@ class PythonTransformation extends React.Component {
                                 }
                             />
                             <TransformationSelector
-                                transformationParameters={transformationParameters}
-                                setTransformationParameters={(newPythonCode) =>
+                                setPythonCode={(newPythonCode) =>
                                     this.setState({ pythonCode: newPythonCode })
                                 }
                             />
