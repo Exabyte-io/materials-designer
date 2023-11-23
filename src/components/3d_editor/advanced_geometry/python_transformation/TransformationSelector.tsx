@@ -15,7 +15,14 @@ function TransformationSelector(props: TransformationSelectorProps) {
             value={transformationsMap[transformationParameters.transformationKey]}
             getOptionLabel={(option) => option.name}
             options={Object.values(transformationsMap)}
-            onChange={this.handleTransformationParametersChange}
+            onChange={(event, newValue) => {
+                if (newValue) {
+                    props.setTransformationParameters({
+                        transformationKey: newValue.key,
+                        transformationParameters: newValue.parameters,}
+                }
+            }
+            }
             renderInput={(params) => (
                 <TextField
                     // eslint-disable-next-line react/jsx-props-no-spreading
