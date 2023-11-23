@@ -21,10 +21,10 @@ const transformations: Transformation[] = [
 ];
 
 function TransformationSelector(props: TransformationSelectorProps) {
+    const { setPythonCode } = props;
     const [selectedTransformation, setSelectedTransformation] = React.useState<Transformation>(
         transformations[0],
     );
-    const { setPythonCode } = props;
 
     useEffect(() => {
         setPythonCode(selectedTransformation.content);
