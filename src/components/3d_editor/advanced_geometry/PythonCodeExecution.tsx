@@ -28,7 +28,7 @@ const PythonCodeExecution = (props: PythonCodeExecutionProps) => {
     });
 
     return (
-        <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>
+        <>
             <Box
                 id="python-code-input"
                 sx={{
@@ -63,7 +63,7 @@ const PythonCodeExecution = (props: PythonCodeExecutionProps) => {
                     />
                 )}
             </Box>
-        </Paper>
+        </>
     );
 };
 
