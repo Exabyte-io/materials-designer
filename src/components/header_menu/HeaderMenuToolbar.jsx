@@ -25,8 +25,8 @@ import Terminal from "@mui/icons-material/Terminal";
 import ThreeDEditorIcon from "@mui/icons-material/ThreeDRotation";
 import PolymerIcon from "@mui/icons-material/Timeline";
 import UndoIcon from "@mui/icons-material/Undo";
+import { CircularProgress, Stack } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
@@ -271,13 +271,13 @@ class HeaderMenuToolbar extends React.Component {
     renderSpinner() {
         const { isLoading } = this.props;
         return (
-            <IconButton disabled className="spinner-icon" size="large">
+            <Stack spacing={2} direction="row" justifyContent="end" sx={{ flex: 1 }}>
                 {isLoading ? (
-                    <i className="zmdi zmdi-spinner zmdi-hc-spin" />
+                    <CircularProgress color="warning" size={30} />
                 ) : (
-                    <i className="zmdi zmdi-check" />
+                    <CheckIcon color="success" size={50} />
                 )}
-            </IconButton>
+            </Stack>
         );
     }
 
