@@ -3,7 +3,7 @@ import React from "react";
 
 const EditorSelectionInfo = function EditorSelectionInfo() {
     return (
-        <Box sx={{ textAlign: "center", pt: 3 }}>
+        <Box sx={{ textAlign: "center", height: 0, padding: 0 }}>
             <p />
         </Box>
     );
