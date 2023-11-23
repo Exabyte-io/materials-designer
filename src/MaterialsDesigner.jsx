@@ -64,10 +64,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
             >
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={DarkMaterialUITheme}>
-                        <div
-                            className={setClass("materials-designer", this.props.className)}
-                            id="materialEditForm"
-                        >
+                        <div className={setClass("", this.props.className)} id="materialEditForm">
                             <div className="bgm-dark">
                                 {/* TODO: find out how to avoid passing material to header */}
                                 <HeaderMenuToolbar
@@ -104,7 +101,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 />
                                 {this.renderDefaultImportModal()}
                                 <Grid container>
-                                    <Grid item xs={12} md={2}>
+                                    <Grid item xs={12} md={2.5}>
                                         <ItemsList
                                             materials={this.props.materials}
                                             index={this.props.index}
@@ -113,13 +110,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                             onNameUpdate={this.props.onNameUpdate}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={4}>
+                                    <Grid item xs={12} md={4.5}>
                                         <SourceEditor
                                             material={this.props.material}
                                             onUpdate={this.props.onUpdate}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={6}>
+                                    <Grid item xs={12} md={5}>
                                         <ThreeDEditorFullscreen
                                             editable
                                             material={this.props.material}
