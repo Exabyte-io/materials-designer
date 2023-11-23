@@ -1,17 +1,16 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
-import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import CheckIcon from "@mui/icons-material/Check";
-import CircularProgress from "@mui/material/CircularProgress";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
@@ -19,6 +18,7 @@ import React from "react";
 import NPMsAlert from "react-s-alert";
 
 import MaterialsSelector from "./MaterialsSelector.tsx";
+import PythonCodeExecution from "./PythonCodeExecution";
 
 const transformationsMap = {
     default: {
@@ -220,39 +220,7 @@ class PythonTransformation extends React.Component {
                         </Stack>
                     </Paper>
                     <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>
-                        <Box
-                            id="python-code-input"
-                            sx={{
-                                border: `1px solid ${theme.palette.secondary.light}`,
-                            }}
-                        >
-                            <CodeMirror
-                                content={pythonCode}
-                                updateContent={(newContent) =>
-                                    this.setState({ pythonCode: newContent })
-                                }
-                                options={{
-                                    autoSave: true,
-                                    lineNumbers: true,
-                                }}
-                                theme="light"
-                                language="python"
-                            />
-                        </Box>
-
-                        <Box id="python-output" mt={theme.spacing(1)}>
-                            {pythonOutput && (
-                                <CodeMirror
-                                    content={pythonOutput}
-                                    readOnly
-                                    options={{
-                                        lineNumbers: false,
-                                    }}
-                                    theme="light"
-                                    language="python"
-                                />
-                            )}
-                        </Box>
+                        <PythonCodeExecution pythonCode={pythonCode} pythonOutput={pythonOutput} />
                     </Paper>
                 </Dialog>
             </ThemeProvider>
