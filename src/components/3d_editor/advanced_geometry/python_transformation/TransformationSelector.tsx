@@ -28,7 +28,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
 
     useEffect(() => {
         setPythonCode(selectedTransformation.content);
-    }, [selectedTransformation, setPythonCode]);
+    }, [selectedTransformation]);
 
     return (
         <Autocomplete

@@ -28,10 +28,8 @@ class PythonTransformation extends React.Component {
         this.handleRun = this.handleRun.bind(this);
     }
 
+    // eslint-disable-next-line no-unused-vars
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.pythonCode === "") {
-            this.loadPythonCode();
-        }
         const { materials } = this.props;
         if (prevProps.materials !== materials) {
             // eslint-disable-next-line react/no-did-update-set-state

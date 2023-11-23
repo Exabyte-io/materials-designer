@@ -3,15 +3,15 @@ import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
 
-interface PythonCodeExecutionProps {
+interface PythonCodeDisplayProps {
     pythonCode: string;
     pythonOutput: string;
 }
 
-const PythonCodeDisplay = (props: PythonCodeExecutionProps) => {
+const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
     const { pythonOutput } = props;
     // eslint-disable-next-line react/destructuring-assignment
-    const [pythonCode, setPythonCode] = useState("");
+    const [pythonCode, setPythonCode] = useState(props.pythonCode);
     const [isFocused, setIsFocused] = useState(false);
 
     const handleFocus = () => setIsFocused(true);
@@ -20,11 +20,6 @@ const PythonCodeDisplay = (props: PythonCodeExecutionProps) => {
     // Define the border color for the focused and unfocused states
     const borderFocused = `2px solid blue`; // Change as per your active color
     const borderUnfocused = `1px solid ${theme.palette.secondary.light}`;
-
-    useEffect(() => {
-        // eslint-disable-next-line react/destructuring-assignment
-        setPythonCode(props.pythonCode);
-    });
 
     return (
         <>
