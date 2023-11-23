@@ -390,6 +390,8 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
         @include scrollbar-dark();
         overflow-y: hidden;
         .cm-editor {
+            // Assuming that `em` will pick up the font size of the MUI theme
+            font-size: 0.8em;
             // The 30px is to account for the validation component, 10px is padding
             max-height: calc(
                 #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} - 2px - 30px - 10px
