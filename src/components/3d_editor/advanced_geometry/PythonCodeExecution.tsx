@@ -1,7 +1,6 @@
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror";
 import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import React, { useEffect, useState } from "react";
 
 interface PythonCodeExecutionProps {
