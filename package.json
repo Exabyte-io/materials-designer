@@ -76,6 +76,7 @@
         "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata",
         "@types/mocha": "^10.0.1",
         "@types/node": "^20.4.2",
+        "@types/react-s-alert": "^1.3.6",
         "@typescript-eslint/eslint-plugin": "^5.56.0",
         "@typescript-eslint/parser": "^5.56.0",
         "babel-eslint": "^10.1.0",
