@@ -93,6 +93,8 @@ class PythonTransformation extends React.Component<
     };
 
     handleSubmit = () => {
+        // TODO: return newly created materials in the next task
+        // eslint-disable-next-line react/destructuring-assignment
         this.props.onSubmit(this.state.selectedMaterials);
     };
 
