@@ -23,7 +23,7 @@ function PythonCodeExecution(props: PythonExecutionControlsProps) {
     };
 
     return (
-        <>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }} gap={1}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Typography variant="body2">{getStatusText()}</Typography>
                 {isLoading || isRunning ? (
@@ -43,7 +43,7 @@ function PythonCodeExecution(props: PythonExecutionControlsProps) {
                 Run
                 <IconByName name="actions.execute" />
             </Button>
-        </>
+        </Box>
     );
 }
 

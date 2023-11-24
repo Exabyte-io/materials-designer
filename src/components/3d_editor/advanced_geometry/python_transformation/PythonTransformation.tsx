@@ -2,6 +2,7 @@ import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
+import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import React from "react";
@@ -123,27 +124,40 @@ class PythonTransformation extends React.Component<
                             m: theme.spacing(1),
                         }}
                     >
-                        <Stack spacing={2} alignItems="center" direction="row">
-                            <MaterialsSelector
-                                materials={materials}
-                                selectedMaterials={selectedMaterials}
-                                setSelectedMaterials={(newMaterials) =>
-                                    this.setState({ selectedMaterials: newMaterials })
-                                }
-                            />
-                            <TransformationSelector
-                                setPythonCode={(newPythonCode) =>
-                                    this.setState({ pythonCode: newPythonCode })
-                                }
-                            />
-                            <PythonCodeExecution
-                                isLoading={isLoading}
-                                isRunning={isRunning}
-                                handleRun={this.handleRun}
-                            />
-                        </Stack>
+                        <Grid container spacing={theme.spacing(2)} sx={{ alignContent: "center" }}>
+                            <Grid item xs={12} sm={12} md={5}>
+                                <MaterialsSelector
+                                    materials={materials}
+                                    selectedMaterials={selectedMaterials}
+                                    setSelectedMaterials={(newMaterials) =>
+                                        this.setState({ selectedMaterials: newMaterials })
+                                    }
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4} lg={5}>
+                                <TransformationSelector
+                                    setPythonCode={(newPythonCode) =>
+                                        this.setState({ pythonCode: newPythonCode })
+                                    }
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={3} lg={2}>
+                                <PythonCodeExecution
+                                    isLoading={isLoading}
+                                    isRunning={isRunning}
+                                    handleRun={this.handleRun}
+                                />
+                            </Grid>
+                        </Grid>
                     </Paper>
-                    <Paper sx={{ minHeight: 800, overflow: "scroll", m: theme.spacing(1) }}>
+                    <Paper
+                        sx={{
+                            minHeight: 800,
+                            overflow: "scroll",
+                            m: theme.spacing(1),
+                            mt: theme.spacing(2),
+                        }}
+                    >
                         <PythonCodeDisplay
                             pythonCode={pythonCode}
                             pythonOutput={pythonOutput}

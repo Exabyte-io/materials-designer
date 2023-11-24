@@ -2,7 +2,6 @@ import CheckBox from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import Autocomplete from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
-import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import React from "react";
 
@@ -17,14 +16,9 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
 
     return (
         <Autocomplete
-            sx={{
-                flexGrow: 1,
-                minWidth: 300,
-                p: 0,
-            }}
             multiple
             id="materials-autocomplete"
-            size="medium"
+            size="small"
             options={materials}
             getOptionLabel={(option) => option.name}
             value={selectedMaterials}
@@ -46,19 +40,10 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
                     {...params}
                     label="Selected Materials"
                     placeholder="Select materials"
-                    size="medium"
+                    size="small"
                 />
             )}
-            renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                    <Chip
-                        size="medium"
-                        label={`${index}: ${option.name}`}
-                        // eslint-disable-next-line react/jsx-props-no-spreading
-                        {...getTagProps({ index })}
-                    />
-                ))
-            }
+            sx={{ "& .MuiAutocomplete-tag": { margin: "0 !important" } }}
         />
     );
 }

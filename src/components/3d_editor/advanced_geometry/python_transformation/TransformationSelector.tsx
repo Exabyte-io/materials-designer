@@ -32,8 +32,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
 
     return (
         <Autocomplete
-            sx={{ flexGrow: 1, minWidth: 300 }}
-            size="medium"
+            size="small"
             value={selectedTransformation}
             getOptionLabel={(option) => option.name}
             options={transformations}
