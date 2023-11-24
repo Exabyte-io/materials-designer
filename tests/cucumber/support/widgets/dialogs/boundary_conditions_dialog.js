@@ -8,8 +8,16 @@ export class BoundaryConditionsDialogWidget extends Widget {
     }
 
     addBoundaryConditions({ type, offset }) {
-        exabrowser.selectByValue(this.selectors.type, type);
-        exabrowser.setValue(this.selectors.offset, offset);
+        const selectorType = this.selectors.type;
+        const selectorOffset = this.selectors.offset;
+        exabrowser.waitForVisible(selectorType);
+        exabrowser.click(selectorType);
+        const menuItemSelector = `li[data-value="${type}"]`;
+        exabrowser.waitForVisible(menuItemSelector);
+        exabrowser.click(menuItemSelector);
+
+        exabrowser.waitForVisible(selectorOffset);
+        exabrowser.setValueWithBackspaceClear(this.selectors.offset, offset);
     }
 
     submit() {

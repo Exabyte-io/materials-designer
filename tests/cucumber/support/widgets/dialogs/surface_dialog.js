@@ -8,13 +8,14 @@ export class SurfaceDialogWidget extends Widget {
     }
 
     generateSurface({ h, k, l, thickness, vacuumRatio, vx, vy }) {
-        if (h) exabrowser.setValue(this.selectors.h, h);
-        if (k) exabrowser.setValue(this.selectors.k, k);
-        if (l) exabrowser.setValue(this.selectors.l, l);
-        if (thickness) exabrowser.setValue(this.selectors.thickness, thickness);
-        if (vacuumRatio) exabrowser.setValue(this.selectors.vacuumRatio, vacuumRatio);
-        if (vx) exabrowser.setValue(this.selectors.vx, vx);
-        if (vy) exabrowser.setValue(this.selectors.vy, vy);
+        if (h) exabrowser.setValueWithBackspaceClear(this.selectors.h, h);
+        if (k) exabrowser.setValueWithBackspaceClear(this.selectors.k, k);
+        if (l) exabrowser.setValueWithBackspaceClear(this.selectors.l, l);
+        if (thickness) exabrowser.setValueWithBackspaceClear(this.selectors.thickness, thickness);
+        if (vacuumRatio)
+            exabrowser.setValueWithBackspaceClear(this.selectors.vacuumRatio, vacuumRatio);
+        if (vx) exabrowser.setValueWithBackspaceClear(this.selectors.vx, vx);
+        if (vy) exabrowser.setValueWithBackspaceClear(this.selectors.vy, vy);
     }
 
     submit() {

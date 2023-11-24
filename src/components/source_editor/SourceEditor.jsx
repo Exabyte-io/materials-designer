@@ -18,8 +18,8 @@ class SourceEditor extends React.Component {
                     borderRight: "1px solid",
                 }}
             >
-                <LatticeEditor className="col-xs-12 p-0" material={material} onUpdate={onUpdate} />
-                <BasisEditor className="col-xs-12 p-0" material={material} onUpdate={onUpdate} />
+                <LatticeEditor material={material} onUpdate={onUpdate} />
+                <BasisEditor material={material} onUpdate={onUpdate} />
             </div>
         );
     }
