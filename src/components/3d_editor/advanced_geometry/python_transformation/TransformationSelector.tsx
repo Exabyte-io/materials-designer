@@ -1,6 +1,6 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Transformation {
     key: string;
@@ -22,7 +22,7 @@ const transformations: Transformation[] = [
 
 function TransformationSelector(props: TransformationSelectorProps) {
     const { setPythonCode } = props;
-    const [selectedTransformation, setSelectedTransformation] = React.useState<Transformation>(
+    const [selectedTransformation, setSelectedTransformation] = useState<Transformation>(
         transformations[0],
     );
 

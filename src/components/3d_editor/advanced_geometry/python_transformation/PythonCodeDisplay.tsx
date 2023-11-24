@@ -1,7 +1,7 @@
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror";
 import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
-import React, { useState } from "react";
+import React from "react";
 
 interface PythonCodeDisplayProps {
     pythonCode: string;
