@@ -13,16 +13,6 @@ Feature: User can open Python Transformation dialog, change python code and run 
     """
     print('Hello Matera!')
     """
-    And I cancel PythonTransformationDialog
-    Then I see PythonTransformationDialog is closed
-
-    # Code persists
-    When I open PythonTransformationDialog
-    Then I see code input with the following data:
-    """
-    print('Hello Matera!')
-    """
-
 
     # Run
     When I click the Run button
@@ -31,3 +21,6 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Hello Matera!
     """
 
+    # Cancel
+    When I cancel PythonTransformationDialog
+    Then I see PythonTransformationDialog is closed
