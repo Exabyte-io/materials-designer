@@ -90,7 +90,7 @@ class BasisText extends React.Component {
                 <Box id="basis-xyz">
                     <CodeMirror
                         ref={this.codeMirrorRef}
-                        className="xyz-codemirror"
+                        id="xyz-codemirror"
                         content={content}
                         updateContent={this.updateContent}
                         readOnly={readOnly}
@@ -106,7 +106,7 @@ class BasisText extends React.Component {
                     />
                     <Box sx={{ p: 1, textAlign: "center" }}>
                         <Typography
-                            variant="body1"
+                            variant="body2"
                             color={isContentValidated ? "success" : "error"}
                         >
                             {message}&nbsp;

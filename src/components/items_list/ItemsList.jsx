@@ -1,18 +1,19 @@
-/* eslint-disable react/sort-comp */
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import WidgetsIcon from "@mui/icons-material/Widgets";
+import { Avatar, ListItemAvatar } from "@mui/material";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
-import Box from "@mui/material/Box";
 import { ShowIf } from "../../utils/react/showif";
 
 class ItemsList extends React.Component {
@@ -82,6 +83,7 @@ class ItemsList extends React.Component {
      * @param {React.MouseEvent} e - JS DOM event
      * @param {Number} index - index of element that should be removed
      */
+    // eslint-disable-next-line react/sort-comp
     onDeleteIconClick(e, index) {
         const { onRemove } = this.props;
         e.preventDefault();
@@ -111,29 +113,42 @@ class ItemsList extends React.Component {
         return (
             <ListItem
                 key={name + "-" + index}
-                button
                 dense
                 onClick={(e) => this.onItemListClick(e, index)}
                 className={setClass(
                     { active: isBeingEdited || isBeingActive },
                     { updated: isUpdated || isBeingEdited },
                 )}
+                secondaryAction={
+                    <IconButton
+                        className="list-item-icon icon-button-delete"
+                        onClick={(e) => {
+                            this.onDeleteIconClick(e, index);
+                        }}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                }
             >
-                <ShowIf condition={Boolean(entity.id)}>
-                    <ListItemIcon className="list-item-icon superscript-icon">
-                        <CheckIcon />
-                    </ListItemIcon>
-                </ShowIf>
-
-                <ListItemIcon className="list-item-icon non-periodic-icon">
-                    {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
-                </ListItemIcon>
+                <ListItemAvatar>
+                    <Avatar>
+                        <ShowIf condition={Boolean(entity.id)}>
+                            <IconButton className="list-item-icon superscript-icon">
+                                <CheckIcon />
+                            </IconButton>
+                        </ShowIf>
+                        <IconButton className="list-item-icon non-periodic-icon">
+                            {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
+                        </IconButton>
+                    </Avatar>
+                </ListItemAvatar>
 
                 <ListItemText
                     className="list-item-text"
                     primary={
                         <TextField
                             className="list-item-text_primary"
+                            size="small"
                             InputProps={{ disableUnderline: true }}
                             onFocus={(e) => this.focusListItem(e, index)}
                             value={isBeingEdited ? editedName : entity.name}
@@ -142,20 +157,12 @@ class ItemsList extends React.Component {
                         />
                     }
                     secondary={
-                        <span className="list-item-text_secondary">
+                        // TODO: avoid setting font size in sx and use theme variants instead
+                        <Typography variant="caption" sx={{ fontSize: "0.75em" }}>
                             Formula: <b>{entity.formula}</b>
-                        </span>
+                        </Typography>
                     }
                 />
-
-                <ListItemIcon
-                    className="list-item-icon icon-button-delete"
-                    onClick={(e) => {
-                        this.onDeleteIconClick(e, index);
-                    }}
-                >
-                    <DeleteIcon />
-                </ListItemIcon>
             </ListItem>
         );
     }
