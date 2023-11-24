@@ -13,8 +13,28 @@ import PythonCodeDisplay from "./PythonCodeDisplay";
 import PythonCodeExecution from "./PythonCodeExecution";
 import TransformationSelector from "./TransformationSelector";
 
-class PythonTransformation extends React.Component {
-    constructor(props) {
+interface PythonTransformationProps {
+    materials: any[];
+    show: boolean;
+    onSubmit: (newMaterials: any[]) => void;
+    onHide: () => void;
+}
+
+interface PythonTransformationState {
+    materials: any[];
+    selectedMaterials: any[];
+    isLoading: boolean;
+    isRunning: boolean;
+    pyodide: any;
+    pythonCode: string;
+    pythonOutput: string;
+}
+
+class PythonTransformation extends React.Component<
+    PythonTransformationProps,
+    PythonTransformationState
+> {
+    constructor(props: PythonTransformationProps) {
         super(props);
         this.state = {
             materials: props.materials,
@@ -28,7 +48,7 @@ class PythonTransformation extends React.Component {
     }
 
     // eslint-disable-next-line no-unused-vars
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: PythonTransformationProps, prevState: any) {
         const { materials } = this.props;
         if (prevProps.materials !== materials) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -36,14 +56,16 @@ class PythonTransformation extends React.Component {
         }
     }
 
-    onPyodideLoad = (pyodideInstance) => {
+    onPyodideLoad = (pyodideInstance: any) => {
         this.setState({ pyodide: pyodideInstance, isLoading: false }, async () => {
             // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
-            pyodideInstance.setStdout({ batched: (text) => this.redirectPyodideStdout(text) });
+            pyodideInstance.setStdout({
+                batched: (text: string) => this.redirectPyodideStdout(text),
+            });
         });
     };
 
-    redirectPyodideStdout = (text) => {
+    redirectPyodideStdout = (text: string) => {
         this.setState((prevState) => ({
             pythonOutput: prevState.pythonOutput + text + "\n",
         }));
@@ -55,7 +77,7 @@ class PythonTransformation extends React.Component {
 
         try {
             await pyodide.runPythonAsync(pythonCode);
-        } catch (error) {
+        } catch (error: any) {
             this.setState({ pythonOutput: error.message });
         }
     };
@@ -64,18 +86,15 @@ class PythonTransformation extends React.Component {
         this.setState({ isRunning: true });
         try {
             await this.runPythonCode();
-        } catch (error) {
+        } catch (error: any) {
             NPMsAlert.error(error.message);
         } finally {
             this.setState({ isRunning: false });
         }
     };
 
-    handleSubmit = () => {
-        const { onSubmit } = this.props;
-        const { newMaterials } = this.state;
-        onSubmit(newMaterials);
-    };
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    handleSubmit = () => {};
 
     render() {
         const { isLoading, isRunning, pythonCode, pythonOutput, materials, selectedMaterials } =
@@ -136,13 +155,5 @@ class PythonTransformation extends React.Component {
         );
     }
 }
-
-PythonTransformation.propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    materials: PropTypes.array.isRequired,
-    show: PropTypes.bool.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onHide: PropTypes.func.isRequired,
-};
 
 export default PythonTransformation;
