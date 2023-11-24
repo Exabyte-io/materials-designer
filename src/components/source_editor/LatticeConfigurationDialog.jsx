@@ -1,19 +1,14 @@
 /* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import React from "react";
 
 import { Material } from "../../material";
 import { deepClone } from "../../utils/index";
-import ToggleSwitch from "../include/ToggleSwitch";
 
 /**
  * @summary Crystal Lattice configuration dialog.
@@ -32,17 +27,24 @@ class LatticeConfigurationDialog extends React.Component {
             // used to preserve Basis in Angstroms
             preserveBasis: false,
         };
-
-        this.handleUpdateLattice = this.handleUpdateLattice.bind(this);
-        this.handleLatticeUnitSelected = this.handleLatticeUnitSelected.bind(this);
-        this.handleLatticeTypeSelected = this.handleLatticeTypeSelected.bind(this);
-        this.handleLatticeInputChanged = this.handleLatticeInputChanged.bind(this);
     }
 
-    // eslint-disable-next-line no-unused-vars
-    UNSAFE_componentWillReceiveProps(newProps, newContext) {
-        // update this component's state on props.material update
+    UNSAFE_componentWillReceiveProps(newProps) {
         this.setState({ lattice: newProps.material.lattice });
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    getEditModeOptions() {
+        const options = ["Scale Interatomic Distances", "Preserve Interatomic Distances"];
+        const result = [];
+        options.forEach((item, i) => {
+            result.push(
+                <MenuItem value={i} key={item}>
+                    {item}
+                </MenuItem>,
+            );
+        });
+        return result;
     }
 
     getLatticeUnitOptions() {
@@ -79,7 +81,12 @@ class LatticeConfigurationDialog extends React.Component {
         return false; // !lattice.editables[param];
     };
 
-    handleLatticeUnitSelected(e) {
+    handEditModeSelected = (e) => {
+        const zeroOrOne = e.target.value;
+        this.setState({ preserveBasis: Boolean(zeroOrOne) });
+    };
+
+    handleLatticeUnitSelected = (e) => {
         const { lattice } = this.state;
         const units = e.target.value;
         const newLattice = new Made.Lattice({
@@ -87,9 +94,9 @@ class LatticeConfigurationDialog extends React.Component {
             units,
         });
         this.setState({ lattice: newLattice });
-    }
+    };
 
-    handleLatticeTypeSelected(e) {
+    handleLatticeTypeSelected = (e) => {
         const { lattice } = this.state;
         const type = e.target.value;
         const newLattice = Made.Lattice.getDefaultPrimitiveLatticeConfigByType({
@@ -97,9 +104,9 @@ class LatticeConfigurationDialog extends React.Component {
             type,
         });
         this.setState({ lattice: newLattice });
-    }
+    };
 
-    handleLatticeInputChanged(e) {
+    handleLatticeInputChanged = (e) => {
         const { lattice } = this.state;
         const val = Number(e.target.value);
         const { name } = e.target;
@@ -107,9 +114,9 @@ class LatticeConfigurationDialog extends React.Component {
         latticeConf[name] = val;
         const newLattice = Made.Lattice.getDefaultPrimitiveLatticeConfigByType(latticeConf, true);
         this.setState({ lattice: newLattice });
-    }
+    };
 
-    handleUpdateLattice() {
+    handleUpdateLattice = () => {
         const { material, onUpdate, onSubmit } = this.props;
         const { preserveBasis, lattice } = this.state;
         const oldMaterialCopy = material.clone();
@@ -129,23 +136,23 @@ class LatticeConfigurationDialog extends React.Component {
         newMaterial.toCrystal();
         onUpdate(newMaterial);
         onSubmit();
-    }
+    };
 
     renderBody() {
         const { lattice } = this.state;
         return (
             <div className="crystal-lattice-config">
                 <form
-                    className="crystal-lattice-config"
                     ref={(e) => {
                         // eslint-disable-next-line react/no-unused-class-component-methods
                         this.form = e;
                     }}
                 >
-                    <Box className="lattice-basics" sx={{ display: "flex", gap: 2 }}>
-                        <FormControl>
-                            <InputLabel id="form-lattice-units">Lattice units</InputLabel>
-                            <Select
+                    <Grid container spacing={2} className="lattice-params">
+                        <Grid item xs={6}>
+                            <TextField
+                                select
+                                fullWidth
                                 labelId="form-lattice-units"
                                 id="form-lattice-units"
                                 data-tid="units"
@@ -153,14 +160,14 @@ class LatticeConfigurationDialog extends React.Component {
                                 label="Lattice units"
                                 size="small"
                                 onChange={this.handleLatticeUnitSelected}
-                                sx={{ minWidth: 0 }}
                             >
                                 {this.getLatticeUnitOptions()}
-                            </Select>
-                        </FormControl>
-                        <FormControl>
-                            <InputLabel id="form-lattice-type">Lattice type</InputLabel>
-                            <Select
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                select
+                                fullWidth
                                 labelId="form-lattice-type"
                                 id="form-lattice-type"
                                 data-tid="type"
@@ -170,11 +177,9 @@ class LatticeConfigurationDialog extends React.Component {
                                 onChange={this.handleLatticeTypeSelected}
                             >
                                 {this.getLatticeTypeOptions()}
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    <Grid container spacing={2} className="lattice-params" mt={3}>
-                        <Grid item xs={4} sx={{ mb: 2 }}>
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={4}>
                             <TextField
                                 fullWidth
                                 id="lattice-a-length"
@@ -237,8 +242,6 @@ class LatticeConfigurationDialog extends React.Component {
                                 }}
                             />
                         </Grid>
-                    </Grid>
-                    <Grid container spacing={2} sx={{ mb: 2 }} className="lattice-params">
                         <Grid item xs={4}>
                             <TextField
                                 fullWidth
@@ -309,32 +312,47 @@ class LatticeConfigurationDialog extends React.Component {
         const { submitButtonTxt } = this.props;
         const { preserveBasis } = this.state;
         return (
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <ToggleSwitch
-                    color="blue"
-                    title="Preserve Basis"
-                    onStateChange={() => this.setState({ preserveBasis: !preserveBasis })}
-                    checked={preserveBasis}
-                    id="access-level"
-                />
-                <Button
-                    size="small"
-                    variant="outlined"
-                    className="save-lattice-config"
-                    onClick={this.handleUpdateLattice}
-                >
-                    {submitButtonTxt}
-                </Button>
-            </Box>
+            <Grid container spacing={2} className="lattice-params">
+                <Grid item xs={6}>
+                    <TextField
+                        select
+                        fullWidth
+                        labelId="form-edit-mode"
+                        id="form-edit-mode"
+                        data-tid="edit-mode"
+                        value={preserveBasis ? 1 : 0}
+                        label="Lattice units"
+                        size="small"
+                        onChange={this.handEditModeSelected}
+                    >
+                        {this.getEditModeOptions()}
+                    </TextField>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        className="save-lattice-config"
+                        onClick={this.handleUpdateLattice}
+                        sx={{ pt: 1, pb: 1 }}
+                    >
+                        {submitButtonTxt}
+                    </Button>
+                </Grid>
+            </Grid>
         );
     }
 
     render() {
         return (
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-                {this.renderBody()}
-                {this.renderFooter()}
-            </Box>
+            <Grid container spacing={2} className="lattice-params">
+                <Grid item xs={12}>
+                    {this.renderBody()}
+                </Grid>
+                <Grid item xs={12}>
+                    {this.renderFooter()}
+                </Grid>
+            </Grid>
         );
     }
 }

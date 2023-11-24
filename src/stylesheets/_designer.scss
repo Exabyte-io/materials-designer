@@ -3,6 +3,18 @@ $material-ui-expansion-panels-color: #424242;
 $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
     0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
 
+$header-menu-height: 64px;
+$editor-info-height: 41px;
+$materials-designer-height: 65vmin;
+$materials-designer-height-fullscreen: calc(
+        100vmin - #{$editor-info-height} - #{$header-menu-height}
+);
+
+#materials-designer {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
 // menu items in materials designer header
 .button-activated-menu {
     position: absolute !important; // to override default Mui classes
@@ -12,22 +24,8 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
 }
 
 // Basis source text
-.xyz-codemirror {
-    font-family: $font-family-monospace;
-    font-size: 11px;
-    border: 1px solid $gray-light;
-    border-radius: 2px;
-    height: 100%;
-
-    .CodeMirror {
-        height: 100%;
-    }
-}
-
-.crystal-lattice-config {
-    .fg-line input {
-        border-bottom-color: #555;
-    }
+#xyz-codemirror {
+    overflow-y: auto;
 }
 
 .material-view-or-edit,
@@ -233,19 +231,12 @@ $material-ui-menu-box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
 
 // styles for when three-renderer is fullscreen on its own
 .three-renderer {
-    height: 65vmin;
+    height: $materials-designer-height-fullscreen;
 }
 
 .full-screen .three-renderer {
     height: 100vmin;
 }
-
-$header-menu-height: 64px;
-$editor-info-height: 41px;
-$materials-designer-height: 65vmin;
-$materials-designer-height-fullscreen: calc(
-    100vmin - #{$editor-info-height} - #{$header-menu-height}
-);
 
 .materials-designer-header-menu {
     padding-left: 32px !important; // to align the buttons and popover menus
@@ -265,7 +256,7 @@ $materials-designer-height-fullscreen: calc(
 }
 
 .materials-designer-items-list {
-    max-height: $materials-designer-height;
+    max-height: $materials-designer-height-fullscreen;
     overflow-x: auto;
     overflow-y: auto;
     @include darkScrollbar(8);
@@ -344,10 +335,6 @@ $materials-designer-height-fullscreen: calc(
         }
     }
 
-    div.non-periodic-icon {
-        margin-right: 0.5rem;
-    }
-
     .list-item-text {
         &_primary {
             min-width: auto;
@@ -383,11 +370,12 @@ $materials-designer-height-fullscreen: calc(
 $source-editor-crystal-lattice-collapsed-height: 215px;
 
 .materials-designer-source-editor {
-    height: $materials-designer-height;
+    height: $materials-designer-height-fullscreen;
     overflow-x: hidden;
     overflow-y: auto;
     min-height: 445px; // to avoid basis-view being hidden behind GLmol on mobile
     padding: 10px 10px;
+    @include scrollbar-dark();
 
     .btn-custom {
         margin-bottom: 10px;
@@ -395,10 +383,27 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
     }
 
     #basis-xyz {
+        // The 2px is to account for the bottom border of the source editor
         height: calc(
-            #{$materials-designer-height} - #{$source-editor-crystal-lattice-collapsed-height}
+            #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} - 2px
         );
-        resize: vertical;
+        @include scrollbar-dark();
+        overflow-y: hidden;
+        .cm-editor {
+            // Assuming that `em` will pick up the font size of the MUI theme
+            font-size: 0.8em;
+            // The 30px is to account for the validation component, 10px is padding
+            max-height: calc(
+                #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} - 2px - 30px - 10px
+            );
+            resize: vertical;
+            overflow-y: auto;
+            @include scrollbar-dark();
+            .cm-scroller {
+                min-height: calc(#{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} - 2px - 30px - 10px);
+                @include scrollbar-dark();
+            }
+        }
     }
 
     div.MuiAccordion-root {
@@ -410,12 +415,10 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
 .fullscreen.fullscreen-enabled {
     .materials-designer-items-list,
     .materials-designer-source-editor {
-        height: $materials-designer-height-fullscreen;
+        height: 100%;
 
         #basis-xyz {
-            height: calc(
-                #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height}
-            );
+            height: 100%;
         }
     }
 
