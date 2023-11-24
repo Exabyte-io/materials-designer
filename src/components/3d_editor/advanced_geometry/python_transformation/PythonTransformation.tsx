@@ -4,7 +4,6 @@ import theme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import PropTypes from "prop-types";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
@@ -93,8 +92,11 @@ class PythonTransformation extends React.Component<
         }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    handleSubmit = () => {};
+    handleSubmit = () => {
+        // TODO: return newly created materials in the next task
+        // eslint-disable-next-line react/destructuring-assignment
+        this.props.onSubmit(this.state.selectedMaterials);
+    };
 
     render() {
         const { isLoading, isRunning, pythonCode, pythonOutput, materials, selectedMaterials } =
