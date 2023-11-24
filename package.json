@@ -1,13 +1,14 @@
 {
     "name": "@exabyte-io/materials-designer",
-    "version": "2022.1.9-0",
+    "version": "0.0.0",
     "description": "Materials Designer",
     "scripts": {
-        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start --experimental-wasm-bigint",
+        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --extensions '.js,.jsx,.ts,.tsx' --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
         "test": "bash run-tests.sh",
+        "testsOnly": "bash run-tests.sh -s=true",
         "lint": "eslint src tests && prettier --write src tests",
         "lint:fix": "eslint src tests --fix && prettier --write src tests",
         "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react",
