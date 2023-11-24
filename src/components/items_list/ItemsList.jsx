@@ -9,6 +9,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
@@ -147,6 +148,7 @@ class ItemsList extends React.Component {
                     primary={
                         <TextField
                             className="list-item-text_primary"
+                            size="small"
                             InputProps={{ disableUnderline: true }}
                             onFocus={(e) => this.focusListItem(e, index)}
                             value={isBeingEdited ? editedName : entity.name}
@@ -155,9 +157,10 @@ class ItemsList extends React.Component {
                         />
                     }
                     secondary={
-                        <span className="list-item-text_secondary">
+                        // TODO: avoid setting font size in sx and use theme variants instead
+                        <Typography variant="caption" sx={{ fontSize: "0.75em" }}>
                             Formula: <b>{entity.formula}</b>
-                        </span>
+                        </Typography>
                     }
                 />
             </ListItem>
