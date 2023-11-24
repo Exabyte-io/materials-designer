@@ -4,7 +4,6 @@ import theme from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
@@ -152,7 +151,7 @@ class PythonTransformation extends React.Component<
                     </Paper>
                     <Paper
                         sx={{
-                            minHeight: 800,
+                            minHeight: 600,
                             overflow: "scroll",
                             m: theme.spacing(1),
                             mt: theme.spacing(2),
