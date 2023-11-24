@@ -17,14 +17,9 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
 
     return (
         <Autocomplete
-            sx={{
-                flexGrow: 1,
-                minWidth: 300,
-                p: 0,
-            }}
             multiple
             id="materials-autocomplete"
-            size="medium"
+            size="small"
             options={materials}
             getOptionLabel={(option) => option.name}
             value={selectedMaterials}
@@ -46,13 +41,13 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
                     {...params}
                     label="Selected Materials"
                     placeholder="Select materials"
-                    size="medium"
+                    size="small"
                 />
             )}
             renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
                     <Chip
-                        size="medium"
+                        size="small"
                         label={`${index}: ${option.name}`}
                         // eslint-disable-next-line react/jsx-props-no-spreading
                         {...getTagProps({ index })}
