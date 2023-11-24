@@ -1,9 +1,15 @@
 {
-    "extends": ["@exabyte-io/eslint-config", "plugin:react/recommended"],
+    "extends": ["@exabyte-io/eslint-config"],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
+    },
     "plugins": ["react"],
     "rules": {
-        "react/jsx-filename-extension": "error",
-        "jsx-a11y/label-has-associated-control": ["error", { "assert": "either" }],
-        "react/forbid-prop-types": "warn"
+        "jsx-a11y/label-has-associated-control": "off",
+        "react/function-component-definition": "off"
     }
 }

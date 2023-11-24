@@ -34,12 +34,13 @@ class LatticeEditorWidget extends Widget {
     }
 
     setLatticeParamSelect(name, value) {
-        const latticeOptionSelector = this._selectors.latticeOptionSelectorByNameSelect(name);
-        exabrowser.waitForVisible(latticeOptionSelector);
-        // TODO: find the reason for unreliable selectByValue and remove browser.pause
-        // 'selectByValue` could be buggy: https://github.com/webdriverio/webdriverio/issues/1689
-        exabrowser.pause(1000);
-        exabrowser.selectByValue(latticeOptionSelector, value);
+        const selectSelector = this._selectors.latticeOptionSelectorByNameSelect(name);
+        exabrowser.waitForVisible(selectSelector);
+        exabrowser.click(selectSelector);
+
+        const menuItemSelector = `li[data-value="${value}"]`;
+        exabrowser.waitForVisible(menuItemSelector);
+        exabrowser.click(menuItemSelector);
     }
 
     setLattice(latticeObject) {

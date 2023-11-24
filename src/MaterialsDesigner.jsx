@@ -1,4 +1,9 @@
-import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
+import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
+import { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
+import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { StyledEngineProvider } from "@mui/material/styles";
 import setClass from "classnames";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
@@ -8,8 +13,6 @@ import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFulls
 import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
 import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
-import { FullscreenComponentMixin } from "./components/include/FullscreenComponentMixin";
-import { DarkMaterialUITheme } from "./components/include/material-ui/theme";
 import ItemsList from "./components/items_list/ItemsList";
 import SourceEditor from "./components/source_editor/SourceEditor";
 import { Material } from "./material";
@@ -19,6 +22,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         super(props);
         this.state = {
             isFullscreen: false,
+            importMaterialsDialogProps: null,
         };
     }
 
@@ -36,6 +40,21 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         this.setState({ isFullscreen: !this.state.isFullscreen });
     };
 
+    renderDefaultImportModal = () => {
+        return this.state.importMaterialsDialogProps ? (
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            <DefaultImportModalDialog open {...this.state.importMaterialsDialogProps} />
+        ) : null;
+    };
+
+    openDefaultImportModal = (props) => {
+        this.setState({ importMaterialsDialogProps: props });
+    };
+
+    closeDefaultImportModal = () => {
+        this.setState({ importMaterialsDialogProps: null });
+    };
+
     render() {
         return (
             <this.FullscreenHandlerComponent
@@ -46,13 +65,10 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={DarkMaterialUITheme}>
                         <div
-                            className={setClass(
-                                "materials-designer col-xs-12",
-                                this.props.className,
-                            )}
+                            className={setClass("materials-designer", this.props.className)}
                             id="materialEditForm"
                         >
-                            <div className="bgm-dark row">
+                            <div className="bgm-dark">
                                 {/* TODO: find out how to avoid passing material to header */}
                                 <HeaderMenuToolbar
                                     isLoading={this.props.isLoading}
@@ -71,56 +87,62 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     onExport={this.props.onExport}
                                     onSave={this.props.onSave}
                                     onExit={this.props.onExit}
-                                    ImportModal={this.props.ImportModal || DefaultImportModalDialog}
-                                    SaveActionDialog={this.props.SaveActionDialog}
+                                    openImportModal={
+                                        this.props.openImportModal || this.openDefaultImportModal
+                                    }
+                                    closeImportModal={
+                                        this.props.closeImportModal || this.closeDefaultImportModal
+                                    }
+                                    openSaveActionDialog={this.props.openSaveActionDialog}
                                     onGenerateSupercell={this.props.onGenerateSupercell}
                                     onGenerateSurface={this.props.onGenerateSurface}
                                     onSetBoundaryConditions={this.props.onSetBoundaryConditions}
                                     maxCombinatorialBasesCount={
                                         this.props.maxCombinatorialBasesCount
                                     }
+                                    defaultMaterialsSet={this.props.defaultMaterialsSet}
                                 />
-                                <div className="bgm-dark col-xs-12">
-                                    <ItemsList
-                                        className="col-md-2 p-5"
-                                        materials={this.props.materials}
-                                        index={this.props.index}
-                                        onItemClick={this.props.onItemClick}
-                                        onRemove={this.props.onRemove}
-                                        onNameUpdate={this.props.onNameUpdate}
-                                    />
-                                    <SourceEditor
-                                        className="col-md-4 p-5"
-                                        material={this.props.material}
-                                        onUpdate={this.props.onUpdate}
-                                    />
-                                    <ThreeDEditorFullscreen
-                                        className="col-md-6 p-0"
-                                        editable
-                                        material={this.props.material}
-                                        isConventionalCellShown={this.props.isConventionalCellShown}
-                                        boundaryConditions={this.props.material.boundaryConditions}
-                                        onUpdate={(material) => {
-                                            // convert made material to MD material and re-set metadata
-                                            const newMaterial =
-                                                Material.createFromMadeMaterial(material);
-                                            newMaterial.metadata =
-                                                this.props.material.metadata || {};
-                                            this.props.onUpdate(newMaterial);
-                                        }}
-                                    />
-                                </div>
-                                <div
-                                    className="bgm-dark col-xs-12 p-0"
-                                    style={{
-                                        // TODO: move out of here
-                                        padding: "40px",
-                                        borderTop: "1px solid",
-                                        backgroundColor: "#202020",
-                                    }}
-                                >
+                                {this.renderDefaultImportModal()}
+                                <Grid container>
+                                    <Grid item xs={12} md={2}>
+                                        <ItemsList
+                                            materials={this.props.materials}
+                                            index={this.props.index}
+                                            onItemClick={this.props.onItemClick}
+                                            onRemove={this.props.onRemove}
+                                            onNameUpdate={this.props.onNameUpdate}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={4}>
+                                        <SourceEditor
+                                            material={this.props.material}
+                                            onUpdate={this.props.onUpdate}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <ThreeDEditorFullscreen
+                                            editable
+                                            material={this.props.material}
+                                            isConventionalCellShown={
+                                                this.props.isConventionalCellShown
+                                            }
+                                            boundaryConditions={
+                                                this.props.material.boundaryConditions
+                                            }
+                                            onUpdate={(material) => {
+                                                // convert made material to MD material and re-set metadata
+                                                const newMaterial =
+                                                    Material.createFromMadeMaterial(material);
+                                                newMaterial.metadata =
+                                                    this.props.material.metadata || {};
+                                                this.props.onUpdate(newMaterial);
+                                            }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Box className="bgm-dark" sx={{ borderTop: "1px solid" }}>
                                     <EditorSelectionInfo />
-                                </div>
+                                </Box>
                             </div>
                         </div>
                     </ThemeProvider>
@@ -164,12 +186,15 @@ MaterialsDesigner.propTypes = {
     onSave: PropTypes.func,
     onExit: PropTypes.func,
 
-    ImportModal: PropTypes.func,
-    SaveActionDialog: PropTypes.func,
+    openImportModal: PropTypes.func,
+    closeImportModal: PropTypes.func,
+    openSaveActionDialog: PropTypes.func,
 
     onRemove: PropTypes.func,
 
     maxCombinatorialBasesCount: PropTypes.number,
+    // eslint-disable-next-line react/forbid-prop-types
+    defaultMaterialsSet: PropTypes.array,
 };
 
 export default MaterialsDesigner;

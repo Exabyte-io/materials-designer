@@ -21,7 +21,7 @@ RUN yum install -y \
 
 # Install nvm with node and npm
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 12.21.0
+ENV NODE_VERSION 14.19.3
 RUN mkdir /usr/local/nvm
 RUN curl -sL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
