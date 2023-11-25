@@ -13,17 +13,24 @@ import PythonCodeExecution from "./PythonCodeExecution";
 import TransformationSelector from "./TransformationSelector";
 
 interface PythonTransformationProps {
+    // TODO: add type when made.js is moved to Typescript
+    // @ts-ignore
     materials: any[];
     show: boolean;
+    // @ts-ignore
     onSubmit: (newMaterials: any[]) => void;
     onHide: () => void;
 }
 
 interface PythonTransformationState {
+    // @ts-ignore
     materials: any[];
+    // @ts-ignore
     selectedMaterials: any[];
     isLoading: boolean;
     isRunning: boolean;
+    // TODO: import type for Pyodide when they are available in Cove.js
+    // @ts-ignore
     pyodide: any;
     pythonCode: string;
     pythonOutput: string;
