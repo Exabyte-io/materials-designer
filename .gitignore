@@ -9,3 +9,4 @@ tests/.screenshots/*
 tests/cucumber/screenshots/
 .idea/
 .DS_Store
+src/react-app-env.d.ts
