@@ -71,7 +71,7 @@
     },
     "devDependencies": {
         "@exabyte-io/code.js": "2023.11.1-0",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#8001c165f694dd032777e02927c8a1272d15367b",
+        "@exabyte-io/cove.js": "2023.11.25-0",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "2023.11.3-0",
         "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata",
