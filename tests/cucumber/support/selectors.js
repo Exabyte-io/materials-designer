@@ -47,6 +47,15 @@ export const SELECTORS = {
             submitButton: 'button[data-name="Submit"]',
             cancelButton: 'button[data-name="Cancel"]',
         },
+        pythonTransformationDialog: {
+            wrapper: "#python-transformation-dialog",
+            dialog: 'div[role="dialog"]',
+            codeInput: "python-code-input",
+            pythonOutput: "python-output",
+            runButton: `button#python-transformation-dialog-run-button`,
+            submitButton: `button#python-transformation-dialog-submit-button`,
+            cancelButton: `button#python-transformation-dialog-cancel-button`,
+        },
     },
     itemsList: {
         wrapper: ".materials-designer-items-list",
