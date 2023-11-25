@@ -113,7 +113,7 @@ class InterpolateBasesDialog extends React.Component {
                                 <IconByName name="shapes.info" />
                             </a>
                         </Typography>
-                        <IconButton color="neutral" onClick={onHide}>
+                        <IconButton color="default" onClick={onHide}>
                             <IconByName name="actions.close" fontSize="small" />
                         </IconButton>
                     </Box>
