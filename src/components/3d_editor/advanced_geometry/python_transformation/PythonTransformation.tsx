@@ -1,7 +1,6 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
-import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -114,64 +113,61 @@ class PythonTransformation extends React.Component<
         const { show, onHide } = this.props;
 
         return (
-            // TODO: fix DarkMaterialUITheme in cove.js and remove ThemeProvider
-            <ThemeProvider theme={theme}>
-                <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
-                <Dialog
-                    id="python-transformation-dialog"
-                    open={show}
-                    onClose={onHide}
-                    fullWidth
-                    maxWidth="xl"
-                    onSubmit={this.handleSubmit}
-                    title="Python Transformation"
-                    isSubmitButtonDisabled={isLoading || isRunning}
-                >
-                    <DialogContent>
-                        <Paper elevation={0}>
-                            <Grid container spacing={theme.spacing(2)}>
-                                <Grid item xs={12} sm={12} md={5}>
-                                    <MaterialsSelector
-                                        materials={materials}
-                                        selectedMaterials={selectedMaterials}
-                                        setSelectedMaterials={(newMaterials) =>
-                                            this.setState({ selectedMaterials: newMaterials })
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={4} lg={5}>
-                                    <TransformationSelector
-                                        setPythonCode={(newPythonCode) =>
-                                            this.setState({ pythonCode: newPythonCode })
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={3} lg={2}>
-                                    <PythonCodeExecution
-                                        isLoading={isLoading}
-                                        isRunning={isRunning}
-                                        handleRun={this.handleRun}
-                                    />
-                                </Grid>
+            <Dialog
+                id="python-transformation-dialog"
+                open={show}
+                onClose={onHide}
+                fullWidth
+                maxWidth="xl"
+                onSubmit={this.handleSubmit}
+                title="Python Transformation"
+                isSubmitButtonDisabled={isLoading || isRunning}
+            >
+                <DialogContent>
+                    <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
+                    <Paper elevation={0}>
+                        <Grid container spacing={theme.spacing(2)}>
+                            <Grid item xs={12} sm={12} md={5}>
+                                <MaterialsSelector
+                                    materials={materials}
+                                    selectedMaterials={selectedMaterials}
+                                    setSelectedMaterials={(newMaterials) =>
+                                        this.setState({ selectedMaterials: newMaterials })
+                                    }
+                                />
                             </Grid>
-                        </Paper>
-                        <Paper
-                            sx={{
-                                height: CODE_DISPLAY_HEIGHT,
-                                mt: theme.spacing(2),
-                            }}
-                        >
-                            <PythonCodeDisplay
-                                pythonCode={pythonCode}
-                                pythonOutput={pythonOutput}
-                                setPythonCode={(newContent) =>
-                                    this.setState({ pythonCode: newContent })
-                                }
-                            />
-                        </Paper>
-                    </DialogContent>
-                </Dialog>
-            </ThemeProvider>
+                            <Grid item xs={12} sm={12} md={4} lg={5}>
+                                <TransformationSelector
+                                    setPythonCode={(newPythonCode) =>
+                                        this.setState({ pythonCode: newPythonCode })
+                                    }
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={3} lg={2}>
+                                <PythonCodeExecution
+                                    isLoading={isLoading}
+                                    isRunning={isRunning}
+                                    handleRun={this.handleRun}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                    <Paper
+                        sx={{
+                            height: CODE_DISPLAY_HEIGHT,
+                            mt: theme.spacing(2),
+                        }}
+                    >
+                        <PythonCodeDisplay
+                            pythonCode={pythonCode}
+                            pythonOutput={pythonOutput}
+                            setPythonCode={(newContent) =>
+                                this.setState({ pythonCode: newContent })
+                            }
+                        />
+                    </Paper>
+                </DialogContent>
+            </Dialog>
         );
     }
 }
