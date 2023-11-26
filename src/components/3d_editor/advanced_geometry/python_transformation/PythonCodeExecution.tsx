@@ -40,7 +40,7 @@ function PythonCodeExecution(props: PythonExecutionControlsProps) {
                 onClick={handleRun}
                 disabled={isLoading || isRunning}
             >
-                Run
+                <Typography variant="button">Run</Typography>
                 <IconByName name="actions.execute" />
             </Button>
         </Box>
