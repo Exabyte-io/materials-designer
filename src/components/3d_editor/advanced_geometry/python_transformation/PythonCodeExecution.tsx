@@ -29,7 +29,7 @@ function PythonCodeExecution(props: PythonExecutionControlsProps) {
                 {isLoading || isRunning ? (
                     <CircularProgress color="primary" size={theme.typography.button.fontSize} />
                 ) : (
-                    <CheckIcon color="secondary" />
+                    <CheckIcon color="success" />
                 )}
             </Box>
             <Button

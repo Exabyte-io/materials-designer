@@ -125,33 +125,31 @@ class PythonTransformation extends React.Component<
             >
                 <DialogContent>
                     <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
-                    <Paper elevation={0}>
-                        <Grid container spacing={theme.spacing(2)}>
-                            <Grid item xs={12} sm={12} md={5}>
-                                <MaterialsSelector
-                                    materials={materials}
-                                    selectedMaterials={selectedMaterials}
-                                    setSelectedMaterials={(newMaterials) =>
-                                        this.setState({ selectedMaterials: newMaterials })
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4} lg={5}>
-                                <TransformationSelector
-                                    setPythonCode={(newPythonCode) =>
-                                        this.setState({ pythonCode: newPythonCode })
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={3} lg={2}>
-                                <PythonCodeExecution
-                                    isLoading={isLoading}
-                                    isRunning={isRunning}
-                                    handleRun={this.handleRun}
-                                />
-                            </Grid>
+                    <Grid container spacing={theme.spacing(2)}>
+                        <Grid item xs={12} sm={12} md={5}>
+                            <MaterialsSelector
+                                materials={materials}
+                                selectedMaterials={selectedMaterials}
+                                setSelectedMaterials={(newMaterials) =>
+                                    this.setState({ selectedMaterials: newMaterials })
+                                }
+                            />
                         </Grid>
-                    </Paper>
+                        <Grid item xs={12} sm={12} md={4} lg={5}>
+                            <TransformationSelector
+                                setPythonCode={(newPythonCode) =>
+                                    this.setState({ pythonCode: newPythonCode })
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={3} lg={2}>
+                            <PythonCodeExecution
+                                isLoading={isLoading}
+                                isRunning={isRunning}
+                                handleRun={this.handleRun}
+                            />
+                        </Grid>
+                    </Grid>
                     <Paper
                         sx={{
                             height: CODE_DISPLAY_HEIGHT,
