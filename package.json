@@ -1,13 +1,14 @@
 {
     "name": "@exabyte-io/materials-designer",
-    "version": "2022.1.9-0",
+    "version": "0.0.0",
     "description": "Materials Designer",
     "scripts": {
-        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start --experimental-wasm-bigint",
+        "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests/cucumber tests/cucumber",
         "transpile": "babel --extensions '.js,.jsx,.ts,.tsx' --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
         "test": "bash run-tests.sh",
+        "testsOnly": "bash run-tests.sh -s=true",
         "lint": "eslint src tests && prettier --write src tests",
         "lint:fix": "eslint src tests --fix && prettier --write src tests",
         "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react",
@@ -70,7 +71,7 @@
     },
     "devDependencies": {
         "@exabyte-io/code.js": "2023.11.1-0",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#f1c074abf0ee5f162d01a645d7531bb13c793039",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#d67043cd4ad04a2df15ab093470b6d4d4e953500",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "2023.11.3-0",
         "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata",

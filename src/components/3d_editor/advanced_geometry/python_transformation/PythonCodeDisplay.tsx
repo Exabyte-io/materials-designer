@@ -11,7 +11,7 @@ interface PythonCodeDisplayProps {
 
 const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
     const { pythonCode, pythonOutput, setPythonCode } = props;
-
+    // @ts-ignore
     return (
         <>
             <Box
@@ -20,30 +20,25 @@ const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
                     border: `1px solid ${theme.palette.secondary.light}`,
                 }}
             >
-                {/* @ts-ignore */}
                 <CodeMirror
                     content={pythonCode}
                     updateContent={(newContent: string) => setPythonCode(newContent)}
                     options={{
-                        autoSave: true,
                         lineNumbers: true,
                     }}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    completions={() => {}}
-                    theme="light"
+                    theme="dark"
                     language="python"
                 />
             </Box>
             <Box id="python-output" mt={theme.spacing(1)}>
                 {pythonOutput && (
-                    // @ts-ignore
                     <CodeMirror
                         content={pythonOutput}
                         readOnly
                         options={{
                             lineNumbers: false,
                         }}
-                        theme="light"
+                        theme="dark"
                         language="python"
                     />
                 )}

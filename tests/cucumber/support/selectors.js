@@ -1,5 +1,5 @@
 export const SELECTORS = {
-    wrapper: ".materials-designer",
+    wrapper: "#materials-designer",
     actionDialogSubmitButton: 'button[data-name="Submit"]',
     headerMenu: {
         wrapper: ".materials-designer-header-menu",
@@ -60,7 +60,7 @@ export const SELECTORS = {
     itemsList: {
         wrapper: ".materials-designer-items-list",
         nameInput: "input",
-        itemByIndex: (index) => `nav div[role="button"]:nth-of-type(${index})`,
+        itemByIndex: (index) => `nav li:nth-of-type(${index})`,
         iconButtonDelete: ".icon-button-delete",
     },
     sourceEditor: {

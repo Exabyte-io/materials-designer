@@ -7,8 +7,12 @@ import TextField from "@mui/material/TextField";
 import React from "react";
 
 interface MaterialsSelectorProps {
+    // TODO: add type when made.js is moved to Typescript
+    // @ts-ignore
     materials: any[];
+    // @ts-ignore
     selectedMaterials: any[];
+    // @ts-ignore
     setSelectedMaterials: (selectedMaterials: any[]) => void;
 }
 
@@ -54,7 +58,6 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
                     />
                 ))
             }
-            sx={{ "& .MuiAutocomplete-tag": { margin: "0 !important" } }}
         />
     );
 }

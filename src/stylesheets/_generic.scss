@@ -57,6 +57,7 @@ $generic-count: 10;
 @mixin scrollbar-dark() {
     &::-webkit-scrollbar {
         width: 10px;
+        height: 10px;
     }
 
     &::-webkit-scrollbar-track {

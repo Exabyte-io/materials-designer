@@ -1,7 +1,7 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
-import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
+import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import React from "react";
@@ -13,21 +13,30 @@ import PythonCodeExecution from "./PythonCodeExecution";
 import TransformationSelector from "./TransformationSelector";
 
 interface PythonTransformationProps {
+    // TODO: add type when made.js is moved to Typescript
+    // @ts-ignore
     materials: any[];
     show: boolean;
+    // @ts-ignore
     onSubmit: (newMaterials: any[]) => void;
     onHide: () => void;
 }
 
 interface PythonTransformationState {
+    // @ts-ignore
     materials: any[];
+    // @ts-ignore
     selectedMaterials: any[];
     isLoading: boolean;
     isRunning: boolean;
+    // TODO: import type for Pyodide when they are available in Cove.js
+    // @ts-ignore
     pyodide: any;
     pythonCode: string;
     pythonOutput: string;
 }
+
+const CODE_DISPLAY_HEIGHT = "60vh";
 
 class PythonTransformation extends React.Component<
     PythonTransformationProps,
@@ -104,56 +113,46 @@ class PythonTransformation extends React.Component<
         const { show, onHide } = this.props;
 
         return (
-            // TODO: fix DarkMaterialUITheme in cove.js and remove ThemeProvider
-            <ThemeProvider theme={theme}>
-                <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
-                <Dialog
-                    id="python-transformation-dialog"
-                    open={show}
-                    onClose={onHide}
-                    fullWidth
-                    maxWidth="xl"
-                    onSubmit={this.handleSubmit}
-                    title="Python Transformation"
-                    isSubmitButtonDisabled={isLoading || isRunning}
-                >
-                    <Paper
-                        elevation={0}
-                        sx={{
-                            m: theme.spacing(1),
-                        }}
-                    >
-                        <Grid container spacing={theme.spacing(2)} sx={{ alignContent: "center" }}>
-                            <Grid item xs={12} sm={12} md={5}>
-                                <MaterialsSelector
-                                    materials={materials}
-                                    selectedMaterials={selectedMaterials}
-                                    setSelectedMaterials={(newMaterials) =>
-                                        this.setState({ selectedMaterials: newMaterials })
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4} lg={5}>
-                                <TransformationSelector
-                                    setPythonCode={(newPythonCode) =>
-                                        this.setState({ pythonCode: newPythonCode })
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={3} lg={2}>
-                                <PythonCodeExecution
-                                    isLoading={isLoading}
-                                    isRunning={isRunning}
-                                    handleRun={this.handleRun}
-                                />
-                            </Grid>
+            <Dialog
+                id="python-transformation-dialog"
+                open={show}
+                onClose={onHide}
+                fullWidth
+                maxWidth="xl"
+                onSubmit={this.handleSubmit}
+                title="Python Transformation"
+                isSubmitButtonDisabled={isLoading || isRunning}
+            >
+                <DialogContent>
+                    <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
+                    <Grid container spacing={theme.spacing(2)}>
+                        <Grid item xs={12} sm={12} md={5}>
+                            <MaterialsSelector
+                                materials={materials}
+                                selectedMaterials={selectedMaterials}
+                                setSelectedMaterials={(newMaterials) =>
+                                    this.setState({ selectedMaterials: newMaterials })
+                                }
+                            />
                         </Grid>
-                    </Paper>
+                        <Grid item xs={12} sm={12} md={4} lg={5}>
+                            <TransformationSelector
+                                setPythonCode={(newPythonCode) =>
+                                    this.setState({ pythonCode: newPythonCode })
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={3} lg={2}>
+                            <PythonCodeExecution
+                                isLoading={isLoading}
+                                isRunning={isRunning}
+                                handleRun={this.handleRun}
+                            />
+                        </Grid>
+                    </Grid>
                     <Paper
                         sx={{
-                            minHeight: 600,
-                            overflow: "scroll",
-                            m: theme.spacing(1),
+                            height: CODE_DISPLAY_HEIGHT,
                             mt: theme.spacing(2),
                         }}
                     >
@@ -165,8 +164,8 @@ class PythonTransformation extends React.Component<
                             }
                         />
                     </Paper>
-                </Dialog>
-            </ThemeProvider>
+                </DialogContent>
+            </Dialog>
         );
     }
 }
