@@ -46,6 +46,8 @@ interface PyodideDataMap {
 }
 
 const CODE_DISPLAY_HEIGHT = "60vh";
+const GITHUB_API_URL =
+    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7058";
 
 class PythonTransformation extends React.Component<
     PythonTransformationProps,
@@ -199,6 +201,7 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12} sm={12} md={4} lg={5}>
                             <TransformationSelector
+                                url={GITHUB_API_URL}
                                 setPythonCode={(newPythonCode) =>
                                     this.setState({ pythonCode: newPythonCode })
                                 }
