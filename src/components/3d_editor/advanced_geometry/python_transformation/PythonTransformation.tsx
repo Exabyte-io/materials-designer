@@ -38,6 +38,10 @@ interface PythonTransformationState {
     pythonOutput: string;
 }
 
+interface PyodideDataMap {
+    [key: string]: string | PyodideDataMap;
+}
+
 const CODE_DISPLAY_HEIGHT = "60vh";
 
 class PythonTransformation extends React.Component<
@@ -136,8 +140,8 @@ class PythonTransformation extends React.Component<
         onSubmit(newMaterials);
     };
 
-    mapToObject(map: Map<any, any>) {
-        const obj = {};
+    mapToObject(map: Map<string, any>): PyodideDataMap {
+        const obj: PyodideDataMap = {};
         map.forEach((value, key) => {
             if (value instanceof Map) {
                 obj[key] = this.mapToObject(value);
