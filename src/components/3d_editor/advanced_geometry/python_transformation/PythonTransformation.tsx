@@ -1,6 +1,8 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
+// @ts-ignore
+import { Made } from "@exabyte-io/made.js";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -55,7 +57,7 @@ class PythonTransformation extends React.Component<
             materials: props.materials,
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
-            expectMaterialOutput: false,
+            expectMaterialOutput: true,
             isLoading: true,
             isRunning: false,
             pyodide: null,
@@ -117,8 +119,16 @@ class PythonTransformation extends React.Component<
 
             if (expectMaterialOutput) {
                 const dataOut = result.toJs().get("data_out");
-                if (dataOut && dataOut.materials) {
-                    const newMaterials = dataOut.materials.map(this.mapToObject);
+                if (dataOut) {
+                    const materials = dataOut.get("materials");
+                    const newMaterials = materials.map((m: any) => {
+                        const material = this.mapToObject(m);
+                        const config = Made.parsers.poscar.fromPoscar(material.poscar);
+                        const newMaterial = new Made.Material(config);
+                        newMaterial.metadata = material.metadata;
+
+                        return newMaterial;
+                    });
                     this.setState({ newMaterials });
                 } else {
                     NPMsAlert.error("Expected materials output, but none was found.");
