@@ -64,8 +64,7 @@ class PythonTransformation extends React.Component<
         };
     }
 
-    // eslint-disable-next-line no-unused-vars
-    componentDidUpdate(prevProps: PythonTransformationProps, prevState: any) {
+    componentDidUpdate(prevProps: PythonTransformationProps) {
         const { materials } = this.props;
         if (prevProps.materials !== materials) {
             // eslint-disable-next-line react/no-did-update-set-state
