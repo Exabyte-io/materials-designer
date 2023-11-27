@@ -27,6 +27,8 @@ interface PythonTransformationState {
     materials: any[];
     // @ts-ignore
     selectedMaterials: any[];
+    // @ts-ignore
+    newMaterials: any[];
     isLoading: boolean;
     isRunning: boolean;
     // TODO: import type for Pyodide when they are available in Cove.js
@@ -47,6 +49,7 @@ class PythonTransformation extends React.Component<
         this.state = {
             materials: props.materials,
             selectedMaterials: [props.materials[0]],
+            newMaterials: [],
             isLoading: true,
             isRunning: false,
             pyodide: null,
@@ -79,15 +82,41 @@ class PythonTransformation extends React.Component<
         }));
     };
 
+    prepareMaterialData = () => {
+        const { selectedMaterials } = this.state;
+        return selectedMaterials.map((material, id) => {
+            const materialConfig = material.toJSON();
+            const materialPoscar = material.getAsPOSCAR();
+            return {
+                id,
+                material: materialConfig,
+                poscar: materialPoscar,
+                metadata: material.metadata,
+            };
+        });
+    };
+
     runPythonCode = async () => {
-        const { pyodide, pythonCode } = this.state;
         this.setState({ pythonOutput: "" });
+        let result;
 
         try {
-            await pyodide.runPythonAsync(pythonCode);
+            const materialsData = this.prepareMaterialData();
+            const dataIn = { materials: materialsData };
+            const { pyodide, pythonCode } = this.state;
+            const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
+
+            result = await pyodide.runPythonAsync(pythonCode, {
+                globals: convertedData,
+            });
+
+            const dataOut = result.toJs().get("data_out");
+            const newMaterials = dataOut.materials.map(this.mapToObject);
+            this.setState({ newMaterials });
         } catch (error: any) {
             this.setState({ pythonOutput: error.message });
         }
+        return result;
     };
 
     handleRun = async () => {
@@ -102,10 +131,22 @@ class PythonTransformation extends React.Component<
     };
 
     handleSubmit = () => {
-        // TODO: return newly created materials in the next task
-        // eslint-disable-next-line react/destructuring-assignment
-        this.props.onSubmit(this.state.selectedMaterials);
+        const { onSubmit } = this.props;
+        const { newMaterials } = this.state;
+        onSubmit(newMaterials);
     };
+
+    mapToObject(map: Map<any, any>) {
+        const obj = {};
+        map.forEach((value, key) => {
+            if (value instanceof Map) {
+                obj[key] = this.mapToObject(value);
+            } else {
+                obj[key] = value;
+            }
+        });
+        return obj;
+    }
 
     render() {
         const { isLoading, isRunning, pythonCode, pythonOutput, materials, selectedMaterials } =
