@@ -11,7 +11,6 @@ interface PythonCodeDisplayProps {
 
 const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
     const { pythonCode, pythonOutput, setPythonCode } = props;
-    // @ts-ignore
     return (
         <>
             <Box
