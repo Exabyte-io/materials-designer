@@ -7,5 +7,11 @@ node_modules/
 tests/node_modules/
 tests/.screenshots/*
 tests/cucumber/screenshots/
+tests-cypress/cypress/videos/*
+!tests-cypress/cypress/videos/.gitignore
+tests-cypress/cypress/screenshots/*
+!tests-cypress/cypress/screenshots/.gitignore
+tests-cypress/cypress/downloads/*
+!tests-cypress/cypress/downloads/.gitignore
 .idea/
 .DS_Store

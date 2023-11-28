@@ -1,0 +1,102 @@
+{
+    "lattice": {
+        "a": 2.467291,
+        "b": 2.467291,
+        "c": 3.901537,
+        "alpha": 90,
+        "beta": 90,
+        "gamma": 120,
+        "units": {
+            "length": "angstrom",
+            "angle": "degree"
+        },
+        "type": "TRI",
+        "vectors": {
+            "a": [
+                2.467291,
+                0,
+                0
+            ],
+            "b": [
+                -1.233645,
+                2.136737,
+                0
+            ],
+            "c": [
+                0,
+                0,
+                3.901537
+            ],
+            "alat": 1,
+            "units": "angstrom"
+        }
+    },
+    "basis": {
+        "elements": [
+            {
+                "id": 0,
+                "value": "C"
+            },
+            {
+                "id": 1,
+                "value": "C"
+            }
+        ],
+        "coordinates": [
+            {
+                "id": 0,
+                "value": [
+                    0,
+                    0,
+                    0
+                ]
+            },
+            {
+                "id": 1,
+                "value": [
+                    0.333333,
+                    0.666667,
+                    0
+                ]
+            }
+        ],
+        "units": "crystal",
+        "cell": [
+            [
+                2.467291,
+                0,
+                1.5107800128575361e-16
+            ],
+            [
+                -1.2336454999999995,
+                2.136736684528712,
+                1.5107800128575361e-16
+            ],
+            [
+                0,
+                0,
+                3.901537
+            ]
+        ],
+        "constraints": [
+            {
+                "id": 0,
+                "value": [
+                    true,
+                    true,
+                    true
+                ]
+            },
+            {
+                "id": 1,
+                "value": [
+                    false,
+                    false,
+                    false
+                ]
+            }
+        ]
+    },
+    "name": "Graphene",
+    "isNonPeriodic": false
+}

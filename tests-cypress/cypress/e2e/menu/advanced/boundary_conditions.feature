@@ -1,4 +1,4 @@
-Feature: User can create a slab
+Feature: User can add boundary conditions to a slab
 
   Scenario:
     When I open materials designer page
@@ -8,3 +8,9 @@ Feature: User can create a slab
     Then material with following data exists in state
       | path         | index   |
       | si-slab.json | $INT{1} |
+    When I add boundary conditions with the following data:
+      | type | offset |
+      | bc1  | 0      |
+    Then material with following data exists in state
+      | path                 | index   |
+      | si-slab-with-bc.json | $INT{1} |

@@ -1,12 +1,12 @@
-/* eslint-disable no-unused-vars */
 import lodash from "lodash";
-// eslint-disable-next-line import/no-unresolved
 import random from "random-seed";
 import _ from "underscore";
 import { DataTable } from "@badeball/cypress-cucumber-preprocessor";
 
 
-import { getCacheValue } from "./cache";
+function getCacheValue(context: object, key: string): unknown {
+    return context[key];
+}
 
 /**
  * Checks whether passed string is integer number.
@@ -84,7 +84,7 @@ export function parseValue(str: string, context: object) {
  * @param table Table passed from Cucumber step definition.
  * @param context  Context for extracting cached values.
  */
-export function parseTable<T>(table: DataTable, context: object): T[] {
+export function parseTable<T>(table: DataTable, context: object = {}): T[] {
     return table
         .hashes()
         .map((hash) => _.mapObject(hash, (value) => parseValue(value, context)) as T);
