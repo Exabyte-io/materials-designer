@@ -15,9 +15,18 @@ interface TransformationSelectorProps {
 
 function TransformationSelector(props: TransformationSelectorProps) {
     const { setPythonCode, url } = props;
-    const [transformations, setTransformations] = useState<Transformation[]>([]);
+
+    // Define the empty transformation
+    const emptyTransformation = {
+        id: "empty",
+        title: "Empty",
+        content: "",
+    };
+
+    // Initialize transformations with the empty transformation
+    const [transformations, setTransformations] = useState<Transformation[]>([emptyTransformation]);
     const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>(
-        null,
+        emptyTransformation,
     );
 
     const fetchTransformations = async () => {
@@ -29,7 +38,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
                 pythonFiles.map(async (file: any) => {
                     const rawResponse = await fetch(file.download_url);
                     const content = await rawResponse.text();
-                    const titleMatch = content.match(/"""(.*?)"""/);
+                    const titleMatch = content.match(/^"""(.*?)"""/);
                     const title = titleMatch ? titleMatch[1] : "No title";
                     return {
                         id: file.name,
@@ -38,8 +47,11 @@ function TransformationSelector(props: TransformationSelectorProps) {
                     };
                 }),
             );
-            setTransformations(transformationsData);
-            setSelectedTransformation(transformationsData[0]);
+            // Append fetched transformations to the existing list
+            setTransformations((prevTransformations) => [
+                ...prevTransformations,
+                ...transformationsData,
+            ]);
         } catch (error) {
             console.error("Error fetching transformations:", error);
         }
@@ -50,9 +62,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
     }, []);
 
     useEffect(() => {
-        if (selectedTransformation) {
-            setPythonCode(selectedTransformation.content);
-        }
+        if (selectedTransformation) setPythonCode(selectedTransformation.content);
     }, [selectedTransformation]);
 
     return (

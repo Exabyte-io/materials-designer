@@ -1,9 +1,10 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
-import Box from "@mui/material/Box";
+// TODO: add types when made.js is moved to Typescript
 // @ts-ignore
 import { Made } from "@exabyte-io/made.js";
+import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
