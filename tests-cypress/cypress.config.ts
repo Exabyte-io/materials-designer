@@ -19,5 +19,6 @@ export default defineConfig({
       );
       return config;
     },
-  },
+    viewportHeight: 800
+  }
 });

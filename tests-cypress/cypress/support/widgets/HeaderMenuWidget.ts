@@ -1,42 +1,30 @@
-// import { SELECTORS } from "../selectors";
-// import { retry } from "../utils";
+import browser from "../browser";
 import Widget from "./Widget";
 
+const selectors = {
+    menuDialogItemByNumber: (name: string, number: number) =>
+            `.button-activated-menu[data-name="${name}-menu"] li[role="menuitem"]:nth-of-type(${number})`,
+    wrapper: ".materials-designer-header-menu",
+}
+
 export default class HeaderMenuWidget extends Widget {
-    constructor(selector: string) {
-        super(selector);
-        // this._selectors = this.getWrappedSelectors(SELECTORS.headerMenu);
+    selectors: typeof selectors;
+
+    constructor() {
+        super(selectors.wrapper);
+        this.selectors = this.getWrappedSelectors(selectors);
     }
 
     openMenuDialog(menuName: string) {
-        cy.contains(menuName).click();
+        return browser.clickOnText(menuName);
     }
 
     selectMenuItem(menuName: string, itemNumber: number) {
-        cy.contains(menuName).click();
-        // retry due to animation
-        // retry(
-        //     () => {
-        //         exabrowser.scrollAndClick(
-        //             this._selectors.menuDialogItemByNumber(menuName, itemNumber),
-        //         );
-        //     },
-        //     { retries: 5 },
-        // );
+        return browser.click(this.selectors.menuDialogItemByNumber(menuName, itemNumber));
     }
 
-    // old selectMenuItemByNameAndItemNumber
-    clickOnMenuItem(menuName: string, subMenuName: string) {
+    selectMenuItemByNameAndItemNumber(menuName: string, itemNumber: number) {
         this.openMenuDialog(menuName);
-        this.openMenuDialog(subMenuName);
-        // this.selectMenuItem(menuName, itemNumber);
-    }
-
-    /**
-     * @summary Waits for the completion of any running operations: eg. save.
-     */
-    waitForMaterialInit() {
-        // exabrowser.waitForVisible(this._selectors.checkIndicatorButton);
-        // exabrowser.waitForDisappear(this._selectors.spinnerIndicatorButton);
+        this.selectMenuItem(menuName, itemNumber);
     }
 }

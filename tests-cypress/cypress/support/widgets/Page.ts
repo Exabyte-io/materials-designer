@@ -1,13 +1,14 @@
+import browser from "../browser";
 import Widget from "./Widget";
 
 export default class Page extends Widget {
-    open(path: string, forceLoad = false) {
-        // exabrowser.urlForceLoad(path, forceLoad);
-        // this.waitForVisible();
-        // this.waitForLoaderToDisappear();
+    open(path: string) {
+        this.go(path);
+        this.waitForVisible();
+        this.waitForLoaderToDisappear();
     }
 
-    getUrl() {
-        // return exabrowser.getUrl();
+    go(path: string) {
+        return cy.visit(path);
     }
 }

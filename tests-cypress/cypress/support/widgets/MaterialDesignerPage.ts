@@ -1,14 +1,15 @@
 import Page from "./Page";
-// import { SELECTORS } from "../selectors";
 import MaterialDesignerWidget from "./MaterialDesignerWidget";
+
+const wrapper = "#materials-designer";
 
 export class MaterialDesignerPage extends Page {
     designerWidget: MaterialDesignerWidget;
     
     constructor(selector: string) {
         super(selector);
-        this.designerWidget = new MaterialDesignerWidget("test");
+        this.designerWidget = new MaterialDesignerWidget(wrapper);
     }
 }
 
-export const materialDesignerPage = new MaterialDesignerPage("test");
+export const materialDesignerPage = new MaterialDesignerPage(wrapper);
