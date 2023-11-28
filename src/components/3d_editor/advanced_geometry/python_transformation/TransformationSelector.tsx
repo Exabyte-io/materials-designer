@@ -16,14 +16,12 @@ interface TransformationSelectorProps {
 function TransformationSelector(props: TransformationSelectorProps) {
     const { setPythonCode, url } = props;
 
-    // Define the empty transformation
     const emptyTransformation = {
         id: "empty",
         title: "Empty",
         content: "",
     };
 
-    // Initialize transformations with the empty transformation
     const [transformations, setTransformations] = useState<Transformation[]>([emptyTransformation]);
     const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>(
         emptyTransformation,
@@ -33,11 +31,12 @@ function TransformationSelector(props: TransformationSelectorProps) {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            const pythonFiles = data.filter((file: { name: string }) => file.name.endsWith(".py"));
+            const pythonFiles = data.filter((file: { name: string }) => file.name.match(/.*\.py/));
             const transformationsData = await Promise.all(
                 pythonFiles.map(async (file: any) => {
                     const rawResponse = await fetch(file.download_url);
                     const content = await rawResponse.text();
+                    // Python code snippets will have a title in the first line
                     const titleMatch = content.match(/^"""(.*?)"""/);
                     const title = titleMatch ? titleMatch[1] : "No title";
                     return {
@@ -47,7 +46,6 @@ function TransformationSelector(props: TransformationSelectorProps) {
                     };
                 }),
             );
-            // Append fetched transformations to the existing list
             setTransformations((prevTransformations) => [
                 ...prevTransformations,
                 ...transformationsData,
