@@ -70,7 +70,7 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/cove.js": "2023.11.22-0",
+        "@exabyte-io/cove.js": "2023.11.27-2",
         "@exabyte-io/code.js": "2023.11.1-0",
         "@exabyte-io/eslint-config": "^2022.11.17-0",
         "@exabyte-io/made.js": "2023.11.3-0",
