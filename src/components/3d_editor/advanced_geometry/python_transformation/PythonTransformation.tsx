@@ -1,6 +1,7 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
+import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -122,8 +123,8 @@ class PythonTransformation extends React.Component<
                 title="Python Transformation"
                 isSubmitButtonDisabled={isLoading || isRunning}
             >
-                <DialogContent>
-                    <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
+                <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
+                <Box mt={theme.spacing(1)} p={`0 ${theme.spacing(3)}`}>
                     <Grid container spacing={theme.spacing(2)}>
                         <Grid item xs={12} sm={12} md={5}>
                             <MaterialsSelector
@@ -149,10 +150,11 @@ class PythonTransformation extends React.Component<
                             />
                         </Grid>
                     </Grid>
+                </Box>
+                <DialogContent>
                     <Paper
                         sx={{
                             height: CODE_DISPLAY_HEIGHT,
-                            mt: theme.spacing(2),
                         }}
                     >
                         <PythonCodeDisplay
