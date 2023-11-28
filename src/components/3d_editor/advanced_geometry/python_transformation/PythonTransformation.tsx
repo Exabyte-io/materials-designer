@@ -33,7 +33,6 @@ interface PythonTransformationState {
     selectedMaterials: any[];
     // @ts-ignore
     newMaterials: any[];
-    expectMaterialOutput: boolean;
     isLoading: boolean;
     isRunning: boolean;
     // TODO: import type for Pyodide when they are available in Cove.js
@@ -61,7 +60,6 @@ class PythonTransformation extends React.Component<
             materials: props.materials,
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
-            expectMaterialOutput: true,
             isLoading: true,
             isRunning: false,
             pyodide: null,
@@ -112,36 +110,12 @@ class PythonTransformation extends React.Component<
         let result;
 
         try {
-            const { pyodide, pythonCode, expectMaterialOutput } = this.state;
-            const materialsData = expectMaterialOutput ? this.prepareMaterialData() : [];
-            const dataIn = { materials: materialsData };
-            const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
-
-            result = await pyodide.runPythonAsync(pythonCode, {
-                globals: convertedData,
-            });
-
-            if (expectMaterialOutput) {
-                const dataOut = result.toJs().get("data_out");
-                if (dataOut) {
-                    const materials = dataOut.get("materials");
-                    const newMaterials = materials.map((m: any) => {
-                        const material = this.mapToObject(m);
-                        const config = Made.parsers.poscar.fromPoscar(material.poscar);
-                        const newMaterial = new Made.Material(config);
-                        newMaterial.metadata = material.metadata;
-
-                        return newMaterial;
-                    });
-                    this.setState({ newMaterials });
-                } else {
-                    NPMsAlert.error("Expected materials output, but none was found.");
-                }
-            }
+            const { pyodide, pythonCode } = this.state;
+            result = await pyodide.runPythonAsync(pythonCode);
+            if (result) return result;
         } catch (error: any) {
             this.setState({ pythonOutput: error.message });
         }
-        return result;
     };
 
     handleRun = async () => {
@@ -155,9 +129,42 @@ class PythonTransformation extends React.Component<
         }
     };
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         const { onSubmit } = this.props;
-        const { newMaterials } = this.state;
+        const { pyodide, pythonCode, newMaterials, pythonOutput } = this.state;
+
+        if (!pythonOutput) {
+            await this.runPythonCode();
+        }
+
+        try {
+            const materialsData = this.prepareMaterialData();
+            const dataIn = { materials: materialsData };
+            const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
+
+            const result = await pyodide.runPythonAsync(pythonCode, {
+                globals: convertedData,
+            });
+
+            const dataOut = result.toJs().get("data_out");
+            if (dataOut) {
+                const materials = dataOut.get("materials");
+                const newMaterials = materials.map((m: any) => {
+                    const material = this.mapToObject(m);
+                    const config = Made.parsers.poscar.fromPoscar(material.poscar);
+                    const newMaterial = new Made.Material(config);
+                    newMaterial.metadata = material.metadata;
+
+                    return newMaterial;
+                });
+                this.setState({ newMaterials });
+            } else {
+                NPMsAlert.error("Expected materials output, but none was found.");
+            }
+        } catch (error: any) {
+            NPMsAlert.error(error.message);
+        }
+
         onSubmit(newMaterials);
     };
 
