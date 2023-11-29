@@ -1,15 +1,3 @@
 {
-    "extends": ["@exabyte-io/eslint-config"],
-    "settings": {
-        "import/resolver": {
-            "node": {
-                "extensions": [".js", ".jsx", ".ts", ".tsx"]
-            }
-        }
-    },
-    "plugins": ["react"],
-    "rules": {
-        "jsx-a11y/label-has-associated-control": "off",
-        "react/function-component-definition": "off"
-    }
+    "extends": ["@exabyte-io/eslint-config"]
 }
