@@ -1,11 +1,17 @@
-# ARG BASE_IMAGE=ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-firefox_arm64
-ARG BASE_IMAGE=ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-chrome_x86_64
-ARG IMAGE_TAG=latest
+ARG BASE_IMAGE=node
+# Not using "alpine" to allow node gyp to work with package installations from "https://github.com" directly
+ARG IMAGE_TAG=14
 FROM ${BASE_IMAGE}:${IMAGE_TAG}
-WORKDIR /opt/test
-RUN git init
+
+WORKDIR /opt/app
+
+# use changes to package.json to force Docker not to use the cache
+# when we change our application's nodejs dependencies:
+# https://stackoverflow.com/questions/35774714/how-to-cache-the-run-npm-install-instruction-when-docker-build-a-dockerfile
+COPY package.json package.json
+
+RUN npm install
+
 COPY . .
 
-ENV BASE_DIR /opt/test
-ENTRYPOINT ["/opt/test/entrypoint.sh", "test"]
-
+ENTRYPOINT ["/opt/app/entrypoint.sh", "test"]

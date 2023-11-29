@@ -45,7 +45,7 @@ function evalExpression(str: string) {
             rand
                 .random()
                 .toString(36)
-                .substring(2, 2 + parseInt(str) - 1)
+                .substring(2, 2 + parseInt(str, 10) - 1)
         );
     }
     if (str.indexOf("!") === 0) {
@@ -57,7 +57,7 @@ function evalExpression(str: string) {
         let result = "";
         const max = 9;
         const min = 0;
-        const count = parseInt(str.substring(1));
+        const count = parseInt(str.substring(1), 10);
         let i = 0;
         for (; i < count; i++) {
             result += Math.floor(Math.random() * (max - min + 1)) + min;
@@ -72,7 +72,7 @@ function evalExpression(str: string) {
  */
 export function parseValue(str: string, context: object) {
     if (!_.isString(str)) throw new Error("Argument should be string");
-    // eslint-disable-next-line no-shadow, no-use-before-define
+    // eslint-disable-next-line no-shadow, no-use-before-define, @typescript-eslint/no-use-before-define
     const config = REGEXES.find((config) => str.match(config.regex));
     return config ? config.func(str, config.regex, context) : str;
 }
@@ -157,7 +157,7 @@ const REGEXES: Regex[] = [
     {
         name: "INT_REGEX",
         regex: /^\$INT\{(.*)}/,
-        func: (str, regex) => parseInt(matchRegexp(str, regex)),
+        func: (str, regex) => parseInt(matchRegexp(str, regex), 10),
     },
     {
         name: "FLOAT_REGEX",
