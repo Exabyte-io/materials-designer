@@ -3,7 +3,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -150,7 +150,6 @@ class ItemsList extends React.Component {
                         <TextField
                             className="list-item-text_primary"
                             size="small"
-                            InputProps={{ disableUnderline: true }}
                             onFocus={(e) => this.focusListItem(e, index)}
                             value={isBeingEdited ? editedName : entity.name}
                             onChange={(event) => this.setState({ editedName: event.target.value })}
@@ -169,19 +168,18 @@ class ItemsList extends React.Component {
     }
 
     render() {
-        const { className, materials, index } = this.props;
+        const { materials, index } = this.props;
         return (
-            <Box className={setClass(className, "materials-designer-items-list")} sx={{ p: 1 }}>
+            <Grid item className="materials-designer-items-list" xs={12}>
                 <List component="nav" dense>
                     {materials.map((m, i) => this.renderListItem(m, i, index))}
                 </List>
-            </Box>
+            </Grid>
         );
     }
 }
 
 ItemsList.propTypes = {
-    className: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     materials: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
