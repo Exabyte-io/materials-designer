@@ -16,15 +16,17 @@ interface TransformationSelectorProps {
 function TransformationSelector(props: TransformationSelectorProps) {
     const { setPythonCode, url } = props;
 
-    const emptyTransformation = {
-        id: "empty",
+    const defaultTransformation = {
+        id: "default",
         title: "Empty",
         content: "",
     };
 
-    const [transformations, setTransformations] = useState<Transformation[]>([emptyTransformation]);
+    const [transformations, setTransformations] = useState<Transformation[]>([
+        defaultTransformation,
+    ]);
     const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>(
-        emptyTransformation,
+        defaultTransformation,
     );
 
     const fetchTransformations = async () => {
