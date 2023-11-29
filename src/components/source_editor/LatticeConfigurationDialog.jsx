@@ -153,7 +153,6 @@ class LatticeConfigurationDialog extends React.Component {
                             <TextField
                                 select
                                 fullWidth
-                                labelId="form-lattice-units"
                                 id="form-lattice-units"
                                 data-tid="units"
                                 value={lattice.units.length}
@@ -168,7 +167,6 @@ class LatticeConfigurationDialog extends React.Component {
                             <TextField
                                 select
                                 fullWidth
-                                labelId="form-lattice-type"
                                 id="form-lattice-type"
                                 data-tid="type"
                                 value={lattice.type}
@@ -317,7 +315,6 @@ class LatticeConfigurationDialog extends React.Component {
                     <TextField
                         select
                         fullWidth
-                        labelId="form-edit-mode"
                         id="form-edit-mode"
                         data-tid="edit-mode"
                         value={preserveBasis ? 1 : 0}
