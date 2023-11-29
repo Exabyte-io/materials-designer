@@ -216,13 +216,13 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Boundary Conditions
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem disabled hidden>
                     <ListItemIcon>
                         <PolymerIcon />
                     </ListItemIcon>
                     Polymer
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem disabled hidden>
                     <ListItemIcon>
                         <NanotubeIcon />
                     </ListItemIcon>
