@@ -10,17 +10,17 @@ export const SELECTORS = {
             `.button-activated-menu[data-name="${name}-menu"] li[role="menuitem"]:nth-of-type(${number})`,
         supercellDialog: {
             wrapper: "#supercellModal",
-            submitButton: "#make-supercell",
+            submitButton: "#supercellModal-submit-button",
             matrixElementByIndices: (i, j) => `div.m${i + 1}${j + 1} input`,
         },
         interpolatedSetDialog: {
             wrapper: "#interpolatedSetModal",
-            submitButton: "#generate-interpolated-set",
+            submitButton: "#interpolatedSetModal-submit-button",
             intermediateImagesInput: "input[type='number']",
         },
         surfaceDialog: {
             wrapper: "#surfaceModal",
-            submitButton: "#make-surface",
+            submitButton: "#surfaceModal-submit-button",
             h: '[data-tid="miller-h"] input',
             k: '[data-tid="miller-k"] input',
             l: '[data-tid="miller-l"] input',
