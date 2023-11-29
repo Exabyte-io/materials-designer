@@ -82,6 +82,10 @@ class PythonTransformation extends React.Component<
             pyodideInstance.setStdout({
                 batched: (text: string) => this.redirectPyodideStdout(text),
             });
+            pyodideInstance.setStderr({
+                batched: (text: string) => this.redirectPyodideStdout(text),
+                isatty: false,
+            });
             // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
             // as per https://github.com/pyodide/matplotlib-pyodide
             // @ts-ignore
@@ -109,47 +113,30 @@ class PythonTransformation extends React.Component<
         });
     };
 
-    runPythonCode = async () => {
-        this.setState({ pythonOutput: "" });
+    runPythonCode = async (options: any) => {
+        this.setState({ isRunning: true, pythonOutput: "" });
         let result;
 
         try {
             const { pyodide, pythonCode } = this.state;
-            result = await pyodide.runPythonAsync(pythonCode);
+            result = await pyodide.runPythonAsync(pythonCode, options);
             if (result) return result;
         } catch (error: any) {
-            // this.setState({ pythonOutput: error.message });
+            this.setState({ pythonOutput: error.message });
         }
     };
 
     handleRun = async () => {
-        this.setState({ isRunning: true });
-        try {
-            await this.runPythonCode();
-        } catch (error: any) {
-            NPMsAlert.error(error.message);
-        } finally {
-            this.setState({ isRunning: false });
-        }
-    };
-
-    handleSubmit = async () => {
-        const { onSubmit } = this.props;
-        const { pyodide, pythonCode, newMaterials, pythonOutput } = this.state;
-
-        if (!pythonOutput) {
-            await this.runPythonCode();
-        }
+        const { pyodide } = this.state;
 
         try {
             const materialsData = this.prepareMaterialData();
             const dataIn = { materials: materialsData };
             const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
 
-            const result = await pyodide.runPythonAsync(pythonCode, {
-                globals: convertedData,
-            });
+            const result = await this.runPythonCode({ globals: convertedData });
 
+            if (!result) return;
             const dataOut = result.toJs().get("data_out");
             if (dataOut) {
                 const materials = dataOut.get("materials");
@@ -166,8 +153,15 @@ class PythonTransformation extends React.Component<
                 NPMsAlert.error("Expected materials output, but none was found.");
             }
         } catch (error: any) {
-            NPMsAlert.error(error.message);
+            this.setState({ pythonOutput: error.message });
+        } finally {
+            this.setState({ isRunning: false });
         }
+    };
+
+    handleSubmit = async () => {
+        const { onSubmit } = this.props;
+        const { newMaterials } = this.state;
 
         onSubmit(newMaterials);
     };
