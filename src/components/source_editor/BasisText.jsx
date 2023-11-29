@@ -1,8 +1,7 @@
-// import _ from "underscore";
 /* eslint-disable react/sort-comp */
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
 import { Made } from "@exabyte-io/made.js";
-import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import setClass from "classnames";
 import PropTypes from "prop-types";
@@ -19,7 +18,7 @@ class BasisText extends React.Component {
             content: props.content,
             checks: props.checks,
             isContentValidated: true, // assuming that initial content is valid
-            message: "",
+            message: props.message,
         };
         this.updateContent = this.updateContent.bind(this);
         // TODO: adjust tests to accommodate for the delay and re-enable
@@ -84,10 +83,10 @@ class BasisText extends React.Component {
     render() {
         const { className, readOnly, codeMirrorOptions } = this.props;
         const { content, isContentValidated, message, checks } = this.state;
-
+        // Using `success.main` color below b/c of https://github.com/mui/material-ui/issues/29564
         return (
-            <div className={setClass("xyz", className)}>
-                <Box id="basis-xyz">
+            <Grid container id="basis-xyz" className={setClass("xyz", className)}>
+                <Grid item xs={12}>
                     <CodeMirror
                         ref={this.codeMirrorRef}
                         id="xyz-codemirror"
@@ -104,22 +103,24 @@ class BasisText extends React.Component {
                         language="exaxyz"
                         checks={checks}
                     />
-                    <Box sx={{ p: 1, textAlign: "center" }}>
-                        <Typography
-                            variant="body2"
-                            color={isContentValidated ? "success" : "error"}
-                        >
-                            {message}&nbsp;
-                        </Typography>
-                    </Box>
-                </Box>
-            </div>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography
+                        variant="body2"
+                        color={isContentValidated ? "success.main" : "error"}
+                        align="center"
+                    >
+                        {message}
+                    </Typography>
+                </Grid>
+            </Grid>
         );
     }
 }
 
 BasisText.propTypes = {
     className: PropTypes.string,
+    message: PropTypes.string,
     content: PropTypes.string,
     // eslint-disable-next-line react/forbid-prop-types
     checks: PropTypes.array,
@@ -131,6 +132,7 @@ BasisText.propTypes = {
 
 BasisText.defaultProps = {
     className: "",
+    message: "",
     readOnly: false,
     content: "---- No content passed ----\n",
     checks: [],
