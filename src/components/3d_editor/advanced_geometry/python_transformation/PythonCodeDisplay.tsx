@@ -42,6 +42,7 @@ const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
                     />
                 )}
             </Box>
+            <Box id="pyodide-plot-target" />
         </>
     );
 };
