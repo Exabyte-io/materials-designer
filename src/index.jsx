@@ -5,7 +5,7 @@ import "react-s-alert/dist/s-alert-css-effects/stackslide.css";
 import "@exabyte-io/wave.js/dist/stylesheets/main.css";
 import "./stylesheets/main.scss";
 
-// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 import data from "@exabyte-io/standata/lib/runtime_data/materials";
 import React from "react";
 import ReactDOM from "react-dom";
