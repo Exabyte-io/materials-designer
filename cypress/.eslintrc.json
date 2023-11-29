@@ -1,0 +1,15 @@
+{
+    "extends": ["@exabyte-io/eslint-config"],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".ts"]
+            }
+        }
+    },
+    "plugins": ["react"],
+    "rules": {
+        "import/no-extraneous-dependencies": "off",
+        "class-methods-use-this": "off"
+    }
+}
