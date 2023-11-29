@@ -147,4 +147,6 @@ MaterialsDesignerContainer.defaultProps = {
     applyMiddleware: true,
     initialMaterials,
     defaultMaterialsSet: [],
+    maxCombinatorialBasesCount: 100,
+    onExit: () => {},
 };
