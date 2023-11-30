@@ -1,0 +1,22 @@
+{
+  "name": "MD-tests",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "CYPRESS_BASE_URL=http://localhost:3001 cypress open",
+    "test:headless": "CYPRESS_BASE_URL=http://localhost:3001 cypress run"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^19.2.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "@types/node": "^20.10.1",
+    "cypress": "^13.6.0",
+    "cypress-xpath": "^2.0.1",
+    "random-seed": "^0.3.0",
+    "typescript": "^5.3.2",
+    "underscore": "^1.13.6"
+  }
+}

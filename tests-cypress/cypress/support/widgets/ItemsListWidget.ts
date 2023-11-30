@@ -15,7 +15,7 @@ export class ItemsListWidget extends Widget {
         super(wrapper);
     }
 
-    async setItemName(itemIndex: number, name: string) {
+    setItemName(itemIndex: number, name: string) {
         const selector = this.getSelectorPerItem(itemIndex, this.selectors.nameInput);
         browser.waitForValue(selector);
         this.selectItemByIndex(itemIndex);

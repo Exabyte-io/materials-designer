@@ -6,7 +6,7 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
     e2e: {
-        specPattern: "cypress/**/*.feature",
+        specPattern: "./**/*.feature",
         async setupNodeEvents(
             on: Cypress.PluginEvents,
             config: Cypress.PluginConfigOptions,
