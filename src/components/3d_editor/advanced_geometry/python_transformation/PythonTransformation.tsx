@@ -121,8 +121,6 @@ class PythonTransformation extends React.Component<
                 pythonOutput: error.message + "\n",
                 executionState: "error",
             });
-        } finally {
-            this.setState({ executionState: "ready" });
         }
     };
 
@@ -152,8 +150,7 @@ class PythonTransformation extends React.Component<
             }
         } catch (error: any) {
             NPMsAlert.error(error.message);
-        } finally {
-            this.setState({ executionState: "ready" });
+            this.setState({ executionState: "error" });
         }
     };
 
