@@ -39,7 +39,7 @@ export const SELECTORS = {
             wrapper: "#defaultImportModalDialog",
             dialog: 'div[role="dialog"]',
             uploadInput: 'input[data-name="fileapi"]',
-            addButton: '[data-name="add-button"]',
+            addButton: '[data-name="upload-button"]',
             gridFileName: (fileName) =>
                 `div[role="cell"][data-field="fileName"] div[title="${fileName}"]`,
             gridFormat: (format) => `div[role="cell"][data-field="format"] div[title="${format}"]`,
