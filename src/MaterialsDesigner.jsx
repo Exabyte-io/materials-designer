@@ -41,18 +41,18 @@ const GRID_CONFIG_BY_VISIBILITY = {
     },
     "#011": {
         1: { xs: 0 },
-        2: { xs: 6 },
-        3: { xs: 6 },
+        2: { xs: 12, md: 6 },
+        3: { xs: 12, md: 6 },
     },
     "#101": {
-        1: { xs: 3 },
-        2: { xs: 0 },
-        3: { xs: 9 },
+        1: { xs: 12, md: 3 },
+        2: { xs: 12, md: 0 },
+        3: { xs: 12, md: 9 },
     },
     "#110": {
-        1: { xs: 4 },
-        2: { xs: 8 },
-        3: { xs: 0 },
+        1: { xs: 12, md: 4 },
+        2: { xs: 12, md: 8 },
+        3: { xs: 12, md: 0 },
     },
 };
 class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMixin) {
