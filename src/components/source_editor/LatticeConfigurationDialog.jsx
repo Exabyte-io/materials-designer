@@ -313,7 +313,7 @@ class LatticeConfigurationDialog extends React.Component {
                     <Grid item xs={6}>
                         <Button
                             fullWidth
-                            variant="contained"
+                            variant="text"
                             className="save-lattice-config"
                             onClick={this.handleUpdateLattice}
                             sx={{ pt: 1, pb: 1 }}
