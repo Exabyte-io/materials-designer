@@ -483,9 +483,9 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSurface: PropTypes.func.isRequired,
     onSetBoundaryConditions: PropTypes.func.isRequired,
     onSectionVisibilityToggle: PropTypes.func.isRequired,
-    isVisibleItemsList: PropTypes.func.isRequired,
-    isVisibleSourceEditor: PropTypes.func.isRequired,
-    isVisibleThreeDEditorFullscreen: PropTypes.func.isRequired,
+    isVisibleItemsList: PropTypes.bool.isRequired,
+    isVisibleSourceEditor: PropTypes.bool.isRequired,
+    isVisibleThreeDEditorFullscreen: PropTypes.bool.isRequired,
 
     openImportModal: PropTypes.func.isRequired,
     closeImportModal: PropTypes.func.isRequired,
