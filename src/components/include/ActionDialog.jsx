@@ -43,9 +43,14 @@ export class ActionDialog extends React.Component {
 }
 
 ActionDialog.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
+};
+
+ActionDialog.defaultProps = {
+    title: "",
+    children: null,
 };

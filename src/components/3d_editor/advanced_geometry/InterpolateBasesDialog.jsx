@@ -1,16 +1,8 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
-import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
-import FormControl from "@mui/material/FormControl";
-import IconButton from "@mui/material/IconButton";
-import InputLabel from "@mui/material/InputLabel";
+import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";
@@ -84,7 +76,7 @@ class InterpolateBasesDialog extends React.Component {
     };
 
     render() {
-        const { materialIndex, message, validated, numberOfSteps } = this.state;
+        const { materialIndex, message, numberOfSteps } = this.state;
         const { isOpen, onHide, title, material, material2, modalId } = this.props;
         const xyzContent = [material, material2][materialIndex].getBasisAsXyz();
 
@@ -92,56 +84,20 @@ class InterpolateBasesDialog extends React.Component {
             <Dialog
                 id={modalId}
                 open={isOpen}
-                renderHeaderCustom={() => (
-                    <Box
-                        sx={{
-                            m: 3,
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Typography variant="h6">
-                            {title}
-                            <a
-                                className="m-l-10 combinatorial-info"
-                                href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="Interpolate Basis"
-                            >
-                                <IconByName name="shapes.info" />
-                            </a>
-                        </Typography>
-                        <IconButton color="neutral" onClick={onHide}>
-                            <IconByName name="actions.close" fontSize="small" />
-                        </IconButton>
-                    </Box>
-                )}
-                renderFooterCustom={() => (
-                    <DialogActions>
-                        <Button
-                            id="generate-interpolated-set"
-                            onClick={this.handleSubmit}
-                            variant="outlined"
-                            fullWidth
-                            sx={{ m: 2 }}
-                        >
-                            Generate Interpolated Set
-                        </Button>
-                    </DialogActions>
-                )}
+                title={title}
+                onClose={onHide}
+                onSubmit={this.handleSubmit}
             >
-                <Box gap={1} sx={{ display: "flex", mb: 1 }}>
-                    <FormControl fullWidth>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
                         <TextField
+                            fullWidth
                             id="form-number-immediate-steps"
                             label="# of intermediate steps"
                             variant="outlined"
                             size="small"
                             value={numberOfSteps}
                             type="number"
-                            className="numberOfSteps"
                             onChange={(e) => {
                                 this.setState({ numberOfSteps: parseInt(e.target.value, 10) });
                             }}
@@ -150,43 +106,29 @@ class InterpolateBasesDialog extends React.Component {
                                     min: 0,
                                     step: 1,
                                 },
-                                minWidth: 0,
                             }}
                         />
-                    </FormControl>
-
-                    <FormControl fullWidth>
-                        <InputLabel id="form-initial-final-structures">
-                            Initial/Final structures
-                        </InputLabel>
-                        <Select
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            select
+                            fullWidth
                             className="materialIndex"
-                            labelId="form-initial-final-structures"
                             id="form-initial-final-structures"
                             value={materialIndex}
                             label="Initial/Final structures"
                             size="small"
-                            sx={{ minWidth: 0 }}
                             onChange={(e) => {
                                 this.setState({ materialIndex: parseInt(e.target.value, 10) });
                             }}
                         >
                             {this.getOptions()}
-                        </Select>
-                    </FormControl>
-                </Box>
-                <Box className="xyz" sx={{ minHeight: "65vmin" }}>
-                    <BasisText readOnly content={xyzContent} />
-                    {message && (
-                        <Typography
-                            variant="body1"
-                            color={validated ? "success" : "error"}
-                            textAlign="center"
-                        >
-                            {message}
-                        </Typography>
-                    )}
-                </Box>
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <BasisText readOnly content={xyzContent} message={message} />
+                    </Grid>
+                </Grid>
             </Dialog>
         );
     }
