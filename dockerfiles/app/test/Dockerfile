@@ -1,5 +1,5 @@
 # From https://hub.docker.com/r/cypress/browsers/tags
-FROM cypress/included:latest
+FROM cypress/included:13.6.0
 
 WORKDIR /opt/test
 
