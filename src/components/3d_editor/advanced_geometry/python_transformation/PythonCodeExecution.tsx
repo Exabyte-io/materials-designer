@@ -8,37 +8,43 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 
 interface PythonExecutionControlsProps {
-    isLoading: boolean;
-    isRunning: boolean;
+    executionState: "loading" | "running" | "ready" | "error";
     handleRun: () => void;
 }
 
 function PythonCodeExecution(props: PythonExecutionControlsProps) {
-    const { isLoading, isRunning, handleRun } = props;
+    const { handleRun, executionState } = props;
 
-    const getStatusText = () => {
-        if (isLoading) return "Loading...";
-        if (isRunning) return "Running...";
-        return "Ready";
+    const statusTextMap = {
+        loading: "Loading...",
+        running: "Running...",
+        ready: "Ready",
+        error: "Error",
     };
 
     return (
         <Box sx={{ display: "flex", justifyContent: "flex-end" }} gap={1}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="body2">{getStatusText()}</Typography>
-                {isLoading || isRunning ? (
+            <Box sx={{ display: "flex", alignItems: "center" }} gap={1}>
+                <Typography variant="body2">{statusTextMap[executionState]}</Typography>
+                {executionState === "loading" || executionState === "running" ? (
                     <CircularProgress color="primary" size={theme.typography.button.fontSize} />
-                ) : (
-                    <CheckIcon color="success" />
-                )}
+                ) : null}
+                {executionState === "ready" && <IconByName name="shapes.check" color="success" />}
+                {executionState === "error" && (
+                    <IconByName name="actions.cancel" color="error" />
+                )}{" "}
             </Box>
             <Button
-                id="python-transformation-dialog-run-button"
+                className="run-button"
                 variant="contained"
                 size="small"
-                color={isLoading ? "secondary" : "success"}
+                color={
+                    executionState === "loading" || executionState === "running"
+                        ? "secondary"
+                        : "success"
+                }
                 onClick={handleRun}
-                disabled={isLoading || isRunning}
+                disabled={executionState === "loading" || executionState === "running"}
             >
                 <Typography variant="button">Run</Typography>
                 <IconByName name="actions.execute" />

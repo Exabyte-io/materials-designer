@@ -35,6 +35,7 @@ interface PythonTransformationState {
     newMaterials: any[];
     isLoading: boolean;
     isRunning: boolean;
+    executionState: "loading" | "running" | "ready" | "error";
     // TODO: import type for Pyodide when they are available in Cove.js
     // @ts-ignore
     pyodide: any;
@@ -62,6 +63,7 @@ class PythonTransformation extends React.Component<
             newMaterials: [],
             isLoading: true,
             isRunning: false,
+            executionState: "loading",
             pyodide: null,
             pythonCode: "",
             pythonOutput: "",
@@ -77,14 +79,10 @@ class PythonTransformation extends React.Component<
     }
 
     onPyodideLoad = (pyodideInstance: any) => {
-        this.setState({ pyodide: pyodideInstance, isLoading: false }, async () => {
+        this.setState({ pyodide: pyodideInstance, executionState: "ready" }, async () => {
             // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
             pyodideInstance.setStdout({
                 batched: (text: string) => this.redirectPyodideStdout(text),
-            });
-            pyodideInstance.setStderr({
-                batched: (text: string) => this.redirectPyodideStdout(text),
-                isatty: false,
             });
             // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
             // as per https://github.com/pyodide/matplotlib-pyodide
@@ -183,6 +181,7 @@ class PythonTransformation extends React.Component<
             this.state;
         const { show, onHide } = this.props;
 
+        const { executionState } = this.state;
         return (
             <Dialog
                 id="python-transformation-dialog"
@@ -216,9 +215,8 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12} sm={12} md={3} lg={2}>
                             <PythonCodeExecution
-                                isLoading={isLoading}
-                                isRunning={isRunning}
                                 handleRun={this.handleRun}
+                                executionState={executionState}
                             />
                         </Grid>
                     </Grid>
