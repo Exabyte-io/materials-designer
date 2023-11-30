@@ -81,6 +81,7 @@ export class BoundaryConditionsDialog extends React.Component {
                         <TextField
                             fullWidth
                             id="form-boundary-conditions-offset-a"
+                            data-tid="offset"
                             label="Offset (A)"
                             variant="outlined"
                             size="small"
