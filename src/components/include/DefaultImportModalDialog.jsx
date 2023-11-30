@@ -1,12 +1,9 @@
+import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import { Made } from "@exabyte-io/made.js";
 import Autocomplete from "@mui/material/Autocomplete";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
@@ -17,7 +14,7 @@ import { Material } from "../../material";
 
 const dropZoneStyle = (dragging) => ({
     height: "160px",
-    width: "560px",
+    width: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -27,14 +24,7 @@ const dropZoneStyle = (dragging) => ({
     cursor: "pointer",
     backgroundColor: dragging && "grey",
 });
-const paperStyle = {
-    position: "absolute",
-    top: "10%",
-    width: "800px",
-};
-
 const dataGridStyle = (dragging) => ({
-    height: "400px",
     backgroundColor: dragging && "grey",
 });
 
@@ -51,9 +41,8 @@ class DefaultImportModalDialog extends React.Component {
             files: [],
             dragging: false,
             defaultMaterialsList: this.getDefaultMaterialsList() || [],
-            selectedMaterial: null,
+            selectedMaterials: [],
         };
-        this.title = "Import Materials";
 
         this.reader = new FileReader();
         this.reader.onloadend = this.handleFileRead;
@@ -178,25 +167,27 @@ class DefaultImportModalDialog extends React.Component {
         }));
     };
 
-    addMaterialAsJSONFile = () => {
-        const { selectedMaterial, files } = this.state;
+    addMaterialsAsJSONFile = () => {
+        const { selectedMaterials, files } = this.state;
 
-        if (!selectedMaterial) {
+        if (!selectedMaterials.length) {
             return;
         }
-        const config = selectedMaterial.value;
 
-        const newFile = {
-            id: config.id || files.length,
-            fileName: config.name || "Not available",
-            format: "json",
-            text: JSON.stringify(config) || "Not available",
-            lastModified: this.formatDate(new Date()),
-        };
+        const newFiles = selectedMaterials.map((selectedMaterial) => {
+            const config = selectedMaterial.value;
+            return {
+                id: config.id || files.length,
+                fileName: config.name || "Not available",
+                format: "json",
+                text: JSON.stringify(config) || "Not available",
+                lastModified: this.formatDate(new Date()),
+            };
+        });
 
         this.setState({
-            files: [...files, newFile],
-            selectedMaterial: null,
+            files: [...newFiles, ...files],
+            selectedMaterials: [],
         });
     };
 
@@ -206,29 +197,9 @@ class DefaultImportModalDialog extends React.Component {
         this.props.onClose();
     };
 
-    renderAutocomplete = () => {
-        const { defaultMaterialsList } = this.state;
-        return (
-            <Autocomplete
-                sx={{ flexGrow: 1, mr: 2, height: "100%" }}
-                disablePortal
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                renderInput={(params) => <TextField {...params} label="Default set of Materials" />}
-                options={defaultMaterialsList}
-                getOptionLabel={(option) => option.label}
-                onChange={(event, value) => this.setState({ selectedMaterial: value })}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        this.addMaterialAsJSONFile();
-                    }
-                }}
-            />
-        );
-    };
-
     render() {
-        const { show, onClose, onSubmit, title } = this.props;
-        const { files, dragging, selectedMaterial } = this.state;
+        const { show, onClose } = this.props;
+        const { files, dragging, selectedMaterials, defaultMaterialsList } = this.state;
 
         const rows = files.map((file, i) => ({
             id: i,
@@ -248,27 +219,6 @@ class DefaultImportModalDialog extends React.Component {
                 sortable: false,
                 filterable: false,
                 disableColumnMenu: true,
-                renderHeader: () => (
-                    <div style={buttonContainerStyle}>
-                        <Button
-                            data-name="add-button"
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            component="label"
-                        >
-                            Add
-                            <input
-                                data-name="fileapi"
-                                style={{ display: "none" }}
-                                type="file"
-                                hidden
-                                multiple
-                                onChange={(event) => this.handleFileChange(event.target.files)}
-                            />
-                        </Button>
-                    </div>
-                ),
                 renderCell: (params) => (
                     <div style={buttonContainerStyle}>
                         <Button
@@ -289,78 +239,99 @@ class DefaultImportModalDialog extends React.Component {
         return (
             <Dialog
                 open={show}
-                transitionDuration={0}
-                PaperProps={{ style: paperStyle }}
                 id="defaultImportModalDialog"
+                title="Import Materials"
+                onClose={onClose}
+                onSubmit={this.onSubmit}
             >
-                <DialogTitle>{this.title || title}</DialogTitle>
-
-                <DialogContent>
-                    <Box
-                        sx={{
-                            padding: "10px 0",
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            width: "100%",
-                        }}
-                    >
-                        {this.renderAutocomplete()}
-                        <Button onClick={this.addMaterialAsJSONFile} disabled={!selectedMaterial}>
-                            Add
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={8}>
+                        <Autocomplete
+                            disablePortal
+                            multiple
+                            renderInput={(params) => (
+                                // eslint-disable-next-line react/jsx-props-no-spreading
+                                <TextField {...params} label="Default set of Materials" />
+                            )}
+                            value={selectedMaterials}
+                            options={defaultMaterialsList}
+                            getOptionLabel={(option) => option.label}
+                            onChange={(event, value) => this.setState({ selectedMaterials: value })}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    this.addMaterialsAsJSONFile();
+                                }
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button
+                            onClick={this.addMaterialsAsJSONFile}
+                            disabled={!selectedMaterials.length}
+                        >
+                            Select
                         </Button>
-                    </Box>
-                    <FormControl variant="standard" sx={{ width: "100%", alignContent: "center" }}>
-                        {files.length > 0 ? (
-                            <div
-                                onDragOver={this.handleDragOver}
-                                onDragLeave={this.handleDragLeave}
-                                onDrop={this.handleDrop}
-                            >
-                                <DataGrid
-                                    data-name="datagrid"
-                                    hideFooter
-                                    rows={rows}
-                                    columns={columns}
-                                    pageSize={1}
-                                    style={dataGridStyle(dragging)}
-                                />
-                            </div>
-                        ) : (
-                            <div>
-                                <label htmlFor="fileapi">
-                                    <div
-                                        data-name="dropzone"
-                                        onDragOver={this.handleDragOver}
-                                        onDragLeave={this.handleDragLeave}
-                                        onDrop={this.handleDrop}
-                                        style={dropZoneStyle(dragging)}
-                                    >
-                                        Drop files here or click to upload
-                                    </div>
-                                </label>
-                                <input
-                                    data-name="fileapi"
-                                    style={{ display: "none" }}
-                                    type="file"
-                                    id="fileapi"
-                                    hidden
-                                    multiple
-                                    onChange={(event) => this.handleFileChange(event.target.files)}
-                                />
-                            </div>
-                        )}
-                    </FormControl>
-                </DialogContent>
-
-                <DialogActions>
-                    <Button data-name="Cancel" onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button data-name="Submit" onClick={this.onSubmit || onSubmit}>
-                        Ok
-                    </Button>
-                </DialogActions>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button data-name="upload-button" color="primary">
+                            Upload
+                            <input
+                                data-name="fileapi"
+                                style={{ display: "none" }}
+                                type="file"
+                                id="fileapi"
+                                hidden
+                                multiple
+                                onClick={(event) => this.handleFileChange(event.target.files)}
+                            />
+                        </Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl variant="standard" sx={{ width: "100%" }}>
+                            {files.length > 0 ? (
+                                <div
+                                    onDragOver={this.handleDragOver}
+                                    onDragLeave={this.handleDragLeave}
+                                    onDrop={this.handleDrop}
+                                >
+                                    <DataGrid
+                                        data-name="datagrid"
+                                        hideFooter
+                                        rows={rows}
+                                        columns={columns}
+                                        pageSize={1}
+                                        style={dataGridStyle(dragging)}
+                                    />
+                                </div>
+                            ) : (
+                                <>
+                                    <label htmlFor="fileapi">
+                                        <div
+                                            data-name="dropzone"
+                                            onDragOver={this.handleDragOver}
+                                            onDragLeave={this.handleDragLeave}
+                                            onDrop={this.handleDrop}
+                                            style={dropZoneStyle(dragging)}
+                                        >
+                                            Drop files here or click to upload
+                                        </div>
+                                    </label>
+                                    <input
+                                        data-name="fileapi"
+                                        style={{ display: "none" }}
+                                        type="file"
+                                        id="fileapi"
+                                        hidden
+                                        multiple
+                                        onChange={(event) =>
+                                            this.handleFileChange(event.target.files)
+                                        }
+                                    />
+                                </>
+                            )}
+                        </FormControl>
+                    </Grid>
+                </Grid>
             </Dialog>
         );
     }
