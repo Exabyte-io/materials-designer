@@ -9,12 +9,13 @@ interface Transformation {
 }
 
 interface TransformationSelectorProps {
+    pythonCode: string;
     setPythonCode: (pythonCode: string) => void;
     url: string;
 }
 
 function TransformationSelector(props: TransformationSelectorProps) {
-    const { setPythonCode, url } = props;
+    const { pythonCode, setPythonCode, url } = props;
 
     const defaultTransformation = {
         id: "default",
@@ -26,7 +27,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
         defaultTransformation,
     ]);
     const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>(
-        defaultTransformation,
+        pythonCode ? { ...defaultTransformation, content: pythonCode } : defaultTransformation,
     );
     const [isDataFetched, setIsDataFetched] = useState(false);
 

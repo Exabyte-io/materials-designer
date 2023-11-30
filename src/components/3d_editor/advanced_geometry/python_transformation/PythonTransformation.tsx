@@ -136,7 +136,7 @@ class PythonTransformation extends React.Component<
 
             const dataOut = result.toJs().get("data_out");
             const dataOutMap = this.mapToObject(dataOut);
-            if (dataOut) {
+            if (dataOutMap) {
                 // @ts-ignore
                 const newMaterials = dataOutMap.materials.map((m: any) => {
                     const material = this.mapToObject(m);
@@ -204,6 +204,7 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12} sm={12} md={4} lg={5}>
                             <TransformationSelector
+                                pythonCode={pythonCode}
                                 url={GITHUB_API_URL}
                                 setPythonCode={(newPythonCode) =>
                                     this.setState({ pythonCode: newPythonCode })
