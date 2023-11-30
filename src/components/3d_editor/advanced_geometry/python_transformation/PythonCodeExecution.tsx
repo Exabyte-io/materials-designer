@@ -1,6 +1,5 @@
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import theme from "@exabyte-io/cove.js/dist/theme";
-import CheckIcon from "@mui/icons-material/Check";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";

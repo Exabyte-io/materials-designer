@@ -28,8 +28,10 @@ function TransformationSelector(props: TransformationSelectorProps) {
     const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>(
         defaultTransformation,
     );
+    const [isDataFetched, setIsDataFetched] = useState(false);
 
     const fetchTransformations = async () => {
+        if (isDataFetched) return;
         try {
             const response = await fetch(url);
             const data = await response.json();
@@ -52,6 +54,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
                 ...prevTransformations,
                 ...transformationsData,
             ]);
+            setIsDataFetched(true);
         } catch (error) {
             console.error("Error fetching transformations:", error);
         }
