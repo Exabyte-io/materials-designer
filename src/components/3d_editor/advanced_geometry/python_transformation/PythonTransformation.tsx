@@ -132,11 +132,13 @@ class PythonTransformation extends React.Component<
             const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
 
             const result = await this.runPythonCode({ globals: convertedData });
-            if (!result) throw new Error("No result from Python execution.");
+            if (!result) return;
 
             const dataOut = result.toJs().get("data_out");
-            if (dataOut && dataOut.materials) {
-                const newMaterials = dataOut.materials.map((m: any) => {
+            const dataOutMap = this.mapToObject(dataOut);
+            if (dataOut) {
+                // @ts-ignore
+                const newMaterials = dataOutMap.materials.map((m: any) => {
                     const material = this.mapToObject(m);
                     const config = Made.parsers.poscar.fromPoscar(material.poscar);
                     const newMaterial = new Made.Material(config);
@@ -150,7 +152,6 @@ class PythonTransformation extends React.Component<
             }
         } catch (error: any) {
             NPMsAlert.error(error.message);
-            this.setState({ executionState: "error" });
         }
     };
 
