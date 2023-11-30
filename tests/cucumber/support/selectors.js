@@ -31,7 +31,7 @@ export const SELECTORS = {
         },
         boundaryConditionsDialog: {
             wrapper: "#BoundaryConditionsModal",
-            submitButton: "#boundary-conditions-submit",
+            submitButton: "#BoundaryConditionsModal-submit-button",
             type: '[data-tid="type"]',
             offset: '[data-tid="offset"] input',
         },
