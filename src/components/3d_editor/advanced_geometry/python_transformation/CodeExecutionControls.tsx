@@ -6,12 +6,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
-interface PythonExecutionControlsProps {
+interface CodeExecutionControlsProps {
     executionState: "loading" | "running" | "ready" | "error";
     handleRun: () => void;
 }
 
-function PythonCodeExecution(props: PythonExecutionControlsProps) {
+function CodeExecutionControls(props: CodeExecutionControlsProps) {
     const { handleRun, executionState } = props;
 
     const statusTextMap = {
@@ -52,4 +52,4 @@ function PythonCodeExecution(props: PythonExecutionControlsProps) {
     );
 }
 
-export default PythonCodeExecution;
+export default CodeExecutionControls;
