@@ -1,6 +1,7 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import { Made } from "@exabyte-io/made.js";
 import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
@@ -245,7 +246,7 @@ class DefaultImportModalDialog extends React.Component {
                 onSubmit={this.onSubmit}
             >
                 <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={10}>
+                    <Grid item xs={8}>
                         <Autocomplete
                             disablePortal
                             multiple
@@ -272,14 +273,24 @@ class DefaultImportModalDialog extends React.Component {
                             Select
                         </Button>
                     </Grid>
+                    <Grid item xs={2}>
+                        <Button
+                            data-name="upload-button"
+                            onClick={() => this.inputFileReaderRef.click()}
+                        >
+                            Upload
+                        </Button>
+                    </Grid>
                     <Grid item xs={12}>
                         <FormControl variant="standard" sx={{ width: "100%" }}>
-                            {files.length > 0 ? (
-                                <div
-                                    onDragOver={this.handleDragOver}
-                                    onDragLeave={this.handleDragLeave}
-                                    onDrop={this.handleDrop}
-                                >
+                            <div
+                                id="dropzone"
+                                onDragOver={this.handleDragOver}
+                                onDragLeave={this.handleDragLeave}
+                                onDrop={this.handleDrop}
+                                style={{ width: "100%" }}
+                            >
+                                {files.length > 0 ? (
                                     <DataGrid
                                         data-name="datagrid"
                                         hideFooter
@@ -288,34 +299,28 @@ class DefaultImportModalDialog extends React.Component {
                                         pageSize={1}
                                         style={dataGridStyle(dragging)}
                                     />
-                                </div>
-                            ) : (
-                                <>
-                                    {/* TODO: move to Cove.js and/or use from a library */}
-                                    <label htmlFor="fileapi">
-                                        <div
-                                            data-name="dropzone"
-                                            onDragOver={this.handleDragOver}
-                                            onDragLeave={this.handleDragLeave}
-                                            onDrop={this.handleDrop}
-                                            style={dropZoneStyle(dragging)}
-                                        >
-                                            Drop files here or click to upload
-                                        </div>
-                                    </label>
-                                    <input
-                                        data-name="fileapi"
-                                        style={{ display: "none" }}
-                                        type="file"
-                                        id="fileapi"
-                                        hidden
-                                        multiple
-                                        onChange={(event) =>
-                                            this.handleFileChange(event.target.files)
-                                        }
-                                    />
-                                </>
-                            )}
+                                ) : (
+                                    <Box
+                                        data-name="dropzone"
+                                        style={dropZoneStyle(dragging)}
+                                        onClick={() => this.inputFileReaderRef.click()}
+                                    >
+                                        Drop files here or click to upload
+                                    </Box>
+                                )}
+                                <input
+                                    data-name="fileapi"
+                                    ref={(ref) => {
+                                        this.inputFileReaderRef = ref;
+                                    }}
+                                    style={{ display: "none" }}
+                                    type="file"
+                                    id="fileapi"
+                                    hidden
+                                    multiple
+                                    onChange={(event) => this.handleFileChange(event.target.files)}
+                                />
+                            </div>
                         </FormControl>
                     </Grid>
                 </Grid>
