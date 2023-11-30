@@ -224,7 +224,7 @@ class DefaultImportModalDialog extends React.Component {
                         <Button
                             // Not to mess with CSS replace dots with dashes
                             id={`${params.row.fileName.replace(/\./g, "-")}-remove-button`}
-                            variant="contained"
+                            variant="text"
                             color="warning"
                             size="small"
                             onClick={() => this.handleFileRemove(params.row.fileName)}
