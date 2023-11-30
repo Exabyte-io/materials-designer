@@ -8,9 +8,9 @@ import Paper from "@mui/material/Paper";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
+import CodeExecutionControls from "./CodeExecutionControls";
 import MaterialsSelector from "./MaterialsSelector";
 import PythonCodeDisplay from "./PythonCodeDisplay";
-import PythonCodeExecution from "./PythonCodeExecution";
 import TransformationSelector from "./TransformationSelector";
 
 interface PythonTransformationProps {
@@ -144,7 +144,7 @@ class PythonTransformation extends React.Component<
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} md={3} lg={2}>
-                            <PythonCodeExecution
+                            <CodeExecutionControls
                                 isLoading={isLoading}
                                 isRunning={isRunning}
                                 handleRun={this.handleRun}

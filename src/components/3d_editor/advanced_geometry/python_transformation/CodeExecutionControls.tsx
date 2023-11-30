@@ -7,13 +7,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
-interface PythonExecutionControlsProps {
+interface CodeExecutionControlsProps {
     isLoading: boolean;
     isRunning: boolean;
     handleRun: () => void;
 }
 
-function PythonCodeExecution(props: PythonExecutionControlsProps) {
+function CodeExecutionControls(props: CodeExecutionControlsProps) {
     const { isLoading, isRunning, handleRun } = props;
 
     const getStatusText = () => {
@@ -47,4 +47,4 @@ function PythonCodeExecution(props: PythonExecutionControlsProps) {
     );
 }
 
-export default PythonCodeExecution;
+export default CodeExecutionControls;
