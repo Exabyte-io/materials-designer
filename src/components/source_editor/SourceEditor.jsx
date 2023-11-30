@@ -10,16 +10,7 @@ class SourceEditor extends React.Component {
     render() {
         const { material, onUpdate } = this.props;
         return (
-            <Grid
-                item
-                xs={12}
-                className="materials-designer-source-editor"
-                style={{
-                    // TODO: move out of here
-                    borderLeft: "1px solid",
-                    borderRight: "1px solid",
-                }}
-            >
+            <Grid item xs={12} className="materials-designer-source-editor">
                 <Grid item xs={12} mb={1}>
                     <LatticeEditor material={material} onUpdate={onUpdate} />
                 </Grid>
