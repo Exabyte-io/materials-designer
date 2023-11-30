@@ -33,7 +33,7 @@ function PythonCodeExecution(props: PythonExecutionControlsProps) {
                 )}
             </Box>
             <Button
-                id="python-transformation-dialog-run-button"
+                className="run-button"
                 variant="contained"
                 size="small"
                 color={isLoading ? "secondary" : "success"}
