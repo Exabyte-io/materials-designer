@@ -1,0 +1,8 @@
+{
+    "root": true,
+    "extends": ["@exabyte-io/eslint-config"],
+    "rules": {
+        "jsx-a11y/label-has-associated-control": "off",
+        "react/function-component-definition": "off"
+    }
+}

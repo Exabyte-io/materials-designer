@@ -72,7 +72,7 @@ THIS_SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export DEBUG_LEVEL=3
 export DEBUG="exachimp:*"
 
-TESTS_DIR="${THIS_SCRIPT_DIR}/tests"
+TESTS_DIR="${THIS_SCRIPT_DIR}/tests-legacy"
 CUCUMBER_DIR="${TESTS_DIR}/cucumber"
 SUPPORT_DIR="${CUCUMBER_DIR}/support"
 SCREENSHOTS_DIR="${CUCUMBER_DIR}/screenshots"
