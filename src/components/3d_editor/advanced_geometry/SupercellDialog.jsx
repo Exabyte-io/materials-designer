@@ -65,7 +65,7 @@ class SupercellDialog extends React.Component {
                 onClose={onHide}
                 onSubmit={this.handleGenerateSupercell}
             >
-                <Grid container spacing={2} className="lattice-params">
+                <Grid container spacing={2}>
                     {matrix.toArray().map((rowOfElements, i) => {
                         return rowOfElements.map((element, j) => {
                             const elementName = `m${i + 1}${j + 1}`;
