@@ -1,26 +1,26 @@
 {
-    "devDependencies": {
-        "@babel/plugin-proposal-class-properties": "7.16.0",
-        "@babel/plugin-proposal-export-default-from": "^7.22.17",
-        "almost-equal": "^1.1.0",
-        "array-almost-equal": "^1.0.0",
-        "chimpy": "npm:@exabyte-io/chimpy@^2023.7.28-0",
-        "deep-equal": "^1.0.1",
-        "lodash": "^4.17.4",
-        "moment": "^2.11.2",
-        "random-seed": "^0.3.0",
-        "sleep": "^6.0.0",
-        "swig": "^1.4.2",
-        "underscore": "^1.8.3",
-        "underscore.string": "^3.3.4",
-        "urlencode": "^1.1.0"
+    "name": "MD-tests",
+    "version": "0.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "CYPRESS_BASE_URL=http://localhost:3001 cypress open",
+        "test:headless": "CYPRESS_BASE_URL=http://localhost:3001 cypress run"
     },
-    "private": true,
+    "engines": {
+        "npm": ">=10.0.0",
+        "node": ">=18.0.0"
+    },
+    "author": "",
+    "license": "ISC",
     "dependencies": {
-        "@babel/cli": "^7.20.7",
-        "@babel/core": "^7.20.12",
-        "@babel/node": "^7.20.7",
-        "@exabyte-io/code.js": "2022.6.8-0",
-        "chromedriver": "^114.0.3"
+        "@badeball/cypress-cucumber-preprocessor": "^19.2.0",
+        "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+        "@types/node": "^20.10.1",
+        "cypress": "^13.6.0",
+        "cypress-xpath": "^2.0.1",
+        "random-seed": "^0.3.0",
+        "typescript": "^5.3.2",
+        "underscore": "^1.13.6"
     }
 }

@@ -3,10 +3,10 @@ FROM cypress/included:13.6.0
 
 WORKDIR /opt/test
 
-COPY ./tests-cypress/package.json package.json
-COPY ./tests-cypress/package-lock.json package-lock.json
-COPY ./tests-cypress/cypress.config.ts cypress.config.ts
-COPY ./tests-cypress/cypress cypress
+COPY ./tests/package.json package.json
+COPY ./tests/package-lock.json package-lock.json
+COPY ./tests/cypress.config.ts cypress.config.ts
+COPY ./tests/cypress cypress
 
 RUN npm install
 
