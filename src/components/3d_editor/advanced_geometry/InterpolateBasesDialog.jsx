@@ -88,7 +88,7 @@ class InterpolateBasesDialog extends React.Component {
                 onClose={onHide}
                 onSubmit={this.handleSubmit}
             >
-                <Grid container spacing={2} className="lattice-params">
+                <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <TextField
                             fullWidth
