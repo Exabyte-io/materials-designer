@@ -1,17 +1,12 @@
-ARG BASE_IMAGE=node
-# Not using "alpine" to allow node gyp to work with package installations from "https://github.com" directly
-ARG IMAGE_TAG=14
-FROM ${BASE_IMAGE}:${IMAGE_TAG}
+# From https://hub.docker.com/r/cypress/browsers/tags
+FROM cypress/included:latest
 
-WORKDIR /opt/app
+WORKDIR /opt/test
 
-# use changes to package.json to force Docker not to use the cache
-# when we change our application's nodejs dependencies:
-# https://stackoverflow.com/questions/35774714/how-to-cache-the-run-npm-install-instruction-when-docker-build-a-dockerfile
-COPY package.json package.json
+COPY ./tests-cypress/package.json package.json
+COPY ./tests-cypress/package-lock.json package-lock.json
+COPY ./tests-cypress/cypress.config.ts cypress.config.ts
 
 RUN npm install
 
-COPY . .
-
-ENTRYPOINT ["/opt/app/entrypoint.sh", "test"]
+ENTRYPOINT ["npm", "run", "test:headless"]

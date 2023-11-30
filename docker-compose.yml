@@ -28,24 +28,5 @@ services:
       timeout: 2s
       retries: 20
     volumes:
-      - ./tests/cucumber/:/opt/test/tests/cucumber/
+      - ./tests-cypress/cypress:/opt/test/cypress
       - ./entrypoint.sh:/opt/test/entrypoint.sh
-  # To be used for interactive development/troubleshooting
-  materials-designer-test-dev:
-    # Uncomment to use the pre-built image
-    # image: ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-firefox_${ARCH}:latest
-    image: materials-designer-test:${IMAGE_TAG}
-    build:
-      args:
-        BASE_TAG: ${IMAGE_TAG}
-      context: .
-      dockerfile: ./dockerfiles/app/test/Dockerfile
-    depends_on:
-      - materials-designer
-    ports:
-      - 5999:5999
-    volumes:
-      - ./tests/cucumber/:/opt/test/cucumber/
-      - ./entrypoint-dev.sh:/opt/test/entrypoint.sh
-      - ./tests/.screenshots:/opt/test/.screenshots
-
