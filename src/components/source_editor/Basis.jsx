@@ -81,7 +81,7 @@ class BasisEditor extends React.Component {
             <Accordion defaultExpanded className="crystal-basis">
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Basis</AccordionSummary>
                 <AccordionDetails>
-                    <Grid container spacing={2} id="crystal-basis">
+                    <Grid container spacing={0.125} id="crystal-basis">
                         <Grid item xs={12}>
                             <ToggleButtonGroup
                                 id="basis-options"
