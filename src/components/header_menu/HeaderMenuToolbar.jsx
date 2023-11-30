@@ -394,8 +394,9 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 <ExportActionDialog
-                    show={showExportMaterialsDialog}
-                    onClose={() => this.setState({ showExportMaterialsDialog: false })}
+                    isOpen={showExportMaterialsDialog}
+                    modalId="ExportActionsModal"
+                    onHide={() => this.setState({ showExportMaterialsDialog: false })}
                     onSubmit={onExport}
                 />
 
