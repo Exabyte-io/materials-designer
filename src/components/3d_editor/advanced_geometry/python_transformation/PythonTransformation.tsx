@@ -122,6 +122,7 @@ class PythonTransformation extends React.Component<
                 onSubmit={this.handleSubmit}
                 title="Python Transformation"
                 isSubmitButtonDisabled={isLoading || isRunning}
+                scroll="body"
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <Box mt={theme.spacing(1)} p={`0 ${theme.spacing(3)}`}>
