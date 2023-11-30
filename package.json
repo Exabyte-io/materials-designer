@@ -13,10 +13,7 @@
         "lint:fix": "eslint src tests --fix && prettier --write src tests",
         "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react",
         "postinstall": "npm run transpile; npm run transpile-tests",
-        "prettier": "prettier --check src tests",
-        "cypress": "CYPRESS_BASE_URL=http://localhost:3001 cypress open",
-        "cypress:ui": "CYPRESS_BASE_URL=http://localhost:3001 cypress open --e2e",
-        "cypress:headless": "CYPRESS_BASE_URL=http://localhost:3001 cypress run"
+        "prettier": "prettier --check src tests"
     },
     "repository": {
         "type": "git",
@@ -77,8 +74,6 @@
         "@babel/preset-react": "^7.16.7",
         "@babel/register": "^7.22.15",
         "@babel/runtime-corejs3": "^7.16.8",
-        "@badeball/cypress-cucumber-preprocessor": "^15.0.0",
-        "@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
         "@exabyte-io/code.js": "2023.11.1-0",
         "@exabyte-io/cove.js": "2023.11.27-2",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
@@ -93,9 +88,6 @@
         "babel-eslint": "^10.1.0",
         "babel-preset-react-app": "^9.1.2",
         "cross-env": "^7.0.3",
-        "cypress": "^12.2.0",
-        "cypress-xpath": "^2.0.1",
-        "debug": "^4.3.4",
         "eslint": "^7.32.0",
         "eslint-config-airbnb": "^19.0.2",
         "eslint-config-prettier": "^8.5.0",
