@@ -135,7 +135,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         const { isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen } =
             this.state;
         const gridConfig = this.getGridConfig();
-        console.log("-----", gridConfig);
         return (
             <this.FullscreenHandlerComponent
                 className={setClass(this.props.className)}
