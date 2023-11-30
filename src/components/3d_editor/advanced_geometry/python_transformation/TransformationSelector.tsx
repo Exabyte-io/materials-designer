@@ -1,6 +1,7 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import React, { useEffect, useState } from "react";
+import NPMsAlert from "react-s-alert";
 
 interface Transformation {
     id: string;
@@ -57,7 +58,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
             ]);
             setIsDataFetched(true);
         } catch (error) {
-            console.error("Error fetching transformations:", error);
+            NPMsAlert.error("Error fetching transformations");
         }
     };
 
