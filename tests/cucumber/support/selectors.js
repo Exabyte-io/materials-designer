@@ -44,8 +44,8 @@ export const SELECTORS = {
                 `div[role="cell"][data-field="fileName"] div[title="${fileName}"]`,
             gridFormat: (format) => `div[role="cell"][data-field="format"] div[title="${format}"]`,
             removeButton: (fileName) => `button#${fileName}-remove-button`,
-            submitButton: 'button[data-name="Submit"]',
-            cancelButton: 'button[data-name="Cancel"]',
+            submitButton: "#defaultImportModalDialog-submit-button",
+            cancelButton: "#defaultImportModalDialog-cancel-button",
         },
     },
     itemsList: {
