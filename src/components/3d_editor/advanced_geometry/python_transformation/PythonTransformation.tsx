@@ -33,8 +33,6 @@ interface PythonTransformationState {
     selectedMaterials: any[];
     // @ts-ignore
     newMaterials: any[];
-    isLoading: boolean;
-    isRunning: boolean;
     executionState: "loading" | "running" | "ready" | "error";
     // TODO: import type for Pyodide when they are available in Cove.js
     // @ts-ignore
@@ -61,8 +59,6 @@ class PythonTransformation extends React.Component<
             materials: props.materials,
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
-            isLoading: true,
-            isRunning: false,
             executionState: "loading",
             pyodide: null,
             pythonCode: "",
@@ -112,33 +108,37 @@ class PythonTransformation extends React.Component<
     };
 
     runPythonCode = async (options: any) => {
-        this.setState({ isRunning: true, pythonOutput: "" });
+        this.setState({ pythonOutput: "", executionState: "running" });
         let result;
 
         try {
             const { pyodide, pythonCode } = this.state;
             result = await pyodide.runPythonAsync(pythonCode, options);
-            if (result) return result;
+            this.setState({ executionState: "ready" });
+            return result;
         } catch (error: any) {
-            this.setState({ pythonOutput: error.message });
+            this.setState({
+                pythonOutput: error.message + "\n",
+                executionState: "error",
+            });
+        } finally {
+            this.setState({ executionState: "ready" });
         }
     };
 
     handleRun = async () => {
-        const { pyodide } = this.state;
-
         try {
+            const { pyodide } = this.state;
             const materialsData = this.prepareMaterialData();
             const dataIn = { materials: materialsData };
             const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
 
             const result = await this.runPythonCode({ globals: convertedData });
+            if (!result) throw new Error("No result from Python execution.");
 
-            if (!result) return;
             const dataOut = result.toJs().get("data_out");
-            if (dataOut) {
-                const materials = dataOut.get("materials");
-                const newMaterials = materials.map((m: any) => {
+            if (dataOut && dataOut.materials) {
+                const newMaterials = dataOut.materials.map((m: any) => {
                     const material = this.mapToObject(m);
                     const config = Made.parsers.poscar.fromPoscar(material.poscar);
                     const newMaterial = new Made.Material(config);
@@ -148,12 +148,12 @@ class PythonTransformation extends React.Component<
                 });
                 this.setState({ newMaterials });
             } else {
-                NPMsAlert.error("Expected materials output, but none was found.");
+                throw new Error("Expected materials output, but none was found.");
             }
         } catch (error: any) {
-            this.setState({ pythonOutput: error.message });
+            NPMsAlert.error(error.message);
         } finally {
-            this.setState({ isRunning: false });
+            this.setState({ executionState: "ready" });
         }
     };
 
@@ -177,8 +177,7 @@ class PythonTransformation extends React.Component<
     }
 
     render() {
-        const { isLoading, isRunning, pythonCode, pythonOutput, materials, selectedMaterials } =
-            this.state;
+        const { pythonCode, pythonOutput, materials, selectedMaterials } = this.state;
         const { show, onHide } = this.props;
 
         const { executionState } = this.state;
@@ -191,7 +190,7 @@ class PythonTransformation extends React.Component<
                 maxWidth="xl"
                 onSubmit={this.handleSubmit}
                 title="Python Transformation"
-                isSubmitButtonDisabled={isLoading || isRunning}
+                isSubmitButtonDisabled={executionState !== "ready"}
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <Box mt={theme.spacing(1)} p={`0 ${theme.spacing(3)}`}>
