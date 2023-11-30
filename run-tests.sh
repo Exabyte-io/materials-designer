@@ -109,5 +109,5 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --screenshotsPath=${SCREENSHOTS_DIR} \
     --browser=${BROWSER} \
     --webdriverio.deprecationWarnings=false \
-    --webdriverio.logLevel="silent"
-    --${OPTIONS}
+    --webdriverio.logLevel="silent" \
+    ${OPTIONS}
