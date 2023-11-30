@@ -245,7 +245,7 @@ class DefaultImportModalDialog extends React.Component {
                 onSubmit={this.onSubmit}
             >
                 <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={8}>
+                    <Grid item xs={10}>
                         <Autocomplete
                             disablePortal
                             multiple
@@ -272,20 +272,6 @@ class DefaultImportModalDialog extends React.Component {
                             Select
                         </Button>
                     </Grid>
-                    <Grid item xs={2}>
-                        <Button data-name="upload-button" color="primary">
-                            Upload
-                            <input
-                                data-name="fileapi"
-                                style={{ display: "none" }}
-                                type="file"
-                                id="fileapi"
-                                hidden
-                                multiple
-                                onClick={(event) => this.handleFileChange(event.target.files)}
-                            />
-                        </Button>
-                    </Grid>
                     <Grid item xs={12}>
                         <FormControl variant="standard" sx={{ width: "100%" }}>
                             {files.length > 0 ? (
@@ -305,6 +291,7 @@ class DefaultImportModalDialog extends React.Component {
                                 </div>
                             ) : (
                                 <>
+                                    {/* TODO: move to Cove.js and/or use from a library */}
                                     <label htmlFor="fileapi">
                                         <div
                                             data-name="dropzone"
