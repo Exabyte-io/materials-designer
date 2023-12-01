@@ -10,17 +10,17 @@ export const SELECTORS = {
             `.button-activated-menu[data-name="${name}-menu"] li[role="menuitem"]:nth-of-type(${number})`,
         supercellDialog: {
             wrapper: "#supercellModal",
-            submitButton: "#make-supercell",
+            submitButton: "#supercellModal-submit-button",
             matrixElementByIndices: (i, j) => `div.m${i + 1}${j + 1} input`,
         },
         interpolatedSetDialog: {
             wrapper: "#interpolatedSetModal",
-            submitButton: "#generate-interpolated-set",
+            submitButton: "#interpolatedSetModal-submit-button",
             intermediateImagesInput: "input[type='number']",
         },
         surfaceDialog: {
             wrapper: "#surfaceModal",
-            submitButton: "#make-surface",
+            submitButton: "#surfaceModal-submit-button",
             h: '[data-tid="miller-h"] input',
             k: '[data-tid="miller-k"] input',
             l: '[data-tid="miller-l"] input',
@@ -31,7 +31,7 @@ export const SELECTORS = {
         },
         boundaryConditionsDialog: {
             wrapper: "#BoundaryConditionsModal",
-            submitButton: "#boundary-conditions-submit",
+            submitButton: "#BoundaryConditionsModal-submit-button",
             type: '[data-tid="type"]',
             offset: '[data-tid="offset"] input',
         },
@@ -39,13 +39,13 @@ export const SELECTORS = {
             wrapper: "#defaultImportModalDialog",
             dialog: 'div[role="dialog"]',
             uploadInput: 'input[data-name="fileapi"]',
-            addButton: '[data-name="add-button"]',
+            addButton: '[data-name="upload-button"]',
             gridFileName: (fileName) =>
                 `div[role="cell"][data-field="fileName"] div[title="${fileName}"]`,
             gridFormat: (format) => `div[role="cell"][data-field="format"] div[title="${format}"]`,
             removeButton: (fileName) => `button#${fileName}-remove-button`,
-            submitButton: 'button[data-name="Submit"]',
-            cancelButton: 'button[data-name="Cancel"]',
+            submitButton: "#defaultImportModalDialog-submit-button",
+            cancelButton: "#defaultImportModalDialog-cancel-button",
         },
     },
     itemsList: {

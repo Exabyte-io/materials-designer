@@ -10,7 +10,7 @@ NODE_VERSION="14.19.3"
 # Print usage
 #
 usage () {
-    echo "run-tests.sh -h=HOST -p=PORT -s=SKIP_INSTALL -f=FEATURES -o=OPTIONS"
+    echo "run-tests.sh -h=HOST -p=PORT -b=BROWSER -bv=BROWSER_VERSION -s=SKIP_INSTALL -f=FEATURES -o=OPTIONS"
     exit 1
 }
 
@@ -25,6 +25,7 @@ check_args () {
     PORT="3001"
     FEATURES="/"
     OPTIONS=""
+    BROWSER_VERSION="109.0.5414.25"
     BROWSER="chrome"
     for i in "$@"
     do
@@ -51,6 +52,10 @@ check_args () {
             ;;
             -b=*|--browser=*)
                 BROWSER="${i#*=}"
+                shift
+            ;;
+            -bv=*|--browser-version=*)
+                BROWSER_VERSION="${i#*=}"
                 shift
             ;;
             *)
@@ -100,6 +105,7 @@ ${TESTS_DIR}/node_modules/.bin/chimp \
     --path=${CUCUMBER_DIR}/features/$FEATURES -r=${SUPPORT_DIR} \
     --singleSnippetPerFile=1 \
     --screenshotsOnError=true --captureAllStepScreenshots=false \
+    --seleniumStandaloneOptions.drivers.chrome.version=${BROWSER_VERSION} \
     --screenshotsPath=${SCREENSHOTS_DIR} \
     --browser=${BROWSER} \
     --webdriverio.deprecationWarnings=false \
