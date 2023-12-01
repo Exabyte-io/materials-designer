@@ -45,6 +45,7 @@ export class PythonTransformationDialogWidget extends Widget {
     run() {
         exabrowser.waitForClickable(this.selectors.runButton, 20000);
         exabrowser.scrollAndClick(this.selectors.runButton);
+        exabrowser.waitForClickable(this.selectors.runButton, 20000);
     }
 
     submit() {
