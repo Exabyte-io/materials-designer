@@ -29,7 +29,7 @@ runs:
       with:
         image-name: materials-designer-test
         dockerfile: ./dockerfiles/app/test/Dockerfile
-        cli-args: --build-arg BASE_IMAGE=node
+        cli-args: --build-arg BASE_IMAGE=ghcr.io/exabyte-io/centos-7.9-node-8.11.4-chimp-xvfb-x11vnc-chrome_x86_64
 
     - name: Run tests
       shell: bash -l {0}
