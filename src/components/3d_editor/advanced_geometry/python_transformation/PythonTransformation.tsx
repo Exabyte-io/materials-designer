@@ -1,6 +1,5 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-import theme from "@exabyte-io/cove.js/dist/theme";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -125,7 +124,7 @@ class PythonTransformation extends React.Component<
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <DialogContent sx={{ overflow: "hidden" }}>
-                    <Grid container spacing={theme.spacing(2)}>
+                    <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={5}>
                             <MaterialsSelector
                                 materials={materials}
@@ -149,7 +148,7 @@ class PythonTransformation extends React.Component<
                                 handleRun={this.handleRun}
                             />
                         </Grid>
-                        <Grid item md={12}>
+                        <Grid item xs={12}>
                             <Paper
                                 sx={{
                                     height: CODE_DISPLAY_HEIGHT,
