@@ -1,5 +1,6 @@
 /* eslint-disable react/sort-comp */
 import { Made } from "@exabyte-io/made.js";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
@@ -138,221 +139,190 @@ class LatticeConfigurationDialog extends React.Component {
         onSubmit();
     };
 
-    renderBody() {
-        const { lattice } = this.state;
-        return (
-            <div className="crystal-lattice-config">
-                <form
-                    ref={(e) => {
-                        // eslint-disable-next-line react/no-unused-class-component-methods
-                        this.form = e;
-                    }}
-                >
-                    <Grid container spacing={2} className="lattice-params">
-                        <Grid item xs={6}>
-                            <TextField
-                                select
-                                fullWidth
-                                labelId="form-lattice-units"
-                                id="form-lattice-units"
-                                data-tid="units"
-                                value={lattice.units.length}
-                                label="Lattice units"
-                                size="small"
-                                onChange={this.handleLatticeUnitSelected}
-                            >
-                                {this.getLatticeUnitOptions()}
-                            </TextField>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                select
-                                fullWidth
-                                labelId="form-lattice-type"
-                                id="form-lattice-type"
-                                data-tid="type"
-                                value={lattice.type}
-                                label="Lattice type"
-                                size="small"
-                                onChange={this.handleLatticeTypeSelected}
-                            >
-                                {this.getLatticeTypeOptions()}
-                            </TextField>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                fullWidth
-                                id="lattice-a-length"
-                                label="Lattice 'a'"
-                                variant="outlined"
-                                name="a"
-                                size="small"
-                                disabled={this.isDisabled("a")}
-                                value={lattice.a}
-                                type="number"
-                                onChange={this.handleLatticeInputChanged}
-                                onFocus={(event) => event.target.select()}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                        step: 0.05,
-                                    },
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                fullWidth
-                                id="lattice-b-length"
-                                label="Lattice 'b'"
-                                variant="outlined"
-                                name="b"
-                                size="small"
-                                disabled={this.isDisabled("b")}
-                                value={lattice.b}
-                                type="number"
-                                onChange={this.handleLatticeInputChanged}
-                                onFocus={(event) => event.target.select()}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                        step: 0.05,
-                                    },
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                fullWidth
-                                id="lattice-c-length"
-                                label="Lattice 'c'"
-                                variant="outlined"
-                                name="c"
-                                size="small"
-                                disabled={this.isDisabled("b")}
-                                value={lattice.c}
-                                type="number"
-                                onChange={this.handleLatticeInputChanged}
-                                onFocus={(event) => event.target.select()}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                        step: 0.05,
-                                    },
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                fullWidth
-                                id="form-angle-b-c"
-                                label="angle (b^c)"
-                                variant="outlined"
-                                name="alpha"
-                                size="small"
-                                disabled={this.isDisabled("alpha")}
-                                value={lattice.alpha}
-                                type="number"
-                                onChange={this.handleLatticeInputChanged}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                        step: 0.05,
-                                    },
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                fullWidth
-                                id="form-angle-a-c"
-                                label="angle (a^c)"
-                                variant="outlined"
-                                name="beta"
-                                size="small"
-                                disabled={this.isDisabled("beta")}
-                                value={lattice.beta}
-                                type="number"
-                                onChange={this.handleLatticeInputChanged}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                        step: 0.05,
-                                    },
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                fullWidth
-                                id="form-angle-a-b"
-                                label="angle (a^b)"
-                                variant="outlined"
-                                name="gamma"
-                                size="small"
-                                disabled={this.isDisabled("gamma")}
-                                value={lattice.gamma}
-                                type="number"
-                                onChange={this.handleLatticeInputChanged}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                        step: 0.05,
-                                    },
-                                }}
-                            />
-                        </Grid>
-                    </Grid>
-                </form>
-            </div>
-        );
-    }
-
-    renderFooter() {
-        const { submitButtonTxt } = this.props;
-        const { preserveBasis } = this.state;
-        return (
-            <Grid container spacing={2} className="lattice-params">
-                <Grid item xs={6}>
-                    <TextField
-                        select
-                        fullWidth
-                        labelId="form-edit-mode"
-                        id="form-edit-mode"
-                        data-tid="edit-mode"
-                        value={preserveBasis ? 1 : 0}
-                        label="Lattice units"
-                        size="small"
-                        onChange={this.handEditModeSelected}
-                    >
-                        {this.getEditModeOptions()}
-                    </TextField>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        className="save-lattice-config"
-                        onClick={this.handleUpdateLattice}
-                        sx={{ pt: 1, pb: 1 }}
-                    >
-                        {submitButtonTxt}
-                    </Button>
-                </Grid>
-            </Grid>
-        );
-    }
-
     render() {
+        const { submitButtonTxt } = this.props;
+        const { preserveBasis, lattice } = this.state;
         return (
-            <Grid container spacing={2} className="lattice-params">
-                <Grid item xs={12}>
-                    {this.renderBody()}
+            <Box component="form" className="crystal-lattice-config">
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <TextField
+                            select
+                            fullWidth
+                            id="form-lattice-units"
+                            data-tid="units"
+                            value={lattice.units.length}
+                            label="Lattice units"
+                            size="small"
+                            onChange={this.handleLatticeUnitSelected}
+                        >
+                            {this.getLatticeUnitOptions()}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            select
+                            fullWidth
+                            id="form-lattice-type"
+                            data-tid="type"
+                            value={lattice.type}
+                            label="Lattice type"
+                            size="small"
+                            onChange={this.handleLatticeTypeSelected}
+                        >
+                            {this.getLatticeTypeOptions()}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            id="lattice-a-length"
+                            label="Lattice 'a'"
+                            variant="outlined"
+                            name="a"
+                            size="small"
+                            disabled={this.isDisabled("a")}
+                            value={lattice.a}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            onFocus={(event) => event.target.select()}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0.05,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            id="lattice-b-length"
+                            label="Lattice 'b'"
+                            variant="outlined"
+                            name="b"
+                            size="small"
+                            disabled={this.isDisabled("b")}
+                            value={lattice.b}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            onFocus={(event) => event.target.select()}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0.05,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            id="lattice-c-length"
+                            label="Lattice 'c'"
+                            variant="outlined"
+                            name="c"
+                            size="small"
+                            disabled={this.isDisabled("b")}
+                            value={lattice.c}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            onFocus={(event) => event.target.select()}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0.05,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            id="form-angle-b-c"
+                            label="angle (b^c)"
+                            variant="outlined"
+                            name="alpha"
+                            size="small"
+                            disabled={this.isDisabled("alpha")}
+                            value={lattice.alpha}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0.05,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            id="form-angle-a-c"
+                            label="angle (a^c)"
+                            variant="outlined"
+                            name="beta"
+                            size="small"
+                            disabled={this.isDisabled("beta")}
+                            value={lattice.beta}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0.05,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            id="form-angle-a-b"
+                            label="angle (a^b)"
+                            variant="outlined"
+                            name="gamma"
+                            size="small"
+                            disabled={this.isDisabled("gamma")}
+                            value={lattice.gamma}
+                            type="number"
+                            onChange={this.handleLatticeInputChanged}
+                            InputProps={{
+                                inputProps: {
+                                    min: 0.05,
+                                    step: 0.05,
+                                },
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            select
+                            fullWidth
+                            id="form-edit-mode"
+                            data-tid="edit-mode"
+                            value={preserveBasis ? 1 : 0}
+                            label="Lattice units"
+                            size="small"
+                            onChange={this.handEditModeSelected}
+                        >
+                            {this.getEditModeOptions()}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Button
+                            fullWidth
+                            variant="text"
+                            className="save-lattice-config"
+                            onClick={this.handleUpdateLattice}
+                            sx={{ pt: 1, pb: 1 }}
+                        >
+                            {submitButtonTxt}
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    {this.renderFooter()}
-                </Grid>
-            </Grid>
+            </Box>
         );
     }
 }

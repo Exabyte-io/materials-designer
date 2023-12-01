@@ -17,11 +17,52 @@ import ItemsList from "./components/items_list/ItemsList";
 import SourceEditor from "./components/source_editor/SourceEditor";
 import { Material } from "./material";
 
+const GRID_CONFIG_BY_VISIBILITY = {
+    // "111" means that all three components are visible
+    "#111": {
+        1: { xs: 12, md: 2.5, lg: 2, xl: 1.5 },
+        2: { xs: 12, md: 4.75, lg: 4.375, l: 4 },
+        3: { xs: 12, md: 4.75, lg: 5.625, l: 6.5 },
+    },
+    "#001": {
+        1: { xs: 12 },
+        2: { xs: 12 },
+        3: { xs: 12 },
+    },
+    "#010": {
+        1: { xs: 12 },
+        2: { xs: 12 },
+        3: { xs: 12 },
+    },
+    "#100": {
+        1: { xs: 12 },
+        2: { xs: 12 },
+        3: { xs: 12 },
+    },
+    "#011": {
+        1: { xs: 0 },
+        2: { xs: 12, md: 6 },
+        3: { xs: 12, md: 6 },
+    },
+    "#101": {
+        1: { xs: 12, md: 3 },
+        2: { xs: 12, md: 0 },
+        3: { xs: 12, md: 9 },
+    },
+    "#110": {
+        1: { xs: 12, md: 4 },
+        2: { xs: 12, md: 8 },
+        3: { xs: 12, md: 0 },
+    },
+};
 class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMixin) {
     constructor(props) {
         super(props);
         this.state = {
             isFullscreen: false,
+            isVisibleItemsList: true,
+            isVisibleSourceEditor: true,
+            isVisibleThreeDEditorFullscreen: true,
             importMaterialsDialogProps: null,
         };
     }
@@ -36,8 +77,43 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         return !(nextProps_ === thisProps_) || !(nextState_ === thisState_);
     }
 
+    getGridConfig = () => {
+        const { isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen } =
+            this.state;
+        const arrayOfOnesAsStrings = [
+            isVisibleItemsList,
+            isVisibleSourceEditor,
+            isVisibleThreeDEditorFullscreen,
+        ].map((e) => String(Number(e)));
+        const visibilityKey = `#${arrayOfOnesAsStrings.join("")}`;
+        return GRID_CONFIG_BY_VISIBILITY[visibilityKey];
+    };
+
+    checkIfOnlyOneGridItemIsVisible = () => {
+        const { isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen } =
+            this.state;
+        return (
+            [isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen]
+                .map((e) => Number(e))
+                .reduce((a, b) => a + b, 0) === 1
+        );
+    };
+
     toggleFullscreen = () => {
         this.setState({ isFullscreen: !this.state.isFullscreen });
+    };
+
+    onSectionVisibilityToggle = (componentName) => {
+        const stateKey = `isVisible${componentName}`;
+        if (stateKey in this.state) {
+            // if only one grid item is visible, it should not be possible to hide it
+            if (this.checkIfOnlyOneGridItemIsVisible() && this.state[stateKey]) return;
+            // otherwise, toggle the visibility
+            this.setState({ [stateKey]: !this.state[stateKey] }, () => {
+                // Trigger resize event to update the 3D viewer/editor size
+                window.dispatchEvent(new Event("resize"));
+            });
+        }
     };
 
     renderDefaultImportModal = () => {
@@ -56,6 +132,9 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
     };
 
     render() {
+        const { isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen } =
+            this.state;
+        const gridConfig = this.getGridConfig();
         return (
             <this.FullscreenHandlerComponent
                 className={setClass(this.props.className)}
@@ -98,44 +177,72 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                         this.props.maxCombinatorialBasesCount
                                     }
                                     defaultMaterialsSet={this.props.defaultMaterialsSet}
+                                    onSectionVisibilityToggle={this.onSectionVisibilityToggle}
+                                    isVisibleItemsList={isVisibleItemsList}
+                                    isVisibleSourceEditor={isVisibleSourceEditor}
+                                    isVisibleThreeDEditorFullscreen={
+                                        isVisibleThreeDEditorFullscreen
+                                    }
                                 />
                                 {this.renderDefaultImportModal()}
-                                <Grid container>
-                                    <Grid item xs={12} md={2.5} lg={2} xl={1.5}>
-                                        <ItemsList
-                                            materials={this.props.materials}
-                                            index={this.props.index}
-                                            onItemClick={this.props.onItemClick}
-                                            onRemove={this.props.onRemove}
-                                            onNameUpdate={this.props.onNameUpdate}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} md={4.75} lg={4.375} xl={4}>
-                                        <SourceEditor
-                                            material={this.props.material}
-                                            onUpdate={this.props.onUpdate}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} md={4.75} lg={5.625} xl={6.5}>
-                                        <ThreeDEditorFullscreen
-                                            editable
-                                            material={this.props.material}
-                                            isConventionalCellShown={
-                                                this.props.isConventionalCellShown
-                                            }
-                                            boundaryConditions={
-                                                this.props.material.boundaryConditions
-                                            }
-                                            onUpdate={(material) => {
-                                                // convert made material to MD material and re-set metadata
-                                                const newMaterial =
-                                                    Material.createFromMadeMaterial(material);
-                                                newMaterial.metadata =
-                                                    this.props.material.metadata || {};
-                                                this.props.onUpdate(newMaterial);
-                                            }}
-                                        />
-                                    </Grid>
+                                {/* Setting minHeight below to the same value as for 3d Viewer */}
+                                <Grid
+                                    container
+                                    id="materials-designer-container"
+                                    sx={{ minHeight: "calc(100vmin - 105px)" }}
+                                >
+                                    {isVisibleItemsList && (
+                                        <Grid
+                                            item
+                                            // eslint-disable-next-line react/jsx-props-no-spreading
+                                            {...gridConfig[1]}
+                                            sx={{ borderRight: "1px solid" }}
+                                        >
+                                            <ItemsList
+                                                materials={this.props.materials}
+                                                index={this.props.index}
+                                                onItemClick={this.props.onItemClick}
+                                                onRemove={this.props.onRemove}
+                                                onNameUpdate={this.props.onNameUpdate}
+                                            />
+                                        </Grid>
+                                    )}
+                                    {isVisibleSourceEditor && (
+                                        <Grid
+                                            item
+                                            // eslint-disable-next-line react/jsx-props-no-spreading
+                                            {...gridConfig[2]}
+                                            sx={{ borderRight: "1px solid" }}
+                                        >
+                                            <SourceEditor
+                                                material={this.props.material}
+                                                onUpdate={this.props.onUpdate}
+                                            />
+                                        </Grid>
+                                    )}
+                                    {isVisibleThreeDEditorFullscreen && (
+                                        // eslint-disable-next-line react/jsx-props-no-spreading
+                                        <Grid item {...gridConfig[3]}>
+                                            <ThreeDEditorFullscreen
+                                                editable
+                                                material={this.props.material}
+                                                isConventionalCellShown={
+                                                    this.props.isConventionalCellShown
+                                                }
+                                                boundaryConditions={
+                                                    this.props.material.boundaryConditions
+                                                }
+                                                onUpdate={(material) => {
+                                                    // convert made material to MD material and re-set metadata
+                                                    const newMaterial =
+                                                        Material.createFromMadeMaterial(material);
+                                                    newMaterial.metadata =
+                                                        this.props.material.metadata || {};
+                                                    this.props.onUpdate(newMaterial);
+                                                }}
+                                            />
+                                        </Grid>
+                                    )}
                                 </Grid>
                                 <Grid container>
                                     <Grid item xs={12}>

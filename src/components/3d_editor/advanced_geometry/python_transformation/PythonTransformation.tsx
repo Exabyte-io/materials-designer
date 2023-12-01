@@ -191,8 +191,8 @@ class PythonTransformation extends React.Component<
                 isSubmitButtonDisabled={executionState !== "ready"}
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
-                <Box mt={theme.spacing(1)} p={`0 ${theme.spacing(3)}`}>
-                    <Grid container spacing={theme.spacing(2)}>
+                <DialogContent sx={{ overflow: "hidden" }}>
+                    <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={5}>
                             <MaterialsSelector
                                 materials={materials}
@@ -217,22 +217,23 @@ class PythonTransformation extends React.Component<
                                 executionState={executionState}
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <Paper
+                                sx={{
+                                    height: CODE_DISPLAY_HEIGHT,
+                                    overflow: "scroll",
+                                }}
+                            >
+                                <PythonCodeDisplay
+                                    pythonCode={pythonCode}
+                                    pythonOutput={pythonOutput}
+                                    setPythonCode={(newContent) =>
+                                        this.setState({ pythonCode: newContent })
+                                    }
+                                />
+                            </Paper>
+                        </Grid>
                     </Grid>
-                </Box>
-                <DialogContent>
-                    <Paper
-                        sx={{
-                            height: CODE_DISPLAY_HEIGHT,
-                        }}
-                    >
-                        <PythonCodeDisplay
-                            pythonCode={pythonCode}
-                            pythonOutput={pythonOutput}
-                            setPythonCode={(newContent) =>
-                                this.setState({ pythonCode: newContent })
-                            }
-                        />
-                    </Paper>
                 </DialogContent>
             </Dialog>
         );

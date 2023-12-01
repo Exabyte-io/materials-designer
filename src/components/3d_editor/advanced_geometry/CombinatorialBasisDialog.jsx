@@ -1,11 +1,5 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
-import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
 import NPMsAlert from "react-s-alert";
@@ -82,51 +76,16 @@ class CombinatorialBasisDialog extends React.Component {
     }
 
     render() {
-        const { isOpen, onHide, title } = this.props;
+        const { isOpen, onHide, modalId } = this.props;
         const { xyz } = this.state;
 
         return (
             <Dialog
+                id={modalId}
                 open={isOpen}
-                renderHeaderCustom={() => (
-                    <Box
-                        sx={{
-                            m: 3,
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Typography variant="h6">
-                            {title}
-                            <a
-                                className="m-l-10 combinatorial-info"
-                                href="https://docs.exabyte.io/materials-designer/header-menu/advanced/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="Combinatorial Basis"
-                            >
-                                <IconByName name="shapes.info" />
-                            </a>
-                        </Typography>
-                        <IconButton color="default" onClick={onHide}>
-                            <IconByName name="actions.close" fontSize="small" />
-                        </IconButton>
-                    </Box>
-                )}
-                renderFooterCustom={() => (
-                    <DialogActions>
-                        <Button
-                            id="generate-combinatorial"
-                            onClick={this.handleSubmit}
-                            variant="outlined"
-                            fullWidth
-                            sx={{ m: 2 }}
-                        >
-                            Generate Combinatorial Set
-                        </Button>
-                    </DialogActions>
-                )}
+                title="Generate Combinatorial Set"
+                onClose={onHide}
+                onSubmit={this.handleSubmit}
             >
                 <BasisText
                     ref={(el) => {
@@ -142,13 +101,13 @@ class CombinatorialBasisDialog extends React.Component {
 }
 
 CombinatorialBasisDialog.propTypes = {
-    title: PropTypes.string.isRequired,
     isOpen: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     material: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
     maxCombinatorialBasesCount: PropTypes.number,
+    modalId: PropTypes.string.isRequired,
 };
 
 CombinatorialBasisDialog.defaultProps = {

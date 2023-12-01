@@ -25,6 +25,8 @@ import Terminal from "@mui/icons-material/Terminal";
 import ThreeDEditorIcon from "@mui/icons-material/ThreeDRotation";
 import PolymerIcon from "@mui/icons-material/Timeline";
 import UndoIcon from "@mui/icons-material/Undo";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -145,7 +147,14 @@ class HeaderMenuToolbar extends React.Component {
     }
 
     renderViewMenu() {
-        const { toggleFullscreen, isFullscreen } = this.props;
+        const {
+            toggleFullscreen,
+            onSectionVisibilityToggle,
+            isFullscreen,
+            isVisibleItemsList,
+            isVisibleSourceEditor,
+            isVisibleThreeDEditorFullscreen,
+        } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="View">
                 <MenuItem onClick={() => this.setState({ showThreejsEditorModal: true })}>
@@ -154,23 +163,27 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Multi-Material 3D Editor
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem onClick={() => onSectionVisibilityToggle("ItemsList")}>
                     <ListItemIcon>
-                        <CheckIcon />
+                        {isVisibleItemsList ? <VisibilityOffIcon /> : <VisibilityIcon />}
                     </ListItemIcon>
                     Sidebar
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem onClick={() => onSectionVisibilityToggle("SourceEditor")}>
                     <ListItemIcon>
-                        <CheckIcon />
+                        {isVisibleSourceEditor ? <VisibilityOffIcon /> : <VisibilityIcon />}
                     </ListItemIcon>
                     Source Editor
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem onClick={() => onSectionVisibilityToggle("ThreeDEditorFullscreen")}>
                     <ListItemIcon>
-                        <CheckIcon />
+                        {isVisibleThreeDEditorFullscreen ? (
+                            <VisibilityOffIcon />
+                        ) : (
+                            <VisibilityIcon />
+                        )}
                     </ListItemIcon>
-                    Selection Info
+                    3D Viewer/Editor
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={toggleFullscreen}>
@@ -216,13 +229,13 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Boundary Conditions
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem disabled hidden>
                     <ListItemIcon>
                         <PolymerIcon />
                     </ListItemIcon>
                     Polymer
                 </MenuItem>
-                <MenuItem disabled>
+                <MenuItem disabled hidden>
                     <ListItemIcon>
                         <NanotubeIcon />
                     </ListItemIcon>
@@ -390,8 +403,9 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 <ExportActionDialog
-                    show={showExportMaterialsDialog}
-                    onClose={() => this.setState({ showExportMaterialsDialog: false })}
+                    isOpen={showExportMaterialsDialog}
+                    modalId="ExportActionsModal"
+                    onHide={() => this.setState({ showExportMaterialsDialog: false })}
                     onSubmit={onExport}
                 />
 
@@ -462,6 +476,10 @@ HeaderMenuToolbar.propTypes = {
     onGenerateSupercell: PropTypes.func.isRequired,
     onGenerateSurface: PropTypes.func.isRequired,
     onSetBoundaryConditions: PropTypes.func.isRequired,
+    onSectionVisibilityToggle: PropTypes.func.isRequired,
+    isVisibleItemsList: PropTypes.bool.isRequired,
+    isVisibleSourceEditor: PropTypes.bool.isRequired,
+    isVisibleThreeDEditorFullscreen: PropTypes.bool.isRequired,
 
     openImportModal: PropTypes.func.isRequired,
     closeImportModal: PropTypes.func.isRequired,
