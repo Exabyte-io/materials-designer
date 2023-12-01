@@ -1,7 +1,6 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
-import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -125,7 +124,7 @@ class PythonTransformation extends React.Component<
                 scroll="body"
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
-                <Box mt={theme.spacing(1)} p={`0 ${theme.spacing(3)}`}>
+                <DialogContent sx={{ overflow: "hidden" }}>
                     <Grid container spacing={theme.spacing(2)}>
                         <Grid item xs={12} sm={12} md={5}>
                             <MaterialsSelector
@@ -150,22 +149,23 @@ class PythonTransformation extends React.Component<
                                 handleRun={this.handleRun}
                             />
                         </Grid>
+                        <Grid item md={12}>
+                            <Paper
+                                sx={{
+                                    height: CODE_DISPLAY_HEIGHT,
+                                    overflow: "scroll",
+                                }}
+                            >
+                                <PythonCodeDisplay
+                                    pythonCode={pythonCode}
+                                    pythonOutput={pythonOutput}
+                                    setPythonCode={(newContent) =>
+                                        this.setState({ pythonCode: newContent })
+                                    }
+                                />
+                            </Paper>
+                        </Grid>
                     </Grid>
-                </Box>
-                <DialogContent>
-                    <Paper
-                        sx={{
-                            height: CODE_DISPLAY_HEIGHT,
-                        }}
-                    >
-                        <PythonCodeDisplay
-                            pythonCode={pythonCode}
-                            pythonOutput={pythonOutput}
-                            setPythonCode={(newContent) =>
-                                this.setState({ pythonCode: newContent })
-                            }
-                        />
-                    </Paper>
                 </DialogContent>
             </Dialog>
         );
