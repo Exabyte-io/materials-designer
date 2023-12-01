@@ -4,8 +4,14 @@ node_modules/
 .eslintcache
 .husky/
 .nyc_output/
-tests/node_modules/
-tests/.screenshots/*
-tests/cucumber/screenshots/
+tests-legacy/node_modules/
+tests-legacy/.screenshots/*
+tests-legacy/cucumber/screenshots/
+tests/cypress/videos/*
+!tests/cypress/videos/.gitignore
+tests/cypress/screenshots/*
+!tests/cypress/screenshots/.gitignore
+tests/cypress/downloads/*
+!tests/cypress/downloads/.gitignore
 .idea/
 .DS_Store

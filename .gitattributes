@@ -1,0 +1,10 @@
+tests-legacy/cucumber/fixtures/H2+H-image.json filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/si-slab-with-bc.json filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/si-slab.json filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/si-supercell.json filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/si.json filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/Si-Slab-Cu.json filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/copper.json filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/graphene.json filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/graphene.poscar filter=lfs diff=lfs merge=lfs -text
+tests-legacy/cucumber/fixtures/si-clone.json filter=lfs diff=lfs merge=lfs -text

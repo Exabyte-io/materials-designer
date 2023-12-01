@@ -1,7 +1,12 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import { BOUNDARY_CONDITIONS } from "@exabyte-io/wave.js/dist/enums";
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DialogActions from "@mui/material/DialogActions";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import React from "react";
@@ -15,7 +20,7 @@ export class BoundaryConditionsDialog extends React.Component {
 
     // eslint-disable-next-line no-unused-vars
     UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-        this.initializeState(true);
+        this.initializeState();
     }
 
     handleSetBoundaryConditions() {
@@ -33,20 +38,15 @@ export class BoundaryConditionsDialog extends React.Component {
         ));
     };
 
-    initializeState(isUpdating = false) {
+    initializeState() {
         const { material } = this.props;
         if (!material.boundaryConditions) {
             material.boundaryConditions = {};
         }
-        const updatedState = {
+        this.state = {
             boundaryType: material.boundaryConditions.type || "pbc",
             boundaryOffset: material.boundaryConditions.offset || 0,
         };
-        if (!isUpdating) {
-            this.state = updatedState;
-        } else {
-            this.setState(updatedState);
-        }
     }
 
     render() {
@@ -59,13 +59,25 @@ export class BoundaryConditionsDialog extends React.Component {
                 title={title}
                 open={isOpen}
                 onClose={onHide}
-                onSubmit={this.handleSetBoundaryConditions}
-            >
-                <Grid container spacing={2} id="boundary-conditions">
-                    <Grid item xs={6}>
-                        <TextField
-                            select
+                renderFooterCustom={() => (
+                    <DialogActions>
+                        <Button
+                            id="boundary-conditions-submit"
+                            onClick={this.handleSetBoundaryConditions}
+                            variant="outlined"
                             fullWidth
+                            sx={{ m: 2 }}
+                        >
+                            Submit
+                        </Button>
+                    </DialogActions>
+                )}
+            >
+                <Box id="boundary-conditions" pt={3} gap={1} sx={{ display: "flex" }}>
+                    <FormControl fullWidth data-tid="type">
+                        <InputLabel id="form-boundary-conditions-type">Type</InputLabel>
+                        <Select
+                            labelId="form-boundary-conditions-type"
                             id="form-boundary-conditions-type"
                             data-tid="type"
                             value={boundaryType}
@@ -75,13 +87,11 @@ export class BoundaryConditionsDialog extends React.Component {
                             onChange={(e) => this.setState({ boundaryType: e.target.value })}
                         >
                             {this.getBoundaryTypeOptions()}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={6}>
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth data-tid="offset">
                         <TextField
-                            fullWidth
                             id="form-boundary-conditions-offset-a"
-                            data-tid="offset"
                             label="Offset (A)"
                             variant="outlined"
                             size="small"
@@ -99,8 +109,8 @@ export class BoundaryConditionsDialog extends React.Component {
                                 },
                             }}
                         />
-                    </Grid>
-                </Grid>
+                    </FormControl>
+                </Box>
             </Dialog>
         );
     }

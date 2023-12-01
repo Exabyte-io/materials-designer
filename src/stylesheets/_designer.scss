@@ -7,7 +7,7 @@ $header-menu-height: 64px;
 $editor-info-height: 41px;
 $materials-designer-height: 65vmin;
 $materials-designer-height-fullscreen: calc(
-        100vmin - #{$editor-info-height} - #{$header-menu-height}
+    100vmin - #{$editor-info-height} - #{$header-menu-height}
 );
 
 #materials-designer {
@@ -385,7 +385,8 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
     #basis-xyz {
         // The 2px is to account for the bottom border of the source editor
         height: calc(
-            #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} - 2px
+            #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} -
+                2px
         );
         @include scrollbar-dark();
         overflow-y: hidden;
@@ -394,13 +395,17 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
             font-size: 0.8em;
             // The 30px is to account for the validation component, 10px is padding
             max-height: calc(
-                #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} - 2px - 30px - 10px
+                #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} -
+                    2px - 30px - 10px
             );
             resize: vertical;
             overflow-y: auto;
             @include scrollbar-dark();
             .cm-scroller {
-                min-height: calc(#{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} - 2px - 30px - 10px);
+                min-height: calc(
+                    #{$materials-designer-height-fullscreen} - #{$source-editor-crystal-lattice-collapsed-height} -
+                        2px - 30px - 10px
+                );
                 @include scrollbar-dark();
             }
         }
@@ -427,6 +432,14 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
         .three-renderer {
             height: $materials-designer-height-fullscreen;
         }
+    }
+}
+
+.combinatorial-basis {
+    height: 65vmin;
+
+    #basis-xyz {
+        height: 100%;
     }
 }
 

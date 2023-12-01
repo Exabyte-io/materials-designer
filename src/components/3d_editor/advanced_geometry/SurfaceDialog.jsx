@@ -1,5 +1,8 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DialogActions from "@mui/material/DialogActions";
+import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
@@ -43,153 +46,162 @@ class SurfaceDialog extends React.Component {
             <Dialog
                 id={modalId}
                 open={isOpen}
-                title="Generate surface/slab with parameters"
+                title="Generate surface/slab"
                 onClose={onHide}
-                onSubmit={this.handleGenerateSurface}
+                renderFooterCustom={() => (
+                    <DialogActions>
+                        <Button
+                            id="make-surface"
+                            onClick={this.handleGenerateSurface}
+                            variant="outlined"
+                            fullWidth
+                            sx={{ m: 2 }}
+                        >
+                            Submit
+                        </Button>
+                    </DialogActions>
+                )}
             >
-                <Grid container id="surface" className="surface" spacing={2}>
-                    <Grid item xs={4}>
-                        <TextField
-                            data-tid="miller-h"
-                            fullWidth
-                            label="Miller h"
-                            variant="outlined"
-                            size="small"
-                            value={h}
-                            type="number"
-                            onChange={(e) => {
-                                this.setState({ h: parseFloat(e.target.value) });
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    min: 0,
-                                    step: 1,
-                                },
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <TextField
-                            data-tid="miller-k"
-                            fullWidth
-                            label="Miller k"
-                            variant="outlined"
-                            size="small"
-                            value={k}
-                            type="number"
-                            onChange={(e) => {
-                                this.setState({ k: parseFloat(e.target.value) });
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    min: 0,
-                                    step: 1,
-                                },
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <TextField
-                            data-tid="miller-l"
-                            fullWidth
-                            label="Miller l"
-                            variant="outlined"
-                            size="small"
-                            value={l}
-                            type="number"
-                            onChange={(e) => {
-                                this.setState({ l: parseFloat(e.target.value) });
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    min: 0,
-                                    step: 1,
-                                },
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            data-tid="thickness"
-                            fullWidth
-                            label="Thickness in layers"
-                            variant="outlined"
-                            size="small"
-                            value={thickness}
-                            type="number"
-                            onChange={(e) => {
-                                this.setState({ thickness: parseFloat(e.target.value) });
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    min: 1,
-                                    step: 1,
-                                },
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            data-tid="vacuum-ratio"
-                            fullWidth
-                            label="Vacuum ratio"
-                            variant="outlined"
-                            size="small"
-                            value={vacuumRatio}
-                            type="number"
-                            onChange={(e) => {
-                                this.setState({ vacuumRatio: parseFloat(e.target.value) });
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    step: 0.01,
-                                    min: 0,
-                                    max: 0.99,
-                                },
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            data-tid="vx"
-                            fullWidth
-                            label="Supercell dimension x"
-                            variant="outlined"
-                            size="small"
-                            value={vx}
-                            type="number"
-                            onChange={(e) => {
-                                this.setState({ vx: parseFloat(e.target.value) });
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    min: 1,
-                                    step: 1,
-                                },
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            data-tid="vy"
-                            fullWidth
-                            label="Supercell dimension y"
-                            variant="outlined"
-                            size="small"
-                            value={vy}
-                            type="number"
-                            onChange={(e) => {
-                                this.setState({ vy: parseFloat(e.target.value) });
-                            }}
-                            InputProps={{
-                                inputProps: {
-                                    min: 1,
-                                    step: 1,
-                                },
-                            }}
-                        />
-                    </Grid>
-                </Grid>
+                <Box
+                    id="surface"
+                    className="surface"
+                    gap={1}
+                    sx={{ display: "flex", flexDirection: "column", mb: 1, pt: 1 }}
+                >
+                    <Box gap={1} sx={{ display: "flex", mb: 1 }}>
+                        <FormControl data-tid="miller-h" fullWidth>
+                            <TextField
+                                label="Miller h"
+                                variant="outlined"
+                                size="small"
+                                value={h}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ h: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl data-tid="miller-k" fullWidth>
+                            <TextField
+                                label="Miller k"
+                                variant="outlined"
+                                size="small"
+                                value={k}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ k: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl data-tid="miller-l" fullWidth>
+                            <TextField
+                                label="Miller l"
+                                variant="outlined"
+                                size="small"
+                                value={l}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ l: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box gap={1} sx={{ display: "flex", mb: 1 }}>
+                        <FormControl data-tid="thickness" fullWidth>
+                            <TextField
+                                label="Thickness in layers"
+                                variant="outlined"
+                                size="small"
+                                value={thickness}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ thickness: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 1,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl data-tid="vacuum-ratio" fullWidth>
+                            <TextField
+                                label="Vacuum ratio"
+                                variant="outlined"
+                                size="small"
+                                value={vacuumRatio}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ vacuumRatio: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        step: 0.01,
+                                        min: 0,
+                                        max: 0.99,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box gap={1} sx={{ display: "flex", mb: 1 }}>
+                        <FormControl data-tid="vx" fullWidth>
+                            <TextField
+                                label="Supercell dimension x"
+                                variant="outlined"
+                                size="small"
+                                value={vx}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ vx: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 1,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl data-tid="vy" fullWidth>
+                            <TextField
+                                label="Supercell dimension y"
+                                variant="outlined"
+                                size="small"
+                                value={vy}
+                                type="number"
+                                onChange={(e) => {
+                                    this.setState({ vy: parseFloat(e.target.value) });
+                                }}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 1,
+                                        step: 1,
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
                 {message && (
                     <Typography variant="body1" color="error" textAlign="center">
                         {message}

@@ -5,8 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Grid from "@mui/material/Grid";
-import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButton from "@mui/material/ToggleButton/";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import PropTypes from "prop-types";
 import React from "react";
@@ -19,8 +18,8 @@ class BasisEditor extends React.Component {
         super(props);
 
         this.state = {
-            xyzContent: props.material.getBasisAsXyz(),
-            coordinateUnits: Made.ATOMIC_COORD_UNITS.crystal,
+            xyz: props.material.getBasisAsXyz(),
+            coordUnits: Made.ATOMIC_COORD_UNITS.crystal,
             checks: props.material.getConsistencyChecks(),
         };
 
@@ -32,14 +31,14 @@ class BasisEditor extends React.Component {
         const { material } = this.props;
         if (material !== nextProps.material) {
             this.setState({
-                xyzContent: nextProps.material.getBasisAsXyz(),
+                xyz: nextProps.material.getBasisAsXyz(),
                 checks: nextProps.material.getConsistencyChecks(),
             });
         }
     }
 
-    getXYZInCoordUnits = (material, coordinateUnits) => {
-        switch (coordinateUnits) {
+    getXYZInCoordUnits = (material, coordUnits) => {
+        switch (coordUnits) {
             case Made.ATOMIC_COORD_UNITS.cartesian:
                 material.toCartesian();
                 break;
@@ -55,9 +54,9 @@ class BasisEditor extends React.Component {
     handleBasisTextChange(content) {
         // "clone" original material from props to assert state updates
         const { material, onUpdate } = this.props;
-        const { coordinateUnits } = this.state;
+        const { coordUnits } = this.state;
         const newMaterial = material.clone();
-        newMaterial.setBasis(content, "xyz", coordinateUnits);
+        newMaterial.setBasis(content, "xyz", coordUnits);
         onUpdate(newMaterial);
     }
 
@@ -74,40 +73,46 @@ class BasisEditor extends React.Component {
         );
     };
 
-    render() {
-        const { coordinateUnits, checks, xyzContent } = this.state;
+    renderBasisUnitOptions() {
+        const { coordUnits } = this.state;
         const { material } = this.props;
+
+        return (
+            <ToggleButtonGroup
+                id="basis-options"
+                value={coordUnits}
+                fullWidth
+                exclusive
+                onChange={(e, unitsType) => {
+                    this.setState({
+                        coordUnits: unitsType,
+                        xyz: this.getXYZInCoordUnits(material, unitsType),
+                    });
+                }}
+            >
+                {this.renderBasisUnitsLabel(Made.ATOMIC_COORD_UNITS.crystal)}
+                {this.renderBasisUnitsLabel(Made.ATOMIC_COORD_UNITS.cartesian)}
+            </ToggleButtonGroup>
+        );
+    }
+
+    renderBasisText() {
+        const { xyz, checks } = this.state;
+        return <BasisText content={xyz} checks={checks} onChange={this.handleBasisTextChange} />;
+    }
+
+    render() {
         return (
             <Accordion defaultExpanded className="crystal-basis">
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Basis</AccordionSummary>
-                <AccordionDetails>
-                    <Grid container spacing={0.125} id="crystal-basis">
-                        <Grid item xs={12}>
-                            <ToggleButtonGroup
-                                id="basis-options"
-                                value={coordinateUnits}
-                                fullWidth
-                                exclusive
-                                size="small"
-                                onChange={(e, unitsType) => {
-                                    this.setState({
-                                        coordinateUnits: unitsType,
-                                        xyzContent: this.getXYZInCoordUnits(material, unitsType),
-                                    });
-                                }}
-                            >
-                                {this.renderBasisUnitsLabel(Made.ATOMIC_COORD_UNITS.crystal)}
-                                {this.renderBasisUnitsLabel(Made.ATOMIC_COORD_UNITS.cartesian)}
-                            </ToggleButtonGroup>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <BasisText
-                                content={xyzContent}
-                                checks={checks}
-                                onChange={this.handleBasisTextChange}
-                            />
-                        </Grid>
-                    </Grid>
+                <AccordionDetails
+                    style={{
+                        display: "block",
+                        height: "100%",
+                    }}
+                >
+                    <div>{this.renderBasisUnitOptions()}</div>
+                    <div>{this.renderBasisText()}</div>
                 </AccordionDetails>
             </Accordion>
         );

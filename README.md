@@ -3,9 +3,9 @@
 
 # Materials Designer
 
-A standalone React/Redux application for atomistic design of material structures. Deployed within the Mat3ra.com platform as explained in the corresponding part of its documentatation [here](https://docs.mat3ra.com/materials-designer/overview/). Can be used as a library in other applications.
+This a standalone react/redux application for atomistic material structures design. Used within the Exabyte.io platform as explained in the corresponding part of its documentatation [here](https://docs.exabyte.io/materials-designer/overview/).
 
-![Materials Designer in action](https://private-user-images.githubusercontent.com/721112/286782899-9671b06c-ef73-42e7-97d5-a7937c416364.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDEzMDYwODEsIm5iZiI6MTcwMTMwNTc4MSwicGF0aCI6Ii83MjExMTIvMjg2NzgyODk5LTk2NzFiMDZjLWVmNzMtNDJlNy05N2Q1LWE3OTM3YzQxNjM2NC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBSVdOSllBWDRDU1ZFSDUzQSUyRjIwMjMxMTMwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDIzMTEzMFQwMDU2MjFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kNWJlNDRiYTYwNjQ0MTA4YjZiZGMwNmEyYTkxMWMzNmMwNjM3NTU4NGM0ZGFhMTY1MTZkNzRiNzZkMTU3OGE4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.0BM-P1ixVjY2-x7a0Bbkmt745KmsWbQEJ-qy6wjx5IQ "Materials Designer in action")
+![Materials Designer in action](https://docs.exabyte.io/images/materials-designer/CreateMaterialSupercell.gif "Materials Designer in action")
 
 ## Functionality
 
@@ -17,18 +17,18 @@ As below:
     - Undo/Redo/Reset/Clone operations
 - View
     - Fullscreen mode
-    - Multi-material Editor (combining multiple materials into one)
 - Advanced Menu
-    - Creating supercells
-    - Creating surfaces/slabs
-    - Creating combinatorial sets
-    - Creating interpolated sets
+    - Creating supercell
+    - Creating surface/slab
+    - Creating combinatorial set
+    - Creating interpolated set
 - Basis Editor
     - Adding/Removing/Modifying sites
     - Adding/Removing/Modifying atomic constraints
     - Switching Crystal/Cartesian units
 - Lattice Editor
     - Adjusting lattice units/types/parameters
+
 - 3D Editor
     - Visualizing materials
         - Rotation
@@ -36,16 +36,12 @@ As below:
         - Toggle axes
     - Adjusting materials
         - add/remove/select atoms
-        - multiple selection with drag-and-drop
 
 ## Installation
 
-Tested with `Node` v14.19.3. The corresponding version(s) of npm should be fine, tested with v6.4.19. We recommend using `nvm` for version management.
+Run with `Node` v14.19.3, tested with `Node` v14.19.3. The corresponding version(s) of npm should be fine, tested with v6.4.1. We recommend using `nvm` for version management.
 
-
-### From source
-
-Materials Designer can be installed from source as follows:
+Materials Designer can be installed from source as follow:
 
 ```bash
 git clone git@github.com:Exabyte-io/materials-designer.git
@@ -71,11 +67,7 @@ sh run-application.sh
 > git lfs install
 > ```
 
-Open http://localhost:3001 to view the application in the browser
-
-### From Docker
-
-See Docker Files section below.
+Open http://localhost:3001 to view the application in the browser.
 
 ## Development
 
@@ -127,6 +119,11 @@ Desirable features/fixes for implementation:
 
 This package depends on [Made.js](https://github.com/Exabyte-io/made.js) and [Wave.js](https://github.com/Exabyte-io/wave.js). See [package.json](package.json) for the full list.
 
+## Links
+
+1. [Create React App, GitHub Repository](https://github.com/facebook/create-react-app)
+
+
 ## CI Docker files
 
 There are two docker files used for testing in CI. In principle, we could use
@@ -165,8 +162,3 @@ In case you need to link Cove.js into the app for local development you need
 ```
 
 If you need to re-link it again, remove node_modules in cove.js and the app, run npm install, then run npm start again. 
-
-
-## Links
-
-1. [Create React App, GitHub Repository](https://github.com/facebook/create-react-app)
