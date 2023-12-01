@@ -136,8 +136,8 @@ class PythonTransformation extends React.Component<
 
             const dataOut = result.toJs().get("data_out");
             const dataOutMap = this.mapToObject(dataOut);
-            if (dataOutMap) {
-                // @ts-ignore
+
+            if (Array.isArray(dataOutMap.materials)) {
                 const newMaterials = dataOutMap.materials.map((m: any) => {
                     const material = this.mapToObject(m);
                     const config = Made.parsers.poscar.fromPoscar(material.poscar);
