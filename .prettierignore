@@ -1,1 +1,1 @@
-tests/cucumber/fixtures/*.json
+tests-legacy/cucumber/fixtures/*.json
