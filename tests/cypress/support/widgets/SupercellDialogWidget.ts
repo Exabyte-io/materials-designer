@@ -3,7 +3,7 @@ import Widget from "./Widget";
 
 const selectors = {
     wrapper: "#supercellModal",
-    submitButton: "#make-supercell",
+    submitButton: "#supercellModal-submit-button",
     matrixElementByIndices: (i: number, j: number) => `div.m${i + 1}${j + 1} input`,
 };
 

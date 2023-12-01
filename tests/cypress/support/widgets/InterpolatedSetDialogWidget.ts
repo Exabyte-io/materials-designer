@@ -3,7 +3,7 @@ import Widget from "./Widget";
 
 const selectors = {
     wrapper: "#interpolatedSetModal",
-    submitButton: "#generate-interpolated-set",
+    submitButton: "#interpolatedSetModal-submit-button",
     intermediateImagesInput: "input[type='number']",
 };
 

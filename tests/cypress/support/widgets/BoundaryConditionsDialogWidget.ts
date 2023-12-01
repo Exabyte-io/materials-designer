@@ -3,7 +3,7 @@ import Widget from "./Widget";
 
 const selectors = {
     wrapper: "#BoundaryConditionsModal",
-    submitButton: "#boundary-conditions-submit",
+    submitButton: "#BoundaryConditionsModal-submit-button",
     type: '.MuiFormControl-root[data-tid="type"]',
     offset: '[data-tid="offset"] input',
 };

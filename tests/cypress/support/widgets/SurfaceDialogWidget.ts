@@ -13,7 +13,7 @@ export interface SurfaceConfig {
 
 const selectors = {
     wrapper: "#surfaceModal",
-    submitButton: "#make-surface",
+    submitButton: "#surfaceModal-submit-button",
     h: '[data-tid="miller-h"] input',
     k: '[data-tid="miller-k"] input',
     l: '[data-tid="miller-l"] input',
