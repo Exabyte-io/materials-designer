@@ -24,3 +24,81 @@ Feature: User can open Python Transformation dialog, change python code and run 
     # Cancel
     When I cancel PythonTransformationDialog
     Then I see PythonTransformationDialog is closed
+
+    # Create a slab from material using python transformation
+    When I create materials with the following data
+      | name | basis    | lattice                                     |
+      | Ni   | Ni 0 0 0 | {"type":"FCC", "a":2.46,"b":2.46, "c":2.46} |
+    Then material with following data exists in state
+      | name | basis    | lattice                                     |
+      | Ni   | Ni 0 0 0 | {"type":"FCC", "a":2.46,"b":2.46, "c":2.46} |
+
+    When I open PythonTransformationDialog
+    Then I see PythonTransformationDialog
+    And I set code input with the following data:
+    """import micropip
+
+await micropip.install("ase")
+from ase.build import surface
+from ase.io import read, write
+import io
+import numpy as np
+
+
+# Classes and Definitions
+def ase_poscar_to_atoms(poscar):
+  input = io.StringIO(poscar)
+  atoms = read(input, format="vasp")
+  return atoms
+
+
+def ase_atoms_to_poscar(atoms):
+  output = io.StringIO()
+  write(output, atoms, format="vasp")
+  content = output.getvalue()
+  output.close()
+  return content
+
+
+# Function to run
+def func():
+  globals().setdefault("data_in", {"materials": [{"poscar": ""}]})
+  globals()["data_in"]["settings"] = {
+  "slab": {
+  "miller:h": 1,
+  "miller:k": 1,
+  "miller:l": 1,
+  "vacuum": 5,
+  "number_of_layers": 3,
+  }
+  }
+  try:
+    materials = globals()["data_in"]["materials"]
+    material_data = materials[0]
+    material = ase_poscar_to_atoms(material_data["poscar"])
+
+          # Create slab using ASE
+    slab = surface(
+    material,
+    (
+    globals()["data_in"]["settings"]["slab"]["miller:h"],
+    globals()["data_in"]["settings"]["slab"]["miller:k"],
+    globals()["data_in"]["settings"]["slab"]["miller:l"],
+    ),
+    vacuum=globals()["data_in"]["settings"]["slab"]["vacuum"],
+    layers=globals()["data_in"]["settings"]["slab"]["number_of_layers"],
+    )
+
+    globals()["data_out"]["materials"] = [
+    {
+    "poscar": ase_atoms_to_poscar(slab),
+    "metadata": {},
+    }
+    ]
+  except Exception as e:
+    print(e)
+
+  return globals()
+
+func()
+"""
