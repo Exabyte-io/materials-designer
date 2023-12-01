@@ -19,7 +19,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [],
   "ts-node": {
     "compilerOptions": {
       "module": "ESNext",
