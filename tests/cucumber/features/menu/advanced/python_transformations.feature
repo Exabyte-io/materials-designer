@@ -27,12 +27,16 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Then I see PythonTransformationDialog is closed
 
     # Create a slab from material using python transformation
-    When I open PythonTransformationDialog
-    Then I see PythonTransformationDialog
+    When I create materials with the following data
+    | path         | index   |
+    | ni.poscar    | $INT{1} |
+    And I open PythonTransformationDialog
+    And I see PythonTransformationDialog
+    And I select material with index "1" in MaterialsSelector
     And I set code input from the file "../fixtures/create-slab.py"
 
     And I click the Run button
-    Then I see code output with the data from the file "../fixtures/si-slab.poscar"
+    Then I see code output with the data from the file "../fixtures/ni.poscar"
     And I submit python transformation
     Then material with following data exists in state
     | path         | index   |
