@@ -28,16 +28,16 @@ Feature: User can open Python Transformation dialog, change python code and run 
 
     # Create a slab from material using python transformation
     When I create materials with the following data
-    | name  | basis    | lattice                    |
-    | Ni    | Ni 0 0 0 | {"type": "FCC", "a": 2.46} |
+    | name  | basis    | lattice                                       |
+    | Ni    | Ni 0 0 0 | {"type":"FCC", "a":2.46, "b":2.46, "c":2.46 } |
     And I open PythonTransformationDialog
     And I see PythonTransformationDialog
     And I select material with index "1" in MaterialsSelector
     And I set code input from the file "../fixtures/create-slab.py"
 
     And I click the Run button
-    Then I see code output with the data from the file "../fixtures/ni.poscar"
+    Then I see code output with the data from the file "../fixtures/ni-slab.poscar"
     And I submit python transformation
     Then material with following data exists in state
     | path         | index   |
-    | si-slab.json | $INT{2} |
+    | ni-slab.json | $INT{2} |

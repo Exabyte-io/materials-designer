@@ -51,7 +51,6 @@ export const SELECTORS = {
             wrapper: "#python-transformation-dialog",
             dialog: 'div[role="dialog"]',
             materialsSelector: "[data-tid='materials-selector']",
-            // eslint-disable-next-line no-unused-vars
             materialsSelectorItem: (index) => `[data-tid='select-material']:nth-of-type(${index})`,
             codeInput: "python-code-input",
             pythonOutput: "python-output",
