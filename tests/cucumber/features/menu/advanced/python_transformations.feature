@@ -28,8 +28,8 @@ Feature: User can open Python Transformation dialog, change python code and run 
 
     # Create a slab from material using python transformation
     When I create materials with the following data
-    | path         | index   |
-    | ni.poscar    | $INT{1} |
+    | name  | basis    | lattice                    |
+    | Ni    | Ni 0 0 0 | {"type": "FCC", "a": 2.46} |
     And I open PythonTransformationDialog
     And I see PythonTransformationDialog
     And I select material with index "1" in MaterialsSelector
