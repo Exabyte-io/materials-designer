@@ -41,3 +41,21 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Then material with following data exists in state
     | path         | index   |
     | ni-slab.json | $INT{2} |
+
+    # Create an interface between Gr and Ni(111)
+    When I delete materials with index "2"
+    When I create materials with the following data
+    | name     | basis                           | lattice                                       |
+    | Ni       | Ni 0 0 0                        | {"type":"FCC", "a":2.46, "b":2.46, "c":2.46 } |
+    | Graphene | C 0 0 0; C 0.333333 0.666667 0  | {"type":"HEX", "a":2.467291, "b":2.467291, "c":20 } |
+    And I open PythonTransformationDialog
+    And I see PythonTransformationDialog
+    And I select material with index "2" in MaterialsSelector
+    And I set code input from the file "../fixtures/create-interface.py"
+    And I click the Run button
+    Then I see code output with the data from the file "../fixtures/gr-ni-interface.poscar"
+
+    When I submit python transformation
+    Then material with following data exists in state
+    | path               | index   |
+    |gr-ni-interface.json| $INT{3} |
