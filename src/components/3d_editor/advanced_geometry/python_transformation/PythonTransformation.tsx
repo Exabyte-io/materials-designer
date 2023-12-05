@@ -3,9 +3,11 @@ import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 // TODO: add types when made.js is moved to Typescript
 // @ts-ignore
 import { Made } from "@exabyte-io/made.js";
+import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
@@ -215,16 +217,23 @@ class PythonTransformation extends React.Component<
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <DialogContent sx={{ overflow: "hidden" }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={5}>
-                            <MaterialsSelector
-                                materials={materials}
-                                selectedMaterials={selectedMaterials}
-                                setSelectedMaterials={(newMaterials) =>
-                                    this.setState({ selectedMaterials: newMaterials })
-                                }
-                            />
+                        <Grid container item xs={12} alignItems="center" gap={1}>
+                            <Grid item>
+                                <Typography variant="body2" style={{ fontFamily: "monospace" }}>
+                                    materials_in=
+                                </Typography>
+                            </Grid>
+                            <Grid item xs>
+                                <MaterialsSelector
+                                    materials={materials}
+                                    selectedMaterials={selectedMaterials}
+                                    setSelectedMaterials={(newMaterials) =>
+                                        this.setState({ selectedMaterials: newMaterials })
+                                    }
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={4} lg={5}>
+                        <Grid item xs={12} sm={8}>
                             <TransformationSelector
                                 pythonCode={pythonCode}
                                 url={GITHUB_API_URL}
@@ -233,7 +242,7 @@ class PythonTransformation extends React.Component<
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12} md={3} lg={2}>
+                        <Grid item xs={12} sm={4}>
                             <CodeExecutionControls
                                 handleRun={this.handleRun}
                                 executionStatus={executionStatus}
