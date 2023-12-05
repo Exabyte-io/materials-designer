@@ -14,12 +14,13 @@ export enum ExecutionStatus {
 }
 
 interface CodeExecutionControlsProps {
+    buttonTitle?: string;
     executionStatus: ExecutionStatus;
     handleRun: () => void;
 }
 
 function CodeExecutionControls(props: CodeExecutionControlsProps) {
-    const { handleRun, executionStatus } = props;
+    const { buttonTitle = "Run", handleRun, executionStatus } = props;
 
     const statusTextMap = {
         [ExecutionStatus.Loading]: "Loading...",
@@ -60,10 +61,13 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
                 size="small"
                 // @ts-ignore
                 color={color}
-                onClick={handleRun}
+                onClick={(event) => {
+                    event.stopPropagation();
+                    handleRun();
+                }}
                 disabled={disabled}
             >
-                <Typography variant="button">Run</Typography>
+                <Typography variant="button">{buttonTitle}</Typography>
                 <IconByName name="actions.execute" />
             </Button>
         </Box>
