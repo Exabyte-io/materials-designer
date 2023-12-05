@@ -12,7 +12,7 @@ import React from "react";
 import NPMsAlert from "react-s-alert";
 
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
-import ExecutionCell from "./ExecutionCell";
+import ExecutionCell, { SectionState } from "./ExecutionCell";
 import MaterialsSelector from "./MaterialsSelector";
 import TransformationSelector from "./TransformationSelector";
 
@@ -39,6 +39,7 @@ interface PythonTransformationState {
     pyodide: any;
     pythonCode: string;
     pythonOutput: string;
+    sections: SectionState[];
 }
 
 interface PyodideDataMap {
@@ -49,7 +50,7 @@ const CODE_DISPLAY_HEIGHT = "60vh";
 const GITHUB_API_URL =
     "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7058";
 
-const PYTHON_CODE_EXAMPLE = `
+const PYTHON_CODE_DEFAULT = `
 """BLOCK: Package Imports"""
 import micropip
 await micropip.install("ase")
@@ -84,7 +85,13 @@ class PythonTransformation extends React.Component<
             pyodide: null,
             pythonCode: "",
             pythonOutput: "",
+            sections: [],
         };
+    }
+
+    componentDidMount() {
+        this.setState({ pythonCode: PYTHON_CODE_DEFAULT });
+        this.parseAndSetSections(PYTHON_CODE_DEFAULT);
     }
 
     componentDidUpdate(prevProps: PythonTransformationProps) {
@@ -148,6 +155,7 @@ class PythonTransformation extends React.Component<
         }
     };
 
+    // eslint-disable-next-line react/no-unused-class-component-methods
     handleRun = async () => {
         try {
             const { pyodide } = this.state;
@@ -186,6 +194,43 @@ class PythonTransformation extends React.Component<
         onSubmit(newMaterials);
     };
 
+    executeSection = async (sectionIndex: number) => {
+        const { pyodide } = this.state;
+        const { sections } = this.state;
+        const section = sections[sectionIndex];
+        const { name, content } = section;
+        const dataIn = { materials: this.prepareMaterialData() };
+        const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
+
+        const result = await this.runPythonCode({ globals: { data_in: {}, data_out: {} } });
+    };
+
+    executeAllSections = async () => {
+        // Logic to sequentially execute all sections
+        // eslint-disable-next-line react/destructuring-assignment
+        this.state.sections.forEach(async (section, index) => {
+            await this.executeSection(index);
+        });
+    };
+
+    parseAndSetSections(pythonCode: string) {
+        const sectionRegex = /"""BLOCK: (.+?)"""\s([\s\S]+?)(?=("""BLOCK|$))/g;
+        let match;
+        const sections: SectionState[] = [];
+
+        // eslint-disable-next-line no-cond-assign
+        while ((match = sectionRegex.exec(pythonCode)) !== null) {
+            sections.push({
+                name: match[1],
+                executionStatus: ExecutionStatus.Ready,
+                content: match[2],
+                output: "",
+            });
+        }
+
+        this.setState({ sections });
+    }
+
     mapToObject(map: Map<string, any>): PyodideDataMap {
         const obj: PyodideDataMap = {};
         map.forEach((value, key) => {
@@ -199,7 +244,7 @@ class PythonTransformation extends React.Component<
     }
 
     render() {
-        const { pythonCode, pythonOutput, materials, selectedMaterials } = this.state;
+        const { pythonCode, pythonOutput, materials, selectedMaterials, sections } = this.state;
         const { show, onHide } = this.props;
 
         const { executionStatus } = this.state;
@@ -244,7 +289,8 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <CodeExecutionControls
-                                handleRun={this.handleRun}
+                                buttonTitle="Run All"
+                                handleRun={this.executeAllSections}
                                 executionStatus={executionStatus}
                             />
                         </Grid>
@@ -255,16 +301,23 @@ class PythonTransformation extends React.Component<
                                     overflow: "scroll",
                                 }}
                             >
-                                <ExecutionCell
-                                    name="Main"
-                                    content={pythonCode}
-                                    output={pythonOutput}
-                                    executionStatus={executionStatus}
-                                    handleRun={this.handleRun}
-                                    setPythonCode={(newContent) =>
-                                        this.setState({ pythonCode: newContent })
-                                    }
-                                />
+                                {sections.map((section, index) => (
+                                    <ExecutionCell
+                                        key={section.name}
+                                        name={section.name}
+                                        content={section.content}
+                                        output={section.output}
+                                        executionStatus={section.executionStatus}
+                                        handleRun={() => this.executeSection(index)}
+                                        setPythonCode={(newContent) =>
+                                            this.setState((prevState) => ({
+                                                sections: prevState.sections.map((s, i) =>
+                                                    i === index ? { ...s, content: newContent } : s,
+                                                ),
+                                            }))
+                                        }
+                                    />
+                                ))}
                             </Paper>
                         </Grid>
                     </Grid>
