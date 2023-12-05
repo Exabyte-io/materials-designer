@@ -1,19 +1,17 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-import theme from "@exabyte-io/cove.js/dist/theme";
 // TODO: add types when made.js is moved to Typescript
 // @ts-ignore
 import { Made } from "@exabyte-io/made.js";
-import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
-import CodeExecutionControls from "./CodeExecutionControls";
+import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
+import ExecutionCell from "./ExecutionCell";
 import MaterialsSelector from "./MaterialsSelector";
-import PythonCodeDisplay from "./PythonCodeDisplay";
 import TransformationSelector from "./TransformationSelector";
 
 interface PythonTransformationProps {
@@ -33,7 +31,7 @@ interface PythonTransformationState {
     selectedMaterials: any[];
     // @ts-ignore
     newMaterials: any[];
-    executionState: "loading" | "running" | "ready" | "error";
+    executionStatus: ExecutionStatus;
     // TODO: import type for Pyodide when they are available in Cove.js
     // @ts-ignore
     pyodide: any;
@@ -49,6 +47,27 @@ const CODE_DISPLAY_HEIGHT = "60vh";
 const GITHUB_API_URL =
     "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7058";
 
+const PYTHON_CODE_EXAMPLE = `
+"""BLOCK: Package Imports"""
+import micropip
+await micropip.install("ase")
+import ase
+
+"""BLOCK: Function Definitions"""
+materials_in = globals()["data_in"]["materials"]
+
+def transformation(material):
+    """Transformation"""
+    return material
+    
+"""BLOCK: Main"""
+def main():
+    materials_out = []
+    for material in materials_in:
+        materials_out.append(transformation(material))
+    return {"materials": materials_out} 
+`;
+
 class PythonTransformation extends React.Component<
     PythonTransformationProps,
     PythonTransformationState
@@ -59,7 +78,7 @@ class PythonTransformation extends React.Component<
             materials: props.materials,
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
-            executionState: "loading",
+            executionStatus: ExecutionStatus.Loading,
             pyodide: null,
             pythonCode: "",
             pythonOutput: "",
@@ -75,16 +94,19 @@ class PythonTransformation extends React.Component<
     }
 
     onPyodideLoad = (pyodideInstance: any) => {
-        this.setState({ pyodide: pyodideInstance, executionState: "ready" }, async () => {
-            // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
-            pyodideInstance.setStdout({
-                batched: (text: string) => this.redirectPyodideStdout(text),
-            });
-            // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
-            // as per https://github.com/pyodide/matplotlib-pyodide
-            // @ts-ignore
-            document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
-        });
+        this.setState(
+            { pyodide: pyodideInstance, executionStatus: ExecutionStatus.Ready },
+            async () => {
+                // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
+                pyodideInstance.setStdout({
+                    batched: (text: string) => this.redirectPyodideStdout(text),
+                });
+                // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
+                // as per https://github.com/pyodide/matplotlib-pyodide
+                // @ts-ignore
+                document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
+            },
+        );
     };
 
     redirectPyodideStdout = (text: string) => {
@@ -108,18 +130,18 @@ class PythonTransformation extends React.Component<
     };
 
     runPythonCode = async (options: any) => {
-        this.setState({ pythonOutput: "", executionState: "running" });
+        this.setState({ pythonOutput: "", executionStatus: ExecutionStatus.Running });
         let result;
 
         try {
             const { pyodide, pythonCode } = this.state;
             result = await pyodide.runPythonAsync(pythonCode, options);
-            this.setState({ executionState: "ready" });
+            this.setState({ executionStatus: ExecutionStatus.Ready });
             return result;
         } catch (error: any) {
             this.setState({
                 pythonOutput: error.message + "\n",
-                executionState: "error",
+                executionStatus: ExecutionStatus.Error,
             });
         }
     };
@@ -178,7 +200,7 @@ class PythonTransformation extends React.Component<
         const { pythonCode, pythonOutput, materials, selectedMaterials } = this.state;
         const { show, onHide } = this.props;
 
-        const { executionState } = this.state;
+        const { executionStatus } = this.state;
         return (
             <Dialog
                 id="python-transformation-dialog"
@@ -188,7 +210,7 @@ class PythonTransformation extends React.Component<
                 maxWidth="xl"
                 onSubmit={this.handleSubmit}
                 title="Python Transformation"
-                isSubmitButtonDisabled={executionState !== "ready"}
+                isSubmitButtonDisabled={executionStatus !== "ready"}
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <DialogContent sx={{ overflow: "hidden" }}>
@@ -214,7 +236,7 @@ class PythonTransformation extends React.Component<
                         <Grid item xs={12} sm={12} md={3} lg={2}>
                             <CodeExecutionControls
                                 handleRun={this.handleRun}
-                                executionState={executionState}
+                                executionStatus={executionStatus}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -224,9 +246,12 @@ class PythonTransformation extends React.Component<
                                     overflow: "scroll",
                                 }}
                             >
-                                <PythonCodeDisplay
-                                    pythonCode={pythonCode}
-                                    pythonOutput={pythonOutput}
+                                <ExecutionCell
+                                    name="Main"
+                                    content={pythonCode}
+                                    output={pythonOutput}
+                                    executionStatus={executionStatus}
+                                    handleRun={this.handleRun}
                                     setPythonCode={(newContent) =>
                                         this.setState({ pythonCode: newContent })
                                     }
