@@ -32,6 +32,7 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
     return (
         <Autocomplete
             multiple
+            fullWidth
             id="materials-autocomplete"
             data-tid="materials-selector"
             size="small"

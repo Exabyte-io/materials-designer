@@ -42,7 +42,10 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
                         ? "secondary"
                         : "success"
                 }
-                onClick={handleRun}
+                onClick={(event) => {
+                    event.stopPropagation();
+                    handleRun();
+                }}
                 disabled={executionState === "loading" || executionState === "running"}
             >
                 <Typography variant="button">Run</Typography>
