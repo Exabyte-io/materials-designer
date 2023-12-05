@@ -1,4 +1,3 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -9,11 +8,14 @@ import React from "react";
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
 import PythonCodeDisplay from "./PythonCodeDisplay";
 
-interface ExecutionCellProps {
+export interface SectionState {
     name: string;
+    executionStatus: ExecutionStatus;
     content: string;
     output: string;
-    executionStatus: ExecutionStatus;
+}
+
+interface ExecutionCellProps extends SectionState {
     handleRun: () => void;
     setPythonCode: (pythonCode: string) => void;
 }
