@@ -1,3 +1,4 @@
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -16,15 +17,22 @@ export interface SectionState {
 }
 
 interface ExecutionCellProps extends SectionState {
+    defaultExpanded: boolean;
     handleRun: () => void;
     setPythonCode: (pythonCode: string) => void;
 }
 
 function ExecutionCell(props: ExecutionCellProps) {
-    const { name, content, output, executionStatus, handleRun, setPythonCode } = props;
+    const { name, content, output, executionStatus, handleRun, setPythonCode, defaultExpanded } =
+        props;
+    const [expanded, setExpanded] = React.useState(defaultExpanded);
+
+    const handleAccordionChange = (event: React.SyntheticEvent, isExpanded: boolean) => {
+        setExpanded(isExpanded);
+    };
     return (
-        <Accordion>
-            <AccordionSummary>
+        <Accordion defaultExpanded={defaultExpanded} onChange={handleAccordionChange}>
+            <AccordionSummary expandIcon={<IconByName name="shapes.arrow.down" sx={{ m: 1 }} />}>
                 <Grid container>
                     <Grid item xs={10}>
                         <Typography>{name}</Typography>
@@ -33,6 +41,10 @@ function ExecutionCell(props: ExecutionCellProps) {
                         <CodeExecutionControls
                             executionStatus={executionStatus}
                             handleRun={handleRun}
+                            buttonProps={{
+                                title: "Run",
+                                variant: expanded ? "contained" : "outlined",
+                            }}
                         />
                     </Grid>
                 </Grid>

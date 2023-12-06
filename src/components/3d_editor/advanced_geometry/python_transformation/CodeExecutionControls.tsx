@@ -1,7 +1,7 @@
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import Button, { ButtonProps } from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import React from "react";
@@ -14,13 +14,17 @@ export enum ExecutionStatus {
 }
 
 interface CodeExecutionControlsProps {
-    buttonTitle?: string;
+    buttonProps?: ButtonProps;
     executionStatus: ExecutionStatus;
     handleRun: () => void;
 }
 
 function CodeExecutionControls(props: CodeExecutionControlsProps) {
-    const { buttonTitle = "Run", handleRun, executionStatus } = props;
+    const {
+        buttonProps = { title: "Run", variant: "outlined" },
+        handleRun,
+        executionStatus,
+    } = props;
 
     const statusTextMap = {
         [ExecutionStatus.Loading]: "Loading...",
@@ -57,7 +61,7 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
             </Box>
             <Button
                 className="run-button"
-                variant="contained"
+                variant={buttonProps.variant}
                 size="small"
                 // @ts-ignore
                 color={color}
@@ -67,7 +71,7 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
                 }}
                 disabled={disabled}
             >
-                <Typography variant="button">{buttonTitle}</Typography>
+                <Typography variant="button">{buttonProps.title}</Typography>
                 <IconByName name="actions.execute" />
             </Button>
         </Box>
