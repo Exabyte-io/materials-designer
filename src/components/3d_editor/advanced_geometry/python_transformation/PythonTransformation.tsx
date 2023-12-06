@@ -120,8 +120,13 @@ class PythonTransformation extends React.Component<
             this.updateStateAtIndex(executionCells, sectionIndex, {
                 executionStatus: ExecutionStatus.Ready,
             });
-            // eslint-disable-next-line react/destructuring-assignment
-            console.log(this.state.executionCells[sectionIndex].output);
+            console.log(
+                "section",
+                sectionIndex,
+                "output:",
+                // eslint-disable-next-line react/destructuring-assignment
+                this.state.executionCells[sectionIndex].output,
+            );
         } catch (error: any) {
             this.setState({ executionStatus: ExecutionStatus.Error });
             this.updateStateAtIndex(executionCells, sectionIndex, {
@@ -136,13 +141,16 @@ class PythonTransformation extends React.Component<
     };
 
     executeAllExecutionCells = async () => {
-        // eslint-disable-next-line react/destructuring-assignment
-        this.state.executionCells.forEach(async (section, index) => {
+        const { executionCells } = this.state;
+        // eslint-disable-next-line no-restricted-syntax
+        for (const [index] of executionCells.entries()) {
+            // eslint-disable-next-line no-await-in-loop
             await this.executeSection(index);
-        });
+        }
     };
 
     handleTransformationChange = (newPythonCode: string) => {
+        const { pythonCode } = this.state;
         this.setState({ pythonCode: newPythonCode });
         this.parseAndSetExecutionCells(newPythonCode);
     };
