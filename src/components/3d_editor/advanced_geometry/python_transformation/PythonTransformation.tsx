@@ -101,31 +101,31 @@ class PythonTransformation extends React.Component<
         });
     };
 
-    runPythonCode = async (options: any) => {
+    runPythonCode = async (pythonCode: string, options: any) => {
         let result;
 
         try {
-            const { pyodide, pythonCode } = this.state;
+            const { pyodide } = this.state;
             result = await pyodide.runPythonAsync(pythonCode, options);
             this.setState({ executionStatus: ExecutionStatus.Idle });
             return result;
         } catch (error: any) {
-            this.setState({
-                // pythonOutput: error.message + "\n",
+            return {
+                output: error.message + "\n",
                 executionStatus: ExecutionStatus.Error,
-            });
+            };
         }
     };
 
     // eslint-disable-next-line react/no-unused-class-component-methods
     handleRun = async () => {
         try {
-            const { pyodide } = this.state;
+            const { pyodide, pythonCode } = this.state;
             const materialsData = this.prepareMaterialData();
             const dataIn = { materials: materialsData };
             const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
 
-            const result = await this.runPythonCode({ globals: convertedData });
+            const result = await this.runPythonCode(pythonCode, { globals: convertedData });
             if (!result) return;
 
             const dataOut = result.toJs().get("data_out");
@@ -176,18 +176,38 @@ class PythonTransformation extends React.Component<
         // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
         // as per https://github.com/pyodide/matplotlib-pyodide
         // @ts-ignore
-        document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
+        document.pyodideMplTarget = document.getElementById(
+            `pyodide-plot-target-${executionCells[sectionIndex].name}`,
+        );
         const section = executionCells[sectionIndex];
         const { name, content } = section;
         const dataIn = { materials: this.prepareMaterialData() };
         const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
 
-        const result = await this.runPythonCode({ globals: { data_in: {}, data_out: {} } });
+        let result;
+        try {
+            const { pyodide } = this.state;
+            result = await pyodide.runPythonAsync(content, {
+                globals: convertedData,
+            });
+            this.updateStateAtIndex(executionCells, sectionIndex, {
+                executionStatus: ExecutionStatus.Ready,
+            });
+        } catch (error: any) {
+            this.setState({ executionStatus: ExecutionStatus.Error });
+            this.updateStateAtIndex(executionCells, sectionIndex, {
+                executionStatus: ExecutionStatus.Error,
+                output: error.message + "\n",
+            });
+            return {
+                output: error.message + "\n",
+                executionStatus: ExecutionStatus.Error,
+            };
+        }
+
         if (!result) return;
 
         console.log(result.toJs());
-
-        this.setState({ executionStatus: ExecutionStatus.Ready });
     };
 
     executeAllExecutionCells = async () => {

@@ -51,6 +51,7 @@ function ExecutionCell(props: ExecutionCellProps) {
             </AccordionSummary>
             <AccordionDetails>
                 <PythonCodeDisplay
+                    name={name}
                     pythonCode={content}
                     pythonOutput={output}
                     setPythonCode={(newContent) => setPythonCode(newContent)}
