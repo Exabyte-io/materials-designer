@@ -4,17 +4,18 @@ import Box from "@mui/material/Box";
 import React from "react";
 
 interface PythonCodeDisplayProps {
+    name?: string;
     pythonCode: string;
     pythonOutput: string;
     setPythonCode: (pythonCode: string) => void;
 }
 
 const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
-    const { pythonCode, pythonOutput, setPythonCode } = props;
+    const { name = "", pythonCode, pythonOutput, setPythonCode } = props;
     return (
         <>
             <Box
-                id="python-code-input"
+                id={`python-code-input-${name}`}
                 sx={{
                     border: `1px solid ${theme.palette.secondary.light}`,
                 }}
@@ -29,7 +30,7 @@ const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
                     language="python"
                 />
             </Box>
-            <Box id="python-output" mt={theme.spacing(1)}>
+            <Box id={`python-output-${name}`} mt={theme.spacing(1)}>
                 {pythonOutput && (
                     <CodeMirror
                         content={pythonOutput}
@@ -42,7 +43,7 @@ const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
                     />
                 )}
             </Box>
-            <Box id="pyodide-plot-target" />
+            <Box id={`pyodide-plot-target-${name}`} />
         </>
     );
 };
