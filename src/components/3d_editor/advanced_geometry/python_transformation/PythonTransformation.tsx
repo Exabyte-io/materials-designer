@@ -299,7 +299,7 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <CodeExecutionControls
-                                buttonTitle="Run All"
+                                buttonProps={{ title: "Run All", variant: "contained" }}
                                 handleRun={this.executeAllSections}
                                 executionStatus={executionStatus}
                             />
@@ -326,6 +326,7 @@ class PythonTransformation extends React.Component<
                                                 ),
                                             }))
                                         }
+                                        defaultExpanded={index === sections.length - 1}
                                     />
                                 ))}
                             </Paper>
