@@ -9,14 +9,14 @@ import React from "react";
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
 import PythonCodeDisplay from "./PythonCodeDisplay";
 
-export interface SectionState {
+export interface ExecutionCellState {
     name: string;
     executionStatus: ExecutionStatus;
     content: string;
     output: string;
 }
 
-interface ExecutionCellProps extends SectionState {
+interface ExecutionCellProps extends ExecutionCellState {
     defaultExpanded: boolean;
     handleRun: () => void;
     setPythonCode: (pythonCode: string) => void;

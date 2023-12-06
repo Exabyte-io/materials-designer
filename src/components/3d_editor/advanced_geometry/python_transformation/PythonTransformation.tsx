@@ -3,17 +3,15 @@ import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 // TODO: add types when made.js is moved to Typescript
 // @ts-ignore
 import { Made } from "@exabyte-io/made.js";
-import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
-import ExecutionCell, { SectionState } from "./ExecutionCell";
+import ExecutionCell, { ExecutionCellState } from "./ExecutionCell";
 import MaterialsSelector from "./MaterialsSelector";
 import TransformationSelector from "./TransformationSelector";
 
@@ -40,7 +38,7 @@ interface PythonTransformationState {
     pyodide: any;
     pythonCode: string;
     pythonOutput: string;
-    sections: SectionState[];
+    executionCells: ExecutionCellState[];
 }
 
 interface PyodideDataMap {
@@ -88,13 +86,13 @@ class PythonTransformation extends React.Component<
             pyodide: null,
             pythonCode: "",
             pythonOutput: "",
-            sections: [],
+            executionCells: [],
         };
     }
 
     componentDidMount() {
         this.setState({ pythonCode: PYTHON_CODE_DEFAULT });
-        this.parseAndSetSections(PYTHON_CODE_DEFAULT);
+        this.parseAndSetexecutionCells(PYTHON_CODE_DEFAULT);
     }
 
     componentDidUpdate(prevProps: PythonTransformationProps) {
@@ -107,7 +105,7 @@ class PythonTransformation extends React.Component<
 
     onPyodideLoad = (pyodideInstance: any) => {
         this.setState(
-            { pyodide: pyodideInstance, executionStatus: ExecutionStatus.Ready },
+            { pyodide: pyodideInstance, executionStatus: ExecutionStatus.Idle },
             async () => {
                 // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
                 pyodideInstance.setStdout({
@@ -142,13 +140,12 @@ class PythonTransformation extends React.Component<
     };
 
     runPythonCode = async (options: any) => {
-        this.setState({ executionStatus: ExecutionStatus.Running });
         let result;
 
         try {
             const { pyodide, pythonCode } = this.state;
             result = await pyodide.runPythonAsync(pythonCode, options);
-            this.setState({ executionStatus: ExecutionStatus.Ready });
+            this.setState({ executionStatus: ExecutionStatus.Idle });
             return result;
         } catch (error: any) {
             this.setState({
@@ -197,10 +194,20 @@ class PythonTransformation extends React.Component<
         onSubmit(newMaterials);
     };
 
+    updateStateAtIndex = (stateArray: any[], index: number, newState: any) => {
+        const newArray = [...stateArray];
+        newArray[index] = { ...newArray[index], ...newState };
+        this.setState({ executionCells: newArray });
+    };
+
     executeSection = async (sectionIndex: number) => {
+        const { executionCells } = this.state;
+        this.updateStateAtIndex(executionCells, sectionIndex, {
+            executionStatus: ExecutionStatus.Running,
+        });
+
         const { pyodide } = this.state;
-        const { sections } = this.state;
-        const section = sections[sectionIndex];
+        const section = executionCells[sectionIndex];
         const { name, content } = section;
         const dataIn = { materials: this.prepareMaterialData() };
         const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
@@ -208,30 +215,30 @@ class PythonTransformation extends React.Component<
         const result = await this.runPythonCode({ globals: { data_in: {}, data_out: {} } });
     };
 
-    executeAllSections = async () => {
-        // Logic to sequentially execute all sections
+    executeAllExecutionCells = async () => {
+        // Logic to sequentially execute all executionCells
         // eslint-disable-next-line react/destructuring-assignment
-        this.state.sections.forEach(async (section, index) => {
+        this.state.executionCells.forEach(async (section, index) => {
             await this.executeSection(index);
         });
     };
 
-    parseAndSetSections(pythonCode: string) {
+    parseAndSetexecutionCells(pythonCode: string) {
         const sectionRegex = /"""BLOCK: (.+?)"""\s([\s\S]+?)(?=("""BLOCK|$))/g;
         let match;
-        const sections: SectionState[] = [];
+        const executionCellStates: ExecutionCellState[] = [];
 
         // eslint-disable-next-line no-cond-assign
         while ((match = sectionRegex.exec(pythonCode)) !== null) {
-            sections.push({
+            executionCellStates.push({
                 name: match[1],
-                executionStatus: ExecutionStatus.Ready,
+                executionStatus: ExecutionStatus.Idle,
                 content: match[2],
                 output: "",
             });
         }
 
-        this.setState({ sections });
+        this.setState({ executionCells: executionCellStates });
     }
 
     mapToObject(map: Map<string, any>): PyodideDataMap {
@@ -252,7 +259,7 @@ class PythonTransformation extends React.Component<
             materials,
             selectedMaterials,
             newMaterials,
-            sections,
+            executionCells,
             executionStatus,
         } = this.state;
         const { show, onHide } = this.props;
@@ -300,7 +307,7 @@ class PythonTransformation extends React.Component<
                         <Grid item xs={12} md={4}>
                             <CodeExecutionControls
                                 buttonProps={{ title: "Run All", variant: "contained" }}
-                                handleRun={this.executeAllSections}
+                                handleRun={this.executeAllExecutionCells}
                                 executionStatus={executionStatus}
                             />
                         </Grid>
@@ -311,7 +318,7 @@ class PythonTransformation extends React.Component<
                                     overflow: "scroll",
                                 }}
                             >
-                                {sections.map((section, index) => (
+                                {executionCells.map((section, index) => (
                                     <ExecutionCell
                                         key={section.name}
                                         name={section.name}
@@ -321,12 +328,15 @@ class PythonTransformation extends React.Component<
                                         handleRun={() => this.executeSection(index)}
                                         setPythonCode={(newContent) =>
                                             this.setState((prevState) => ({
-                                                sections: prevState.sections.map((s, i) =>
-                                                    i === index ? { ...s, content: newContent } : s,
+                                                executionCells: prevState.executionCells.map(
+                                                    (s, i) =>
+                                                        i === index
+                                                            ? { ...s, content: newContent }
+                                                            : s,
                                                 ),
                                             }))
                                         }
-                                        defaultExpanded={index === sections.length - 1}
+                                        defaultExpanded={index === executionCells.length - 1}
                                     />
                                 ))}
                             </Paper>
@@ -342,7 +352,7 @@ class PythonTransformation extends React.Component<
                                     materials={newMaterials}
                                     selectedMaterials={newMaterials}
                                     setSelectedMaterials={(newMaterials) =>
-                                        this.setState({ selectedMaterials: newMaterials })
+                                        this.setState({ newMaterials })
                                     }
                                 />
                             </Grid>

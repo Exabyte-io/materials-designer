@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 
 export enum ExecutionStatus {
+    Idle = "idle",
     Loading = "loading",
     Running = "running",
     Ready = "ready",
@@ -26,38 +27,59 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
         executionStatus,
     } = props;
 
-    const statusTextMap = {
-        [ExecutionStatus.Loading]: "Loading...",
-        [ExecutionStatus.Running]: "Running...",
-        [ExecutionStatus.Ready]: "Ready",
-        [ExecutionStatus.Error]: "Error",
-    };
-
-    const statusStyles = {
-        [ExecutionStatus.Loading]: { color: "secondary", disabled: true },
-        [ExecutionStatus.Running]: { color: "secondary", disabled: true },
-        [ExecutionStatus.Ready]: { color: "success", disabled: false },
-        [ExecutionStatus.Error]: { color: "error", disabled: false },
-    };
-
-    const statusIcons = {
-        [ExecutionStatus.Loading]: (
-            <CircularProgress color="primary" size={theme.typography.button.fontSize} />
+    const statusIndicator = {
+        [ExecutionStatus.Idle]: null,
+        [ExecutionStatus.Loading]: null,
+        [ExecutionStatus.Running]: null,
+        [ExecutionStatus.Ready]: (
+            <>
+                <Typography>Ready</Typography> <IconByName name="shapes.check" color="success" />
+            </>
         ),
-        [ExecutionStatus.Running]: (
-            <CircularProgress color="primary" size={theme.typography.button.fontSize} />
+        [ExecutionStatus.Error]: (
+            <>
+                <Typography>Error</Typography>
+                <IconByName name="actions.cancel" color="error" />
+            </>
         ),
-        [ExecutionStatus.Ready]: <IconByName name="shapes.check" color="success" />,
-        [ExecutionStatus.Error]: <IconByName name="actions.cancel" color="error" />,
     };
 
-    const { color, disabled } = statusStyles[executionStatus];
+    const buttonStatusStyles = {
+        [ExecutionStatus.Idle]: {
+            color: "success",
+            disabled: false,
+            indicator: <IconByName name="actions.execute" />,
+        },
+        [ExecutionStatus.Loading]: {
+            color: "secondary",
+            disabled: true,
+            indicator: (
+                <CircularProgress color="secondary" size={theme.typography.button.fontSize} />
+            ),
+        },
+        [ExecutionStatus.Running]: {
+            color: "success",
+            disabled: true,
+            indicator: <CircularProgress color="success" size={theme.typography.button.fontSize} />,
+        },
+        [ExecutionStatus.Ready]: {
+            color: "success",
+            disabled: false,
+            indicator: <IconByName name="actions.execute" />,
+        },
+        [ExecutionStatus.Error]: {
+            color: "success",
+            disabled: false,
+            indicator: <IconByName name="actions.execute" />,
+        },
+    };
+
+    const { color, disabled, indicator } = buttonStatusStyles[executionStatus];
 
     return (
         <Box sx={{ display: "flex", justifyContent: "flex-end" }} gap={1}>
             <Box sx={{ display: "flex", alignItems: "center" }} gap={1}>
-                <Typography variant="body2">{statusTextMap[executionStatus]}</Typography>
-                {statusIcons[executionStatus]}
+                {statusIndicator[executionStatus]}
             </Box>
             <Button
                 className="run-button"
@@ -72,7 +94,7 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
                 disabled={disabled}
             >
                 <Typography variant="button">{buttonProps.title}</Typography>
-                <IconByName name="actions.execute" />
+                {indicator}
             </Button>
         </Box>
     );
