@@ -166,9 +166,13 @@ class PythonTransformation extends React.Component<
         const { executionCells } = this.state;
         this.updateStateAtIndex(executionCells, sectionIndex, {
             executionStatus: ExecutionStatus.Running,
+            output: "",
         });
 
         const { pyodide } = this.state;
+        const section = executionCells[sectionIndex];
+        const { name, content } = section;
+
         // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
         pyodide.setStdout({
             batched: (text: string) => this.redirectPyodideStdout(text, sectionIndex),
@@ -176,11 +180,8 @@ class PythonTransformation extends React.Component<
         // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
         // as per https://github.com/pyodide/matplotlib-pyodide
         // @ts-ignore
-        document.pyodideMplTarget = document.getElementById(
-            `pyodide-plot-target-${executionCells[sectionIndex].name}`,
-        );
-        const section = executionCells[sectionIndex];
-        const { name, content } = section;
+        document.pyodideMplTarget = document.getElementById(`pyodide-plot-target-${name}`);
+
         const dataIn = { materials: this.prepareMaterialData() };
         const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
 
@@ -207,7 +208,7 @@ class PythonTransformation extends React.Component<
 
         if (!result) return;
 
-        console.log(result.toJs());
+        console.log("RESULT:", result.toJs());
     };
 
     executeAllExecutionCells = async () => {
