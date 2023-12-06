@@ -21,7 +21,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
     const defaultTransformation = {
         id: "default",
         title: "Empty",
-        content: "",
+        content: '"""BLOCK: Main"""\n\n',
     };
 
     const [transformations, setTransformations] = useState<Transformation[]>([

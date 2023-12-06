@@ -37,7 +37,6 @@ interface PythonTransformationState {
     // @ts-ignore
     pyodide: any;
     pythonCode: string;
-    pythonOutput: string;
     executionCells: ExecutionCellState[];
 }
 
@@ -47,30 +46,7 @@ interface PyodideDataMap {
 
 const CODE_DISPLAY_HEIGHT = "60vh";
 const GITHUB_API_URL =
-    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7058";
-
-const PYTHON_CODE_DEFAULT = `
-"""BLOCK: Package Imports"""
-import micropip
-await micropip.install("ase")
-import ase
-
-"""BLOCK: Function Definitions"""
-materials_in = globals()["data_in"]["materials"]
-
-def transformation(material):
-    """Transformation"""
-    return material
-    
-"""BLOCK: Main"""
-def main():
-    materials_out = []
-    for material in materials_in:
-        materials_out.append(transformation(material))
-    return {"materials": materials_out} 
-    
-main()
-`;
+    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7146";
 
 class PythonTransformation extends React.Component<
     PythonTransformationProps,
@@ -85,14 +61,8 @@ class PythonTransformation extends React.Component<
             executionStatus: ExecutionStatus.Loading,
             pyodide: null,
             pythonCode: "",
-            pythonOutput: "",
             executionCells: [],
         };
-    }
-
-    componentDidMount() {
-        this.setState({ pythonCode: PYTHON_CODE_DEFAULT });
-        this.parseAndSetexecutionCells(PYTHON_CODE_DEFAULT);
     }
 
     componentDidUpdate(prevProps: PythonTransformationProps) {
@@ -104,24 +74,16 @@ class PythonTransformation extends React.Component<
     }
 
     onPyodideLoad = (pyodideInstance: any) => {
-        this.setState(
-            { pyodide: pyodideInstance, executionStatus: ExecutionStatus.Idle },
-            async () => {
-                // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
-                pyodideInstance.setStdout({
-                    batched: (text: string) => this.redirectPyodideStdout(text),
-                });
-                // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
-                // as per https://github.com/pyodide/matplotlib-pyodide
-                // @ts-ignore
-                document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
-            },
-        );
+        this.setState({ pyodide: pyodideInstance, executionStatus: ExecutionStatus.Idle });
     };
 
-    redirectPyodideStdout = (text: string) => {
+    redirectPyodideStdout = (text: string, sectionIndex: number) => {
+        const { executionCells } = this.state;
+        const section = executionCells[sectionIndex];
+        const { output } = section;
+        section.output = output + text + "\n";
         this.setState((prevState) => ({
-            pythonOutput: prevState.pythonOutput + text + "\n",
+            executionCells: prevState.executionCells.map((s, i) => (i === sectionIndex ? s : s)),
         }));
     };
 
@@ -207,12 +169,25 @@ class PythonTransformation extends React.Component<
         });
 
         const { pyodide } = this.state;
+        // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
+        pyodide.setStdout({
+            batched: (text: string) => this.redirectPyodideStdout(text, sectionIndex),
+        });
+        // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
+        // as per https://github.com/pyodide/matplotlib-pyodide
+        // @ts-ignore
+        document.pyodideMplTarget = document.getElementById("pyodide-plot-target");
         const section = executionCells[sectionIndex];
         const { name, content } = section;
         const dataIn = { materials: this.prepareMaterialData() };
         const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
 
         const result = await this.runPythonCode({ globals: { data_in: {}, data_out: {} } });
+        if (!result) return;
+
+        console.log(result.toJs());
+
+        this.setState({ executionStatus: ExecutionStatus.Ready });
     };
 
     executeAllExecutionCells = async () => {
@@ -222,6 +197,23 @@ class PythonTransformation extends React.Component<
             await this.executeSection(index);
         });
     };
+
+    handleTransformationChange = (newPythonCode: string) => {
+        this.setState({ pythonCode: newPythonCode });
+        this.parseAndSetexecutionCells(newPythonCode);
+    };
+
+    mapToObject(map: Map<string, any>): PyodideDataMap {
+        const obj: PyodideDataMap = {};
+        map.forEach((value, key) => {
+            if (value instanceof Map) {
+                obj[key] = this.mapToObject(value);
+            } else {
+                obj[key] = value;
+            }
+        });
+        return obj;
+    }
 
     parseAndSetexecutionCells(pythonCode: string) {
         const sectionRegex = /"""BLOCK: (.+?)"""\s([\s\S]+?)(?=("""BLOCK|$))/g;
@@ -239,18 +231,6 @@ class PythonTransformation extends React.Component<
         }
 
         this.setState({ executionCells: executionCellStates });
-    }
-
-    mapToObject(map: Map<string, any>): PyodideDataMap {
-        const obj: PyodideDataMap = {};
-        map.forEach((value, key) => {
-            if (value instanceof Map) {
-                obj[key] = this.mapToObject(value);
-            } else {
-                obj[key] = value;
-            }
-        });
-        return obj;
     }
 
     render() {
@@ -283,7 +263,7 @@ class PythonTransformation extends React.Component<
                                 pythonCode={pythonCode}
                                 url={GITHUB_API_URL}
                                 setPythonCode={(newPythonCode) =>
-                                    this.setState({ pythonCode: newPythonCode })
+                                    this.handleTransformationChange(newPythonCode)
                                 }
                             />
                         </Grid>
@@ -336,6 +316,8 @@ class PythonTransformation extends React.Component<
                                                 ),
                                             }))
                                         }
+                                        // The last cell will have the parameters that people will change most of the time
+                                        // so it's expanded by default
                                         defaultExpanded={index === executionCells.length - 1}
                                     />
                                 ))}
