@@ -1,14 +1,10 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-// TODO: add types when made.js is moved to Typescript
-// @ts-ignore
-import { Made } from "@exabyte-io/made.js";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import NPMsAlert from "react-s-alert";
 
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
 import ExecutionCell, { ExecutionCellState } from "./ExecutionCell";
@@ -44,7 +40,7 @@ interface PyodideDataMap {
     [key: string]: string | PyodideDataMap;
 }
 
-const CODE_DISPLAY_HEIGHT = "60vh";
+const CODE_DISPLAY_HEIGHT = "50vh";
 const GITHUB_API_URL =
     "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7146";
 
@@ -77,78 +73,6 @@ class PythonTransformation extends React.Component<
         this.setState({ pyodide: pyodideInstance, executionStatus: ExecutionStatus.Idle });
     };
 
-    redirectPyodideStdout = (text: string, sectionIndex: number) => {
-        const { executionCells } = this.state;
-        const section = executionCells[sectionIndex];
-        const { output } = section;
-        section.output = output + text + "\n";
-        this.setState((prevState) => ({
-            executionCells: prevState.executionCells.map((s, i) => (i === sectionIndex ? s : s)),
-        }));
-    };
-
-    prepareMaterialData = () => {
-        const { selectedMaterials } = this.state;
-        return selectedMaterials.map((material, id) => {
-            const materialConfig = material.toJSON();
-            const materialPoscar = material.getAsPOSCAR();
-            return {
-                id,
-                material: materialConfig,
-                poscar: materialPoscar,
-                metadata: material.metadata,
-            };
-        });
-    };
-
-    runPythonCode = async (pythonCode: string, options: any) => {
-        let result;
-
-        try {
-            const { pyodide } = this.state;
-            result = await pyodide.runPythonAsync(pythonCode, options);
-            this.setState({ executionStatus: ExecutionStatus.Idle });
-            return result;
-        } catch (error: any) {
-            return {
-                output: error.message + "\n",
-                executionStatus: ExecutionStatus.Error,
-            };
-        }
-    };
-
-    // eslint-disable-next-line react/no-unused-class-component-methods
-    handleRun = async () => {
-        try {
-            const { pyodide, pythonCode } = this.state;
-            const materialsData = this.prepareMaterialData();
-            const dataIn = { materials: materialsData };
-            const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
-
-            const result = await this.runPythonCode(pythonCode, { globals: convertedData });
-            if (!result) return;
-
-            const dataOut = result.toJs().get("data_out");
-            const dataOutMap = this.mapToObject(dataOut);
-
-            if (Array.isArray(dataOutMap.materials)) {
-                const newMaterials = dataOutMap.materials.map((m: any) => {
-                    const material = this.mapToObject(m);
-                    const config = Made.parsers.poscar.fromPoscar(material.poscar);
-                    const newMaterial = new Made.Material(config);
-                    newMaterial.metadata = material.metadata;
-
-                    return newMaterial;
-                });
-                this.setState({ newMaterials });
-            } else {
-                throw new Error("Expected materials output, but none was found.");
-            }
-        } catch (error: any) {
-            NPMsAlert.error(error.message);
-        }
-    };
-
     handleSubmit = async () => {
         const { onSubmit } = this.props;
         const { newMaterials } = this.state;
@@ -163,47 +87,47 @@ class PythonTransformation extends React.Component<
     };
 
     executeSection = async (sectionIndex: number) => {
-        const { executionCells } = this.state;
+        const { pyodide, executionCells, materials } = this.state;
         this.updateStateAtIndex(executionCells, sectionIndex, {
             executionStatus: ExecutionStatus.Running,
             output: "",
         });
 
-        const { pyodide } = this.state;
         const section = executionCells[sectionIndex];
         const { name, content } = section;
 
         // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
         pyodide.setStdout({
-            batched: (text: string) => this.redirectPyodideStdout(text, sectionIndex),
+            batched: (text: string) => {
+                this.updateStateAtIndex(executionCells, sectionIndex, {
+                    output: section.output + text,
+                });
+            },
         });
-        // Designate a DOM element as the target for matplotlib, plotly or other plots supported by pyodide
+
+        // Designate a DOM element as the target for matplotlib plots supported by pyodide
         // as per https://github.com/pyodide/matplotlib-pyodide
         // @ts-ignore
         document.pyodideMplTarget = document.getElementById(`pyodide-plot-target-${name}`);
 
-        const dataIn = { materials: this.prepareMaterialData() };
-        const convertedData = pyodide.toPy({ data_in: dataIn, data_out: {} });
+        const convertedData = pyodide.toPy({ data_in: { materials }, data_out: {} });
 
         let result;
         try {
-            const { pyodide } = this.state;
             result = await pyodide.runPythonAsync(content, {
                 globals: convertedData,
             });
             this.updateStateAtIndex(executionCells, sectionIndex, {
                 executionStatus: ExecutionStatus.Ready,
             });
+            // eslint-disable-next-line react/destructuring-assignment
+            console.log(this.state.executionCells[sectionIndex].output);
         } catch (error: any) {
             this.setState({ executionStatus: ExecutionStatus.Error });
             this.updateStateAtIndex(executionCells, sectionIndex, {
                 executionStatus: ExecutionStatus.Error,
                 output: error.message + "\n",
             });
-            return {
-                output: error.message + "\n",
-                executionStatus: ExecutionStatus.Error,
-            };
         }
 
         if (!result) return;
@@ -212,7 +136,6 @@ class PythonTransformation extends React.Component<
     };
 
     executeAllExecutionCells = async () => {
-        // Logic to sequentially execute all executionCells
         // eslint-disable-next-line react/destructuring-assignment
         this.state.executionCells.forEach(async (section, index) => {
             await this.executeSection(index);
@@ -221,7 +144,7 @@ class PythonTransformation extends React.Component<
 
     handleTransformationChange = (newPythonCode: string) => {
         this.setState({ pythonCode: newPythonCode });
-        this.parseAndSetexecutionCells(newPythonCode);
+        this.parseAndSetExecutionCells(newPythonCode);
     };
 
     mapToObject(map: Map<string, any>): PyodideDataMap {
@@ -236,7 +159,7 @@ class PythonTransformation extends React.Component<
         return obj;
     }
 
-    parseAndSetexecutionCells(pythonCode: string) {
+    parseAndSetExecutionCells(pythonCode: string) {
         const sectionRegex = /"""BLOCK: (.+?)"""\s([\s\S]+?)(?=("""BLOCK|$))/g;
         let match;
         const executionCellStates: ExecutionCellState[] = [];
@@ -328,14 +251,9 @@ class PythonTransformation extends React.Component<
                                         executionStatus={section.executionStatus}
                                         handleRun={() => this.executeSection(index)}
                                         setPythonCode={(newContent) =>
-                                            this.setState((prevState) => ({
-                                                executionCells: prevState.executionCells.map(
-                                                    (s, i) =>
-                                                        i === index
-                                                            ? { ...s, content: newContent }
-                                                            : s,
-                                                ),
-                                            }))
+                                            this.updateStateAtIndex(executionCells, index, {
+                                                content: newContent,
+                                            })
                                         }
                                         // The last cell will have the parameters that people will change most of the time
                                         // so it's expanded by default
@@ -344,7 +262,7 @@ class PythonTransformation extends React.Component<
                                 ))}
                             </Paper>
                         </Grid>
-                        <Grid container item xs={12} md={8} alignItems="center" gap={1}>
+                        <Grid container item xs={12} alignItems="center" gap={1}>
                             <Grid item>
                                 <Typography variant="body1" style={{ fontFamily: "monospace" }}>
                                     materials_out =
