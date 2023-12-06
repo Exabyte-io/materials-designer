@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import NPMsAlert from "react-s-alert";
@@ -69,6 +70,8 @@ def main():
     for material in materials_in:
         materials_out.append(transformation(material))
     return {"materials": materials_out} 
+    
+main()
 `;
 
 class PythonTransformation extends React.Component<
@@ -262,10 +265,28 @@ class PythonTransformation extends React.Component<
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 <DialogContent sx={{ overflow: "hidden" }}>
                     <Grid container spacing={2}>
-                        <Grid container item xs={12} alignItems="center" gap={1}>
+                        <Grid item xs={12} md={8}>
+                            <TransformationSelector
+                                pythonCode={pythonCode}
+                                url={GITHUB_API_URL}
+                                setPythonCode={(newPythonCode) =>
+                                    this.setState({ pythonCode: newPythonCode })
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={0} md={4} />
+                        <Grid
+                            container
+                            item
+                            xs={12}
+                            md={8}
+                            wrap="nowrap"
+                            alignItems="center"
+                            gap={1}
+                        >
                             <Grid item>
-                                <Typography variant="body2" style={{ fontFamily: "monospace" }}>
-                                    materials_in=
+                                <Typography variant="body1" style={{ fontFamily: "monospace" }}>
+                                    materials_in =
                                 </Typography>
                             </Grid>
                             <Grid item xs>
@@ -278,16 +299,7 @@ class PythonTransformation extends React.Component<
                                 />
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={8}>
-                            <TransformationSelector
-                                pythonCode={pythonCode}
-                                url={GITHUB_API_URL}
-                                setPythonCode={(newPythonCode) =>
-                                    this.setState({ pythonCode: newPythonCode })
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} md={4}>
                             <CodeExecutionControls
                                 buttonTitle="Run All"
                                 handleRun={this.executeAllSections}
