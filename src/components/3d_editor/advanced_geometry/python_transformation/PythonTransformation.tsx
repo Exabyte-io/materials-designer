@@ -142,7 +142,7 @@ class PythonTransformation extends React.Component<
     };
 
     runPythonCode = async (options: any) => {
-        this.setState({ pythonOutput: "", executionStatus: ExecutionStatus.Running });
+        this.setState({ executionStatus: ExecutionStatus.Running });
         let result;
 
         try {
@@ -152,7 +152,7 @@ class PythonTransformation extends React.Component<
             return result;
         } catch (error: any) {
             this.setState({
-                pythonOutput: error.message + "\n",
+                // pythonOutput: error.message + "\n",
                 executionStatus: ExecutionStatus.Error,
             });
         }
@@ -247,10 +247,16 @@ class PythonTransformation extends React.Component<
     }
 
     render() {
-        const { pythonCode, pythonOutput, materials, selectedMaterials, sections } = this.state;
+        const {
+            pythonCode,
+            materials,
+            selectedMaterials,
+            newMaterials,
+            sections,
+            executionStatus,
+        } = this.state;
         const { show, onHide } = this.props;
 
-        const { executionStatus } = this.state;
         return (
             <Dialog
                 id="python-transformation-dialog"
@@ -275,15 +281,7 @@ class PythonTransformation extends React.Component<
                             />
                         </Grid>
                         <Grid item xs={0} md={4} />
-                        <Grid
-                            container
-                            item
-                            xs={12}
-                            md={8}
-                            wrap="nowrap"
-                            alignItems="center"
-                            gap={1}
-                        >
+                        <Grid container item xs={12} md={8} alignItems="center" gap={1}>
                             <Grid item>
                                 <Typography variant="body1" style={{ fontFamily: "monospace" }}>
                                     materials_in =
@@ -331,6 +329,22 @@ class PythonTransformation extends React.Component<
                                     />
                                 ))}
                             </Paper>
+                        </Grid>
+                        <Grid container item xs={12} md={8} alignItems="center" gap={1}>
+                            <Grid item>
+                                <Typography variant="body1" style={{ fontFamily: "monospace" }}>
+                                    materials_out =
+                                </Typography>
+                            </Grid>
+                            <Grid item xs>
+                                <MaterialsSelector
+                                    materials={newMaterials}
+                                    selectedMaterials={newMaterials}
+                                    setSelectedMaterials={(newMaterials) =>
+                                        this.setState({ selectedMaterials: newMaterials })
+                                    }
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </DialogContent>
