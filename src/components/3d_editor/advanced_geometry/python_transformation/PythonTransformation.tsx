@@ -33,6 +33,7 @@ interface PythonTransformationState {
     // @ts-ignore
     pyodide: any;
     pythonCode: string;
+    pythonOutput: string;
     executionCells: ExecutionCellState[];
 }
 
@@ -57,6 +58,7 @@ class PythonTransformation extends React.Component<
             executionStatus: ExecutionStatus.Loading,
             pyodide: null,
             pythonCode: "",
+            pythonOutput: "",
             executionCells: [],
         };
     }
@@ -71,6 +73,12 @@ class PythonTransformation extends React.Component<
 
     onPyodideLoad = (pyodideInstance: any) => {
         this.setState({ pyodide: pyodideInstance, executionStatus: ExecutionStatus.Idle });
+        // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
+        pyodideInstance.setStdout({
+            batched: (text: string) => {
+                this.setState({ pythonOutput: text });
+            },
+        });
     };
 
     handleSubmit = async () => {
@@ -96,15 +104,6 @@ class PythonTransformation extends React.Component<
         const section = executionCells[sectionIndex];
         const { name, content } = section;
 
-        // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
-        pyodide.setStdout({
-            batched: (text: string) => {
-                this.updateStateAtIndex(executionCells, sectionIndex, {
-                    output: section.output + text,
-                });
-            },
-        });
-
         // Designate a DOM element as the target for matplotlib plots supported by pyodide
         // as per https://github.com/pyodide/matplotlib-pyodide
         // @ts-ignore
@@ -117,16 +116,11 @@ class PythonTransformation extends React.Component<
             result = await pyodide.runPythonAsync(content, {
                 globals: convertedData,
             });
+            const { pythonOutput } = this.state;
             this.updateStateAtIndex(executionCells, sectionIndex, {
                 executionStatus: ExecutionStatus.Ready,
+                output: pythonOutput,
             });
-            console.log(
-                "section",
-                sectionIndex,
-                "output:",
-                // eslint-disable-next-line react/destructuring-assignment
-                this.state.executionCells[sectionIndex].output,
-            );
         } catch (error: any) {
             this.setState({ executionStatus: ExecutionStatus.Error });
             this.updateStateAtIndex(executionCells, sectionIndex, {
@@ -150,7 +144,6 @@ class PythonTransformation extends React.Component<
     };
 
     handleTransformationChange = (newPythonCode: string) => {
-        const { pythonCode } = this.state;
         this.setState({ pythonCode: newPythonCode });
         this.parseAndSetExecutionCells(newPythonCode);
     };
