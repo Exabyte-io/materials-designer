@@ -2,6 +2,7 @@ import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName"
 import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
 import Button, { ButtonProps } from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import React from "react";
@@ -32,21 +33,23 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
         [ExecutionStatus.Loading]: null,
         [ExecutionStatus.Running]: null,
         [ExecutionStatus.Ready]: (
-            <>
-                <Typography>Ready</Typography> <IconByName name="shapes.check" color="success" />
-            </>
+            <Chip
+                icon={<IconByName name="shapes.check" color="success" />}
+                label="Ready"
+                variant="outlined"
+            />
         ),
         [ExecutionStatus.Error]: (
-            <>
-                <Typography>Error</Typography>
-                <IconByName name="actions.cancel" color="error" />
-            </>
+            <Chip
+                icon={<IconByName name="shapes.check" color="error" />}
+                label="Ready"
+                variant="outlined"
+            />
         ),
     };
 
     const buttonStatusStyles = {
         [ExecutionStatus.Idle]: {
-            color: "success",
             disabled: false,
             indicator: <IconByName name="actions.execute" />,
         },
@@ -58,17 +61,14 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
             ),
         },
         [ExecutionStatus.Running]: {
-            color: "success",
             disabled: true,
             indicator: <CircularProgress color="success" size={theme.typography.button.fontSize} />,
         },
         [ExecutionStatus.Ready]: {
-            color: "success",
             disabled: false,
             indicator: <IconByName name="actions.execute" />,
         },
         [ExecutionStatus.Error]: {
-            color: "success",
             disabled: false,
             indicator: <IconByName name="actions.execute" />,
         },

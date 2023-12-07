@@ -43,7 +43,7 @@ function ExecutionCell(props: ExecutionCellProps) {
                             handleRun={handleRun}
                             buttonProps={{
                                 title: "Run",
-                                variant: expanded ? "contained" : "outlined",
+                                variant: expanded ? "outlined" : "text",
                             }}
                         />
                     </Grid>
