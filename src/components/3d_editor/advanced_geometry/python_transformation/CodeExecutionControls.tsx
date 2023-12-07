@@ -54,7 +54,6 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
             indicator: <IconByName name="actions.execute" />,
         },
         [ExecutionStatus.Loading]: {
-            color: "secondary",
             disabled: true,
             indicator: (
                 <CircularProgress color="secondary" size={theme.typography.button.fontSize} />
@@ -74,7 +73,7 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
         },
     };
 
-    const { color, disabled, indicator } = buttonStatusStyles[executionStatus];
+    const { disabled, indicator } = buttonStatusStyles[executionStatus];
 
     return (
         <Box sx={{ display: "flex", justifyContent: "flex-end" }} gap={1}>
@@ -85,8 +84,6 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
                 className="run-button"
                 variant={buttonProps.variant}
                 size="small"
-                // @ts-ignore
-                color={color}
                 onClick={(event) => {
                     event.stopPropagation();
                     handleRun();
