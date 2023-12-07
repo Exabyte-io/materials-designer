@@ -13,7 +13,7 @@ import NPMsAlert from "react-s-alert";
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
 import ExecutionCell, { ExecutionCellState } from "./ExecutionCell";
 import MaterialsSelector from "./MaterialsSelector";
-import TransformationSelector from "./TransformationSelector";
+import TransformationSelector, { Transformation } from "./TransformationSelector";
 
 interface PythonTransformationProps {
     // TODO: add type when made.js is moved to Typescript
@@ -36,6 +36,7 @@ interface PythonTransformationState {
     // TODO: import type for Pyodide when they are available in Cove.js
     // @ts-ignore
     pyodide: any;
+    transformation: Transformation | null;
     pythonCode: string;
     pythonOutput: string;
     executionCells: ExecutionCellState[];
@@ -60,6 +61,7 @@ class PythonTransformation extends React.Component<
             newMaterials: [],
             executionStatus: ExecutionStatus.Loading,
             pyodide: null,
+            transformation: null,
             pythonCode: "",
             pythonOutput: "",
             executionCells: [],
@@ -245,6 +247,11 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <TransformationSelector
+                                // eslint-disable-next-line react/destructuring-assignment
+                                transformation={this.state.transformation}
+                                setTransformation={(newTransformation) =>
+                                    this.setState({ transformation: newTransformation })
+                                }
                                 pythonCode={pythonCode}
                                 url={GITHUB_API_URL}
                                 setPythonCode={(newPythonCode) =>

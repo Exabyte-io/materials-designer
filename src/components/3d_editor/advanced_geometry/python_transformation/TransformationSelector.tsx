@@ -3,21 +3,22 @@ import TextField from "@mui/material/TextField";
 import React, { useEffect, useState } from "react";
 import NPMsAlert from "react-s-alert";
 
-interface Transformation {
+export interface Transformation {
     id: string;
     title: string;
     content: string;
 }
 
 interface TransformationSelectorProps {
+    transformation: Transformation | null;
     pythonCode: string;
     setPythonCode: (pythonCode: string) => void;
+    setTransformation: (transformation: Transformation | null) => void;
     url: string;
 }
 
 function TransformationSelector(props: TransformationSelectorProps) {
-    const { pythonCode, setPythonCode, url } = props;
-
+    const { transformation, setTransformation, setPythonCode, url } = props;
     const [transformations, setTransformations] = useState<Transformation[]>([]);
     const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>();
     const [isDataFetched, setIsDataFetched] = useState(false);
@@ -56,18 +57,18 @@ function TransformationSelector(props: TransformationSelectorProps) {
         fetchTransformations();
     }, []);
 
-    useEffect(() => {
-        if (selectedTransformation) setPythonCode(selectedTransformation.content);
-    }, [selectedTransformation]);
-
     return (
         <Autocomplete
             size="small"
-            value={selectedTransformation}
+            value={transformation}
             getOptionLabel={(option) => option.title}
             options={transformations}
             onChange={(event, newValue) => {
                 setSelectedTransformation(newValue);
+                if (newValue) {
+                    setPythonCode(newValue.content); // Update Python code only when user selects a transformation
+                    setTransformation(newValue); // Update transformation in parent component
+                }
             }}
             renderInput={(params) => (
                 // eslint-disable-next-line react/jsx-props-no-spreading
