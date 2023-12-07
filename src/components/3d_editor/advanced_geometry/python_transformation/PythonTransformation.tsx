@@ -1,9 +1,11 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
+import theme from "@exabyte-io/cove.js/dist/theme";
 // @ts-ignore
 import { Made } from "@exabyte-io/made.js";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import React from "react";
 import NPMsAlert from "react-s-alert";
@@ -43,7 +45,6 @@ interface PyodideDataMap {
     [key: string]: string | PyodideDataMap;
 }
 
-const CODE_DISPLAY_HEIGHT = "50vh";
 const GITHUB_API_URL =
     "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7146";
 
@@ -270,7 +271,7 @@ class PythonTransformation extends React.Component<
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12} mb={1}>
+                        <Grid item xs={12}>
                             <CodeExecutionControls
                                 buttonProps={{ title: "Run All", variant: "outlined" }}
                                 handleRun={this.executeAllExecutionCells}
@@ -289,31 +290,41 @@ class PythonTransformation extends React.Component<
                             id="execution-cells"
                             sx={{
                                 height: "calc(100% - 165px)",
-                                overflowY: "auto",
+                                overflowY: "hidden",
                             }}
                         >
-                            <Grid container spacing={2}>
-                                {executionCells.map((section, index) => (
-                                    <Grid item xs={12}>
-                                        <ExecutionCell
-                                            key={section.name}
-                                            name={section.name}
-                                            content={section.content}
-                                            output={section.output}
-                                            executionStatus={section.executionStatus}
-                                            handleRun={() => this.executeSection(index)}
-                                            setPythonCode={(newContent) =>
-                                                this.updateStateAtIndex(executionCells, index, {
-                                                    content: newContent,
-                                                })
-                                            }
-                                            // The last cell will have the parameters that people will change most of the time
-                                            // so it's expanded by default
-                                            defaultExpanded={index === executionCells.length - 1}
-                                        />
-                                    </Grid>
-                                ))}
-                            </Grid>
+                            <Paper
+                                sx={{
+                                    background: `1px solid ${theme.palette.grey[600]}`,
+                                    height: "100%",
+                                    overflowY: "auto",
+                                }}
+                            >
+                                <Grid container spacing={2} pt={0}>
+                                    {executionCells.map((section, index) => (
+                                        <Grid item xs={12}>
+                                            <ExecutionCell
+                                                key={section.name}
+                                                name={section.name}
+                                                content={section.content}
+                                                output={section.output}
+                                                executionStatus={section.executionStatus}
+                                                handleRun={() => this.executeSection(index)}
+                                                setPythonCode={(newContent) =>
+                                                    this.updateStateAtIndex(executionCells, index, {
+                                                        content: newContent,
+                                                    })
+                                                }
+                                                // The last cell will have the parameters that people will change most of the time
+                                                // so it's expanded by default
+                                                defaultExpanded={
+                                                    index === executionCells.length - 1
+                                                }
+                                            />
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </Paper>
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <TextField
