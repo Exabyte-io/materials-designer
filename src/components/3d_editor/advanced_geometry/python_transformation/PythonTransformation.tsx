@@ -300,7 +300,7 @@ class PythonTransformation extends React.Component<
                                     overflowY: "auto",
                                 }}
                             >
-                                <Grid container spacing={2} pt={0}>
+                                <Grid container spacing={1} pt={0}>
                                     {executionCells.map((section, index) => (
                                         <Grid item xs={12}>
                                             <ExecutionCell
