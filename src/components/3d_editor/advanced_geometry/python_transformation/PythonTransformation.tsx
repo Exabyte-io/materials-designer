@@ -73,10 +73,12 @@ class PythonTransformation extends React.Component<
 
     onPyodideLoad = (pyodideInstance: any) => {
         this.setState({ pyodide: pyodideInstance, executionStatus: ExecutionStatus.Idle });
-        // redirecting stdout for print and errors per https://pyodide.org/en/stable/usage/streams.html
+        // redirecting stdout for print per https://pyodide.org/en/stable/usage/streams.html
         pyodideInstance.setStdout({
             batched: (text: string) => {
-                this.setState({ pythonOutput: text });
+                this.setState((state) => ({
+                    pythonOutput: state.pythonOutput + "\n" + text,
+                }));
             },
         });
     };
@@ -95,10 +97,10 @@ class PythonTransformation extends React.Component<
     };
 
     executeSection = async (sectionIndex: number) => {
+        this.setState({ pythonOutput: "" });
         const { pyodide, executionCells, materials } = this.state;
         this.updateStateAtIndex(executionCells, sectionIndex, {
             executionStatus: ExecutionStatus.Running,
-            output: "",
         });
 
         const section = executionCells[sectionIndex];
