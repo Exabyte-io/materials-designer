@@ -146,7 +146,6 @@ class PythonTransformation extends React.Component<
                     const material = this.mapToObject(m);
                     const config = Made.parsers.poscar.fromPoscar(material.poscar);
                     const newMaterial = new Made.Material(config);
-                    newMaterial.metadata = material.metadata;
 
                     return newMaterial;
                 });

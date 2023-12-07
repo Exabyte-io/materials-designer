@@ -18,18 +18,8 @@ interface TransformationSelectorProps {
 function TransformationSelector(props: TransformationSelectorProps) {
     const { pythonCode, setPythonCode, url } = props;
 
-    const defaultTransformation = {
-        id: "default",
-        title: "Empty",
-        content: '"""BLOCK: Main"""\n\n',
-    };
-
-    const [transformations, setTransformations] = useState<Transformation[]>([
-        defaultTransformation,
-    ]);
-    const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>(
-        pythonCode ? { ...defaultTransformation, content: pythonCode } : defaultTransformation,
-    );
+    const [transformations, setTransformations] = useState<Transformation[]>([]);
+    const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>();
     const [isDataFetched, setIsDataFetched] = useState(false);
 
     const fetchTransformations = async () => {
