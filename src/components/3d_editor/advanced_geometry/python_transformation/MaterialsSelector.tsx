@@ -33,7 +33,6 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
         <Autocomplete
             multiple
             id="materials-autocomplete"
-            size="small"
             options={materials}
             getOptionLabel={(option) => option.name}
             value={selectedMaterials}
