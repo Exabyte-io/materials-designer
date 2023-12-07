@@ -41,8 +41,8 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
         ),
         [ExecutionStatus.Error]: (
             <Chip
-                icon={<IconByName name="shapes.check" color="error" />}
-                label="Ready"
+                icon={<IconByName name="actions.cancel" color="error" />}
+                label="Error"
                 variant="outlined"
             />
         ),
