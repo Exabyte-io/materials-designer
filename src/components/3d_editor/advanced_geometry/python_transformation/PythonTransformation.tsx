@@ -1,10 +1,12 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
+// @ts-ignore
+import { Made } from "@exabyte-io/made.js";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 import React from "react";
+import NPMsAlert from "react-s-alert";
 
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
 import ExecutionCell, { ExecutionCellState } from "./ExecutionCell";
@@ -98,7 +100,7 @@ class PythonTransformation extends React.Component<
 
     executeSection = async (sectionIndex: number) => {
         this.setState({ pythonOutput: "" });
-        const { pyodide, executionCells, materials } = this.state;
+        const { pyodide, executionCells, selectedMaterials } = this.state;
         this.updateStateAtIndex(executionCells, sectionIndex, {
             executionStatus: ExecutionStatus.Running,
         });
@@ -111,7 +113,11 @@ class PythonTransformation extends React.Component<
         // @ts-ignore
         document.pyodideMplTarget = document.getElementById(`pyodide-plot-target-${name}`);
 
-        const convertedData = pyodide.toPy({ data_in: { materials }, data_out: {} });
+        // passing as materials_in.POSCAR
+        const materialsIn = selectedMaterials.map((m) => {
+            return { poscar: m.getAsPOSCAR() };
+        });
+        const convertedData = pyodide.toPy({ materials_in: materialsIn });
 
         let result;
         try {
@@ -132,8 +138,24 @@ class PythonTransformation extends React.Component<
         }
 
         if (!result) return;
+        try {
+            const materials = result.get("materials_out").toJs();
+            if (Array.isArray(materials)) {
+                const newMaterials = materials.map((m: any) => {
+                    const material = this.mapToObject(m);
+                    const config = Made.parsers.poscar.fromPoscar(material.poscar);
+                    const newMaterial = new Made.Material(config);
+                    newMaterial.metadata = material.metadata;
 
-        console.log("RESULT:", result.toJs());
+                    return newMaterial;
+                });
+                this.setState({ newMaterials, executionStatus: ExecutionStatus.Ready });
+            } else {
+                throw new Error("Expected materials output, but none was found.");
+            }
+        } catch (error: any) {
+            NPMsAlert.error(error.message);
+        }
     };
 
     executeAllExecutionCells = async () => {
@@ -203,8 +225,24 @@ class PythonTransformation extends React.Component<
                 isSubmitButtonDisabled={executionStatus !== "ready"}
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
-                <DialogContent sx={{ overflow: "hidden" }}>
-                    <Grid container spacing={2}>
+                {/* TODO: move the full-height dialog with padding to cove */}
+                {/* Note: the 220px below is the sum of dialog margin top/bottom + header/footer */}
+                <DialogContent sx={{ height: "calc(100vh - 220px)" }}>
+                    <Grid
+                        container
+                        spacing={2}
+                        id="python-transformation-dialog"
+                        sx={{ height: "100%" }}
+                    >
+                        <Grid item xs={12} md={4}>
+                            <TextField
+                                fullWidth
+                                value="Select Source Code"
+                                variant="standard"
+                                InputProps={{ disableUnderline: true }}
+                                disabled
+                            />
+                        </Grid>
                         <Grid item xs={12} md={8}>
                             <TransformationSelector
                                 pythonCode={pythonCode}
@@ -214,72 +252,86 @@ class PythonTransformation extends React.Component<
                                 }
                             />
                         </Grid>
-                        <Grid item xs={0} md={4} />
-                        <Grid container item xs={12} md={8} alignItems="center" gap={1}>
-                            <Grid item>
-                                <Typography variant="body1" style={{ fontFamily: "monospace" }}>
-                                    materials_in =
-                                </Typography>
-                            </Grid>
-                            <Grid item xs>
-                                <MaterialsSelector
-                                    materials={materials}
-                                    selectedMaterials={selectedMaterials}
-                                    setSelectedMaterials={(newMaterials) =>
-                                        this.setState({ selectedMaterials: newMaterials })
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
                         <Grid item xs={12} md={4}>
+                            <TextField
+                                fullWidth
+                                value="Input Materials (`materials_in`)"
+                                variant="standard"
+                                InputProps={{ disableUnderline: true }}
+                                disabled
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                            <MaterialsSelector
+                                materials={materials}
+                                selectedMaterials={selectedMaterials}
+                                setSelectedMaterials={(newMaterials) =>
+                                    this.setState({ selectedMaterials: newMaterials })
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12} mb={1}>
                             <CodeExecutionControls
-                                buttonProps={{ title: "Run All", variant: "contained" }}
+                                buttonProps={{ title: "Run All", variant: "outlined" }}
                                 handleRun={this.executeAllExecutionCells}
                                 executionStatus={executionStatus}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Paper
-                                sx={{
-                                    height: CODE_DISPLAY_HEIGHT,
-                                    overflow: "scroll",
-                                }}
-                            >
+                        {/*
+                            in the height calculation below we use:
+                            - DialogHeader: 64px
+                            - DialogContent Header with two fields
+                        */}
+                        <Grid
+                            pt={0}
+                            item
+                            xs={12}
+                            id="execution-cells"
+                            sx={{
+                                height: "calc(100% - 165px)",
+                                overflowY: "auto",
+                            }}
+                        >
+                            <Grid container spacing={2}>
                                 {executionCells.map((section, index) => (
-                                    <ExecutionCell
-                                        key={section.name}
-                                        name={section.name}
-                                        content={section.content}
-                                        output={section.output}
-                                        executionStatus={section.executionStatus}
-                                        handleRun={() => this.executeSection(index)}
-                                        setPythonCode={(newContent) =>
-                                            this.updateStateAtIndex(executionCells, index, {
-                                                content: newContent,
-                                            })
-                                        }
-                                        // The last cell will have the parameters that people will change most of the time
-                                        // so it's expanded by default
-                                        defaultExpanded={index === executionCells.length - 1}
-                                    />
+                                    <Grid item xs={12}>
+                                        <ExecutionCell
+                                            key={section.name}
+                                            name={section.name}
+                                            content={section.content}
+                                            output={section.output}
+                                            executionStatus={section.executionStatus}
+                                            handleRun={() => this.executeSection(index)}
+                                            setPythonCode={(newContent) =>
+                                                this.updateStateAtIndex(executionCells, index, {
+                                                    content: newContent,
+                                                })
+                                            }
+                                            // The last cell will have the parameters that people will change most of the time
+                                            // so it's expanded by default
+                                            defaultExpanded={index === executionCells.length - 1}
+                                        />
+                                    </Grid>
                                 ))}
-                            </Paper>
+                            </Grid>
                         </Grid>
-                        <Grid container item xs={12} alignItems="center" gap={1}>
-                            <Grid item>
-                                <Typography variant="body1" style={{ fontFamily: "monospace" }}>
-                                    materials_out =
-                                </Typography>
-                            </Grid>
-                            <Grid item xs>
-                                <MaterialsSelector
-                                    materials={newMaterials}
-                                    selectedMaterials={newMaterials}
-                                    setSelectedMaterials={(newMaterials) =>
-                                        this.setState({ newMaterials })
-                                    }
-                                />
-                            </Grid>
+                        <Grid item xs={12} md={4}>
+                            <TextField
+                                fullWidth
+                                value="Output Materials (`materials_out`)"
+                                variant="standard"
+                                InputProps={{ disableUnderline: true }}
+                                disabled
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                            <MaterialsSelector
+                                materials={newMaterials}
+                                selectedMaterials={newMaterials}
+                                setSelectedMaterials={(newMaterials) =>
+                                    this.setState({ newMaterials })
+                                }
+                            />
                         </Grid>
                     </Grid>
                 </DialogContent>
