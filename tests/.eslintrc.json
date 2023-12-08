@@ -1,13 +1,8 @@
 {
+    "root": true,
     "extends": ["@exabyte-io/eslint-config"],
-    "parser": "babel-eslint",
-    "globals": {
-        "exabrowser": "readonly",
-        "browser": "readonly",
-        "$": "readonly"
-    },
     "rules": {
-        "func-names": "off",
-        "radix": "off"
+        "jsx-a11y/label-has-associated-control": "off",
+        "react/function-component-definition": "off"
     }
 }
