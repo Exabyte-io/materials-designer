@@ -1,8 +1,9 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
-// @ts-ignore
 import { Made } from "@exabyte-io/made.js";
+import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -174,6 +175,24 @@ class PythonTransformation extends React.Component<
         this.parseAndSetExecutionCells(newPythonCode);
     };
 
+    handleDownload = () => {
+        const { transformation, pythonCode } = this.state;
+        const filename = `${transformation?.title}.py` || "python_transformation.py";
+        const blob = new Blob([pythonCode], { type: "text/plain;charset=utf-8" });
+        const href = URL.createObjectURL(blob);
+
+        // Create a link element, use it to download the file, then remove it
+        const link = document.createElement("a");
+        link.href = href;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Release the URL object
+        URL.revokeObjectURL(href);
+    };
+
     mapToObject(map: Map<string, any>): PyodideDataMap {
         const obj: PyodideDataMap = {};
         map.forEach((value, key) => {
@@ -277,7 +296,17 @@ class PythonTransformation extends React.Component<
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
+                            <Button
+                                id="download-python-code-button"
+                                color="secondary"
+                                onClick={this.handleDownload}
+                            >
+                                Download Python Code
+                                <IconByName name="actions.download" />
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                             <CodeExecutionControls
                                 buttonProps={{
                                     title: "Run All",
