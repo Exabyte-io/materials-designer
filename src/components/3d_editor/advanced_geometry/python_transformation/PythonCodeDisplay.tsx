@@ -4,6 +4,7 @@ import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import React from "react";
 
 interface PythonCodeDisplayProps {
@@ -63,7 +64,7 @@ const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
                             size="small"
                             onClick={handleClearOutput}
                         >
-                            Clear
+                            <Typography variant="button">Clear</Typography>
                             <IconByName name="actions.delete" />
                         </Button>
                     </Grid>
