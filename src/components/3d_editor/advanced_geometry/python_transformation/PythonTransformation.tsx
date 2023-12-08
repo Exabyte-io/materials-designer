@@ -279,7 +279,11 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12}>
                             <CodeExecutionControls
-                                buttonProps={{ title: "Run All", variant: "contained" }}
+                                buttonProps={{
+                                    title: "Run All",
+                                    variant: "contained",
+                                    color: "primary",
+                                }}
                                 handleRun={this.executeAllExecutionCells}
                                 executionStatus={executionStatus}
                             />
