@@ -118,11 +118,7 @@ class PythonTransformation extends React.Component<
         // @ts-ignore
         document.pyodideMplTarget = document.getElementById(`pyodide-plot-target-${name}`);
 
-        // passing as materials_in.POSCAR
-        const materialsIn = selectedMaterials.map((m) => {
-            return { poscar: m.getAsPOSCAR() };
-        });
-        const convertedData = pyodide.toPy({ materials_in: materialsIn });
+        const convertedData = pyodide.toPy({ materials_in: selectedMaterials });
 
         let result;
         try {
