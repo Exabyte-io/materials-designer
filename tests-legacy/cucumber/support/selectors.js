@@ -52,6 +52,8 @@ export const SELECTORS = {
             dialog: 'div[role="dialog"]',
             materialsSelector: "[data-tid='materials-selector']",
             materialsSelectorItem: (index) => `[data-tid='select-material']:nth-of-type(${index})`,
+            transformationSelector: "[data-tid='transformation-selector']",
+            transformationSelectorItem: (title) => `//li[contains(text(), '${title}')]`,
             codeInput: "python-code-input",
             pythonOutput: "python-output",
             runButton: `.run-button`,

@@ -10,6 +10,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Then I see PythonTransformationDialog
 
     # Change code
+    Then I select transformation with title "Custom Transformation"
     When I set code input with the following data:
     """
     print('Hello Matera!')

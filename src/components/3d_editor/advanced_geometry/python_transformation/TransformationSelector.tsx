@@ -70,6 +70,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
 
     return (
         <Autocomplete
+            data-tid="transformation-selector"
             size="small"
             value={transformation}
             getOptionLabel={(option) => option.title}

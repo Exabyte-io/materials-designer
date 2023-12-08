@@ -84,7 +84,7 @@ class PythonTransformation extends React.Component<
         pyodideInstance.setStdout({
             batched: (text: string) => {
                 this.setState((state) => ({
-                    pythonOutput: state.pythonOutput + "\n" + text,
+                    pythonOutput: state.pythonOutput + text + "\n",
                 }));
             },
         });

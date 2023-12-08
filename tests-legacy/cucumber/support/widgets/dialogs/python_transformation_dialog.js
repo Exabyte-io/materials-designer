@@ -14,6 +14,13 @@ export class PythonTransformationDialogWidget extends Widget {
         );
     }
 
+    selectDropdownItemByTitle(title) {
+        exabrowser.scrollAndClick(this.selectors.transformationSelector);
+        exabrowser.scrollAndClick(
+            SELECTORS.headerMenu.pythonTransformationDialog.transformationSelectorItem(title),
+        );
+    }
+
     // eslint-disable-next-line class-methods-use-this
     setCodeMirrorContent(editorId, content, preserveExistingContent = false) {
         exabrowser.execute(
