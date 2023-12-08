@@ -47,7 +47,7 @@ interface PyodideDataMap {
 }
 
 const GITHUB_API_URL =
-    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7146";
+    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7138";
 
 class PythonTransformation extends React.Component<
     PythonTransformationProps,
