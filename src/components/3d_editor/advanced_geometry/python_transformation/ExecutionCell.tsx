@@ -20,11 +20,20 @@ interface ExecutionCellProps extends ExecutionCellState {
     defaultExpanded: boolean;
     handleRun: () => void;
     setPythonCode: (pythonCode: string) => void;
+    clearPythonOutput: () => void;
 }
 
 function ExecutionCell(props: ExecutionCellProps) {
-    const { name, content, output, executionStatus, handleRun, setPythonCode, defaultExpanded } =
-        props;
+    const {
+        name,
+        content,
+        output,
+        executionStatus,
+        handleRun,
+        setPythonCode,
+        defaultExpanded,
+        clearPythonOutput,
+    } = props;
     const [expanded, setExpanded] = React.useState(defaultExpanded);
 
     const handleAccordionChange = (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -55,6 +64,7 @@ function ExecutionCell(props: ExecutionCellProps) {
                     pythonCode={content}
                     pythonOutput={output}
                     setPythonCode={(newContent) => setPythonCode(newContent)}
+                    clearPythonOutput={clearPythonOutput}
                 />
             </AccordionDetails>
         </Accordion>

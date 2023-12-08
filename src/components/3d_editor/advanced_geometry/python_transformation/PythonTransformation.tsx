@@ -359,6 +359,11 @@ class PythonTransformation extends React.Component<
                                                         content: newContent,
                                                     })
                                                 }
+                                                clearPythonOutput={() =>
+                                                    this.updateStateAtIndex(executionCells, index, {
+                                                        output: "",
+                                                    })
+                                                }
                                                 // The last cell will have the parameters that people will change most of the time
                                                 // so it's expanded by default
                                                 defaultExpanded={
