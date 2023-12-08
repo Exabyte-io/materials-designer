@@ -17,12 +17,15 @@ interface TransformationSelectorProps {
     url: string;
 }
 
+const emptyTransformation: Transformation = {
+    id: "custom-transformation",
+    title: "Custom Transformation",
+    content: `"""Custom Transformation"""\n"""BLOCK: Main"""\nprint("Hello world!")\n`,
+};
+
 function TransformationSelector(props: TransformationSelectorProps) {
     const { transformation, setTransformation, setPythonCode, url } = props;
     const [transformations, setTransformations] = useState<Transformation[]>([]);
-    const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>(
-        transformation,
-    );
     const [isDataFetched, setIsDataFetched] = useState(false);
 
     const fetchTransformations = async () => {
@@ -48,6 +51,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
             setTransformations((prevTransformations) => [
                 ...prevTransformations,
                 ...transformationsData,
+                emptyTransformation,
             ]);
             if (!transformation) {
                 setTransformation(transformationsData[0]);
