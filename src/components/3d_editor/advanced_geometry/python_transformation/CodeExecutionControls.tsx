@@ -84,7 +84,6 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
                 className="run-button"
                 variant={buttonProps.variant}
                 size="small"
-                color={buttonProps.color || "success"}
                 onClick={(event) => {
                     event.stopPropagation();
                     handleRun();
