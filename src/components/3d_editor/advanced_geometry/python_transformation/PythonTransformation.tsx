@@ -173,9 +173,17 @@ class PythonTransformation extends React.Component<
     };
 
     handleDownload = () => {
-        const { transformation, pythonCode } = this.state;
+        const { transformation, executionCells } = this.state;
+
+        // Create new python code from execution cells contents
+        let newPythonCode = "";
+        executionCells.forEach((section) => {
+            const sectionHeader = `"""BLOCK: ${section.name}"""\n`;
+            newPythonCode += sectionHeader + section.content;
+        });
+
         const filename = `${transformation?.title}.py` || "python_transformation.py";
-        const blob = new Blob([pythonCode], { type: "text/plain;charset=utf-8" });
+        const blob = new Blob([newPythonCode], { type: "text/plain;charset=utf-8" });
         const href = URL.createObjectURL(blob);
 
         // Create a link element, use it to download the file, then remove it
