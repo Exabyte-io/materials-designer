@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import React from "react";
 import NPMsAlert from "react-s-alert";
@@ -296,26 +297,26 @@ class PythonTransformation extends React.Component<
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Button
-                                id="download-python-code-button"
-                                color="secondary"
-                                onClick={this.handleDownload}
-                            >
-                                Download Python Code
-                                <IconByName name="actions.download" />
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <CodeExecutionControls
-                                buttonProps={{
-                                    title: "Run All",
-                                    variant: "contained",
-                                    color: "primary",
-                                }}
-                                handleRun={this.executeAllExecutionCells}
-                                executionStatus={executionStatus}
-                            />
+                        <Grid item xs={12}>
+                            <Stack direction="row" display="flex" justifyContent="flex-end">
+                                <Button
+                                    id="download-code-button"
+                                    color="secondary"
+                                    onClick={this.handleDownload}
+                                >
+                                    Download Code
+                                    <IconByName name="actions.download" />
+                                </Button>
+                                <CodeExecutionControls
+                                    buttonProps={{
+                                        title: "Run All",
+                                        variant: "contained",
+                                        color: "primary",
+                                    }}
+                                    handleRun={this.executeAllExecutionCells}
+                                    executionStatus={executionStatus}
+                                />
+                            </Stack>
                         </Grid>
                         {/*
                             in the height calculation below we use:
