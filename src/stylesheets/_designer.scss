@@ -437,3 +437,9 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
         height: 100%;
     }
 }
+
+// TODO: move this to the component instead
+#python-transformation-dialog .cm-editor {
+    // Assuming that `em` will pick up the font size of the MUI theme
+    font-size: 0.8em;
+}

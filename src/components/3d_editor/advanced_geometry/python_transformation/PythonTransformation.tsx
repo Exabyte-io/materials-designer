@@ -257,7 +257,7 @@ class PythonTransformation extends React.Component<
                     <Grid
                         container
                         spacing={2}
-                        id="python-transformation-dialog"
+                        id="python-transformation-dialog-content"
                         sx={{ height: "100%" }}
                     >
                         <Grid item xs={12} md={4}>
