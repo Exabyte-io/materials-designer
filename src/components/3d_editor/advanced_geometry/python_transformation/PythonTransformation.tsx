@@ -8,7 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
@@ -260,14 +260,8 @@ class PythonTransformation extends React.Component<
                         id="python-transformation-dialog-content"
                         sx={{ height: "100%" }}
                     >
-                        <Grid item xs={12} md={4}>
-                            <TextField
-                                fullWidth
-                                value="Select Source Code"
-                                variant="standard"
-                                InputProps={{ disableUnderline: true }}
-                                disabled
-                            />
+                        <Grid item container xs={12} md={4} alignItems="center">
+                            <Typography variant="subtitle1">Select Source Code</Typography>
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <TransformationSelector
@@ -283,14 +277,10 @@ class PythonTransformation extends React.Component<
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12} md={4}>
-                            <TextField
-                                fullWidth
-                                value="Input Materials (`materials_in`)"
-                                variant="standard"
-                                InputProps={{ disableUnderline: true }}
-                                disabled
-                            />
+                        <Grid item container xs={12} md={4} alignItems="center">
+                            <Typography variant="subtitle1">
+                                Input Materials (<code>materials_in</code>)
+                            </Typography>
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <MaterialsSelector
@@ -375,14 +365,10 @@ class PythonTransformation extends React.Component<
                                 </Grid>
                             </Paper>
                         </Grid>
-                        <Grid item xs={12} md={4}>
-                            <TextField
-                                fullWidth
-                                value="Output Materials (`materials_out`)"
-                                variant="standard"
-                                InputProps={{ disableUnderline: true }}
-                                disabled
-                            />
+                        <Grid item container xs={12} md={4} alignItems="center">
+                            <Typography variant="subtitle1">
+                                Output Materials (<code>materials_out</code>)
+                            </Typography>
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <MaterialsSelector
