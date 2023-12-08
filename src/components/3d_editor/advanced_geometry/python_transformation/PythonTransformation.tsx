@@ -213,11 +213,14 @@ class PythonTransformation extends React.Component<
     parseAndSetExecutionCells(pythonCode: string) {
         const sectionRegex = /"""BLOCK: (.+?)"""\s([\s\S]+?)(?=("""BLOCK|$))/g;
         let match;
+        let idx = 0;
         const executionCellStates: ExecutionCellState[] = [];
 
         // eslint-disable-next-line no-cond-assign
         while ((match = sectionRegex.exec(pythonCode)) !== null) {
             executionCellStates.push({
+                // eslint-disable-next-line no-plusplus
+                id: idx++,
                 name: match[1],
                 executionStatus: ExecutionStatus.Idle,
                 content: match[2],
@@ -338,6 +341,7 @@ class PythonTransformation extends React.Component<
                                     {executionCells.map((section, index) => (
                                         <Grid item xs={12}>
                                             <ExecutionCell
+                                                id={section.id}
                                                 key={section.name}
                                                 name={section.name}
                                                 content={section.content}

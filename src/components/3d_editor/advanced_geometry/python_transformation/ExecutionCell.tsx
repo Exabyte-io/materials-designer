@@ -10,6 +10,7 @@ import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls"
 import PythonCodeDisplay from "./PythonCodeDisplay";
 
 export interface ExecutionCellState {
+    id: number;
     name: string;
     executionStatus: ExecutionStatus;
     content: string;
@@ -25,6 +26,7 @@ interface ExecutionCellProps extends ExecutionCellState {
 
 function ExecutionCell(props: ExecutionCellProps) {
     const {
+        id,
         name,
         content,
         output,
@@ -60,7 +62,7 @@ function ExecutionCell(props: ExecutionCellProps) {
             </AccordionSummary>
             <AccordionDetails>
                 <PythonCodeDisplay
-                    name={name}
+                    name={id.toString()}
                     pythonCode={content}
                     pythonOutput={output}
                     setPythonCode={(newContent) => setPythonCode(newContent)}
