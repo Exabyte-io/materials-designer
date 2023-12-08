@@ -20,7 +20,9 @@ interface TransformationSelectorProps {
 function TransformationSelector(props: TransformationSelectorProps) {
     const { transformation, setTransformation, setPythonCode, url } = props;
     const [transformations, setTransformations] = useState<Transformation[]>([]);
-    const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>();
+    const [selectedTransformation, setSelectedTransformation] = useState<Transformation | null>(
+        transformation,
+    );
     const [isDataFetched, setIsDataFetched] = useState(false);
 
     const fetchTransformations = async () => {
@@ -47,6 +49,11 @@ function TransformationSelector(props: TransformationSelectorProps) {
                 ...prevTransformations,
                 ...transformationsData,
             ]);
+            if (!transformation) {
+                setTransformation(transformationsData[0]);
+                setPythonCode(transformationsData[0].content);
+            }
+
             setIsDataFetched(true);
         } catch (error) {
             NPMsAlert.error("Error fetching transformations");
@@ -64,7 +71,6 @@ function TransformationSelector(props: TransformationSelectorProps) {
             getOptionLabel={(option) => option.title}
             options={transformations}
             onChange={(event, newValue) => {
-                setSelectedTransformation(newValue);
                 if (newValue) {
                     setPythonCode(newValue.content); // Update Python code only when user selects a transformation
                     setTransformation(newValue); // Update transformation in parent component
