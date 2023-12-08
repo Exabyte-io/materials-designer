@@ -7,6 +7,13 @@ export class PythonTransformationDialogWidget extends Widget {
         this.selectors = this.getWrappedSelectors(SELECTORS.headerMenu.pythonTransformationDialog);
     }
 
+    selectMaterialByIndex(index) {
+        exabrowser.scrollAndClick(this.selectors.materialsSelector);
+        exabrowser.scrollAndClick(
+            SELECTORS.headerMenu.pythonTransformationDialog.materialsSelectorItem(index),
+        );
+    }
+
     // eslint-disable-next-line class-methods-use-this
     setCodeMirrorContent(editorId, content, preserveExistingContent = false) {
         exabrowser.execute(
@@ -45,6 +52,7 @@ export class PythonTransformationDialogWidget extends Widget {
     run() {
         exabrowser.waitForClickable(this.selectors.runButton, 20000);
         exabrowser.scrollAndClick(this.selectors.runButton);
+        exabrowser.waitForClickable(this.selectors.runButton, 20000);
     }
 
     submit() {

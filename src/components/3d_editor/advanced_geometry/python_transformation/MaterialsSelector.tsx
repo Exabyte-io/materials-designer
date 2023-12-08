@@ -33,13 +33,15 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
         <Autocomplete
             multiple
             id="materials-autocomplete"
+            data-tid="materials-selector"
+            size="small"
             options={materials}
             getOptionLabel={(option) => option.name}
             value={selectedMaterials}
             onChange={(event, newValue) => setSelectedMaterials(newValue)}
             renderOption={(props, option, { selected }) => (
                 // eslint-disable-next-line react/jsx-props-no-spreading
-                <li {...props}>
+                <li {...props} data-tid="select-material">
                     <Checkbox
                         icon={<CheckBoxOutlineBlank fontSize="small" />}
                         checkedIcon={<CheckBox fontSize="small" />}

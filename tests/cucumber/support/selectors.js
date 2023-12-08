@@ -50,6 +50,8 @@ export const SELECTORS = {
         pythonTransformationDialog: {
             wrapper: "#python-transformation-dialog",
             dialog: 'div[role="dialog"]',
+            materialsSelector: "[data-tid='materials-selector']",
+            materialsSelectorItem: (index) => `[data-tid='select-material']:nth-of-type(${index})`,
             codeInput: "python-code-input",
             pythonOutput: "python-output",
             runButton: `.run-button`,
