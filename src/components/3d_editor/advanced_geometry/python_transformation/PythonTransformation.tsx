@@ -1,7 +1,7 @@
+import { MaterialSchema } from "@exabyte-io/code.js/dist/types";
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import theme from "@exabyte-io/cove.js/dist/theme";
-// @ts-ignore
 import { Made } from "@exabyte-io/made.js";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
@@ -16,22 +16,16 @@ import MaterialsSelector from "./MaterialsSelector";
 import TransformationSelector, { Transformation } from "./TransformationSelector";
 
 interface PythonTransformationProps {
-    // TODO: add type when made.js is moved to Typescript
-    // @ts-ignore
-    materials: any[];
+    materials: MaterialSchema[];
     show: boolean;
-    // @ts-ignore
-    onSubmit: (newMaterials: any[]) => void;
+    onSubmit: (newMaterials: MaterialSchema[]) => void;
     onHide: () => void;
 }
 
 interface PythonTransformationState {
-    // @ts-ignore
-    materials: any[];
-    // @ts-ignore
-    selectedMaterials: any[];
-    // @ts-ignore
-    newMaterials: any[];
+    materials: MaterialSchema[];
+    selectedMaterials: MaterialSchema[];
+    newMaterials: MaterialSchema[];
     executionStatus: ExecutionStatus;
     // TODO: import type for Pyodide when they are available in Cove.js
     // @ts-ignore
@@ -47,7 +41,7 @@ interface PyodideDataMap {
 }
 
 const GITHUB_API_URL =
-    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7146";
+    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7138";
 
 class PythonTransformation extends React.Component<
     PythonTransformationProps,
@@ -279,7 +273,11 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12}>
                             <CodeExecutionControls
-                                buttonProps={{ title: "Run All", variant: "contained" }}
+                                buttonProps={{
+                                    title: "Run All",
+                                    variant: "contained",
+                                    color: "primary",
+                                }}
                                 handleRun={this.executeAllExecutionCells}
                                 executionStatus={executionStatus}
                             />
