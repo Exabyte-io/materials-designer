@@ -19,8 +19,8 @@ interface TransformationSelectorProps {
 
 const emptyTransformation: Transformation = {
     id: "custom-transformation",
-    title: "Custom Transformation",
-    content: `"""Custom Transformation"""\n"""BLOCK: Main"""\nprint("Hello world!")\n`,
+    title: "Custom Transformation (Empty)",
+    content: `"""Custom Transformation"""\n"""BLOCK: Main"""\ninput_materials=materials_in\n`,
 };
 
 function TransformationSelector(props: TransformationSelectorProps) {
@@ -39,7 +39,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
                     const rawResponse = await fetch(file.download_url);
                     const content = await rawResponse.text();
                     // Python code snippets will have a title in the first line
-                    const titleMatch = content.match(/^"""(.*?)"""/);
+                    const titleMatch = content.match(/^"""TITLE: (.*?)"""\n/);
                     const title = titleMatch ? titleMatch[1] : "No title";
                     return {
                         id: file.name,
