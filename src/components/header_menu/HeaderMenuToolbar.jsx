@@ -41,7 +41,8 @@ import { Material } from "../../material";
 import { BoundaryConditionsDialog } from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
-import PythonTransformation from "../3d_editor/advanced_geometry/python_transformation/PythonTransformation.tsx";
+// eslint-disable-next-line import/no-unresolved
+import PythonTransformation from "../3d_editor/advanced_geometry/python_transformation/PythonTransformation";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
