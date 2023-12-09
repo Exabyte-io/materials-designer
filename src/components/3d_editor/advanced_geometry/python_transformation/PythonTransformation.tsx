@@ -18,22 +18,16 @@ import MaterialsSelector from "./MaterialsSelector";
 import TransformationSelector, { Transformation } from "./TransformationSelector";
 
 interface PythonTransformationProps {
-    // TODO: add type when made.js is moved to Typescript
-    // @ts-ignore
-    materials: any[];
+    materials: Made.Material[];
     show: boolean;
-    // @ts-ignore
-    onSubmit: (newMaterials: any[]) => void;
+    onSubmit: (newMaterials: Made.Material[]) => void;
     onHide: () => void;
 }
 
 interface PythonTransformationState {
-    // @ts-ignore
-    materials: any[];
-    // @ts-ignore
-    selectedMaterials: any[];
-    // @ts-ignore
-    newMaterials: any[];
+    materials: Made.Material[];
+    selectedMaterials: Made.Material[];
+    newMaterials: Made.Material[];
     executionStatus: ExecutionStatus;
     // TODO: import type for Pyodide when they are available in Cove.js
     // @ts-ignore
@@ -145,7 +139,7 @@ class PythonTransformation extends React.Component<
                 const newMaterials = materials.map((m: any) => {
                     const material = this.mapToObject(m);
                     const config = Made.parsers.poscar.fromPoscar(material.poscar);
-                    const newMaterial = new Made.Material(config);
+                    const newMaterial: Made.Material = new Made.Material(config);
 
                     return newMaterial;
                 });
