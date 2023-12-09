@@ -56,6 +56,7 @@ export const SELECTORS = {
             transformationSelectorItem: (title) => `//li[contains(text(), '${title}')]`,
             codeInput: (id = 0) => `python-code-input-${id}`,
             pythonOutput: (id = 0) => `python-output-${id}`,
+            clearOutputButton: (id = 0) => `#clear-output-${id}`,
             runButton: `.run-button`,
             submitButton: `#python-transformation-dialog-submit-button`,
             cancelButton: `#python-transformation-dialog-cancel-button`,

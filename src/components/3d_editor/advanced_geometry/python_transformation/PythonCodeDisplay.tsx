@@ -59,6 +59,7 @@ const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
                 <Grid item xs={12}>
                     <Grid container justifyContent="flex-end">
                         <Button
+                            id={`clear-output-${name}`}
                             color="error"
                             variant="outlined"
                             size="small"
