@@ -42,6 +42,7 @@ interface PyodideDataMap {
     [key: string]: string | PyodideDataMap;
 }
 
+// TODO: merge SOF-7138 into dev and update the URL below
 const GITHUB_API_URL =
     "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations?ref=feature/SOF-7138";
 
@@ -138,6 +139,7 @@ class PythonTransformation extends React.Component<
             if (Array.isArray(materials)) {
                 const newMaterials = materials.map((m: any) => {
                     const material = this.mapToObject(m);
+                    // material structure is returned in POSCAR format in python code
                     const config = Made.parsers.poscar.fromPoscar(material.poscar);
                     const newMaterial: Made.Material = new Made.Material(config);
 
@@ -245,7 +247,7 @@ class PythonTransformation extends React.Component<
                 maxWidth="xl"
                 onSubmit={this.handleSubmit}
                 title="Python Transformation"
-                isSubmitButtonDisabled={executionStatus !== "ready"}
+                isSubmitButtonDisabled={executionStatus !== ExecutionStatus.Ready}
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
                 {/* TODO: move the full-height dialog with padding to cove */}
