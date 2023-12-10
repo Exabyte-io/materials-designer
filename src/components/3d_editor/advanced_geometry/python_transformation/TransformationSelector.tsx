@@ -27,6 +27,8 @@ const emptyTransformation: Transformation = {
 const DEFAULT_URL =
     "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations";
 
+const TITLE_REGEX = /^"""TITLE: (.*?)"""\n/;
+
 function TransformationSelector(props: TransformationSelectorProps) {
     const { transformation, setTransformation, setPythonCode, url = DEFAULT_URL } = props;
     const [transformations, setTransformations] = useState<Transformation[]>([]);
@@ -41,7 +43,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
                         pythonFiles.map(async (file) => {
                             const rawResponse = await fetch(file.download_url);
                             const content = await rawResponse.text();
-                            const titleMatch = content.match(/^"""TITLE: (.*?)"""\n/);
+                            const titleMatch = content.match(TITLE_REGEX);
                             const title = titleMatch ? titleMatch[1] : "No title";
                             return { id: file.name, title, content };
                         }),
@@ -71,8 +73,8 @@ function TransformationSelector(props: TransformationSelectorProps) {
             options={transformations}
             onChange={(event, newValue) => {
                 if (newValue) {
-                    setPythonCode(newValue.content); // Update Python code only when user selects a transformation
-                    setTransformation(newValue); // Update transformation in parent component
+                    setPythonCode(newValue.content);
+                    setTransformation(newValue);
                 }
             }}
             renderInput={(params) => (

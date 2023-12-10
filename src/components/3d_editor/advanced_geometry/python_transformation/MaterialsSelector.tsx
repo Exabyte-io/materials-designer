@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import { Made } from "@exabyte-io/made.js";
 import CheckBox from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -7,13 +9,9 @@ import TextField from "@mui/material/TextField";
 import React, { useEffect } from "react";
 
 interface MaterialsSelectorProps {
-    // TODO: add type when made.js is moved to Typescript
-    // @ts-ignore
-    materials: any[];
-    // @ts-ignore
-    selectedMaterials: any[];
-    // @ts-ignore
-    setSelectedMaterials: (selectedMaterials: any[]) => void;
+    materials: Made.Material[];
+    selectedMaterials: Made.Material[];
+    setSelectedMaterials: (selectedMaterials: Made.Material[]) => void;
 }
 
 function MaterialsSelector(props: MaterialsSelectorProps) {
@@ -40,7 +38,6 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
             value={selectedMaterials}
             onChange={(event, newValue) => setSelectedMaterials(newValue)}
             renderOption={(props, option, { selected }) => (
-                // eslint-disable-next-line react/jsx-props-no-spreading
                 <li {...props} data-tid="select-material">
                     <Checkbox
                         icon={<CheckBoxOutlineBlank fontSize="small" />}
@@ -52,7 +49,6 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
             )}
             renderInput={(params) => (
                 <TextField
-                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...params}
                     label="Selected Materials"
                     placeholder="Select materials"
@@ -64,7 +60,6 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
                     <Chip
                         size="small"
                         label={`${index}: ${option.name}`}
-                        // eslint-disable-next-line react/jsx-props-no-spreading
                         {...getTagProps({ index })}
                     />
                 ))

@@ -42,6 +42,11 @@ interface PythonTransformationState {
 interface PyodideDataMap {
     [key: string]: string | PyodideDataMap;
 }
+const SECTION_HEADER = "BLOCK";
+const SECTION_REGEX = new RegExp(
+    `"""${SECTION_HEADER}: (.+?)"""\n([\\s\\S]+?)(?=(\n"""${SECTION_HEADER}|$))`,
+    "g",
+);
 
 class PythonTransformation extends React.Component<
     PythonTransformationProps,
@@ -171,7 +176,7 @@ class PythonTransformation extends React.Component<
 
         let newPythonCode = "";
         executionCells.forEach((section) => {
-            const sectionHeader = `"""BLOCK: ${section.name}"""\n`;
+            const sectionHeader = `"""${SECTION_HEADER}: ${section.name}"""\n`;
             newPythonCode += sectionHeader + section.content;
         });
 
@@ -194,13 +199,12 @@ class PythonTransformation extends React.Component<
     }
 
     parseAndSetExecutionCells(pythonCode: string) {
-        const sectionRegex = /"""BLOCK: (.+?)"""\s([\s\S]+?)(?=("""BLOCK|$))/g;
         let match;
         let idx = 0;
         const executionCellStates: ExecutionCellState[] = [];
 
         // eslint-disable-next-line no-cond-assign
-        while ((match = sectionRegex.exec(pythonCode)) !== null) {
+        while ((match = SECTION_REGEX.exec(pythonCode)) !== null) {
             executionCellStates.push({
                 // eslint-disable-next-line no-plusplus
                 id: idx++,
@@ -217,6 +221,7 @@ class PythonTransformation extends React.Component<
     render() {
         const {
             pythonCode,
+            transformation,
             materials,
             selectedMaterials,
             newMaterials,
@@ -251,8 +256,7 @@ class PythonTransformation extends React.Component<
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <TransformationSelector
-                                // eslint-disable-next-line react/destructuring-assignment
-                                transformation={this.state.transformation}
+                                transformation={transformation}
                                 setTransformation={(newTransformation) =>
                                     this.setState({ transformation: newTransformation })
                                 }

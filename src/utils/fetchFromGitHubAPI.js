@@ -33,7 +33,7 @@ async function fetchFiles(url) {
         }));
     } catch (error) {
         console.error("Error fetching files:", error);
-        throw error; // Rethrow the error for the caller to handle
+        throw error;
     }
 }
 
