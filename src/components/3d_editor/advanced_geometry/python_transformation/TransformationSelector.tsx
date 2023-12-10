@@ -2,6 +2,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import React, { useEffect, useState } from "react";
 import NPMsAlert from "react-s-alert";
+import fetchFiles from "utils/fetchFromGitHubAPI";
 
 export interface Transformation {
     id: string;
@@ -31,45 +32,35 @@ function TransformationSelector(props: TransformationSelectorProps) {
     const [transformations, setTransformations] = useState<Transformation[]>([]);
     const [isDataFetched, setIsDataFetched] = useState(false);
 
-    const fetchTransformations = async () => {
-        if (isDataFetched) return;
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            const pythonFiles = data.filter((file: { name: string }) => file.name.match(/.*\.py/));
-            const transformationsData = await Promise.all(
-                pythonFiles.map(async (file: any) => {
-                    const rawResponse = await fetch(file.download_url);
-                    const content = await rawResponse.text();
-                    // Python code snippets will have a title in the first line
-                    const titleMatch = content.match(/^"""TITLE: (.*?)"""\n/);
-                    const title = titleMatch ? titleMatch[1] : "No title";
-                    return {
-                        id: file.name,
-                        title,
-                        content,
-                    };
-                }),
-            );
-            setTransformations((prevTransformations) => [
-                ...prevTransformations,
-                ...transformationsData,
-                emptyTransformation,
-            ]);
-            if (!transformation) {
-                setTransformation(transformationsData[0]);
-                setPythonCode(transformationsData[0].content);
-            }
-
-            setIsDataFetched(true);
-        } catch (error) {
-            NPMsAlert.error("Error fetching transformations");
-        }
-    };
-
     useEffect(() => {
-        fetchTransformations();
-    }, []);
+        if (!isDataFetched) {
+            fetchFiles(url)
+                .then((files) => {
+                    const pythonFiles = files.filter((file) => file.name.match(/.*\.py/));
+                    return Promise.all(
+                        pythonFiles.map(async (file) => {
+                            const rawResponse = await fetch(file.download_url);
+                            const content = await rawResponse.text();
+                            const titleMatch = content.match(/^"""TITLE: (.*?)"""\n/);
+                            const title = titleMatch ? titleMatch[1] : "No title";
+                            return { id: file.name, title, content };
+                        }),
+                    );
+                })
+                .then((transformationsData) => {
+                    setTransformations([...transformationsData, emptyTransformation]);
+                    if (!transformation) {
+                        setTransformation(transformationsData[0]);
+                        setPythonCode(transformationsData[0].content);
+                    }
+                    setIsDataFetched(true);
+                })
+                .catch((error) => {
+                    NPMsAlert.error("Error fetching transformations");
+                    console.error(error);
+                });
+        }
+    }, [isDataFetched, transformation, url]);
 
     return (
         <Autocomplete
