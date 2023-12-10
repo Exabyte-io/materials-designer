@@ -83,10 +83,11 @@ class PythonTransformation extends React.Component<
     };
 
     handleSubmit = async () => {
-        const { onSubmit } = this.props;
+        const { onSubmit, materials } = this.props;
         const { newMaterials } = this.state;
 
         onSubmit(newMaterials);
+        this.setState({ selectedMaterials: [materials[0]], newMaterials: [] });
     };
 
     updateStateAtIndex = (stateArray: any[], index: number, newState: any) => {
