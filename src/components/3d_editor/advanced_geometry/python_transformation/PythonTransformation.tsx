@@ -42,10 +42,6 @@ interface PyodideDataMap {
     [key: string]: string | PyodideDataMap;
 }
 
-// TODO: merge SOF-7138 into dev and update the URL below
-const GITHUB_API_URL =
-    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations";
-
 class PythonTransformation extends React.Component<
     PythonTransformationProps,
     PythonTransformationState
@@ -270,7 +266,6 @@ class PythonTransformation extends React.Component<
                                     this.setState({ transformation: newTransformation })
                                 }
                                 pythonCode={pythonCode}
-                                url={GITHUB_API_URL}
                                 setPythonCode={(newPythonCode) =>
                                     this.handleTransformationChange(newPythonCode)
                                 }

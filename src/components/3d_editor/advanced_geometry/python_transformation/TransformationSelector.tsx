@@ -14,7 +14,7 @@ interface TransformationSelectorProps {
     pythonCode: string;
     setPythonCode: (pythonCode: string) => void;
     setTransformation: (transformation: Transformation | null) => void;
-    url: string;
+    url?: string;
 }
 
 const emptyTransformation: Transformation = {
@@ -23,8 +23,11 @@ const emptyTransformation: Transformation = {
     content: `"""Custom Transformation"""\n"""BLOCK: Main"""\ninput_materials=materials_in\n`,
 };
 
+const DEFAULT_URL =
+    "https://api.github.com/repos/Exabyte-io/api-examples/contents/other/python_transformations";
+
 function TransformationSelector(props: TransformationSelectorProps) {
-    const { transformation, setTransformation, setPythonCode, url } = props;
+    const { transformation, setTransformation, setPythonCode, url = DEFAULT_URL } = props;
     const [transformations, setTransformations] = useState<Transformation[]>([]);
     const [isDataFetched, setIsDataFetched] = useState(false);
 
