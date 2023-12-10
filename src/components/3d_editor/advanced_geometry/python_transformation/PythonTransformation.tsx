@@ -11,6 +11,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import NPMsAlert from "react-s-alert";
+import { exportToDisk } from "utils/downloader";
 
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
 import ExecutionCell, { ExecutionCellState } from "./ExecutionCell";
@@ -167,27 +168,16 @@ class PythonTransformation extends React.Component<
     handleDownload = () => {
         const { transformation, executionCells } = this.state;
 
-        // Create new python code from execution cells contents
         let newPythonCode = "";
         executionCells.forEach((section) => {
             const sectionHeader = `"""BLOCK: ${section.name}"""\n`;
             newPythonCode += sectionHeader + section.content;
         });
 
-        const filename = `${transformation?.title}.py` || "python_transformation.py";
-        const blob = new Blob([newPythonCode], { type: "text/plain;charset=utf-8" });
-        const href = URL.createObjectURL(blob);
+        const baseFilename = transformation?.title || "python_transformation";
+        const extension = "py";
 
-        // Create a link element, use it to download the file, then remove it
-        const link = document.createElement("a");
-        link.href = href;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Release the URL object
-        URL.revokeObjectURL(href);
+        exportToDisk(newPythonCode, baseFilename, extension);
     };
 
     mapToObject(map: Map<string, any>): PyodideDataMap {
