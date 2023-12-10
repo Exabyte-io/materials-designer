@@ -1,4 +1,3 @@
-@watch
 Feature: User can open Python Transformation dialog, change python code and run it, or cancel dialog
 
   Scenario:
