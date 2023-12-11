@@ -11,8 +11,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import NPMsAlert from "react-s-alert";
-import { exportToDisk } from "utils/downloader";
 
+import { exportToDisk } from "../../../../utils/downloader";
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
 import ExecutionCell, { ExecutionCellState } from "./ExecutionCell";
 import MaterialsSelector from "./MaterialsSelector";
