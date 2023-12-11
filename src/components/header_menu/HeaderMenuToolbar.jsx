@@ -72,11 +72,23 @@ class HeaderMenuToolbar extends React.Component {
         const { openSaveActionDialog, onExit } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
+                <MenuItem>
+                    <ListItemIcon>
+                        <AddCircleIcon />
+                    </ListItemIcon>
+                    Import from Collection
+                </MenuItem>
+                <MenuItem onClick={this.renderStandataImportModal}>
+                    <ListItemIcon>
+                        <AddCircleIcon />
+                    </ListItemIcon>
+                    Import from Standata
+                </MenuItem>
                 <MenuItem onClick={this.renderImportModal}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
-                    Import
+                    Upload from Disk
                 </MenuItem>
                 <MenuItem onClick={() => this.setState({ showExportMaterialsDialog: true })}>
                     <ListItemIcon>
@@ -315,6 +327,22 @@ class HeaderMenuToolbar extends React.Component {
             : null;
     };
 
+    renderStandataImportModal = () => {
+        const { openStandataImportModal, closeStandataImportModal, onAdd, defaultMaterialsSet } =
+            this.props;
+        return openStandataImportModal
+            ? {
+                  modalId: "standataImportModalDialog",
+                  show: true,
+                  onSubmit: (materials) => {
+                      onAdd(materials);
+                  },
+                  onClose: closeStandataImportModal,
+                  defaultMaterialsSet,
+              }
+            : null;
+    };
+
     renderSaveActionDialog = () => {
         const { openSaveActionDialog, material, onSave } = this.props;
         return openSaveActionDialog
@@ -491,6 +519,8 @@ HeaderMenuToolbar.propTypes = {
     closeImportModal: PropTypes.func.isRequired,
     toggleFullscreen: PropTypes.func.isRequired,
     openSaveActionDialog: PropTypes.func,
+    openStandataImportModal: PropTypes.func.isRequired,
+    closeStandataImportModal: PropTypes.func.isRequired,
 };
 
 HeaderMenuToolbar.defaultProps = {
