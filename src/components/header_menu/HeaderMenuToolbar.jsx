@@ -45,6 +45,7 @@ import PythonTransformation from "../3d_editor/advanced_geometry/PythonTransform
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
+import StandataImportModal from "../include/StandataImportModal.tsx";
 import ExportActionDialog from "./ExportActionDialog";
 
 class HeaderMenuToolbar extends React.Component {
@@ -54,6 +55,7 @@ class HeaderMenuToolbar extends React.Component {
             showSupercellDialog: false,
             showSurfaceDialog: false,
             showExportMaterialsDialog: false,
+            showStandataImportModal: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
@@ -78,7 +80,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Import from Collection
                 </MenuItem>
-                <MenuItem onClick={this.renderStandataImportModal}>
+                <MenuItem onClick={() => this.setState({ showStandataImportModal: true })}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
@@ -327,22 +329,6 @@ class HeaderMenuToolbar extends React.Component {
             : null;
     };
 
-    renderStandataImportModal = () => {
-        const { openStandataImportModal, closeStandataImportModal, onAdd, defaultMaterialsSet } =
-            this.props;
-        return openStandataImportModal
-            ? {
-                  modalId: "standataImportModalDialog",
-                  show: true,
-                  onSubmit: (materials) => {
-                      onAdd(materials);
-                  },
-                  onClose: closeStandataImportModal,
-                  defaultMaterialsSet,
-              }
-            : null;
-    };
-
     renderSaveActionDialog = () => {
         const { openSaveActionDialog, material, onSave } = this.props;
         return openSaveActionDialog
@@ -396,6 +382,8 @@ class HeaderMenuToolbar extends React.Component {
         } = this.props;
         if (showThreejsEditorModal) return this.renderThreejsEditorModal();
 
+        const { defaultMaterialsSet } = this.props;
+        const { showStandataImportModal } = this.state;
         return (
             <Toolbar
                 variant="dense"
@@ -439,6 +427,17 @@ class HeaderMenuToolbar extends React.Component {
                     modalId="ExportActionsModal"
                     onHide={() => this.setState({ showExportMaterialsDialog: false })}
                     onSubmit={onExport}
+                />
+
+                <StandataImportModal
+                    modalId="standataImportModalDialog"
+                    show={showStandataImportModal}
+                    onSubmit={(...args) => {
+                        onAdd(...args);
+                        this.setState({ showStandataImportModal: false });
+                    }}
+                    onClose={() => this.setState({ showStandataImportModal: false })}
+                    defaultMaterialsSet={defaultMaterialsSet}
                 />
 
                 <CombinatorialBasisDialog
@@ -519,8 +518,6 @@ HeaderMenuToolbar.propTypes = {
     closeImportModal: PropTypes.func.isRequired,
     toggleFullscreen: PropTypes.func.isRequired,
     openSaveActionDialog: PropTypes.func,
-    openStandataImportModal: PropTypes.func.isRequired,
-    closeStandataImportModal: PropTypes.func.isRequired,
 };
 
 HeaderMenuToolbar.defaultProps = {
