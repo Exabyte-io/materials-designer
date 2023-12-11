@@ -1,4 +1,5 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -212,17 +213,19 @@ class DefaultImportModalDialog extends React.Component {
             >
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
-                        <Button
-                            variant="outlined"
-                            data-name="upload-button"
-                            onClick={() => this.inputFileReaderRef.click()}
-                        >
-                            Upload
-                        </Button>
+                        {files.length > 0 && (
+                            <Button
+                                variant="outlined"
+                                data-name="upload-button"
+                                onClick={() => this.inputFileReaderRef.click()}
+                            >
+                                Upload more
+                            </Button>
+                        )}
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl variant="standard" sx={{ width: "100%" }}>
-                            <div
+                            <Box
                                 id="dropzone"
                                 onDragOver={this.handleDragOver}
                                 onDragLeave={this.handleDragLeave}
@@ -244,9 +247,14 @@ class DefaultImportModalDialog extends React.Component {
                                         style={dropZoneStyle(dragging)}
                                         onClick={() => this.inputFileReaderRef.click()}
                                     >
+                                        <IconByName
+                                            name="entities.file.externalUpload"
+                                            fontSize="large"
+                                        />
                                         Drop files here or click to upload
                                     </Box>
                                 )}
+
                                 <input
                                     data-name="fileapi"
                                     ref={(ref) => {
@@ -259,7 +267,7 @@ class DefaultImportModalDialog extends React.Component {
                                     multiple
                                     onChange={(event) => this.handleFileChange(event.target.files)}
                                 />
-                            </div>
+                            </Box>
                         </FormControl>
                     </Grid>
                 </Grid>
