@@ -184,19 +184,7 @@ class PythonTransformation extends React.Component<
         exportToDisk(newPythonCode, baseFilename, extension);
     };
 
-    mapToObject(map: Map<string, any>): PyodideDataMap {
-        const obj: PyodideDataMap = {};
-        map.forEach((value, key) => {
-            if (value instanceof Map) {
-                obj[key] = this.mapToObject(value);
-            } else {
-                obj[key] = value;
-            }
-        });
-        return obj;
-    }
-
-    parseAndSetExecutionCells(pythonCode: string) {
+    parseAndSetExecutionCells = (pythonCode: string) => {
         let match;
         let idx = 0;
         const executionCellStates: ExecutionCellState[] = [];
@@ -214,6 +202,18 @@ class PythonTransformation extends React.Component<
         }
 
         this.setState({ executionCells: executionCellStates });
+    };
+
+    mapToObject(map: Map<string, any>): PyodideDataMap {
+        const obj: PyodideDataMap = {};
+        map.forEach((value, key) => {
+            if (value instanceof Map) {
+                obj[key] = this.mapToObject(value);
+            } else {
+                obj[key] = value;
+            }
+        });
+        return obj;
     }
 
     render() {
