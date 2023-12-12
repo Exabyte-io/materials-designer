@@ -435,7 +435,7 @@ class HeaderMenuToolbar extends React.Component {
                         this.setState({ showStandataImportModal: false });
                     }}
                     onClose={() => this.setState({ showStandataImportModal: false })}
-                    defaultMaterialsSet={defaultMaterialsSet}
+                    defaultMaterialConfigs={defaultMaterialsSet}
                 />
 
                 <CombinatorialBasisDialog
