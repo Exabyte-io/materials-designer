@@ -29,6 +29,8 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
                 <Button
                     className={isOpen ? "active" : ""}
                     disableRipple
+                    size="small"
+                    color="inherit"
                     onClick={this.handleClick}
                     data-name={title}
                 >
