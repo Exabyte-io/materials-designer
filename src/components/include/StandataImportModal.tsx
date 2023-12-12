@@ -1,3 +1,4 @@
+import { MaterialSchema } from "@exabyte-io/code.js/dist/types";
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import { Made } from "@exabyte-io/made.js";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -11,12 +12,12 @@ interface StandataImportModalProps {
     show: boolean;
     onClose: () => void;
     onSubmit: (materials: Made.Material[]) => void;
-    defaultMaterialsSet: Made.Material[];
+    defaultMaterialConfigs: MaterialSchema[];
 }
 
 interface StandataImportModalState {
-    selectedMaterial: Made.Material | null;
-    selectedMaterials: Made.Material[];
+    selectedMaterialConfig: MaterialSchema | null;
+    selectedMaterialConfigs: MaterialSchema[];
 }
 
 class StandataImportModal extends React.Component<
@@ -26,41 +27,47 @@ class StandataImportModal extends React.Component<
     constructor(props: StandataImportModalProps) {
         super(props);
         this.state = {
-            selectedMaterial: null,
-            selectedMaterials: [],
+            selectedMaterialConfig: null,
+            selectedMaterialConfigs: [],
         };
     }
 
-    handleMaterialSelect = (material: Made.Material | null) => {
-        if (material) {
+    handleMaterialSelect = (materialConfig: MaterialSchema | null) => {
+        if (materialConfig) {
             this.setState((prevState) => ({
-                selectedMaterials: [...prevState.selectedMaterials, material],
-                selectedMaterial: null,
+                selectedMaterialConfigs: [...prevState.selectedMaterialConfigs, materialConfig],
+                selectedMaterialConfig: null,
             }));
         }
     };
 
-    handleRemoveMaterial = (id: number) => {
+    handleRemoveMaterial = (index: number) => {
         this.setState((prevState) => ({
-            selectedMaterials: prevState.selectedMaterials.filter((_, index) => index !== id),
+            selectedMaterialConfigs: prevState.selectedMaterialConfigs.filter(
+                (_, i) => i !== index,
+            ),
         }));
     };
 
     addMaterials = () => {
-        const { selectedMaterials } = this.state;
-        const newMaterials = selectedMaterials.map((material) => new Made.Material(material));
+        const { selectedMaterialConfigs } = this.state;
+        const materials = selectedMaterialConfigs.map((config) => new Made.Material(config));
         const { onSubmit } = this.props;
-        onSubmit(newMaterials);
-        this.setState({ selectedMaterials: [] });
+        onSubmit(materials);
+        this.setState({ selectedMaterialConfigs: [] });
     };
 
     render() {
-        const { show, onClose, defaultMaterialsSet } = this.props,
-            { selectedMaterial, selectedMaterials } = this.state;
+        const { show, onClose, defaultMaterialConfigs } = this.props;
+        const { selectedMaterialConfig, selectedMaterialConfigs } = this.state;
+
+        const selectedMaterials = selectedMaterialConfigs.map(
+            (config) => new Made.Material(config),
+        );
 
         const columns: GridColDef[] = [
             { field: "name", headerName: "Name", flex: 1 },
-            { field: "lattice-type", headerName: "Lattice", flex: 1 },
+            { field: "lattice", headerName: "Lattice", flex: 1 },
             { field: "formula", headerName: "Formula", flex: 1 },
             {
                 field: "actions",
@@ -96,9 +103,9 @@ class StandataImportModal extends React.Component<
                         <Autocomplete
                             disablePortal
                             size="small"
-                            options={defaultMaterialsSet}
+                            options={defaultMaterialConfigs || []}
+                            value={selectedMaterialConfig || null}
                             getOptionLabel={(material) => material.name || "Not available"}
-                            value={selectedMaterial}
                             onChange={(event, newValue) => this.handleMaterialSelect(newValue)}
                             renderInput={(params) => (
                                 // eslint-disable-next-line react/jsx-props-no-spreading
@@ -111,7 +118,9 @@ class StandataImportModal extends React.Component<
                             data-name="data-grid"
                             hideFooter
                             rows={selectedMaterials.map((material, index) => ({
-                                ...material,
+                                name: material.name,
+                                lattice: material.lattice?.type || "TRI",
+                                formula: material.formula || "Not available",
                                 id: index,
                             }))}
                             columns={columns}
