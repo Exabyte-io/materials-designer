@@ -444,12 +444,14 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
 }
 
 // TODO: move this to the component instead
-#python-transformation-dialog .cm-editor {
-    // Assuming that `em` will pick up the font size of the MUI theme
-    font-size: 0.8em;
-}
+#python-transformation-dialog {
+    .cm-editor {
+        // Assuming that `em` will pick up the font size of the MUI theme
+        font-size: 0.8em;
+    }
 
-#python-transformation-dialog code {
-    color: $white;
-    background-color: $exagray_semi-transparent;
+    code {
+        color: $white;
+        background-color: $exagray_semi-transparent;
+    }
 }
