@@ -1,9 +1,8 @@
+import { fetchFilesFromGitHubAPI } from "@exabyte-io/code.js/dist/utils";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import React, { useEffect, useState } from "react";
 import NPMsAlert from "react-s-alert";
-
-import fetchFiles from "../../../../utils/fetchFromGitHubAPI";
 
 export interface Transformation {
     id: string;
@@ -37,7 +36,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
 
     useEffect(() => {
         if (!isDataFetched) {
-            fetchFiles(url)
+            fetchFilesFromGitHubAPI(url)
                 .then((files) => {
                     const pythonFiles = files.filter((file) => file.name.match(/.*\.py/));
                     return Promise.all(
