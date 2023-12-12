@@ -41,7 +41,7 @@ const PythonCodeDisplay = (props: PythonCodeDisplayProps) => {
                 <Box
                     id={`python-code-input-${name}`}
                     sx={{
-                        border: `1px solid ${theme.palette.secondary.light}`,
+                        border: `1px solid ${theme.palette.grey[800]}`,
                     }}
                 >
                     <CodeMirror
