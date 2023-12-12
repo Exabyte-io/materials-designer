@@ -37,6 +37,7 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
                     {title}
                 </Button>
                 <Menu
+                    MenuListProps={{ dense: true }}
                     id={id}
                     open={isOpen}
                     anchorEl={anchorEl}
