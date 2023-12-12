@@ -3,6 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "underscore";
@@ -42,14 +43,11 @@ class Lattice extends React.Component {
         const { material, onUpdate } = this.props;
         const { showLatticeConfigurationDialog } = this.state;
         return (
-            <Accordion sx={{ flexBasis: "100%", p: 0 }} className="crystal-lattice">
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Lattice</AccordionSummary>
-                <AccordionDetails
-                    style={{
-                        display: "block",
-                        height: "100%",
-                    }}
-                >
+            <Accordion className="crystal-lattice" elevation={2}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Crystal Lattice</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                     <LatticeConfigurationDialog
                         modalId="update-lattice"
                         unitOptions={this.latticeUnitOptions()}

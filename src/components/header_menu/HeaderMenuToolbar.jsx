@@ -12,8 +12,6 @@ import BoundaryConditionsIcon from "@mui/icons-material/Directions";
 import NanotubeIcon from "@mui/icons-material/DonutLarge";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ConventionalCellIcon from "@mui/icons-material/FormatShapes";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import HelpIcon from "@mui/icons-material/Help";
 import SlabIcon from "@mui/icons-material/Layers";
@@ -149,9 +147,7 @@ class HeaderMenuToolbar extends React.Component {
 
     renderViewMenu() {
         const {
-            toggleFullscreen,
             onSectionVisibilityToggle,
-            isFullscreen,
             isVisibleItemsList,
             isVisibleSourceEditor,
             isVisibleThreeDEditorFullscreen,
@@ -164,6 +160,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Multi-Material 3D Editor
                 </MenuItem>
+                <Divider />
                 <MenuItem onClick={() => onSectionVisibilityToggle("ItemsList")}>
                     <ListItemIcon>
                         {isVisibleItemsList ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -185,13 +182,6 @@ class HeaderMenuToolbar extends React.Component {
                         )}
                     </ListItemIcon>
                     3D Viewer/Editor
-                </MenuItem>
-                <Divider />
-                <MenuItem onClick={toggleFullscreen}>
-                    <ListItemIcon>
-                        {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-                    </ListItemIcon>
-                    {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
@@ -230,18 +220,23 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Boundary Conditions
                 </MenuItem>
-                <MenuItem disabled hidden>
-                    <ListItemIcon>
-                        <PolymerIcon />
-                    </ListItemIcon>
-                    Polymer
-                </MenuItem>
-                <MenuItem disabled hidden>
-                    <ListItemIcon>
-                        <NanotubeIcon />
-                    </ListItemIcon>
-                    Nanotube
-                </MenuItem>
+                {/* Hiding the below items until implemented */}
+                {false && (
+                    <MenuItem>
+                        <ListItemIcon>
+                            <PolymerIcon />
+                        </ListItemIcon>
+                        Polymer
+                    </MenuItem>
+                )}
+                {false && (
+                    <MenuItem>
+                        <ListItemIcon>
+                            <NanotubeIcon />
+                        </ListItemIcon>
+                        Nanotube
+                    </MenuItem>
+                )}
                 <MenuItem onClick={() => this.setState({ showPythonTransformation: true })}>
                     <ListItemIcon>
                         <Terminal />
@@ -352,6 +347,7 @@ class HeaderMenuToolbar extends React.Component {
             showPythonTransformation,
         } = this.state;
         const {
+            children,
             className,
             material,
             materials,
@@ -369,8 +365,8 @@ class HeaderMenuToolbar extends React.Component {
             <Toolbar
                 variant="dense"
                 className={setClass(className, "materials-designer-header-menu")}
-                style={{ borderBottom: "1px solid" }}
             >
+                {children}
                 {this.renderIOMenu()}
                 {this.renderEditMenu()}
                 {this.renderViewMenu()}
@@ -459,7 +455,6 @@ HeaderMenuToolbar.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     materials: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
-    isFullscreen: PropTypes.bool.isRequired,
     maxCombinatorialBasesCount: PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array.isRequired,
@@ -484,13 +479,15 @@ HeaderMenuToolbar.propTypes = {
 
     openImportModal: PropTypes.func.isRequired,
     closeImportModal: PropTypes.func.isRequired,
-    toggleFullscreen: PropTypes.func.isRequired,
     openSaveActionDialog: PropTypes.func,
+
+    children: PropTypes.node,
 };
 
 HeaderMenuToolbar.defaultProps = {
     className: undefined,
     openSaveActionDialog: null,
+    children: null,
 };
 
 export default HeaderMenuToolbar;

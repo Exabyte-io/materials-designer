@@ -20,7 +20,8 @@ export default class HeaderMenuWidget extends Widget {
     }
 
     selectMenuItem(menuName: string, itemNumber: number) {
-        return browser.click(this.selectors.menuDialogItemByNumber(menuName, itemNumber));
+        // Not using 'selectors' instead of 'this.selectors' because of the dialog location
+        return browser.click(selectors.menuDialogItemByNumber(menuName, itemNumber));
     }
 
     selectMenuItemByNameAndItemNumber(menuName: string, itemNumber: number) {

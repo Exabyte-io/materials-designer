@@ -8,6 +8,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Grid from "@mui/material/Grid";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import React from "react";
 import s from "underscore.string";
@@ -78,8 +79,10 @@ class BasisEditor extends React.Component {
         const { coordinateUnits, checks, xyzContent } = this.state;
         const { material } = this.props;
         return (
-            <Accordion defaultExpanded className="crystal-basis">
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Crystal Basis</AccordionSummary>
+            <Accordion defaultExpanded className="crystal-basis" elevation={2}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Crystal Basis</Typography>
+                </AccordionSummary>
                 <AccordionDetails>
                     <Grid container spacing={0.125} id="crystal-basis">
                         <Grid item xs={12}>
