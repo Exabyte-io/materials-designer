@@ -20,7 +20,8 @@ export class ItemsListWidget extends Widget {
         browser.waitForValue(selector);
         this.selectItemByIndex(itemIndex);
         browser.setInputValue(selector, name);
-        this.selectItemByIndex(itemIndex);
+        // Click outside of the input field to save the value
+        browser.click(this.selectors.wrapper);
     }
 
     getSelectorPerItem(itemIndex: number, selectorName: string) {
