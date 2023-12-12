@@ -30,7 +30,7 @@ interface PythonTransformationState {
     newMaterials: Made.Material[];
     executionStatus: ExecutionStatus;
     // TODO: import type for Pyodide when they are available in Cove.js
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pyodide: any;
     transformation: Transformation | null;
     pythonCode: string;
@@ -74,6 +74,7 @@ class PythonTransformation extends React.Component<
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onPyodideLoad = (pyodideInstance: any) => {
         this.setState({ pyodide: pyodideInstance, executionStatus: ExecutionStatus.Idle });
         // redirecting stdout for print per https://pyodide.org/en/stable/usage/streams.html
@@ -94,7 +95,11 @@ class PythonTransformation extends React.Component<
         this.setState({ selectedMaterials: [materials[0]], newMaterials: [] });
     };
 
-    updateStateAtIndex = (stateArray: any[], index: number, newState: any) => {
+    updateStateAtIndex = (
+        stateArray: ExecutionCellState[],
+        index: number,
+        newState: ExecutionCellState,
+    ) => {
         const newArray = [...stateArray];
         newArray[index] = { ...newArray[index], ...newState };
         this.setState({ executionCells: newArray });
@@ -104,6 +109,7 @@ class PythonTransformation extends React.Component<
         this.setState({ pythonOutput: "" });
         const { pyodide, executionCells, selectedMaterials } = this.state;
         this.updateStateAtIndex(executionCells, sectionIndex, {
+            ...executionCells[sectionIndex],
             executionStatus: ExecutionStatus.Running,
         });
 
@@ -124,12 +130,14 @@ class PythonTransformation extends React.Component<
             });
             const { pythonOutput } = this.state;
             this.updateStateAtIndex(executionCells, sectionIndex, {
+                ...executionCells[sectionIndex],
                 executionStatus: ExecutionStatus.Ready,
                 output: pythonOutput,
             });
         } catch (error: any) {
             this.setState({ executionStatus: ExecutionStatus.Error });
             this.updateStateAtIndex(executionCells, sectionIndex, {
+                ...executionCells[sectionIndex],
                 executionStatus: ExecutionStatus.Error,
                 output: error.message + "\n",
             });
@@ -333,11 +341,13 @@ class PythonTransformation extends React.Component<
                                                 handleRun={() => this.executeSection(index)}
                                                 setPythonCode={(newContent) =>
                                                     this.updateStateAtIndex(executionCells, index, {
+                                                        ...executionCells[index],
                                                         content: newContent,
                                                     })
                                                 }
                                                 clearPythonOutput={() =>
                                                     this.updateStateAtIndex(executionCells, index, {
+                                                        ...executionCells[index],
                                                         output: "",
                                                     })
                                                 }
