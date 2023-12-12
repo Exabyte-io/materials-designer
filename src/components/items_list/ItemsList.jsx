@@ -155,7 +155,6 @@ class ItemsList extends React.Component {
                         className="list-item-text"
                         primary={
                             <TextField
-                                dense
                                 className="list-item-text_primary"
                                 fullWidth
                                 variant="standard"
