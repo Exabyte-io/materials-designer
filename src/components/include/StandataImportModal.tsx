@@ -1,6 +1,5 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import { Made } from "@exabyte-io/made.js";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -116,9 +115,6 @@ class StandataImportModal extends React.Component<
                                 id: index,
                             }))}
                             columns={columns}
-                            pageSize={5}
-                            rowsPerPageOptions={[5]}
-                            disableSelectionOnClick
                         />
                     </Grid>
                 </Grid>
