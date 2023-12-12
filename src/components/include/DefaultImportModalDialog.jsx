@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
@@ -214,16 +215,25 @@ class DefaultImportModalDialog extends React.Component {
                 onSubmit={this.onSubmit}
             >
                 <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={10}>
-                        <Typography>Supported formats: poscar, json.</Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button
-                            data-name="upload-button"
-                            onClick={() => this.inputFileReaderRef.click()}
-                        >
-                            Upload
-                        </Button>
+                    <Grid item xs={12}>
+                        {files.length > 0 && (
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="space-between"
+                            >
+                                <Typography variant="body2">
+                                    Supported formats: poscar, json.
+                                </Typography>
+                                <Button
+                                    data-name="upload-button"
+                                    variant="text"
+                                    onClick={() => this.inputFileReaderRef.click()}
+                                >
+                                    Upload more
+                                </Button>
+                            </Stack>
+                        )}
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl variant="standard" sx={{ width: "100%" }}>
@@ -256,6 +266,9 @@ class DefaultImportModalDialog extends React.Component {
                                         <span>
                                             Drop files here or <u>click</u> to upload
                                         </span>
+                                        <Typography variant="body2">
+                                            Supported formats: poscar, json.
+                                        </Typography>
                                     </Box>
                                 )}
                                 <input
