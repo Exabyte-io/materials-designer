@@ -31,7 +31,7 @@ class ItemsList extends React.Component {
         const { materials, index } = this.props;
         return {
             editedName: materials[index].name,
-            editedIndex: index,
+            editedIndex: -1,
         };
     }
 
@@ -152,7 +152,6 @@ class ItemsList extends React.Component {
                             fullWidth
                             variant="standard"
                             size="small"
-                            autoFocus={isBeingEdited}
                             onFocus={(e) => this.focusListItem(e, index)}
                             value={isBeingEdited ? editedName : entity.name}
                             onChange={(event) => this.setState({ editedName: event.target.value })}
