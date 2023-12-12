@@ -1,8 +1,12 @@
 import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
+import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import { StyledEngineProvider } from "@mui/material/styles";
 import setClass from "classnames";
 import { mix } from "mixwith";
@@ -14,7 +18,8 @@ import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSel
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
 import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
 import ItemsList from "./components/items_list/ItemsList";
-import SourceEditor from "./components/source_editor/SourceEditor";
+import BasisEditor from "./components/source_editor/Basis";
+import LatticeEditor from "./components/source_editor/Lattice";
 import { Material } from "./material";
 
 const GRID_CONFIG_BY_VISIBILITY = {
@@ -136,126 +141,134 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
             this.state;
         const gridConfig = this.getGridConfig();
         return (
-            <this.FullscreenHandlerComponent
-                className={setClass(this.props.className)}
-                enabled={this.state.isFullscreen}
-                onChange={(isFullscreen) => this.setState({ isFullscreen })}
-            >
-                <StyledEngineProvider injectFirst>
-                    <ThemeProvider theme={DarkMaterialUITheme}>
-                        <div id="materials-designer" className={setClass("", this.props.className)}>
-                            <div className="bgm-dark">
-                                {/* TODO: find out how to avoid passing material to header */}
-                                <HeaderMenuToolbar
-                                    isLoading={this.props.isLoading}
-                                    material={this.props.material}
-                                    materials={this.props.materials}
-                                    index={this.props.index}
-                                    isFullscreen={this.state.isFullscreen}
-                                    toggleFullscreen={this.toggleFullscreen}
-                                    onUndo={this.props.onUndo}
-                                    onRedo={this.props.onRedo}
-                                    onReset={this.props.onReset}
-                                    onClone={this.props.onClone}
-                                    onToggleIsNonPeriodic={this.props.onToggleIsNonPeriodic}
-                                    onUpdate={this.props.onUpdate}
-                                    onAdd={this.props.onAdd}
-                                    onExport={this.props.onExport}
-                                    onSave={this.props.onSave}
-                                    onExit={this.props.onExit}
-                                    openImportModal={
-                                        this.props.openImportModal || this.openDefaultImportModal
-                                    }
-                                    closeImportModal={
-                                        this.props.closeImportModal || this.closeDefaultImportModal
-                                    }
-                                    openSaveActionDialog={this.props.openSaveActionDialog}
-                                    onGenerateSupercell={this.props.onGenerateSupercell}
-                                    onGenerateSurface={this.props.onGenerateSurface}
-                                    onSetBoundaryConditions={this.props.onSetBoundaryConditions}
-                                    maxCombinatorialBasesCount={
-                                        this.props.maxCombinatorialBasesCount
-                                    }
-                                    defaultMaterialsSet={this.props.defaultMaterialsSet}
-                                    onSectionVisibilityToggle={this.onSectionVisibilityToggle}
-                                    isVisibleItemsList={isVisibleItemsList}
-                                    isVisibleSourceEditor={isVisibleSourceEditor}
-                                    isVisibleThreeDEditorFullscreen={
-                                        isVisibleThreeDEditorFullscreen
-                                    }
-                                />
-                                {this.renderDefaultImportModal()}
-                                {/* Setting minHeight below to the same value as for 3d Viewer */}
-                                <Grid
-                                    container
-                                    id="materials-designer-container"
-                                    sx={{ minHeight: "calc(100vmin - 105px)" }}
-                                >
-                                    {isVisibleItemsList && (
-                                        <Grid
-                                            item
-                                            // eslint-disable-next-line react/jsx-props-no-spreading
-                                            {...gridConfig[1]}
-                                            sx={{ borderRight: "1px solid" }}
-                                        >
-                                            <ItemsList
-                                                materials={this.props.materials}
-                                                index={this.props.index}
-                                                onItemClick={this.props.onItemClick}
-                                                onRemove={this.props.onRemove}
-                                                onNameUpdate={this.props.onNameUpdate}
-                                            />
-                                        </Grid>
-                                    )}
-                                    {isVisibleSourceEditor && (
-                                        <Grid
-                                            item
-                                            // eslint-disable-next-line react/jsx-props-no-spreading
-                                            {...gridConfig[2]}
-                                            sx={{ borderRight: "1px solid" }}
-                                        >
-                                            <SourceEditor
+            <StyledEngineProvider injectFirst>
+                <CssBaseline enableColorScheme />
+                <ThemeProvider theme={DarkMaterialUITheme}>
+                    <Paper id="materials-designer">
+                        <AppBar position="static" className={setClass("", this.props.className)}>
+                            {/* TODO: find out how to avoid passing material to header */}
+                            <HeaderMenuToolbar
+                                isLoading={this.props.isLoading}
+                                material={this.props.material}
+                                materials={this.props.materials}
+                                index={this.props.index}
+                                isFullscreen={this.state.isFullscreen}
+                                toggleFullscreen={this.toggleFullscreen}
+                                onUndo={this.props.onUndo}
+                                onRedo={this.props.onRedo}
+                                onReset={this.props.onReset}
+                                onClone={this.props.onClone}
+                                onToggleIsNonPeriodic={this.props.onToggleIsNonPeriodic}
+                                onUpdate={this.props.onUpdate}
+                                onAdd={this.props.onAdd}
+                                onExport={this.props.onExport}
+                                onSave={this.props.onSave}
+                                onExit={this.props.onExit}
+                                openImportModal={
+                                    this.props.openImportModal || this.openDefaultImportModal
+                                }
+                                closeImportModal={
+                                    this.props.closeImportModal || this.closeDefaultImportModal
+                                }
+                                openSaveActionDialog={this.props.openSaveActionDialog}
+                                onGenerateSupercell={this.props.onGenerateSupercell}
+                                onGenerateSurface={this.props.onGenerateSurface}
+                                onSetBoundaryConditions={this.props.onSetBoundaryConditions}
+                                maxCombinatorialBasesCount={this.props.maxCombinatorialBasesCount}
+                                defaultMaterialsSet={this.props.defaultMaterialsSet}
+                                onSectionVisibilityToggle={this.onSectionVisibilityToggle}
+                                isVisibleItemsList={isVisibleItemsList}
+                                isVisibleSourceEditor={isVisibleSourceEditor}
+                                isVisibleThreeDEditorFullscreen={isVisibleThreeDEditorFullscreen}
+                            />
+                        </AppBar>
+                        {/* Setting minHeight below to the same value as for 3d Viewer */}
+                        <Box
+                            component="main"
+                            sx={{ height: "calc(100vh - 100px)", overflowY: "auto" }}
+                        >
+                            <Grid
+                                container
+                                id="materials-designer-container"
+                                sx={{ height: "100%" }}
+                            >
+                                {isVisibleItemsList && (
+                                    <Grid
+                                        item
+                                        // eslint-disable-next-line react/jsx-props-no-spreading
+                                        {...gridConfig[1]}
+                                        sx={{ borderRight: "1px solid" }}
+                                    >
+                                        <ItemsList
+                                            materials={this.props.materials}
+                                            index={this.props.index}
+                                            onItemClick={this.props.onItemClick}
+                                            onRemove={this.props.onRemove}
+                                            onNameUpdate={this.props.onNameUpdate}
+                                        />
+                                    </Grid>
+                                )}
+                                {isVisibleSourceEditor && (
+                                    <Grid
+                                        spacing={2}
+                                        item
+                                        // eslint-disable-next-line react/jsx-props-no-spreading
+                                        {...gridConfig[2]}
+                                        sx={{
+                                            borderRight: "1px solid",
+                                            height: "100%",
+                                            width: "100%",
+                                            overflowY: "auto",
+                                        }}
+                                        className="materials-designer-source-editor"
+                                    >
+                                        <Grid item xs={12}>
+                                            <LatticeEditor
                                                 material={this.props.material}
                                                 onUpdate={this.props.onUpdate}
                                             />
                                         </Grid>
-                                    )}
-                                    {isVisibleThreeDEditorFullscreen && (
-                                        // eslint-disable-next-line react/jsx-props-no-spreading
-                                        <Grid item {...gridConfig[3]}>
-                                            <ThreeDEditorFullscreen
-                                                editable
+                                        <Divider />
+                                        <Grid item xs={12}>
+                                            <BasisEditor
                                                 material={this.props.material}
-                                                isConventionalCellShown={
-                                                    this.props.isConventionalCellShown
-                                                }
-                                                boundaryConditions={
-                                                    this.props.material.boundaryConditions
-                                                }
-                                                onUpdate={(material) => {
-                                                    // convert made material to MD material and re-set metadata
-                                                    const newMaterial =
-                                                        Material.createFromMadeMaterial(material);
-                                                    newMaterial.metadata =
-                                                        this.props.material.metadata || {};
-                                                    this.props.onUpdate(newMaterial);
-                                                }}
+                                                onUpdate={this.props.onUpdate}
                                             />
                                         </Grid>
-                                    )}
-                                </Grid>
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <Box className="bgm-dark" sx={{ borderTop: "1px solid" }}>
-                                            <EditorSelectionInfo />
-                                        </Box>
                                     </Grid>
+                                )}
+                                {isVisibleThreeDEditorFullscreen && (
+                                    // eslint-disable-next-line react/jsx-props-no-spreading
+                                    <Grid item {...gridConfig[3]}>
+                                        <ThreeDEditorFullscreen
+                                            editable
+                                            material={this.props.material}
+                                            isConventionalCellShown={
+                                                this.props.isConventionalCellShown
+                                            }
+                                            boundaryConditions={
+                                                this.props.material.boundaryConditions
+                                            }
+                                            onUpdate={(material) => {
+                                                // convert made material to MD material and re-set metadata
+                                                const newMaterial =
+                                                    Material.createFromMadeMaterial(material);
+                                                newMaterial.metadata =
+                                                    this.props.material.metadata || {};
+                                                this.props.onUpdate(newMaterial);
+                                            }}
+                                        />
+                                    </Grid>
+                                )}
+                                <Grid item xs={12}>
+                                    <EditorSelectionInfo />
                                 </Grid>
-                            </div>
-                        </div>
-                    </ThemeProvider>
-                </StyledEngineProvider>
-            </this.FullscreenHandlerComponent>
+                            </Grid>
+                            {this.renderDefaultImportModal()}
+                        </Box>
+                    </Paper>
+                </ThemeProvider>
+            </StyledEngineProvider>
         );
     }
 }
