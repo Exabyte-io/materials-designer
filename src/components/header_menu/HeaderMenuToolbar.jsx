@@ -355,6 +355,7 @@ class HeaderMenuToolbar extends React.Component {
             showPythonTransformation,
         } = this.state;
         const {
+            children,
             className,
             material,
             materials,
@@ -373,6 +374,7 @@ class HeaderMenuToolbar extends React.Component {
                 variant="dense"
                 className={setClass(className, "materials-designer-header-menu")}
             >
+                {children}
                 {this.renderIOMenu()}
                 {this.renderEditMenu()}
                 {this.renderViewMenu()}
@@ -490,11 +492,14 @@ HeaderMenuToolbar.propTypes = {
     closeImportModal: PropTypes.func.isRequired,
     toggleFullscreen: PropTypes.func.isRequired,
     openSaveActionDialog: PropTypes.func,
+
+    children: PropTypes.node,
 };
 
 HeaderMenuToolbar.defaultProps = {
     className: undefined,
     openSaveActionDialog: null,
+    children: null,
 };
 
 export default HeaderMenuToolbar;
