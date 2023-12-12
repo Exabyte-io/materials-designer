@@ -251,7 +251,9 @@ class DefaultImportModalDialog extends React.Component {
                                             name="entities.file.externalUpload"
                                             fontSize="large"
                                         />
-                                        Drop files here or click to upload
+                                        <span>
+                                            Drop files here or <u>click</u> to upload
+                                        </span>
                                     </Box>
                                 )}
 
