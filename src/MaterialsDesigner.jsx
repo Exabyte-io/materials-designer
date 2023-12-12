@@ -1,5 +1,5 @@
 import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
-import { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
+import theme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -189,8 +189,10 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                         <Box
                             component="main"
                             sx={{
-                                /* The extra 8px below is to account for the borders */
-                                height: `calc(100vh - ${APP_BAR_HEIGHT + FOOTER_HEIGHT - 8}px)`,
+                                [theme.breakpoints.up("md")]: {
+                                    /* The extra 8px below is to account for the borders */
+                                    height: `calc(100vh - ${APP_BAR_HEIGHT + FOOTER_HEIGHT - 8}px)`,
+                                },
                                 overflowY: "auto",
                             }}
                         >
@@ -206,7 +208,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                         // eslint-disable-next-line react/jsx-props-no-spreading
                                         {...gridConfig[1]}
                                         sx={{
-                                            borderRight: "1px solid",
+                                            borderRight: `1px solid ${theme.palette.grey[800]}`,
                                             height: "100%",
                                             overflowY: "auto",
                                         }}
@@ -226,14 +228,14 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                         // eslint-disable-next-line react/jsx-props-no-spreading
                                         {...gridConfig[2]}
                                         sx={{
-                                            borderRight: "1px solid",
+                                            borderRight: `1px solid ${theme.palette.grey[800]}`,
                                             height: "100%",
                                             width: "100%",
                                             overflowY: "auto",
                                         }}
                                         className="materials-designer-source-editor"
                                     >
-                                        <Grid item xs={12}>
+                                        <Grid item xs={12} mt={1}>
                                             <LatticeEditor
                                                 material={this.props.material}
                                                 onUpdate={this.props.onUpdate}
@@ -250,7 +252,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 )}
                                 {isVisibleThreeDEditorFullscreen && (
                                     // eslint-disable-next-line react/jsx-props-no-spreading
-                                    <Grid item {...gridConfig[3]}>
+                                    <Grid item {...gridConfig[3]} mt={1}>
                                         <ThreeDEditorFullscreen
                                             editable
                                             material={this.props.material}
