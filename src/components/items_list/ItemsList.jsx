@@ -3,12 +3,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
+import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import setClass from "classnames";
@@ -31,7 +31,7 @@ class ItemsList extends React.Component {
         const { materials, index } = this.props;
         return {
             editedName: materials[index].name,
-            editedIndex: index,
+            editedIndex: -1,
         };
     }
 
@@ -112,69 +112,87 @@ class ItemsList extends React.Component {
         const isBeingEdited = editedIndex === index;
         const isBeingActive = index === indexFromState;
         return (
-            <ListItem
-                key={name + "-" + index}
-                dense
-                onClick={(e) => this.onItemListClick(e, index)}
-                className={setClass(
-                    { active: isBeingEdited || isBeingActive },
-                    { updated: isUpdated || isBeingEdited },
-                )}
-                secondaryAction={
-                    <IconButton
-                        className="list-item-icon icon-button-delete"
-                        onClick={(e) => {
-                            this.onDeleteIconClick(e, index);
-                        }}
-                    >
-                        <DeleteIcon />
-                    </IconButton>
-                }
-            >
-                <ListItemAvatar>
-                    <Avatar>
-                        <ShowIf condition={Boolean(entity.id)}>
-                            <IconButton className="list-item-icon superscript-icon">
-                                <CheckIcon />
-                            </IconButton>
-                        </ShowIf>
-                        <IconButton className="list-item-icon non-periodic-icon">
-                            {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
+            <Paper elevation={isBeingActive ? 8 : 2} key={name + "-" + index}>
+                <ListItem
+                    dense
+                    divider
+                    onClick={(e) => this.onItemListClick(e, index)}
+                    className={setClass(
+                        { active: isBeingEdited || isBeingActive },
+                        { updated: isUpdated || isBeingEdited },
+                    )}
+                    secondaryAction={
+                        <IconButton
+                            edge="end"
+                            className="list-item-icon icon-button-delete"
+                            onClick={(e) => {
+                                this.onDeleteIconClick(e, index);
+                            }}
+                        >
+                            <DeleteIcon />
                         </IconButton>
-                    </Avatar>
-                </ListItemAvatar>
+                    }
+                    sx={{
+                        // TODO: figure out why "dense" prop doesn't work and remove this
+                        paddingY: 0,
+                    }}
+                >
+                    <ListItemAvatar>
+                        <Avatar>
+                            <ShowIf condition={Boolean(entity.id)}>
+                                <IconButton className="list-item-icon superscript-icon">
+                                    <CheckIcon />
+                                </IconButton>
+                            </ShowIf>
+                            <IconButton className="list-item-icon non-periodic-icon">
+                                {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
+                            </IconButton>
+                        </Avatar>
+                    </ListItemAvatar>
 
-                <ListItemText
-                    className="list-item-text"
-                    primary={
-                        <TextField
-                            className="list-item-text_primary"
-                            size="small"
-                            onFocus={(e) => this.focusListItem(e, index)}
-                            value={isBeingEdited ? editedName : entity.name}
-                            onChange={(event) => this.setState({ editedName: event.target.value })}
-                            onBlur={this.blurListItem}
-                        />
-                    }
-                    secondary={
-                        // TODO: avoid setting font size in sx and use theme variants instead
-                        <Typography variant="caption" sx={{ fontSize: "0.75em" }}>
-                            Formula: <b>{entity.formula}</b>
-                        </Typography>
-                    }
-                />
-            </ListItem>
+                    <ListItemText
+                        my={0}
+                        className="list-item-text"
+                        primary={
+                            <TextField
+                                className="list-item-text_primary"
+                                fullWidth
+                                variant="standard"
+                                size="small"
+                                onFocus={(e) => this.focusListItem(e, index)}
+                                value={isBeingEdited ? editedName : entity.name}
+                                onChange={(event) =>
+                                    this.setState({ editedName: event.target.value })
+                                }
+                                onBlur={this.blurListItem}
+                                InputProps={{
+                                    disableUnderline: !isBeingEdited,
+                                }}
+                            />
+                        }
+                        secondary={
+                            // TODO: avoid setting font size in sx and use theme variants instead
+                            <Typography variant="caption" sx={{ fontSize: "0.75em" }}>
+                                Formula: <b>{entity.formula}</b>
+                            </Typography>
+                        }
+                    />
+                </ListItem>
+            </Paper>
         );
     }
 
     render() {
         const { materials, index } = this.props;
         return (
-            <Grid item className="materials-designer-items-list" xs={12}>
-                <List component="nav" dense>
-                    {materials.map((m, i) => this.renderListItem(m, i, index))}
-                </List>
-            </Grid>
+            <List
+                sx={{
+                    // TODO: figure out why "dense" prop doesn't work and remove this
+                    paddingY: 0,
+                }}
+            >
+                {materials.map((m, i) => this.renderListItem(m, i, index))}
+            </List>
         );
     }
 }

@@ -1,10 +1,8 @@
 import Button from "@mui/material/Button";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import List from "@mui/material/List";
+import Menu from "@mui/material/Menu";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { ShowIf } from "../../../utils/react/showif";
 import { randomAlphanumeric } from "../../../utils/str";
 
 export class ButtonActivatedMenuMaterialUI extends React.Component {
@@ -12,12 +10,13 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
         super(props);
         this.state = {
             isOpen: props.isOpen,
+            anchorEl: null,
         };
     }
 
-    handleClick = () => {
+    handleClick = (event) => {
         const { isOpen } = this.state;
-        this.setState({ isOpen: !isOpen });
+        this.setState({ isOpen: !isOpen, anchorEl: event.currentTarget });
     };
 
     handleClose = () => this.setState({ isOpen: false });
@@ -26,30 +25,29 @@ export class ButtonActivatedMenuMaterialUI extends React.Component {
         const { isOpen, anchorEl } = this.state;
         const { title, id, children } = this.props;
         return (
-            <ClickAwayListener onClickAway={this.handleClose}>
-                <div>
-                    <Button
-                        className={isOpen ? "active" : ""}
-                        disableRipple
-                        onClick={this.handleClick}
-                        aria-owns={anchorEl ? id : null}
-                        aria-haspopup="true"
-                        data-name={title}
-                    >
-                        {title}
-                    </Button>
-                    <ShowIf condition={Boolean(isOpen)}>
-                        <List
-                            id={id}
-                            className="button-activated-menu"
-                            data-name={title + "-menu"}
-                            onClick={this.handleClose}
-                        >
-                            {children}
-                        </List>
-                    </ShowIf>
-                </div>
-            </ClickAwayListener>
+            <>
+                <Button
+                    className={isOpen ? "active" : ""}
+                    disableRipple
+                    size="small"
+                    color="inherit"
+                    onClick={this.handleClick}
+                    data-name={title}
+                >
+                    {title}
+                </Button>
+                <Menu
+                    MenuListProps={{ dense: true }}
+                    id={id}
+                    open={isOpen}
+                    anchorEl={anchorEl}
+                    className="button-activated-menu"
+                    data-name={title + "-menu"}
+                    onClick={this.handleClose}
+                >
+                    {children}
+                </Menu>
+            </>
         );
     }
 }
