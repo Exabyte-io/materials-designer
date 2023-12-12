@@ -1,3 +1,4 @@
+import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
 import React from "react";
 
@@ -9,7 +10,7 @@ const EditorSelectionInfo = function EditorSelectionInfo() {
             sx={{
                 textAlign: "center",
                 padding: 0,
-                borderTop: "1px solid",
+                borderTop: `1px solid ${theme.palette.grey[800]}`,
                 height: `${FOOTER_HEIGHT}px`,
             }}
         />
