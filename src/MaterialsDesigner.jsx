@@ -1,13 +1,13 @@
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import theme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
-import { StyledEngineProvider } from "@mui/material/styles";
+import ScopedCssBaseline from "@mui/material/ScopedCssBaseline";
 import setClass from "classnames";
 import { mix } from "mixwith";
 import PropTypes from "prop-types";
@@ -144,10 +144,12 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         const { isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen } =
             this.state;
         const gridConfig = this.getGridConfig();
+        const mainContainerHeightDirective = `calc(100vh - ${
+            APP_BAR_HEIGHT + FOOTER_HEIGHT - 8
+        }px)`; // 8px is the padding + borders
         return (
-            <StyledEngineProvider injectFirst>
-                <CssBaseline enableColorScheme />
-                <ThemeProvider theme={DarkMaterialUITheme}>
+            <ThemeProvider theme={DarkMaterialUITheme}>
+                <ScopedCssBaseline enableColorScheme>
                     <Paper id="materials-designer">
                         <AppBar position="static" className={setClass("", this.props.className)}>
                             {/* TODO: find out how to avoid passing material to header */}
@@ -184,14 +186,33 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 isVisibleItemsList={isVisibleItemsList}
                                 isVisibleSourceEditor={isVisibleSourceEditor}
                                 isVisibleThreeDEditorFullscreen={isVisibleThreeDEditorFullscreen}
-                            />
+                            >
+                                <IconButton
+                                    color="inherit"
+                                    edge="start"
+                                    disabled
+                                    disableFocusRipple
+                                    disableRipple
+                                    sx={{ mr: 1 }}
+                                >
+                                    <IconByName
+                                        size="large"
+                                        edge="start"
+                                        color="inherit"
+                                        name="entities.material"
+                                        sx={{ fontSize: "1.5rem" }}
+                                    />
+                                </IconButton>
+                            </HeaderMenuToolbar>
                         </AppBar>
                         <Box
                             component="main"
                             sx={{
                                 [theme.breakpoints.up("md")]: {
-                                    /* The extra 8px below is to account for the borders */
-                                    height: `calc(100vh - ${APP_BAR_HEIGHT + FOOTER_HEIGHT - 8}px)`,
+                                    height: mainContainerHeightDirective,
+                                },
+                                [theme.breakpoints.down("md")]: {
+                                    maxHeight: mainContainerHeightDirective,
                                 },
                                 overflowY: "auto",
                             }}
@@ -213,13 +234,20 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                             overflowY: "auto",
                                         }}
                                     >
-                                        <ItemsList
-                                            materials={this.props.materials}
-                                            index={this.props.index}
-                                            onItemClick={this.props.onItemClick}
-                                            onRemove={this.props.onRemove}
-                                            onNameUpdate={this.props.onNameUpdate}
-                                        />
+                                        <Grid
+                                            item
+                                            className="materials-designer-items-list"
+                                            xs={12}
+                                            mt={0.25}
+                                        >
+                                            <ItemsList
+                                                materials={this.props.materials}
+                                                index={this.props.index}
+                                                onItemClick={this.props.onItemClick}
+                                                onRemove={this.props.onRemove}
+                                                onNameUpdate={this.props.onNameUpdate}
+                                            />
+                                        </Grid>
                                     </Grid>
                                 )}
                                 {isVisibleSourceEditor && (
@@ -235,14 +263,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                         }}
                                         className="materials-designer-source-editor"
                                     >
-                                        <Grid item xs={12} mt={1}>
+                                        <Grid item xs={12} mt={0.25}>
                                             <LatticeEditor
                                                 material={this.props.material}
                                                 onUpdate={this.props.onUpdate}
                                             />
                                         </Grid>
-                                        <Divider />
-                                        <Grid item xs={12}>
+                                        <Grid item xs={12} mt={0.25}>
                                             <BasisEditor
                                                 material={this.props.material}
                                                 onUpdate={this.props.onUpdate}
@@ -252,7 +279,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 )}
                                 {isVisibleThreeDEditorFullscreen && (
                                     // eslint-disable-next-line react/jsx-props-no-spreading
-                                    <Grid item {...gridConfig[3]} mt={1}>
+                                    <Grid item {...gridConfig[3]} mt={0.25}>
                                         <ThreeDEditorFullscreen
                                             editable
                                             material={this.props.material}
@@ -278,8 +305,8 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                         <EditorSelectionInfo />
                         {this.renderDefaultImportModal()}
                     </Paper>
-                </ThemeProvider>
-            </StyledEngineProvider>
+                </ScopedCssBaseline>
+            </ThemeProvider>
         );
     }
 }
