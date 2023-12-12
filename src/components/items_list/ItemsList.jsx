@@ -149,11 +149,17 @@ class ItemsList extends React.Component {
                     primary={
                         <TextField
                             className="list-item-text_primary"
+                            fullWidth
+                            variant="standard"
                             size="small"
+                            autoFocus={isBeingEdited}
                             onFocus={(e) => this.focusListItem(e, index)}
                             value={isBeingEdited ? editedName : entity.name}
                             onChange={(event) => this.setState({ editedName: event.target.value })}
                             onBlur={this.blurListItem}
+                            InputProps={{
+                                disableUnderline: !isBeingEdited,
+                            }}
                         />
                     }
                     secondary={

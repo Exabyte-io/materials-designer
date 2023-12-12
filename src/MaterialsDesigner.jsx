@@ -197,7 +197,12 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                         item
                                         // eslint-disable-next-line react/jsx-props-no-spreading
                                         {...gridConfig[1]}
-                                        sx={{ borderRight: "1px solid" }}
+                                        sx={{
+                                            borderRight: "1px solid",
+                                            height: "100%",
+                                            width: "100%",
+                                            overflowY: "auto",
+                                        }}
                                     >
                                         <ItemsList
                                             materials={this.props.materials}
