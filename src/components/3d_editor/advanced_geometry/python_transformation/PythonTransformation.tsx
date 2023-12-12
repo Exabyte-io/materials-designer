@@ -251,7 +251,7 @@ class PythonTransformation extends React.Component<
                         id="python-transformation-dialog-content"
                         sx={{ height: "100%" }}
                     >
-                        <Grid item container xs={12} md={4} alignItems="center">
+                        <Grid item xs={12} md={4} alignItems="center">
                             <Typography variant="subtitle1">Select Source Code</Typography>
                         </Grid>
                         <Grid item xs={12} md={8}>
@@ -266,7 +266,7 @@ class PythonTransformation extends React.Component<
                                 }
                             />
                         </Grid>
-                        <Grid item container xs={12} md={4} alignItems="center">
+                        <Grid item xs={12} md={4} alignItems="center">
                             <Typography variant="subtitle1">
                                 Input Materials (<code>materials_in</code>)
                             </Typography>
@@ -318,7 +318,6 @@ class PythonTransformation extends React.Component<
                         >
                             <Paper
                                 sx={{
-                                    background: `1px solid ${theme.palette.grey[600]}`,
                                     height: "100%",
                                     overflowY: "auto",
                                 }}
