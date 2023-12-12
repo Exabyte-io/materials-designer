@@ -44,7 +44,7 @@ function ExecutionCell(props: ExecutionCellProps) {
     return (
         <Accordion defaultExpanded={defaultExpanded} onChange={handleAccordionChange} elevation={6}>
             <AccordionSummary expandIcon={<IconByName name="shapes.arrow.down" sx={{ m: 1 }} />}>
-                <Grid container>
+                <Grid container alignItems="center">
                     <Grid item xs={10}>
                         <Typography>{name}</Typography>
                     </Grid>
