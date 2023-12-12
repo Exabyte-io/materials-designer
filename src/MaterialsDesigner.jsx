@@ -14,13 +14,17 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
-import EditorSelectionInfo from "./components/3d_editor_selection_info/EditorSelectionInfo";
+import EditorSelectionInfo, {
+    FOOTER_HEIGHT,
+} from "./components/3d_editor_selection_info/EditorSelectionInfo";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
 import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
 import ItemsList from "./components/items_list/ItemsList";
 import BasisEditor from "./components/source_editor/Basis";
 import LatticeEditor from "./components/source_editor/Lattice";
 import { Material } from "./material";
+
+const APP_BAR_HEIGHT = 54;
 
 const GRID_CONFIG_BY_VISIBILITY = {
     // "111" means that all three components are visible
@@ -182,13 +186,17 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 isVisibleThreeDEditorFullscreen={isVisibleThreeDEditorFullscreen}
                             />
                         </AppBar>
-                        {/* Setting minHeight below to the same value as for 3d Viewer */}
                         <Box
                             component="main"
-                            sx={{ height: "calc(100vh - 100px)", overflowY: "auto" }}
+                            sx={{
+                                /* The extra 8px below is to account for the borders */
+                                height: `calc(100vh - ${APP_BAR_HEIGHT + FOOTER_HEIGHT - 8}px)`,
+                                overflowY: "auto",
+                            }}
                         >
                             <Grid
                                 container
+                                justifyContent="flex-start"
                                 id="materials-designer-container"
                                 sx={{ height: "100%" }}
                             >
@@ -200,7 +208,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                         sx={{
                                             borderRight: "1px solid",
                                             height: "100%",
-                                            width: "100%",
                                             overflowY: "auto",
                                         }}
                                     >
@@ -215,7 +222,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 )}
                                 {isVisibleSourceEditor && (
                                     <Grid
-                                        spacing={2}
                                         item
                                         // eslint-disable-next-line react/jsx-props-no-spreading
                                         {...gridConfig[2]}
@@ -265,12 +271,10 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                         />
                                     </Grid>
                                 )}
-                                <Grid item xs={12}>
-                                    <EditorSelectionInfo />
-                                </Grid>
                             </Grid>
-                            {this.renderDefaultImportModal()}
                         </Box>
+                        <EditorSelectionInfo />
+                        {this.renderDefaultImportModal()}
                     </Paper>
                 </ThemeProvider>
             </StyledEngineProvider>

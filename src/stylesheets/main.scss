@@ -1,5 +1,5 @@
 $header-height: 54px;
-$footer-height: 70px;
+$footer-height: 54px;
 .three-renderer {
   height: calc(100vh - $footer-height - $header-height);
 }
