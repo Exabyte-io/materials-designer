@@ -448,3 +448,8 @@ $source-editor-crystal-lattice-collapsed-height: 215px;
     // Assuming that `em` will pick up the font size of the MUI theme
     font-size: 0.8em;
 }
+
+#python-transformation-dialog code {
+    color: $white;
+    background-color: $exagray_semi-transparent;
+}
