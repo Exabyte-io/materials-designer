@@ -30,8 +30,8 @@ const GRID_CONFIG_BY_VISIBILITY = {
     // "111" means that all three components are visible
     "#111": {
         1: { xs: 12, md: 2.5, lg: 2, xl: 1.5 },
-        2: { xs: 12, md: 4.75, lg: 4.375, l: 4 },
-        3: { xs: 12, md: 4.75, lg: 5.625, l: 6.5 },
+        2: { xs: 12, md: 4.75, lg: 4.375, xl: 4 },
+        3: { xs: 12, md: 4.75, lg: 5.625, xl: 6.5 },
     },
     "#001": {
         1: { xs: 12 },
@@ -68,7 +68,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
     constructor(props) {
         super(props);
         this.state = {
-            isFullscreen: false,
             isVisibleItemsList: true,
             isVisibleSourceEditor: true,
             isVisibleThreeDEditorFullscreen: true,
@@ -106,10 +105,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                 .map((e) => Number(e))
                 .reduce((a, b) => a + b, 0) === 1
         );
-    };
-
-    toggleFullscreen = () => {
-        this.setState({ isFullscreen: !this.state.isFullscreen });
     };
 
     onSectionVisibilityToggle = (componentName) => {
@@ -158,8 +153,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 material={this.props.material}
                                 materials={this.props.materials}
                                 index={this.props.index}
-                                isFullscreen={this.state.isFullscreen}
-                                toggleFullscreen={this.toggleFullscreen}
                                 onUndo={this.props.onUndo}
                                 onRedo={this.props.onRedo}
                                 onReset={this.props.onReset}
