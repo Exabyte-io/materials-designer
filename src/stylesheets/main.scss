@@ -14,14 +14,14 @@ $crystal-lattice-accordion-height-with-borders: 56px;
   overflow-y: hidden;
   .cm-editor {
     // Assuming that `em` will pick up the font size of the MUI theme
-    font-size: 0.8em;
-    // The 30px is to account for the validation component, 10px is padding
+    font-size: 0.9em;
     max-height: calc(
             100vh - $footer-height - $header-height -
             $crystal-lattice-accordion-height-with-borders - $crystal-basis-accordion-header-with-button-group
     );
     resize: vertical;
     overflow-y: auto;
+
 
     .cm-scroller {
       min-height: calc(
