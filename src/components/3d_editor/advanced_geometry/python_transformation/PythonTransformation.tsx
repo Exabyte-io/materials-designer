@@ -134,12 +134,17 @@ class PythonTransformation extends React.Component<
                 executionStatus: ExecutionStatus.Ready,
                 output: pythonOutput,
             });
-        } catch (error: any) {
+        } catch (error: unknown) {
+            let errorMessage = "An unknown error occurred";
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+
             this.setState({ executionStatus: ExecutionStatus.Error });
             this.updateStateAtIndex(executionCells, sectionIndex, {
                 ...executionCells[sectionIndex],
                 executionStatus: ExecutionStatus.Error,
-                output: error.message + "\n",
+                output: errorMessage + "\n",
             });
         }
 
