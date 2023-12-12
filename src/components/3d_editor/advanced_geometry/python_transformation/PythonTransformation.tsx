@@ -1,7 +1,6 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
-import theme from "@exabyte-io/cove.js/dist/theme";
 import { Made } from "@exabyte-io/made.js";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
@@ -159,11 +158,10 @@ class PythonTransformation extends React.Component<
 
     executeAllExecutionCells = async () => {
         const { executionCells } = this.state;
-        // eslint-disable-next-line no-restricted-syntax
-        for (const [index] of executionCells.entries()) {
-            // eslint-disable-next-line no-await-in-loop
-            await this.executeSection(index);
-        }
+        await executionCells.reduce(async (previousPromise, _, index) => {
+            await previousPromise;
+            return this.executeSection(index);
+        }, Promise.resolve());
     };
 
     handleTransformationChange = (newPythonCode: string) => {
