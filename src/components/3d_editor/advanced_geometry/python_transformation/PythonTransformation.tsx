@@ -223,7 +223,7 @@ class PythonTransformation extends React.Component<
         this.setState({ executionCells: executionCellStates });
     };
 
-    mapToObject(map: Map<string, any>): PyodideDataMap {
+    mapToObject(map: Map<string, MapValue>): PyodideDataMap {
         const obj: PyodideDataMap = {};
         map.forEach((value, key) => {
             if (value instanceof Map) {
