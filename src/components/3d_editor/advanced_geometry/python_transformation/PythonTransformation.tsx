@@ -38,8 +38,10 @@ interface PythonTransformationState {
     executionCells: ExecutionCellState[];
 }
 
+type MapValue = string | number | Map<string, MapValue>;
+
 interface PyodideDataMap {
-    [key: string]: string | PyodideDataMap;
+    [key: string]: string | number | PyodideDataMap;
 }
 const SECTION_HEADER = "BLOCK";
 const SECTION_REGEX = new RegExp(
@@ -152,7 +154,7 @@ class PythonTransformation extends React.Component<
         try {
             const materials = result.get("materials_out").toJs();
             if (Array.isArray(materials)) {
-                const newMaterials = materials.map((m: any) => {
+                const newMaterials = materials.map((m: Map<string, MapValue>) => {
                     const material = this.mapToObject(m);
                     // material structure is returned in POSCAR format in python code
                     const config = Made.parsers.poscar.fromPoscar(material.poscar);
