@@ -7,7 +7,7 @@ export class ItemsListWidget extends Widget {
     selectors = {
         wrapper,
         nameInput: "input",
-        itemByIndex: (index: number) => `ul li:nth-of-type(${index})`,
+        itemByIndex: (index: number) => `ul>div:nth-of-type(${index}) li`,
         iconButtonDelete: ".icon-button-delete",
     };
 
