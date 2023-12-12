@@ -164,8 +164,12 @@ class PythonTransformation extends React.Component<
             } else {
                 throw new Error("Expected materials output, but none was found.");
             }
-        } catch (error: any) {
-            NPMsAlert.error(error.message);
+        } catch (error: unknown) {
+            let errorMessage = "An unknown error occurred";
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+            NPMsAlert.error(errorMessage);
         }
     };
 
