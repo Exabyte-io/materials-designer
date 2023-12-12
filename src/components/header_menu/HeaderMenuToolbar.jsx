@@ -229,28 +229,35 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Boundary Conditions
                 </MenuItem>
-                <MenuItem disabled hidden>
-                    <ListItemIcon>
-                        <PolymerIcon />
-                    </ListItemIcon>
-                    Polymer
-                </MenuItem>
-                <MenuItem disabled hidden>
-                    <ListItemIcon>
-                        <NanotubeIcon />
-                    </ListItemIcon>
-                    Nanotube
-                </MenuItem>
-                <MenuItem
-                    disabled
-                    hidden
-                    onClick={() => this.setState({ showPythonTransformation: true })}
-                >
-                    <ListItemIcon>
-                        <Terminal />
-                    </ListItemIcon>
-                    Python Transformation
-                </MenuItem>
+                {/* Hiding the below items until implemented */}
+                {false && (
+                    <MenuItem>
+                        <ListItemIcon>
+                            <PolymerIcon />
+                        </ListItemIcon>
+                        Polymer
+                    </MenuItem>
+                )}
+                {false && (
+                    <MenuItem>
+                        <ListItemIcon>
+                            <NanotubeIcon />
+                        </ListItemIcon>
+                        Nanotube
+                    </MenuItem>
+                )}
+                {false && (
+                    <MenuItem
+                        disabled
+                        hidden
+                        onClick={() => this.setState({ showPythonTransformation: true })}
+                    >
+                        <ListItemIcon>
+                            <Terminal />
+                        </ListItemIcon>
+                        Python Transformation
+                    </MenuItem>
+                )}
             </ButtonActivatedMenuMaterialUI>
         );
     }
