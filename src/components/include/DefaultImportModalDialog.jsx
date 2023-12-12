@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import React from "react";
@@ -140,6 +141,7 @@ class DefaultImportModalDialog extends React.Component {
         });
     }
 
+    // TODO: move to string utils in code.js
     formatDate = (date) => {
         const hours = date.getHours().toString().padStart(2, "0");
         const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -159,9 +161,9 @@ class DefaultImportModalDialog extends React.Component {
     };
 
     onSubmit = () => {
+        const { onClose } = this.props;
         this.handleSubmit();
-        // eslint-disable-next-line react/destructuring-assignment
-        this.props.onClose();
+        onClose();
     };
 
     render() {
@@ -207,21 +209,21 @@ class DefaultImportModalDialog extends React.Component {
             <Dialog
                 open={show}
                 id="defaultImportModalDialog"
-                title="Import Materials"
+                title="Upload Files"
                 onClose={onClose}
                 onSubmit={this.onSubmit}
             >
                 <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12}>
-                        {files.length > 0 && (
-                            <Button
-                                variant="outlined"
-                                data-name="upload-button"
-                                onClick={() => this.inputFileReaderRef.click()}
-                            >
-                                Upload more
-                            </Button>
-                        )}
+                    <Grid item xs={10}>
+                        <Typography>Supported formats: poscar, json.</Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button
+                            data-name="upload-button"
+                            onClick={() => this.inputFileReaderRef.click()}
+                        >
+                            Upload
+                        </Button>
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl variant="standard" sx={{ width: "100%" }}>
@@ -256,7 +258,6 @@ class DefaultImportModalDialog extends React.Component {
                                         </span>
                                     </Box>
                                 )}
-
                                 <input
                                     data-name="fileapi"
                                     ref={(ref) => {
@@ -283,5 +284,7 @@ DefaultImportModalDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
 };
+
+DefaultImportModalDialog.defaultProps = {};
 
 export default DefaultImportModalDialog;
