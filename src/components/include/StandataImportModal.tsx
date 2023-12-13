@@ -143,7 +143,7 @@ class StandataImportModal extends React.Component<
                             )}
                         />
                     </Grid>
-                    <Grid item xs={12} style={{ minHeight: 400 }}>
+                    <Grid item xs={12} style={{ minHeight: 300 }}>
                         <DataGrid
                             data-name="data-grid"
                             hideFooter

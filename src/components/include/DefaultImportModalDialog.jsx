@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
@@ -15,8 +16,7 @@ import NPMsAlert from "react-s-alert";
 import { Material } from "../../material";
 
 const dropZoneStyle = (dragging) => ({
-    height: "160px",
-    width: "100%",
+    height: 300,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -30,12 +30,6 @@ const dataGridStyle = (dragging) => ({
     backgroundColor: dragging && "grey",
 });
 
-const buttonContainerStyle = {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignContent: "flex-end",
-};
 class DefaultImportModalDialog extends React.Component {
     constructor(props) {
         super(props);
@@ -179,29 +173,44 @@ class DefaultImportModalDialog extends React.Component {
         }));
 
         const columns = [
-            { field: "fileName", headerName: "File Name", flex: 1 },
-            { field: "format", headerName: "Format", flex: 1 },
-            { field: "lastModified", headerName: "Last Modified", flex: 1 },
+            {
+                field: "fileName",
+                headerName: "File Name",
+                flex: 1,
+                headerAlign: "center",
+                align: "center",
+            },
+            {
+                field: "format",
+                headerName: "Format",
+                flex: 1,
+                headerAlign: "center",
+                align: "center",
+            },
+            {
+                field: "lastModified",
+                headerName: "Last Modified",
+                flex: 1,
+                headerAlign: "center",
+                align: "center",
+            },
             {
                 field: "actions",
                 headerName: "Actions",
                 flex: 1,
+                headerAlign: "center",
+                align: "center",
                 sortable: false,
                 filterable: false,
                 disableColumnMenu: true,
                 renderCell: (params) => (
-                    <div style={buttonContainerStyle}>
-                        <Button
-                            // Not to mess with CSS replace dots with dashes
-                            id={`${params.row.fileName.replace(/\./g, "-")}-remove-button`}
-                            variant="text"
-                            color="warning"
-                            size="small"
-                            onClick={() => this.handleFileRemove(params.row.fileName)}
-                        >
-                            Remove
-                        </Button>
-                    </div>
+                    <IconButton
+                        id={`${params.row.fileName.replace(/\s+/g, "-")}-remove-button`}
+                        color="inherit"
+                        onClick={() => this.handleFileRemove(params.row.fileName)}
+                    >
+                        <IconByName name="actions.remove" fontSize="small" />
+                    </IconButton>
                 ),
             },
         ];
@@ -246,6 +255,7 @@ class DefaultImportModalDialog extends React.Component {
                             >
                                 {files.length > 0 ? (
                                     <DataGrid
+                                        sx={{ minHeight: 300 }}
                                         data-name="datagrid"
                                         hideFooter
                                         rows={rows}
