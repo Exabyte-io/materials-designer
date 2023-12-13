@@ -163,12 +163,8 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 onExport={this.props.onExport}
                                 onSave={this.props.onSave}
                                 onExit={this.props.onExit}
-                                openImportModal={
-                                    this.props.openImportModal || this.openDefaultImportModal
-                                }
-                                closeImportModal={
-                                    this.props.closeImportModal || this.closeDefaultImportModal
-                                }
+                                openImportModal={this.props.openImportModal}
+                                closeImportModal={this.props.closeImportModal}
                                 openSaveActionDialog={this.props.openSaveActionDialog}
                                 onGenerateSupercell={this.props.onGenerateSupercell}
                                 onGenerateSurface={this.props.onGenerateSurface}
