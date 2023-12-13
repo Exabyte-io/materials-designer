@@ -75,15 +75,12 @@ class HeaderMenuToolbar extends React.Component {
         const { openSaveActionDialog, onExit, openImportModal } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
-                {openImportModal && (
-                    <MenuItem onClick={this.renderImportModal}>
-                        <ListItemIcon>
-                            <AddCircleIcon />
-                        </ListItemIcon>
-                        Import
-                    </MenuItem>
-                )}
-
+                <MenuItem disabled={!openImportModal} onClick={this.renderImportModal}>
+                    <ListItemIcon>
+                        <AddCircleIcon />
+                    </ListItemIcon>
+                    Import
+                </MenuItem>
                 <MenuItem onClick={() => this.setState({ showStandataImportModal: true })}>
                     <ListItemIcon>
                         <AddCircleIcon />

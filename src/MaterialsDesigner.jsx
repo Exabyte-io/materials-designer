@@ -18,7 +18,6 @@ import EditorSelectionInfo, {
     FOOTER_HEIGHT,
 } from "./components/3d_editor_selection_info/EditorSelectionInfo";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
-import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
 import ItemsList from "./components/items_list/ItemsList";
 import BasisEditor from "./components/source_editor/Basis";
 import LatticeEditor from "./components/source_editor/Lattice";
