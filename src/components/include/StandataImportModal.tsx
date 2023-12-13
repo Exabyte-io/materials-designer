@@ -5,7 +5,6 @@ import { Made } from "@exabyte-io/made.js";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import Autocomplete from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
-import Chip from "@mui/material/Chip";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";

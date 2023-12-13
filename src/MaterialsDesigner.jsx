@@ -2,7 +2,7 @@ import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName"
 import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import theme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
-// eslint-disable-next-line import/no-extraneous-dependencies
+// eslint-disable-next-line import/no-unresolved
 import data from "@exabyte-io/standata/lib/runtime_data/materials";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
