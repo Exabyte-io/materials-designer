@@ -6,7 +6,7 @@
         "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests-legacy/cucumber tests-legacy/cucumber",
-        "transpile": "babel --extensions '.js,.jsx,.ts,.tsx' --out-dir dist src; node-sass -r src/stylesheets -o dist/stylesheets",
+        "transpile": "tsc; node-sass -r src/stylesheets -o dist/stylesheets",
         "test": "bash run-tests.sh",
         "testsOnly": "bash run-tests.sh -s=true",
         "lint": "eslint src tests-legacy && prettier --write src tests-legacy",
