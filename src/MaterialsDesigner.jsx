@@ -120,21 +120,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         }
     };
 
-    renderDefaultImportModal = () => {
-        return this.state.importMaterialsDialogProps ? (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <DefaultImportModalDialog open {...this.state.importMaterialsDialogProps} />
-        ) : null;
-    };
-
-    openDefaultImportModal = (props) => {
-        this.setState({ importMaterialsDialogProps: props });
-    };
-
-    closeDefaultImportModal = () => {
-        this.setState({ importMaterialsDialogProps: null });
-    };
-
     render() {
         const { isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen } =
             this.state;
@@ -292,7 +277,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                             </Grid>
                         </Box>
                         <EditorSelectionInfo />
-                        {this.renderDefaultImportModal()}
                     </Paper>
                 </ScopedCssBaseline>
             </ThemeProvider>
