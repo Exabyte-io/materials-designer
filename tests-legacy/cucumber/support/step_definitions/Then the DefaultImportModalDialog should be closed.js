@@ -1,7 +1,7 @@
 import { materialDesignerPage } from "../widgets/material_designer_page";
 
 export default function () {
-    this.Then(/^the DefaultImportModalDialog should be closed$/, () => {
+    this.Then(/^the UploadDialog should be closed$/, () => {
         materialDesignerPage.designerWidget.defaultImportModalDialog.waitForDisappear();
     });
 }

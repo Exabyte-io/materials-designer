@@ -30,7 +30,7 @@ const dataGridStyle = (dragging) => ({
     backgroundColor: dragging && "grey",
 });
 
-class DefaultImportModalDialog extends React.Component {
+class UploadDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -308,12 +308,12 @@ class DefaultImportModalDialog extends React.Component {
     }
 }
 
-DefaultImportModalDialog.propTypes = {
+UploadDialog.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
 };
 
-DefaultImportModalDialog.defaultProps = {};
+UploadDialog.defaultProps = {};
 
-export default DefaultImportModalDialog;
+export default UploadDialog;

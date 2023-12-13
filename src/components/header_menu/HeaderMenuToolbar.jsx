@@ -43,9 +43,9 @@ import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBa
 import PythonTransformation from "../3d_editor/advanced_geometry/PythonTransformation";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
-import DefaultImportModalDialog from "../include/DefaultImportModalDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
 import StandataImportModal from "../include/StandataImportModal.tsx";
+import UploadDialog from "../include/UploadDialog";
 import ExportActionDialog from "./ExportActionDialog";
 
 class HeaderMenuToolbar extends React.Component {
@@ -442,7 +442,7 @@ class HeaderMenuToolbar extends React.Component {
                     defaultMaterialConfigs={defaultMaterialsSet}
                 />
 
-                <DefaultImportModalDialog
+                <UploadDialog
                     show={showDefaultImportModalDialog}
                     onClose={() => this.setState({ showDefaultImportModalDialog: false })}
                     onSubmit={(...args) => {
