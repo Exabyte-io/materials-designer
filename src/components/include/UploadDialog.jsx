@@ -205,7 +205,9 @@ class UploadDialog extends React.Component {
                 disableColumnMenu: true,
                 renderCell: (params) => (
                     <IconButton
-                        id={`${params.row.fileName.replace(/\s+/g, "-")}-remove-button`}
+                        id={`${params.row.fileName
+                            .replace(/\s+/g, "-")
+                            .replace(/\./g, "-")}-remove-button`}
                         color="inherit"
                         onClick={() => this.handleFileRemove(params.row.fileName)}
                     >

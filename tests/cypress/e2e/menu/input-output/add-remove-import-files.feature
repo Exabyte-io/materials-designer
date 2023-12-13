@@ -46,4 +46,4 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
     Then the UploadDialog should be closed
 
     # Reset
-    When I delete materials with index "2"
+    And I delete materials with index "2"
