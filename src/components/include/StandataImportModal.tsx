@@ -1,9 +1,13 @@
 import { MaterialSchema } from "@exabyte-io/code.js/dist/types";
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
+import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import Autocomplete from "@mui/material/Autocomplete";
-import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Chip from "@mui/material/Chip";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
@@ -16,7 +20,6 @@ interface StandataImportModalProps {
 }
 
 interface StandataImportModalState {
-    selectedMaterialConfig: MaterialSchema | null;
     selectedMaterialConfigs: MaterialSchema[];
 }
 
@@ -27,18 +30,14 @@ class StandataImportModal extends React.Component<
     constructor(props: StandataImportModalProps) {
         super(props);
         this.state = {
-            selectedMaterialConfig: null,
             selectedMaterialConfigs: [],
         };
     }
 
-    handleMaterialSelect = (materialConfig: MaterialSchema | null) => {
-        if (materialConfig) {
-            this.setState((prevState) => ({
-                selectedMaterialConfigs: [...prevState.selectedMaterialConfigs, materialConfig],
-                selectedMaterialConfig: null,
-            }));
-        }
+    handleMaterialSelect = (materialConfigs: MaterialSchema[] | []) => {
+        this.setState({
+            selectedMaterialConfigs: [...materialConfigs],
+        });
     };
 
     handleRemoveMaterial = (index: number) => {
@@ -59,33 +58,45 @@ class StandataImportModal extends React.Component<
 
     render() {
         const { show, onClose, defaultMaterialConfigs } = this.props;
-        const { selectedMaterialConfig, selectedMaterialConfigs } = this.state;
+        const { selectedMaterialConfigs } = this.state;
 
         const selectedMaterials = selectedMaterialConfigs.map(
             (config) => new Made.Material(config),
         );
 
         const columns: GridColDef[] = [
-            { field: "name", headerName: "Name", flex: 1 },
-            { field: "lattice", headerName: "Lattice", flex: 1 },
-            { field: "formula", headerName: "Formula", flex: 1 },
+            { field: "name", headerName: "Name", flex: 1, headerAlign: "center", align: "center" },
+            {
+                field: "lattice",
+                headerName: "Lattice",
+                flex: 1,
+                headerAlign: "center",
+                align: "center",
+            },
+            {
+                field: "formula",
+                headerName: "Formula",
+                flex: 1,
+                headerAlign: "center",
+                align: "center",
+            },
             {
                 field: "actions",
                 headerName: "Actions",
-                flex: 0.5,
+                headerAlign: "center",
+                align: "center",
+                flex: 1,
                 sortable: false,
                 filterable: false,
                 disableColumnMenu: true,
                 renderCell: (params) => (
-                    <Button
+                    <IconButton
                         id={`${params.row.name.replace(/\s+/g, "-")}-remove-button`}
-                        variant="text"
-                        color="warning"
-                        size="small"
+                        color="inherit"
                         onClick={() => this.handleRemoveMaterial(params.row.id)}
                     >
-                        Remove
-                    </Button>
+                        <IconByName name="actions.remove" fontSize="small" />
+                    </IconButton>
                 ),
             },
         ];
@@ -101,19 +112,38 @@ class StandataImportModal extends React.Component<
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Autocomplete
-                            disablePortal
-                            size="small"
+                            multiple
+                            id="materials-autocomplete"
+                            data-tid="materials-selector"
+                            disableCloseOnSelect
                             options={defaultMaterialConfigs || []}
-                            value={selectedMaterialConfig || null}
+                            value={selectedMaterialConfigs || null}
                             getOptionLabel={(material) => material.name || "Not available"}
-                            onChange={(event, newValue) => this.handleMaterialSelect(newValue)}
-                            renderInput={(params) => (
+                            onChange={(event, newValues) => this.handleMaterialSelect(newValues)}
+                            renderOption={(props, option, { selected }) => (
                                 // eslint-disable-next-line react/jsx-props-no-spreading
-                                <TextField {...params} label="Select Material" />
+                                <li {...props} data-tid="select-material">
+                                    <Checkbox
+                                        icon={<CheckBoxOutlineBlank fontSize="small" />}
+                                        checkedIcon={
+                                            <IconByName name="shapes.check" fontSize="small" />
+                                        }
+                                        checked={selected}
+                                    />
+                                    {option.name}
+                                </li>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    // eslint-disable-next-line react/jsx-props-no-spreading
+                                    {...params}
+                                    label="Selected Materials"
+                                    placeholder="Select materials"
+                                />
                             )}
                         />
                     </Grid>
-                    <Grid item xs={12} style={{ height: 400 }}>
+                    <Grid item xs={12} style={{ minHeight: 400 }}>
                         <DataGrid
                             data-name="data-grid"
                             hideFooter
