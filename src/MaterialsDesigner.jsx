@@ -168,11 +168,11 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                             >
                                 <IconButton
                                     color="inherit"
-                                    edge="start"
                                     disabled
+                                    edge="start"
                                     disableFocusRipple
                                     disableRipple
-                                    sx={{ mr: 1 }}
+                                    sx={{ mr: 0.75 }}
                                 >
                                     <IconByName
                                         size="large"
