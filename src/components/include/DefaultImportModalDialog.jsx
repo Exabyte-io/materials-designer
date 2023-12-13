@@ -229,17 +229,23 @@ class DefaultImportModalDialog extends React.Component {
                             <Stack
                                 direction="row"
                                 alignItems="center"
-                                justifyContent="space-between"
+                                justifyContent="flex-end"
+                                gap={1}
                             >
-                                <Typography variant="body2">
-                                    Supported formats: poscar, json.
-                                </Typography>
                                 <Button
                                     data-name="upload-button"
                                     variant="text"
                                     onClick={() => this.inputFileReaderRef.click()}
                                 >
                                     Upload more
+                                </Button>
+                                <Button
+                                    data-name="clear-button"
+                                    variant="text"
+                                    color="error"
+                                    onClick={() => this.setState({ files: [] })}
+                                >
+                                    Clear all
                                 </Button>
                             </Stack>
                         )}
