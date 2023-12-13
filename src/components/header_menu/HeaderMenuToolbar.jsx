@@ -1,4 +1,5 @@
 /* eslint-disable react/sort-comp */
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -69,15 +70,18 @@ class HeaderMenuToolbar extends React.Component {
     };
 
     renderIOMenu() {
-        const { openSaveActionDialog, onExit } = this.props;
+        const { openSaveActionDialog, onExit, openImportModal } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
-                <MenuItem>
-                    <ListItemIcon>
-                        <AddCircleIcon />
-                    </ListItemIcon>
-                    Import from Collection
-                </MenuItem>
+                {openImportModal && (
+                    <MenuItem onClick={this.renderImportModal}>
+                        <ListItemIcon>
+                            <AddCircleIcon />
+                        </ListItemIcon>
+                        Import
+                    </MenuItem>
+                )}
+
                 <MenuItem onClick={() => this.setState({ showStandataImportModal: true })}>
                     <ListItemIcon>
                         <AddCircleIcon />
@@ -86,7 +90,7 @@ class HeaderMenuToolbar extends React.Component {
                 </MenuItem>
                 <MenuItem onClick={this.renderImportModal}>
                     <ListItemIcon>
-                        <AddCircleIcon />
+                        <IconByName name="actions.upload" />
                     </ListItemIcon>
                     Upload from Disk
                 </MenuItem>
