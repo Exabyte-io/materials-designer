@@ -12,12 +12,13 @@ export class HeaderMenuWidget extends Widget {
         exabrowser.scrollAndClick(this._selectors.menuDialogByName(menuName));
     }
 
+    // eslint-disable-next-line class-methods-use-this
     selectMenuItem(menuName, itemNumber) {
         // retry due to animation
         retry(
             () => {
                 exabrowser.scrollAndClick(
-                    this._selectors.menuDialogItemByNumber(menuName, itemNumber),
+                    SELECTORS.headerMenu.menuDialogItemByNumber(menuName, itemNumber),
                 );
             },
             { retries: 5 },

@@ -4,7 +4,7 @@ export default function () {
     this.When(/^I open UploadDialog/, () => {
         materialDesignerPage.designerWidget.headerMenu.selectMenuItemByNameAndItemNumber(
             "Input/Output",
-            1,
+            3,
         );
     });
 }
