@@ -2,6 +2,8 @@ import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName"
 import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import theme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import data from "@exabyte-io/standata/lib/runtime_data/materials";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -13,6 +15,8 @@ import { mix } from "mixwith";
 import PropTypes from "prop-types";
 import React from "react";
 
+// TODO: use when converting to typescript
+// import {MaterialSchema} from "@exabyte-io/code.js/dist/types";
 import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
 import EditorSelectionInfo, {
     FOOTER_HEIGHT,
@@ -22,6 +26,8 @@ import ItemsList from "./components/items_list/ItemsList";
 import BasisEditor from "./components/source_editor/Basis";
 import LatticeEditor from "./components/source_editor/Lattice";
 import { Material } from "./material";
+
+const materialConfigs = Object.values(data.filesMapByName);
 
 const APP_BAR_HEIGHT = 54;
 
@@ -326,6 +332,10 @@ MaterialsDesigner.propTypes = {
     maxCombinatorialBasesCount: PropTypes.number,
     // eslint-disable-next-line react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array,
+};
+
+MaterialsDesigner.defaultProps = {
+    defaultMaterialsSet: materialConfigs,
 };
 
 export default MaterialsDesigner;
