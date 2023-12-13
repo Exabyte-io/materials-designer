@@ -62,12 +62,13 @@
         "@exabyte-io/made.js": "*",
         "@exabyte-io/code.js": "*",
         "@exabyte-io/cove.js": "*",
+        "@exabyte-io/standata": "*",
         "react": "^17.0.0",
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/code.js": "2023.12.1-0",
-        "@exabyte-io/cove.js": "2023.12.13-0",
+        "@exabyte-io/code.js": "2023.12.13-0",
+        "@exabyte-io/cove.js": "2023.12.13-1",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "2023.12.4-0",
         "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata",
