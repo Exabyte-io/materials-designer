@@ -44,7 +44,7 @@ import PythonTransformation from "../3d_editor/advanced_geometry/PythonTransform
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
-import StandataImportModal from "../include/StandataImportModal.tsx";
+import StandataImportModal from "../include/StandataImportModal";
 import UploadDialog from "../include/UploadDialog";
 import ExportActionDialog from "./ExportActionDialog";
 
