@@ -66,8 +66,8 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/code.js": "https://github.com/Exabyte-io/code.js#5f2114252b7bd08f6f76ca050f856839ee2f8a8c",
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js#e742955966554523cb0688f46cdab9b100e5d225",
+        "@exabyte-io/code.js": "2023.12.13-0",
+        "@exabyte-io/cove.js": "2023.12.13-0",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "2023.12.4-0",
         "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata",
