@@ -4,8 +4,8 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
     When I open materials designer page
     Then I see material designer page
     # Open
-    When I open DefaultImportModalDialog
-    Then I see DefaultImportModalDialog
+    When I open UploadDialog
+    Then I see UploadDialog
 
     # Upload
     When I upload files
@@ -38,12 +38,12 @@ Feature: User can upload files, remove them, submit them, or cancel dialog
     Then material with following data exists in state
       | path         | index   |
       | graphene.json| $INT{2} |
-    And the DefaultImportModalDialog should be closed
+    And the UploadDialog should be closed
 
     # Cancel
-    When I open DefaultImportModalDialog
+    When I open UploadDialog
     And I cancel import
-    Then the DefaultImportModalDialog should be closed
+    Then the UploadDialog should be closed
 
     # Reset
-    When I delete materials with index "2"
+    And I delete materials with index "2"

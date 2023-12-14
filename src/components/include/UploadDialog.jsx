@@ -1,11 +1,13 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
-import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import React from "react";
@@ -14,8 +16,7 @@ import NPMsAlert from "react-s-alert";
 import { Material } from "../../material";
 
 const dropZoneStyle = (dragging) => ({
-    height: "160px",
-    width: "100%",
+    height: 300,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -29,20 +30,12 @@ const dataGridStyle = (dragging) => ({
     backgroundColor: dragging && "grey",
 });
 
-const buttonContainerStyle = {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignContent: "flex-end",
-};
-class DefaultImportModalDialog extends React.Component {
+class UploadDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             files: [],
             dragging: false,
-            defaultMaterialsList: this.getDefaultMaterialsList() || [],
-            selectedMaterials: [],
         };
 
         this.reader = new FileReader();
@@ -143,13 +136,7 @@ class DefaultImportModalDialog extends React.Component {
         });
     }
 
-    getDefaultMaterialsList = () => {
-        const { defaultMaterialsSet } = this.props;
-        return defaultMaterialsSet.map((material) => {
-            return { label: material.name || "Not available", value: material };
-        });
-    };
-
+    // TODO: move to string utils in code.js
     formatDate = (date) => {
         const hours = date.getHours().toString().padStart(2, "0");
         const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -168,39 +155,15 @@ class DefaultImportModalDialog extends React.Component {
         }));
     };
 
-    addMaterialsAsJSONFile = () => {
-        const { selectedMaterials, files } = this.state;
-
-        if (!selectedMaterials.length) {
-            return;
-        }
-
-        const newFiles = selectedMaterials.map((selectedMaterial) => {
-            const config = selectedMaterial.value;
-            return {
-                id: config.id || files.length,
-                fileName: config.name || "Not available",
-                format: "json",
-                text: JSON.stringify(config) || "Not available",
-                lastModified: this.formatDate(new Date()),
-            };
-        });
-
-        this.setState({
-            files: [...newFiles, ...files],
-            selectedMaterials: [],
-        });
-    };
-
     onSubmit = () => {
+        const { onClose } = this.props;
         this.handleSubmit();
-        // eslint-disable-next-line react/destructuring-assignment
-        this.props.onClose();
+        onClose();
     };
 
     render() {
         const { show, onClose } = this.props;
-        const { files, dragging, selectedMaterials, defaultMaterialsList } = this.state;
+        const { files, dragging } = this.state;
 
         const rows = files.map((file, i) => ({
             id: i,
@@ -210,29 +173,46 @@ class DefaultImportModalDialog extends React.Component {
         }));
 
         const columns = [
-            { field: "fileName", headerName: "File Name", flex: 1 },
-            { field: "format", headerName: "Format", flex: 1 },
-            { field: "lastModified", headerName: "Last Modified", flex: 1 },
+            {
+                field: "fileName",
+                headerName: "File Name",
+                flex: 1,
+                headerAlign: "center",
+                align: "center",
+            },
+            {
+                field: "format",
+                headerName: "Format",
+                flex: 1,
+                headerAlign: "center",
+                align: "center",
+            },
+            {
+                field: "lastModified",
+                headerName: "Last Modified",
+                flex: 1,
+                headerAlign: "center",
+                align: "center",
+            },
             {
                 field: "actions",
                 headerName: "Actions",
                 flex: 1,
+                headerAlign: "center",
+                align: "center",
                 sortable: false,
                 filterable: false,
                 disableColumnMenu: true,
                 renderCell: (params) => (
-                    <div style={buttonContainerStyle}>
-                        <Button
-                            // Not to mess with CSS replace dots with dashes
-                            id={`${params.row.fileName.replace(/\./g, "-")}-remove-button`}
-                            variant="text"
-                            color="warning"
-                            size="small"
-                            onClick={() => this.handleFileRemove(params.row.fileName)}
-                        >
-                            Remove
-                        </Button>
-                    </div>
+                    <IconButton
+                        id={`${params.row.fileName
+                            .replace(/\s+/g, "-")
+                            .replace(/\./g, "-")}-remove-button`}
+                        color="inherit"
+                        onClick={() => this.handleFileRemove(params.row.fileName)}
+                    >
+                        <IconByName name="actions.remove" fontSize="small" />
+                    </IconButton>
                 ),
             },
         ];
@@ -241,49 +221,40 @@ class DefaultImportModalDialog extends React.Component {
             <Dialog
                 open={show}
                 id="defaultImportModalDialog"
-                title="Import Materials"
+                title="Upload Files"
                 onClose={onClose}
                 onSubmit={this.onSubmit}
             >
                 <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={8}>
-                        <Autocomplete
-                            disablePortal
-                            multiple
-                            renderInput={(params) => (
-                                // eslint-disable-next-line react/jsx-props-no-spreading
-                                <TextField {...params} label="Default set of Materials" />
-                            )}
-                            value={selectedMaterials}
-                            options={defaultMaterialsList}
-                            getOptionLabel={(option) => option.label}
-                            onChange={(event, value) => this.setState({ selectedMaterials: value })}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    this.addMaterialsAsJSONFile();
-                                }
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button
-                            onClick={this.addMaterialsAsJSONFile}
-                            disabled={!selectedMaterials.length}
-                        >
-                            Select
-                        </Button>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button
-                            data-name="upload-button"
-                            onClick={() => this.inputFileReaderRef.click()}
-                        >
-                            Upload
-                        </Button>
+                    <Grid item xs={12}>
+                        {files.length > 0 && (
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="flex-end"
+                                gap={1}
+                            >
+                                <Button
+                                    data-name="upload-button"
+                                    variant="text"
+                                    onClick={() => this.inputFileReaderRef.click()}
+                                >
+                                    Upload more
+                                </Button>
+                                <Button
+                                    data-name="clear-button"
+                                    variant="text"
+                                    color="error"
+                                    onClick={() => this.setState({ files: [] })}
+                                >
+                                    Clear all
+                                </Button>
+                            </Stack>
+                        )}
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl variant="standard" sx={{ width: "100%" }}>
-                            <div
+                            <Box
                                 id="dropzone"
                                 onDragOver={this.handleDragOver}
                                 onDragLeave={this.handleDragLeave}
@@ -292,6 +263,7 @@ class DefaultImportModalDialog extends React.Component {
                             >
                                 {files.length > 0 ? (
                                     <DataGrid
+                                        sx={{ minHeight: 300 }}
                                         data-name="datagrid"
                                         hideFooter
                                         rows={rows}
@@ -305,7 +277,16 @@ class DefaultImportModalDialog extends React.Component {
                                         style={dropZoneStyle(dragging)}
                                         onClick={() => this.inputFileReaderRef.click()}
                                     >
-                                        Drop files here or click to upload
+                                        <IconByName
+                                            name="entities.file.externalUpload"
+                                            fontSize="large"
+                                        />
+                                        <span>
+                                            Drop files here or <u>click</u> to upload
+                                        </span>
+                                        <Typography variant="body2">
+                                            Supported formats: poscar, json.
+                                        </Typography>
                                     </Box>
                                 )}
                                 <input
@@ -320,7 +301,7 @@ class DefaultImportModalDialog extends React.Component {
                                     multiple
                                     onChange={(event) => this.handleFileChange(event.target.files)}
                                 />
-                            </div>
+                            </Box>
                         </FormControl>
                     </Grid>
                 </Grid>
@@ -329,17 +310,12 @@ class DefaultImportModalDialog extends React.Component {
     }
 }
 
-DefaultImportModalDialog.propTypes = {
-    title: PropTypes.string.isRequired,
+UploadDialog.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    defaultMaterialsSet: PropTypes.array,
 };
 
-DefaultImportModalDialog.defaultProps = {
-    defaultMaterialsSet: [],
-};
+UploadDialog.defaultProps = {};
 
-export default DefaultImportModalDialog;
+export default UploadDialog;

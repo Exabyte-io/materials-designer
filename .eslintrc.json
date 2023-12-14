@@ -3,5 +3,12 @@
     "rules": {
         "jsx-a11y/label-has-associated-control": "off",
         "react/function-component-definition": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
     }
 }

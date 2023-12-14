@@ -1,4 +1,5 @@
 /* eslint-disable react/sort-comp */
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { ThreejsEditorModal } from "@exabyte-io/wave.js";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -43,6 +44,8 @@ import PythonTransformation from "../3d_editor/advanced_geometry/PythonTransform
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
+import StandataImportModal from "../include/StandataImportModal";
+import UploadDialog from "../include/UploadDialog";
 import ExportActionDialog from "./ExportActionDialog";
 
 class HeaderMenuToolbar extends React.Component {
@@ -52,6 +55,8 @@ class HeaderMenuToolbar extends React.Component {
             showSupercellDialog: false,
             showSurfaceDialog: false,
             showExportMaterialsDialog: false,
+            showStandataImportModal: false,
+            showDefaultImportModalDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
             showThreejsEditorModal: false,
@@ -67,14 +72,26 @@ class HeaderMenuToolbar extends React.Component {
     };
 
     renderIOMenu() {
-        const { openSaveActionDialog, onExit } = this.props;
+        const { openSaveActionDialog, onExit, openImportModal } = this.props;
         return (
             <ButtonActivatedMenuMaterialUI title="Input/Output">
-                <MenuItem onClick={this.renderImportModal}>
+                <MenuItem disabled={!openImportModal} onClick={this.renderImportModal}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
                     Import
+                </MenuItem>
+                <MenuItem onClick={() => this.setState({ showStandataImportModal: true })}>
+                    <ListItemIcon>
+                        <AddCircleIcon />
+                    </ListItemIcon>
+                    Import from Standata
+                </MenuItem>
+                <MenuItem onClick={() => this.setState({ showDefaultImportModalDialog: true })}>
+                    <ListItemIcon>
+                        <IconByName name="actions.upload" />
+                    </ListItemIcon>
+                    Upload from Disk
                 </MenuItem>
                 <MenuItem onClick={() => this.setState({ showExportMaterialsDialog: true })}>
                     <ListItemIcon>
@@ -350,6 +367,8 @@ class HeaderMenuToolbar extends React.Component {
             showExportMaterialsDialog,
             showInterpolateDialog,
             showPythonTransformation,
+            showStandataImportModal,
+            showDefaultImportModalDialog,
         } = this.state;
         const {
             children,
@@ -363,6 +382,7 @@ class HeaderMenuToolbar extends React.Component {
             onGenerateSurface,
             onSetBoundaryConditions,
             maxCombinatorialBasesCount,
+            defaultMaterialsSet,
         } = this.props;
         if (showThreejsEditorModal) return this.renderThreejsEditorModal();
 
@@ -409,6 +429,26 @@ class HeaderMenuToolbar extends React.Component {
                     modalId="ExportActionsModal"
                     onHide={() => this.setState({ showExportMaterialsDialog: false })}
                     onSubmit={onExport}
+                />
+
+                <StandataImportModal
+                    modalId="standataImportModalDialog"
+                    show={showStandataImportModal}
+                    onSubmit={(...args) => {
+                        onAdd(...args);
+                        this.setState({ showStandataImportModal: false });
+                    }}
+                    onClose={() => this.setState({ showStandataImportModal: false })}
+                    defaultMaterialConfigs={defaultMaterialsSet}
+                />
+
+                <UploadDialog
+                    show={showDefaultImportModalDialog}
+                    onClose={() => this.setState({ showDefaultImportModalDialog: false })}
+                    onSubmit={(...args) => {
+                        onAdd(...args);
+                        this.setState({ showDefaultImportModalDialog: false });
+                    }}
                 />
 
                 <CombinatorialBasisDialog
