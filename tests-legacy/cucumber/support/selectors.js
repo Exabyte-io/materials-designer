@@ -65,7 +65,7 @@ export const SELECTORS = {
     itemsList: {
         wrapper: ".materials-designer-items-list",
         nameInput: "input",
-        itemByIndex: (index) => `nav li:nth-of-type(${index})`,
+        itemByIndex: (index) => `ul>div:nth-of-type(${index}) li`,
         iconButtonDelete: ".icon-button-delete",
     },
     sourceEditor: {

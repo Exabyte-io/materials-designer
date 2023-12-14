@@ -1,8 +1,8 @@
-import CheckIcon from "@mui/icons-material/Check";
+import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
+import theme from "@exabyte-io/cove.js/dist/theme";
 import DeleteIcon from "@mui/icons-material/Delete";
-import DeviceHubIcon from "@mui/icons-material/DeviceHub";
-import WidgetsIcon from "@mui/icons-material/Widgets";
 import Avatar from "@mui/material/Avatar";
+import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -14,8 +14,6 @@ import Typography from "@mui/material/Typography";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
-
-import { ShowIf } from "../../utils/react/showif";
 
 class ItemsList extends React.Component {
     constructor(props) {
@@ -111,6 +109,8 @@ class ItemsList extends React.Component {
         const { editedIndex, editedName } = this.state;
         const isBeingEdited = editedIndex === index;
         const isBeingActive = index === indexFromState;
+        const dynamicIconColor = isBeingActive ? theme.palette.grey[300] : theme.palette.grey[900];
+        const neutralColor = theme.palette.grey[500];
         return (
             <Paper elevation={isBeingActive ? 8 : 2} key={name + "-" + index}>
                 <ListItem
@@ -129,7 +129,7 @@ class ItemsList extends React.Component {
                                 this.onDeleteIconClick(e, index);
                             }}
                         >
-                            <DeleteIcon />
+                            <DeleteIcon sx={{ color: neutralColor }} />
                         </IconButton>
                     }
                     sx={{
@@ -138,20 +138,51 @@ class ItemsList extends React.Component {
                     }}
                 >
                     <ListItemAvatar>
-                        <Avatar>
-                            <ShowIf condition={Boolean(entity.id)}>
-                                <IconButton className="list-item-icon superscript-icon">
-                                    <CheckIcon />
+                        <Badge
+                            overlap="circular"
+                            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                            badgeContent={
+                                entity.id ? (
+                                    <Avatar
+                                        variant="circular"
+                                        sx={{
+                                            width: 20,
+                                            height: 20,
+                                            border: `1px solid ${dynamicIconColor}`,
+                                            color: dynamicIconColor,
+                                        }}
+                                    >
+                                        <IconByName
+                                            sx={{ width: 14, height: 14 }}
+                                            name="actions.save"
+                                        />
+                                    </Avatar>
+                                ) : null
+                            }
+                        >
+                            <Avatar variant="circular">
+                                <IconButton
+                                    sx={{
+                                        color: dynamicIconColor,
+                                        ...(isBeingActive
+                                            ? { border: `1px solid ${dynamicIconColor}` }
+                                            : null),
+                                    }}
+                                >
+                                    <IconByName
+                                        name={
+                                            isNonPeriodic
+                                                ? "entities.material.nonPeriodic"
+                                                : "entities.material"
+                                        }
+                                    />
                                 </IconButton>
-                            </ShowIf>
-                            <IconButton className="list-item-icon non-periodic-icon">
-                                {isNonPeriodic ? <DeviceHubIcon /> : <WidgetsIcon />}
-                            </IconButton>
-                        </Avatar>
+                            </Avatar>
+                        </Badge>
                     </ListItemAvatar>
 
                     <ListItemText
-                        my={0}
+                        sx={{ my: 0.25, color: isBeingActive ? "inherit" : neutralColor }}
                         className="list-item-text"
                         primary={
                             <TextField
@@ -167,13 +198,14 @@ class ItemsList extends React.Component {
                                 onBlur={this.blurListItem}
                                 InputProps={{
                                     disableUnderline: !isBeingEdited,
+                                    style: { color: "inherit" },
                                 }}
                             />
                         }
                         secondary={
                             // TODO: avoid setting font size in sx and use theme variants instead
-                            <Typography variant="caption" sx={{ fontSize: "0.75em" }}>
-                                Formula: <b>{entity.formula}</b>
+                            <Typography variant="caption" sx={{ fontSize: "0.8em" }}>
+                                Formula: <code>{entity.formula}</code>
                             </Typography>
                         }
                     />

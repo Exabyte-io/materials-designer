@@ -2,6 +2,8 @@ import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName"
 import FullscreenComponentMixin from "@exabyte-io/cove.js/dist/other/fullscreen";
 import theme, { DarkMaterialUITheme } from "@exabyte-io/cove.js/dist/theme";
 import ThemeProvider from "@exabyte-io/cove.js/dist/theme/provider";
+// eslint-disable-next-line import/no-unresolved
+import data from "@exabyte-io/standata/lib/runtime_data/materials";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -13,16 +15,19 @@ import { mix } from "mixwith";
 import PropTypes from "prop-types";
 import React from "react";
 
+// TODO: use when converting to typescript
+// import {MaterialSchema} from "@exabyte-io/code.js/dist/types";
 import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
 import EditorSelectionInfo, {
     FOOTER_HEIGHT,
 } from "./components/3d_editor_selection_info/EditorSelectionInfo";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
-import DefaultImportModalDialog from "./components/include/DefaultImportModalDialog";
 import ItemsList from "./components/items_list/ItemsList";
 import BasisEditor from "./components/source_editor/Basis";
 import LatticeEditor from "./components/source_editor/Lattice";
 import { Material } from "./material";
+
+const materialConfigs = Object.values(data.filesMapByName);
 
 const APP_BAR_HEIGHT = 54;
 
@@ -120,21 +125,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         }
     };
 
-    renderDefaultImportModal = () => {
-        return this.state.importMaterialsDialogProps ? (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <DefaultImportModalDialog open {...this.state.importMaterialsDialogProps} />
-        ) : null;
-    };
-
-    openDefaultImportModal = (props) => {
-        this.setState({ importMaterialsDialogProps: props });
-    };
-
-    closeDefaultImportModal = () => {
-        this.setState({ importMaterialsDialogProps: null });
-    };
-
     render() {
         const { isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen } =
             this.state;
@@ -163,12 +153,8 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 onExport={this.props.onExport}
                                 onSave={this.props.onSave}
                                 onExit={this.props.onExit}
-                                openImportModal={
-                                    this.props.openImportModal || this.openDefaultImportModal
-                                }
-                                closeImportModal={
-                                    this.props.closeImportModal || this.closeDefaultImportModal
-                                }
+                                openImportModal={this.props.openImportModal}
+                                closeImportModal={this.props.closeImportModal}
                                 openSaveActionDialog={this.props.openSaveActionDialog}
                                 onGenerateSupercell={this.props.onGenerateSupercell}
                                 onGenerateSurface={this.props.onGenerateSurface}
@@ -182,11 +168,11 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                             >
                                 <IconButton
                                     color="inherit"
-                                    edge="start"
                                     disabled
+                                    edge="start"
                                     disableFocusRipple
                                     disableRipple
-                                    sx={{ mr: 1 }}
+                                    sx={{ mr: 0.75 }}
                                 >
                                     <IconByName
                                         size="large"
@@ -296,7 +282,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                             </Grid>
                         </Box>
                         <EditorSelectionInfo />
-                        {this.renderDefaultImportModal()}
                     </Paper>
                 </ScopedCssBaseline>
             </ThemeProvider>
@@ -347,6 +332,10 @@ MaterialsDesigner.propTypes = {
     maxCombinatorialBasesCount: PropTypes.number,
     // eslint-disable-next-line react/forbid-prop-types
     defaultMaterialsSet: PropTypes.array,
+};
+
+MaterialsDesigner.defaultProps = {
+    defaultMaterialsSet: materialConfigs,
 };
 
 export default MaterialsDesigner;
