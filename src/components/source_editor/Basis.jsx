@@ -1,5 +1,4 @@
 /* eslint-disable react/sort-comp */
-import theme from "@exabyte-io/cove.js/dist/theme";
 import { Made } from "@exabyte-io/made.js";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
@@ -13,6 +12,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import s from "underscore.string";
 
+import { theme } from "../../settings";
 import BasisText from "./BasisText";
 
 class BasisEditor extends React.Component {
