@@ -1,5 +1,4 @@
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
-import theme from "@exabyte-io/cove.js/dist/theme";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
@@ -14,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
+
+import { theme } from "../../settings";
 
 class ItemsList extends React.Component {
     constructor(props) {

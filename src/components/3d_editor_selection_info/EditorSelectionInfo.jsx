@@ -1,6 +1,7 @@
-import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
 import React from "react";
+
+import { theme } from "../../settings";
 
 export const FOOTER_HEIGHT = 54;
 

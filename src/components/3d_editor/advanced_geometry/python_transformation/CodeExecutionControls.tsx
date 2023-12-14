@@ -1,11 +1,12 @@
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
-import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
 import Button, { ButtonProps } from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import React from "react";
+
+import { theme } from "../../../../settings";
 
 export enum ExecutionStatus {
     Idle = "idle",
@@ -55,13 +56,11 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
         },
         [ExecutionStatus.Loading]: {
             disabled: true,
-            indicator: (
-                <CircularProgress color="secondary" size={theme.typography.button.fontSize} />
-            ),
+            indicator: <CircularProgress color="secondary" />,
         },
         [ExecutionStatus.Running]: {
             disabled: true,
-            indicator: <CircularProgress color="success" size={theme.typography.button.fontSize} />,
+            indicator: <CircularProgress color="success" />,
         },
         [ExecutionStatus.Ready]: {
             disabled: false,

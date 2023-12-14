@@ -2,6 +2,7 @@ import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import PyodideLoader from "@exabyte-io/cove.js/dist/other/pyodide";
 import { Made } from "@exabyte-io/made.js";
+import { darkScrollbar } from "@mui/material";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
@@ -11,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import NPMsAlert from "react-s-alert";
 
+import { theme } from "../../../../settings";
 import { exportToDisk } from "../../../../utils/downloader";
 import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
 import ExecutionCell, { ExecutionCellState } from "./ExecutionCell";
@@ -259,9 +261,17 @@ class PythonTransformation extends React.Component<
                 isSubmitButtonDisabled={executionStatus !== ExecutionStatus.Ready}
             >
                 <PyodideLoader onLoad={this.onPyodideLoad} triggerLoad={show} />
-                {/* TODO: move the full-height dialog with padding to cove */}
-                {/* Note: the 220px below is the sum of dialog margin top/bottom + header/footer */}
-                <DialogContent sx={{ height: "calc(100vh - 220px)" }}>
+                {/*
+                    TODO: (1) move the full-height dialog with padding to cove; (2) figure how to avoid using
+                    dark scrolbar explicitly below (circa 2023-12-13 using CSSBaseLine did not work).
+                    NOTE: the 220px below is the sum of dialog margin top/bottom + header/footer
+                */}
+                <DialogContent
+                    sx={{
+                        height: "calc(100vh - 260px)",
+                        ...(theme.palette.mode === "dark" ? darkScrollbar() : null),
+                    }}
+                >
                     <Grid
                         container
                         spacing={2}

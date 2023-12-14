@@ -1,11 +1,12 @@
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror";
-import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import React from "react";
+
+import { theme } from "../../../../settings";
 
 interface PythonCodeDisplayProps {
     name?: string;
