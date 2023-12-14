@@ -5,6 +5,7 @@ import DefaultImportModalDialogWidget from "./DefaultImportModalDialogWidget";
 import HeaderMenuWidget from "./HeaderMenuWidget";
 import { InterpolatedSetDialogWidget } from "./InterpolatedSetDialogWidget";
 import { ItemsListWidget } from "./ItemsListWidget";
+import PythonTransformationDialogWidget from "./PythonTransformationDialogWidget";
 import { SourceEditorWidget } from "./SourceEditorWidget";
 import { SupercellDialogWidget } from "./SupercellDialogWidget";
 import SurfaceDialogWidget, { SurfaceConfig } from "./SurfaceDialogWidget";
@@ -30,6 +31,8 @@ export default class MaterialDesignerWidget extends Widget {
 
     defaultImportModalDialog: DefaultImportModalDialogWidget;
 
+    pythonTransformationDialog: PythonTransformationDialogWidget;
+
     constructor(selector: string) {
         super(selector);
         this.itemsList = new ItemsListWidget();
@@ -41,6 +44,7 @@ export default class MaterialDesignerWidget extends Widget {
         this.boundaryConditionsDialog = new BoundaryConditionsDialogWidget();
         this.interpolatedSetDialog = new InterpolatedSetDialogWidget();
         this.defaultImportModalDialog = new DefaultImportModalDialogWidget();
+        this.pythonTransformationDialog = new PythonTransformationDialogWidget();
     }
 
     openSurfaceDialog() {
