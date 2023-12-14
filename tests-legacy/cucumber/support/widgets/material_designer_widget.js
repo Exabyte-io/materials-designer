@@ -40,7 +40,7 @@ export class MaterialDesignerWidget extends Widget {
     }
 
     openSaveDialog() {
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 3);
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 5);
     }
 
     openImportModal() {
