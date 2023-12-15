@@ -56,11 +56,13 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
         },
         [ExecutionStatus.Loading]: {
             disabled: true,
-            indicator: <CircularProgress color="secondary" />,
+            indicator: (
+                <CircularProgress color="secondary" size={theme.typography.button.fontSize} />
+            ),
         },
         [ExecutionStatus.Running]: {
             disabled: true,
-            indicator: <CircularProgress color="success" />,
+            indicator: <CircularProgress color="success" size={theme.typography.button.fontSize} />,
         },
         [ExecutionStatus.Ready]: {
             disabled: false,
