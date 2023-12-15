@@ -11,7 +11,7 @@
         "testsOnly": "bash run-tests.sh -s=true",
         "lint": "eslint src tests-legacy && prettier --write src tests-legacy",
         "lint:fix": "eslint src tests-legacy --fix && prettier --write src tests-legacy",
-        "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react",
+        "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react; npm-link-shared ./node_modules/@exabyte-io/wave.js/node_modules . react",
         "postinstall": "npm run transpile; npm run transpile-tests",
         "prettier": "prettier --check src tests"
     },
@@ -33,7 +33,7 @@
         "@babel/runtime-corejs2": "7.16.7",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
-        "@exabyte-io/wave.js": "2023.12.12-0",
+        "@exabyte-io/wave.js": "2023.12.15-0",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
