@@ -59,11 +59,11 @@ class Browser {
         });
     }
 
-    geInputValue(selector: string) {
+    getInputValue(selector: string) {
         return cy.get(selector).invoke("val");
     }
 
-    geInputValueByXpath(path: string) {
+    getInputValueByXpath(path: string) {
         return cy.xpath(path).invoke("val");
     }
 

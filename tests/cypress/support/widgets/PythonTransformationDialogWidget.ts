@@ -47,7 +47,7 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     getPythonOutput(id = 0) {
-        return browser.geInputValue(selectors.pythonOutput(id));
+        return browser.getInputValue(selectors.pythonOutput(id));
     }
 
     clearOutput(id = 0) {

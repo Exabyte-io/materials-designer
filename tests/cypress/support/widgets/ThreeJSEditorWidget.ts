@@ -119,7 +119,7 @@ export class ThreeJSEditorWidget extends Widget {
     validateSceneObjectPosition(expectedPosition: number[]) {
         for (let i = 1; i <= 3; i++) {
             browser
-                .geInputValueByXpath(this.selectors.sceneObjectPositionByIndex(i))
+                .getInputValueByXpath(this.selectors.sceneObjectPositionByIndex(i))
                 // eslint-disable-next-line no-loop-func
                 .should((value: string) => {
                     expect(Number(value)).to.equal(expectedPosition[i - 1]);
