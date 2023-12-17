@@ -58,4 +58,14 @@ export default class PythonTransformationDialogWidget extends Widget {
         browser.click(this.wrappedSelectors.runButton);
         browser.waitForVisible(this.wrappedSelectors.pythonOutput(id));
     }
+
+    cancel() {
+        browser.click(this.wrappedSelectors.cancelButton);
+        browser.waitForDisappear(this.wrappedSelectors.dialog);
+    }
+
+    submit() {
+        browser.click(this.wrappedSelectors.submitButton);
+        browser.waitForDisappear(this.wrappedSelectors.dialog);
+    }
 }
