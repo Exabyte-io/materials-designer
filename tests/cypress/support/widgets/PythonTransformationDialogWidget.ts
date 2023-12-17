@@ -38,7 +38,12 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     getCode(id = 0) {
-        return browser.geInputValue(this.wrappedSelectors.codeInput(id));
+        return browser.execute((win) => {
+            const element = win.document.getElementById(selectors.pythonOutput(id));
+            return element
+                ?.getElementsByClassName("cm-content")[0]
+                .cmView.editorView.state.doc.toString();
+        });
     }
 
     getPythonOutput(id = 0) {

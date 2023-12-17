@@ -10,7 +10,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Then I see PythonTransformationDialog
 
     # Change code
-    Then I select transformation with title "Custom Transformation (Empty)"
+    When I select transformation with title "Custom Transformation (Empty)"
     When I set code input with the following data
     """
     print('Hello Matera!')
@@ -18,7 +18,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
 
     # Run
     When I run all code
-    Then I see code output with the following data:
+    Then I see code output with the following data
     """
     Hello Matera!
     """

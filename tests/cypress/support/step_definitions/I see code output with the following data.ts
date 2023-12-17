@@ -1,12 +1,13 @@
 import { Then } from "@badeball/cypress-cucumber-preprocessor";
-import { deepEqual } from "assert";
 
+import { shallowDeepAlmostEqual } from "../utils";
 import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
 
 Then("I see code output with the following data", (docString: string) => {
     const { pythonTransformationDialog } = materialDesignerPage.designerWidget;
-    const content = pythonTransformationDialog.getPythonOutput(0).then((content) => {
-        if (typeof content === "string") content.trim();
+    console.log("docString", docString);
+    // Using Cypress commands to handle the promise returned by getPythonOutput
+    pythonTransformationDialog.getCode(0).then((actualContent) => {
+        shallowDeepAlmostEqual(docString, actualContent);
     });
-    deepEqual(content, docString);
 });
