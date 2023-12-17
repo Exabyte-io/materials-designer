@@ -10,14 +10,14 @@ Feature: User can open Python Transformation dialog, change python code and run 
     Then I see PythonTransformationDialog
 
     # Change code
-    Then I select transformation with title "Custom Transformation"
-    When I set code input with the following data:
+    Then I select transformation with title "Custom Transformation (Empty)"
+    When I set code input with the following data
     """
     print('Hello Matera!')
     """
 
     # Run
-    When I click the Run button
+    When I run all code
     Then I see code output with the following data:
     """
     Hello Matera!
@@ -37,7 +37,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
     And I select material with index "1" in MaterialsSelector
     And I set code input from the file "../fixtures/create-slab.py"
 
-    And I click the Run button
+    And I run all code
     Then I see code output with the data from the file "../fixtures/ni-slab.poscar"
     And I clear the output with index "0"
     And I submit python transformation
@@ -53,10 +53,10 @@ Feature: User can open Python Transformation dialog, change python code and run 
     | Graphene | C 0 0 0; C 0.333333 0.666667 0  | {"type":"HEX", "a":2.467291, "b":2.467291, "c":20 } |
     And I open PythonTransformationDialog
     And I see PythonTransformationDialog
-    And I select transformation with title "Custom Transformation"
+    And I select transformation with title "Custom Transformation (Empty)"
     And I select material with index "2" in MaterialsSelector
     And I set code input from the file "../fixtures/create-interface.py"
-    And I click the Run button
+    And I run all code
     Then I see code output with the data from the file "../fixtures/gr-ni-interface.poscar"
     And I clear the output with index "0"
 

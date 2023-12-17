@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowJs": true,
     "module": "esNext",
     "moduleResolution": "node",
@@ -15,7 +15,16 @@
     "skipLibCheck": true,
     "types": [],
     "rootDir": "./src",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "include": [
     "./src"

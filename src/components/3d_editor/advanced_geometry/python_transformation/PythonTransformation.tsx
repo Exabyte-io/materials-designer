@@ -319,6 +319,7 @@ class PythonTransformation extends React.Component<
                                 </Button>
                                 <CodeExecutionControls
                                     buttonProps={{
+                                        id: "all",
                                         title: "Run All",
                                         variant: "contained",
                                         color: "primary",

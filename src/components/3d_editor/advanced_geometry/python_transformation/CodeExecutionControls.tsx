@@ -6,8 +6,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
-import { theme } from "../../../../settings";
-
 export enum ExecutionStatus {
     Idle = "idle",
     Loading = "loading",
@@ -24,7 +22,7 @@ interface CodeExecutionControlsProps {
 
 function CodeExecutionControls(props: CodeExecutionControlsProps) {
     const {
-        buttonProps = { title: "Run", variant: "outlined" },
+        buttonProps = { id: "run", title: "Run", variant: "outlined" },
         handleRun,
         executionStatus,
     } = props;
@@ -82,6 +80,7 @@ function CodeExecutionControls(props: CodeExecutionControlsProps) {
                 {statusIndicator[executionStatus]}
             </Box>
             <Button
+                id={`run-button-${buttonProps.id}`}
                 className="run-button"
                 variant={buttonProps.variant}
                 size="small"

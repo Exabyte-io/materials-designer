@@ -8,14 +8,14 @@ export class PythonTransformationDialogWidget extends Widget {
     }
 
     selectMaterialByIndex(index) {
-        exabrowser.scrollAndClick(this.selectors.materialsSelector);
+        exabrowser.scrollAndClick(this.wrappedSelectors.materialsSelector);
         exabrowser.scrollAndClick(
             SELECTORS.headerMenu.pythonTransformationDialog.materialsSelectorItem(index),
         );
     }
 
     selectDropdownItemByTitle(title) {
-        exabrowser.scrollAndClick(this.selectors.transformationSelector);
+        exabrowser.scrollAndClick(this.wrappedSelectors.transformationSelector);
         exabrowser.scrollAndClick(
             SELECTORS.headerMenu.pythonTransformationDialog.transformationSelectorItem(title),
         );
@@ -57,20 +57,20 @@ export class PythonTransformationDialogWidget extends Widget {
     }
 
     run() {
-        exabrowser.waitForClickable(this.selectors.runButton, 20000);
-        exabrowser.scrollAndClick(this.selectors.runButton);
-        exabrowser.waitForClickable(this.selectors.runButton, 20000);
+        exabrowser.waitForClickable(this.wrappedSelectors.runButton, 20000);
+        exabrowser.scrollAndClick(this.wrappedSelectors.runButton);
+        exabrowser.waitForClickable(this.wrappedSelectors.runButton, 20000);
     }
 
     clearOutput(index) {
-        exabrowser.scrollAndClick(this.selectors.clearOutputButton(index));
+        exabrowser.scrollAndClick(this.wrappedSelectors.clearOutputButton(index));
     }
 
     submit() {
-        exabrowser.scrollAndClick(this.selectors.submitButton);
+        exabrowser.scrollAndClick(this.wrappedSelectors.submitButton);
     }
 
     cancel() {
-        exabrowser.scrollAndClick(this.selectors.cancelButton);
+        exabrowser.scrollAndClick(this.wrappedSelectors.cancelButton);
     }
 }
