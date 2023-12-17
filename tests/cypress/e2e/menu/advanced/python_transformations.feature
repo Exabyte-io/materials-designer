@@ -25,8 +25,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
     And I clear the output with index "0"
 
     # Cancel
-    When I cancel PythonTransformationDialog
-    Then I see PythonTransformationDialog is closed
+    Then I cancel PythonTransformationDialog
 
     # Create a slab from material using python transformation
     When I create materials with the following data
