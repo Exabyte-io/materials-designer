@@ -1,11 +1,12 @@
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
-import theme from "@exabyte-io/cove.js/dist/theme";
 import Box from "@mui/material/Box";
 import Button, { ButtonProps } from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import React from "react";
+
+import { theme } from "../../../../settings";
 
 export enum ExecutionStatus {
     Idle = "idle",
