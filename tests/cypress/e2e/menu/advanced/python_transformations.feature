@@ -13,14 +13,14 @@ Feature: User can open Python Transformation dialog, change python code and run 
     When I select transformation with title "Custom Transformation (Empty)"
     When I set code input with the following data
     """
-    print('Hello Matera!')
+    print('Hello Mat3ra!')
     """
 
     # Run
     When I run all code
     Then I see code output with the following data
     """
-    Hello Matera!
+    Hello Mat3ra!
     """
     And I clear the output with index "0"
 
