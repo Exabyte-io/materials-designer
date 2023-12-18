@@ -29,8 +29,8 @@ Feature: User can open Python Transformation dialog, change python code and run 
 
     # Create a slab from material using python transformation
     When I create materials with the following data
-    | name  | basis    | lattice                                       |
-    | Ni    | Ni 0 0 0 | {"type":"FCC", "a":2.46, "b":2.46, "c":2.46 } |
+      | name | basis    | lattice                                       |
+      | Ni   | Ni 0 0 0 | {"type":"FCC", "a":2.46, "b":2.46, "c":2.46 } |
     And I open PythonTransformationDialog
     And I see PythonTransformationDialog
     And I select material with index "1" in MaterialsSelector
@@ -41,15 +41,15 @@ Feature: User can open Python Transformation dialog, change python code and run 
     And I clear the output with index "0"
     And I submit python transformation
     Then material with following data exists in state
-    | path         | index   |
-    | ni-slab.json | $INT{2} |
+      | path         | index   |
+      | ni-slab.json | $INT{2} |
 
     # Create an interface between Gr and Ni(111)
     When I delete materials with index "2"
     When I create materials with the following data
-    | name     | basis                           | lattice                                       |
-    | Ni       | Ni 0 0 0                        | {"type":"FCC", "a":2.46, "b":2.46, "c":2.46 } |
-    | Graphene | C 0 0 0; C 0.333333 0.666667 0  | {"type":"HEX", "a":2.467291, "b":2.467291, "c":20 } |
+      | name     | basis                          | lattice                                             |
+      | Ni       | Ni 0 0 0                       | {"type":"FCC", "a":2.46, "b":2.46, "c":2.46 }       |
+      | Graphene | C 0 0 0; C 0.333333 0.666667 0 | {"type":"HEX", "a":2.467291, "b":2.467291, "c":20 } |
     And I open PythonTransformationDialog
     And I see PythonTransformationDialog
     And I select transformation with title "Custom Transformation (Empty)"
@@ -61,5 +61,5 @@ Feature: User can open Python Transformation dialog, change python code and run 
 
     When I submit python transformation
     Then material with following data exists in state
-    | path               | index   |
-    |gr-ni-interface.json| $INT{3} |
+      | path                 | index   |
+      | gr-ni-interface.json | $INT{3} |
