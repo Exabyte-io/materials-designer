@@ -1,5 +1,6 @@
 import browser from "../browser";
 import Widget from "./Widget";
+import AUTWindow = Cypress.AUTWindow;
 
 const selectors = {
     wrapper: "#python-transformation-dialog",
@@ -9,7 +10,7 @@ const selectors = {
     transformationSelector: "[data-tid='transformation-selector']",
     transformationSelectorItem: (title: string) => `li:contains("${title}")`,
     codeInput: (id = 0) => `#python-code-input-${id}`,
-    pythonOutput: (id = 0) => `#python-output-${id}`,
+    pythonOutput: (id = 0, omitHashtag = false) => `${omitHashtag ? "" : "#"}python-output-${id}`,
     clearOutputButton: (id = 0) => `#clear-output-${id}`,
     runButton: `#run-button-all`,
     submitButton: `#python-transformation-dialog-submit-button`,
@@ -38,11 +39,12 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     getCode(id = 0) {
-        return browser.execute((win) => {
-            const element = win.document.getElementById(selectors.pythonOutput(id));
+        return browser.execute((win: AUTWindow) => {
+            const { document } = win;
+            const element = document.getElementById(selectors.pythonOutput(id, true));
             return element
                 ?.getElementsByClassName("cm-content")[0]
-                .cmView.editorView.state.doc.toString();
+                .cmView.view.state.doc.toString();
         });
     }
 
