@@ -5,7 +5,7 @@ import AUTWindow = Cypress.AUTWindow;
 const selectors = {
     wrapper: "#python-transformation-dialog",
     dialog: 'div[role="dialog"]',
-    materialsSelector: "[data-tid='materials-selector']",
+    materialsInSelector: "[data-tid='materials-in-selector']",
     materialsSelectorItem: (index: number) => `[data-tid='select-material']:nth-of-type(${index})`,
     transformationSelector: "[data-tid='transformation-selector']",
     transformationSelectorItem: (title: string) => `li:contains("${title}")`,
@@ -26,7 +26,8 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     selectMaterial(index: number) {
-        browser.click(this.wrappedSelectors.materialsSelectorItem(index));
+        browser.click(this.wrappedSelectors.materialsInSelector);
+        browser.click(selectors.materialsSelectorItem(index));
     }
 
     selectTransformationByTitle(title: string) {
