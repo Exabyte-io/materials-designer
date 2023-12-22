@@ -33,10 +33,10 @@ Feature: User can open Python Transformation dialog, change python code and run 
     And I open PythonTransformationDialog
     And I see PythonTransformationDialog
     And I select material with index "1" in MaterialsSelector
-    And I set code input from the file "../fixtures/create-slab.py"
+    And I set code input from the file "create-slab.py"
 
     And I run all code
-    Then I see code output with the data from the file "../fixtures/ni-slab.poscar"
+    Then I see code output with the data from the file "ni-slab.poscar"
     And I clear the output with index "0"
     And I submit python transformation
     Then material with following data exists in state
@@ -53,9 +53,9 @@ Feature: User can open Python Transformation dialog, change python code and run 
     And I see PythonTransformationDialog
     And I select transformation with title "Custom Transformation (Empty)"
     And I select material with index "2" in MaterialsSelector
-    And I set code input from the file "../fixtures/create-interface.py"
+    And I set code input from the file "create-interface.py"
     And I run all code
-    Then I see code output with the data from the file "../fixtures/gr-ni-interface.poscar"
+    Then I see code output with the data from the file "gr-ni-interface.poscar"
     And I clear the output with index "0"
 
     When I submit python transformation
