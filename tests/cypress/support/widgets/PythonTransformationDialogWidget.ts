@@ -50,6 +50,8 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     getPythonOutput(id = 0) {
+        cy.get(this.wrappedSelectors.pythonOutput(id)).scrollIntoView();
+        cy.log("getPythonOutput", this.wrappedSelectors.pythonOutput(id));
         return browser.getInputValue(selectors.pythonOutput(id));
     }
 

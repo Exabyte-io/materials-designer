@@ -30,10 +30,10 @@ class Browser {
         const input = cy.get(selector);
 
         if (clear) {
-            return input.clear().type(value.toString());
+            return input.clear().type(value.toString(), { parseSpecialCharSequences: false });
         }
 
-        return input.type(value.toString());
+        return input.type(value.toString(), { parseSpecialCharSequences: false });
     }
 
     setInputValueByXpath(selector: string, value: string | number, clear = true) {
