@@ -32,7 +32,8 @@ const TITLE_REGEX = /^"""TITLE: (.*?)"""\n/;
 function TransformationSelector(props: TransformationSelectorProps) {
     const { transformation, setTransformation, setPythonCode, url = DEFAULT_URL } = props;
     const [transformations, setTransformations] = useState<Transformation[]>([]);
-    const [isDataFetched, setIsDataFetched] = useState(false);
+    // TODO: REVERT back to false after debugging
+    const [isDataFetched, setIsDataFetched] = useState(true);
 
     useEffect(() => {
         if (!isDataFetched) {
@@ -61,6 +62,8 @@ function TransformationSelector(props: TransformationSelectorProps) {
                     NPMsAlert.error("Error fetching transformations");
                     console.error(error);
                 });
+        } else if (!transformation) {
+            setTransformations([emptyTransformation]);
         }
     }, [isDataFetched, transformation, url]);
 
