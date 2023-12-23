@@ -60,4 +60,4 @@ Feature: User can open Python Transformation dialog, change python code and run 
     When I submit python transformation
     Then material with following data exists in state
       | path                 | index   |
-      | gr-ni-interface.json | $INT{3} |
+      | gr-ni-interface.json | $INT{3} |  
