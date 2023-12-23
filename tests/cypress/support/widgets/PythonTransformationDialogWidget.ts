@@ -55,7 +55,9 @@ export default class PythonTransformationDialogWidget extends Widget {
 
     runCode(id = 0) {
         browser.click(this.wrappedSelectors.runButton);
-        cy.get(this.wrappedSelectors.pythonOutput(id)).should('exist').scrollIntoView();
+        cy.get(this.wrappedSelectors.pythonOutput(id), { timeout: 10000 })
+            .should("exist")
+            .scrollIntoView();
     }
 
     cancel() {
