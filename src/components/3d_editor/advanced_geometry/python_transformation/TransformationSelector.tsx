@@ -60,9 +60,8 @@ function TransformationSelector(props: TransformationSelectorProps) {
                 .catch((error) => {
                     NPMsAlert.error("Error fetching transformations");
                     console.error(error);
+                    setTransformations([emptyTransformation]);
                 });
-        } else if (!transformation) {
-            setTransformations([emptyTransformation]);
         }
     }, [isDataFetched, transformation, url]);
 
