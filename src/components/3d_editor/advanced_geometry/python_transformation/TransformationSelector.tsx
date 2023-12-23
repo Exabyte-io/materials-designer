@@ -32,8 +32,7 @@ const TITLE_REGEX = /^"""TITLE: (.*?)"""\n/;
 function TransformationSelector(props: TransformationSelectorProps) {
     const { transformation, setTransformation, setPythonCode, url = DEFAULT_URL } = props;
     const [transformations, setTransformations] = useState<Transformation[]>([]);
-    // TODO: REVERT back to false after debugging
-    const [isDataFetched, setIsDataFetched] = useState(true);
+    const [isDataFetched, setIsDataFetched] = useState(false);
 
     useEffect(() => {
         if (!isDataFetched) {
