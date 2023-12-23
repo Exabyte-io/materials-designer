@@ -17,7 +17,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
 
     # Run
     When I run all code
-    Then I see code output with the following data
+    Then I see code output "0" with the following data
     """
     Hello Mat3ra!
     """
@@ -36,7 +36,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
     And I set code input from the file "create-slab.py"
 
     And I run all code
-    Then I see code output with the data from the file "ni-slab.poscar"
+    Then I see code output "0" with the data from the file "ni-slab.poscar"
     And I clear the output with index "0"
     And I submit python transformation
     Then material with following data exists in state
@@ -51,12 +51,11 @@ Feature: User can open Python Transformation dialog, change python code and run 
       | Graphene | C 0 0 0; C 0.333333 0.666667 0 | {"type":"HEX", "a":2.467291, "b":2.467291, "c":20 } |
     And I open PythonTransformationDialog
     And I see PythonTransformationDialog
-    And I select transformation with title "Custom Transformation (Empty)"
+    And I select transformation with title "Place a 2D material Layer on a Surface."
     And I select material with index "2" in MaterialsSelector
-    And I set code input from the file "create-interface.py"
     And I run all code
-    Then I see code output with the data from the file "gr-ni-interface.poscar"
-    And I clear the output with index "0"
+    Then I see code output "1" with the data from the file "gr-ni-interface-output.txt"
+    And I clear the output with index "1"
 
     When I submit python transformation
     Then material with following data exists in state
