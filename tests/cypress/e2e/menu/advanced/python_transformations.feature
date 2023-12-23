@@ -43,7 +43,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
       | path         | index   |
       | ni-slab.json | $INT{2} |
 
-    # Create an interface between Gr and Ni(111)
+    # Create an interface between Gr and Ni(111) using code from GitHib
     When I delete materials with index "2"
     When I create materials with the following data
       | name     | basis                          | lattice                                             |
@@ -60,4 +60,8 @@ Feature: User can open Python Transformation dialog, change python code and run 
     When I submit python transformation
     Then material with following data exists in state
       | path                 | index   |
-      | gr-ni-interface.json | $INT{3} |  
+      | gr-ni-interface.json | $INT{3} |
+
+    # Reset the materials list
+    And I delete materials with index "2"
+    And I delete materials with index "2"
