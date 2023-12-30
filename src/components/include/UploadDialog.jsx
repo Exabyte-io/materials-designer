@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import React from "react";
-import NPMsAlert from "react-s-alert";
+import { enqueueSnackbar } from "notistack";
 
 import { Material } from "../../material";
 
@@ -63,7 +63,7 @@ class UploadDialog extends React.Component {
         });
 
         if (errors.length > 0) {
-            NPMsAlert.error(`Failed to convert some files: ${errors.join(", ")}`);
+            enqueueSnackbar(`Failed to convert some files: ${errors.join(", ")}`, {variant: "error"});
             return;
         }
 
@@ -105,7 +105,7 @@ class UploadDialog extends React.Component {
         // Filter out invalid files
         const validFiles = Array.from(files).filter((file) => file && file.size);
         if (validFiles.length === 0) {
-            NPMsAlert.warning("Error: file(s) cannot be read (inaccessible?)");
+            enqueueSnackbar("Error: file(s) cannot be read (inaccessible?)", { variant: "warning" });
             return;
         }
 
