@@ -1,4 +1,5 @@
 import { Made } from "@exabyte-io/made.js";
+import { enqueueSnackbar } from "notistack";
 
 import {
     MATERIALS_CLONE_ONE,
@@ -12,7 +13,6 @@ import {
 } from "../actions";
 import { displayMessage } from "../i18n/messages";
 import { Material } from "../material";
-import { enqueueSnackbar } from "notistack";
 
 function materialsUpdateOne(state, action) {
     const materials = state.materials.slice(); // get copy of array
@@ -73,7 +73,11 @@ function _setMetadataForSlabConfig(
     { h, k, l, thickness, vacuumRatio, vx, vy, material },
 ) {
     const bulkId = material && (material.id || material._id);
-    if (!bulkId) enqueueSnackbar(displayMessage("surface.noBulkId"), { variant: "warning", autoHideDuration: 10000 });
+    if (!bulkId)
+        enqueueSnackbar(displayMessage("surface.noBulkId"), {
+            variant: "warning",
+            autoHideDuration: 10000,
+        });
 
     Object.assign(slabConfig, {
         metadata: {

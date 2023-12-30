@@ -1,4 +1,5 @@
 import { enqueueSnackbar } from "notistack";
+
 import { MATERIALS_ADD, MATERIALS_EXPORT, MATERIALS_REMOVE, MATERIALS_SAVE } from "../actions";
 import { exportToDisk } from "../utils/downloader";
 
@@ -29,7 +30,9 @@ export function materialsRemove(state, action) {
 
     // sanity check
     if (materials.length === 1) {
-        enqueueSnackbar("Prevented remove action: only one material in set.", {variant: "warning"});
+        enqueueSnackbar("Prevented remove action: only one material in set.", {
+            variant: "warning",
+        });
         return state;
     }
     // remove elements at indices (array is modified in place => subtract idx within `each`)

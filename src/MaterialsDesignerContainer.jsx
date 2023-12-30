@@ -24,7 +24,6 @@ import {
     updateNameForOneMaterial,
     updateOneMaterial,
 } from "./actions";
-import SAlertContentTmpl from "./components/include/SAlertContentTmpl";
 import { Material } from "./material";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
 import { createMaterialsDesignerReducer } from "./reducers";

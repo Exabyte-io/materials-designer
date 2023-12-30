@@ -63,7 +63,9 @@ class UploadDialog extends React.Component {
         });
 
         if (errors.length > 0) {
-            enqueueSnackbar(`Failed to convert some files: ${errors.join(", ")}`, {variant: "error"});
+            enqueueSnackbar(`Failed to convert some files: ${errors.join(", ")}`, {
+                variant: "error",
+            });
             return;
         }
 
@@ -105,7 +107,9 @@ class UploadDialog extends React.Component {
         // Filter out invalid files
         const validFiles = Array.from(files).filter((file) => file && file.size);
         if (validFiles.length === 0) {
-            enqueueSnackbar("Error: file(s) cannot be read (inaccessible?)", { variant: "warning" });
+            enqueueSnackbar("Error: file(s) cannot be read (inaccessible?)", {
+                variant: "warning",
+            });
             return;
         }
 

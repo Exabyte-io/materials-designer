@@ -69,7 +69,7 @@ class CombinatorialBasisDialog extends React.Component {
         if (bases.length > maxCombinatorialBasesCount) {
             enqueueSnackbar(
                 displayMessage("combinatorialBasesCountExceeded", maxCombinatorialBasesCount),
-                { variant: "warning" }
+                { variant: "warning" },
             );
             return false;
         }
