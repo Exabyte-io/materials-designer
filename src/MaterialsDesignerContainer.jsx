@@ -7,6 +7,7 @@ import { applyMiddleware, createStore } from "redux";
 import logger from "redux-logger";
 import { ActionCreators } from "redux-undo";
 import _ from "underscore";
+import { AlertProvider } from "@exabyte-io/cove.js/dist/theme/provider";
 
 import {
     addMaterials,
@@ -28,7 +29,6 @@ import { Material } from "./material";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
 import { createMaterialsDesignerReducer } from "./reducers";
 import ReduxProvider from "./utils/react/provider";
-import { AlertProvider } from "@exabyte-io/cove.js/dist/theme/provider";
 
 const initialMaterials = Array(1).fill(new Material());
 
