@@ -69,7 +69,7 @@
     },
     "devDependencies": {
         "@exabyte-io/code.js": "2023.12.13-0",
-        "@exabyte-io/cove.js": "git+https://github.com/Exabyte-io/cove.js.git#b49dca2f09640e26a7ec97d8e25b50c21cadc450",
+        "@exabyte-io/cove.js": "git+https://github.com/Exabyte-io/cove.js.git#e0562c18fc4549d81a9f9ff2f320bcdca4496d09",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "2023.12.4-0",
         "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata",
