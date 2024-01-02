@@ -62,14 +62,14 @@
     "peerDependencies": {
         "@exabyte-io/made.js": "*",
         "@exabyte-io/code.js": "*",
-        "@exabyte-io/cove.js": "git+https://github.com/Exabyte-io/cove.js.git#621efc47a2cdd2f3c4e4cb153767ed06fe17ba4c",
+        "@exabyte-io/cove.js": "git+https://github.com/Exabyte-io/cove.js.git#b49dca2f09640e26a7ec97d8e25b50c21cadc450",
         "@exabyte-io/standata": "*",
         "react": "^17.0.0",
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
         "@exabyte-io/code.js": "2023.12.13-0",
-        "@exabyte-io/cove.js": "git+https://github.com/Exabyte-io/cove.js.git#621efc47a2cdd2f3c4e4cb153767ed06fe17ba4c",
+        "@exabyte-io/cove.js": "git+https://github.com/Exabyte-io/cove.js.git#b49dca2f09640e26a7ec97d8e25b50c21cadc450",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "2023.12.4-0",
         "@exabyte-io/standata": "git+https://github.com/Exabyte-io/standata",
