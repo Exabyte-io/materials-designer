@@ -62,7 +62,7 @@
     "peerDependencies": {
         "@exabyte-io/made.js": "*",
         "@exabyte-io/code.js": "*",
-        "@exabyte-io/cove.js": "git+https://github.com/Exabyte-io/cove.js.git#b49dca2f09640e26a7ec97d8e25b50c21cadc450",
+        "@exabyte-io/cove.js": "*",
         "@exabyte-io/standata": "*",
         "react": "^17.0.0",
         "react-dom": "^17.0.0"
