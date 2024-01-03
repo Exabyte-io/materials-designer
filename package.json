@@ -62,7 +62,7 @@
         "@exabyte-io/made.js": "*",
         "@exabyte-io/code.js": "*",
         "@exabyte-io/cove.js": "*",
-        "@exabyte-io/standata": "*",
+        "@mat3ra/standata": "*",
         "react": "^17.0.0",
         "react-dom": "^17.0.0"
     },
