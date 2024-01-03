@@ -1,6 +1,5 @@
 import browser from "../browser";
 import Widget from "./Widget";
-import AUTWindow = Cypress.AUTWindow;
 
 const selectors = {
     wrapper: "#python-transformation-dialog",
@@ -39,13 +38,13 @@ export default class PythonTransformationDialogWidget extends Widget {
         browser.setInputValue(selectors.codeInput(id), code);
     }
 
-    getCode(id = 0) {
-        return browser.execute((win: AUTWindow) => {
+    getCode(id = 0): Cypress.Chainable<string> {
+        return cy.window().then((win) => {
+            // @ts-ignore
             const { document } = win;
             const element = document.getElementById(selectors.pythonOutput(id, true));
-            return element
-                ?.getElementsByClassName("cm-content")[0]
-                .cmView.view.state.doc.toString();
+            const contentElement = element?.getElementsByClassName("cm-content")[0];
+            return contentElement ? contentElement.cmView.view.state.doc.toString() : "";
         });
     }
 
