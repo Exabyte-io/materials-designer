@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { SELECTORS } from "../selectors";
 import { Widget } from "../widget";
-import { SnackbarAlertWidget } from "./alert/s_alert_widget";
+import { SnackbarAlertWidget } from "./alert/snackbar_alert_widget";
 import { BoundaryConditionsDialogWidget } from "./dialogs/boundary_conditions_dialog";
 import { DefaultImportModalDialogWidget } from "./dialogs/default_import_modal_dialog";
 import { InterpolatedSetDialogWidget } from "./dialogs/interpolated_set_dialog";
