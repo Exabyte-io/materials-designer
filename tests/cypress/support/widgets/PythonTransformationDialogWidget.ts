@@ -39,13 +39,15 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     getCode(id = 0): Cypress.Chainable<string> {
-        return cy.window().then((win) => {
-            // @ts-ignore
-            const { document } = win;
-            const element = document.getElementById(selectors.pythonOutput(id, true));
-            const contentElement = element?.getElementsByClassName("cm-content")[0];
-            return contentElement ? contentElement.cmView.view.state.doc.toString() : "";
-        });
+        const elementSelector = selectors.pythonOutput(id, true);
+        return cy
+            .get(`#${elementSelector} .cm-content`, { timeout: 20000 })
+            .then(($contentElement) => {
+                if ($contentElement.length > 0 && $contentElement[0].cmView) {
+                    return $contentElement[0].cmView.view.state.doc.toString();
+                }
+                return "";
+            });
     }
 
     clearOutput(id = 0) {
