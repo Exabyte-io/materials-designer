@@ -26,7 +26,6 @@ import LatticeEditor from "./components/source_editor/Lattice";
 import { Material } from "./material";
 import { theme } from "./settings";
 
-console.log("data", data);
 const materialConfigs = Object.values(data.filesMapByName);
 
 const APP_BAR_HEIGHT = 54;

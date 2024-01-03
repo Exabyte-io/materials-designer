@@ -15,7 +15,16 @@
     "skipLibCheck": true,
     "types": [],
     "rootDir": "./src",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "noEmit": false
   },
   "include": [
     "./src"
