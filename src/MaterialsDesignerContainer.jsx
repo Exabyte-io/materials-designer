@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { AlertProvider } from "@exabyte-io/cove.js/dist/theme/provider";
 import lodash from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -7,7 +8,6 @@ import { applyMiddleware, createStore } from "redux";
 import logger from "redux-logger";
 import { ActionCreators } from "redux-undo";
 import _ from "underscore";
-import { AlertProvider } from "@exabyte-io/cove.js/dist/theme/provider";
 
 import {
     addMaterials,

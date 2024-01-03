@@ -9,9 +9,9 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
+import { enqueueSnackbar } from "notistack";
 import PropTypes from "prop-types";
 import React from "react";
-import { enqueueSnackbar } from "notistack";
 
 import { Material } from "../../material";
 
