@@ -32,7 +32,7 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
         <Autocomplete
             multiple
             id="materials-autocomplete"
-            data-tid={testId ?? ""}
+            data-tid={testId || "materials-autocomplete"}
             size="small"
             options={materials}
             getOptionLabel={(option) => option.name}
