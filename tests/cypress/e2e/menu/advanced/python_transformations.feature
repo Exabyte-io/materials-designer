@@ -54,7 +54,12 @@ Feature: User can open Python Transformation dialog, change python code and run 
     And I select transformation with title "Place a 2D material Layer on a Surface."
     And I select material with index "2" in MaterialsSelector
     And I run all code
-    Then I see code output "1" with the data from the file "gr-ni-interface-output.txt"
+    Then I see code output "1" with the following data
+    """
+    Strain matrix as percentages:
+    [[-0.30% 0.00%]
+    [115.13% -0.30%]]
+    """
     And I clear the output with index "1"
 
     When I submit python transformation

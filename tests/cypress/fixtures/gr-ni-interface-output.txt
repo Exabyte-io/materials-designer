@@ -1,3 +1,0 @@
-Strain matrix as percentages:
- [[-0.30% 0.00%]
- [115.13% -0.30%]]
