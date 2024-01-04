@@ -56,7 +56,7 @@ class HeaderMenuToolbar extends React.Component {
             showSupercellDialog: false,
             showSurfaceDialog: false,
             showExportMaterialsDialog: false,
-            showStandataImportModal: false,
+            showStandataImportDialog: false,
             showDefaultImportModalDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
@@ -82,7 +82,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Import
                 </MenuItem>
-                <MenuItem onClick={() => this.setState({ showStandataImportModal: true })}>
+                <MenuItem onClick={() => this.setState({ showStandataImportDialog: true })}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
@@ -362,7 +362,7 @@ class HeaderMenuToolbar extends React.Component {
             showExportMaterialsDialog,
             showInterpolateDialog,
             showPythonTransformation,
-            showStandataImportModal,
+            showStandataImportDialog,
             showDefaultImportModalDialog,
         } = this.state;
         const {
@@ -428,12 +428,12 @@ class HeaderMenuToolbar extends React.Component {
 
                 <StandataImportDialog
                     modalId="standataImportModalDialog"
-                    show={showStandataImportModal}
+                    show={showStandataImportDialog}
                     onSubmit={(...args) => {
                         onAdd(...args);
-                        this.setState({ showStandataImportModal: false });
+                        this.setState({ showStandataImportDialog: false });
                     }}
-                    onClose={() => this.setState({ showStandataImportModal: false })}
+                    onClose={() => this.setState({ showStandataImportDialog: false })}
                     defaultMaterialConfigs={defaultMaterialsSet}
                 />
 
