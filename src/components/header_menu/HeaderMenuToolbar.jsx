@@ -45,7 +45,7 @@ import PythonTransformation from "../3d_editor/advanced_geometry/python_transfor
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
-import StandataImportModal from "../include/StandataImportModal";
+import StandataImportDialog from "../include/StandataImportDialog";
 import UploadDialog from "../include/UploadDialog";
 import ExportActionDialog from "./ExportActionDialog";
 
@@ -426,7 +426,7 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onExport}
                 />
 
-                <StandataImportModal
+                <StandataImportDialog
                     modalId="standataImportModalDialog"
                     show={showStandataImportModal}
                     onSubmit={(...args) => {

@@ -22,7 +22,7 @@ interface StandataImportModalState {
     selectedMaterialConfigs: MaterialSchema[];
 }
 
-class StandataImportModal extends React.Component<
+class StandataImportDialog extends React.Component<
     StandataImportModalProps,
     StandataImportModalState
 > {
@@ -103,7 +103,7 @@ class StandataImportModal extends React.Component<
         return (
             <Dialog
                 open={show}
-                id="standataImportModalDialog"
+                id="standata-import-dialog"
                 title="Import from Standata"
                 onClose={onClose}
                 onSubmit={this.addMaterials}
@@ -161,4 +161,4 @@ class StandataImportModal extends React.Component<
     }
 }
 
-export default StandataImportModal;
+export default StandataImportDialog;
