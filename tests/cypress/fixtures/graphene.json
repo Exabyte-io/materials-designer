@@ -1,5 +1,5 @@
 {
-    "name": "Graphene",
+    "name": "Graphene (mp-1040425)",
     "basis": {
         "elements": [
             {
@@ -88,8 +88,5 @@
         "doi": "10.17188/1405723",
         "url": "https://next-gen.materialsproject.org/materials/mp-1040425/",
         "origin": true
-    },
-    "_id": "",
-    "metadata": { },
-    "isUpdated": true
+    }
 }
