@@ -24,7 +24,7 @@
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "noEmit": true
+    "noEmit": false
   },
   "include": [
     "./src"

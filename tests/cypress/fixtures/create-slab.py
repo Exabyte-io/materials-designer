@@ -29,13 +29,8 @@ def func():
 
     # Create slab using ASE
     slab = surface(material, (1,1,1), vacuum=5, layers=3)
-    globals()["materials_out"] = [
-    {
-    "poscar": ase_atoms_to_poscar(slab)
-    }
-    ]
+    globals()["materials_out"] = [{"poscar": ase_atoms_to_poscar(slab)}]
     print(globals()["materials_out"][0]["poscar"])
-
     return globals()
 
 func()
