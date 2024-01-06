@@ -1,4 +1,5 @@
 import browser from "../browser";
+import SETTINGS from "../settings";
 import Widget from "./Widget";
 
 const selectors = {
@@ -41,7 +42,7 @@ export default class PythonTransformationDialogWidget extends Widget {
     getCode(id = 0): Cypress.Chainable<string> {
         const elementSelector = selectors.pythonOutput(id, true);
         return cy
-            .get(`#${elementSelector} .cm-content`, { timeout: 20000 })
+            .get(`#${elementSelector} .cm-content`, { timeout: SETTINGS.TIMEOUT_MEDIUM })
             .then(($contentElement) => {
                 if ($contentElement.length > 0 && $contentElement[0].cmView) {
                     return $contentElement[0].cmView.view.state.doc.toString();
@@ -56,7 +57,7 @@ export default class PythonTransformationDialogWidget extends Widget {
 
     runCode(id = 0) {
         browser.click(this.wrappedSelectors.runButton);
-        cy.get(this.wrappedSelectors.pythonOutput(id), { timeout: 10000 })
+        cy.get(this.wrappedSelectors.pythonOutput(id), { timeout: SETTINGS.TIMEOUT_MEDIUM })
             .should("exist")
             .scrollIntoView();
     }
