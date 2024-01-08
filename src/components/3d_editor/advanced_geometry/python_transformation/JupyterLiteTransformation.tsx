@@ -43,10 +43,19 @@ class JupyterLiteTransformation extends React.Component<
             materials: props.materials,
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
-            executionStatus: ExecutionStatus.Loading,
+            executionStatus: ExecutionStatus.Ready,
             transformation: null,
             pythonCode: "",
         };
+    }
+
+    componentDidMount() {
+        window.addEventListener("message", (event) => {
+            if (event.origin !== "https://jupyter-lite.mat3ra.com") return;
+            if (event.data.type === "fromJupyterLite") {
+                console.log("Received data from JupyterLite:", event.data.data);
+            }
+        });
     }
 
     componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
@@ -64,6 +73,20 @@ class JupyterLiteTransformation extends React.Component<
         onSubmit(newMaterials);
         this.setState({ selectedMaterials: [materials[0]], newMaterials: [] });
     };
+
+    // eslint-disable-next-line class-methods-use-this
+    sendMessageToIFrame(data: any) {
+        const iframe = document.getElementById("jupyter-lite-iframe");
+        if (iframe) {
+            // @ts-ignore
+            iframe.contentWindow.postMessage(
+                { type: "fromHost", data },
+                "https://jupyter-lite.mat3ra.com",
+            );
+        } else {
+            NPMsAlert.error("JupyterLite iframe not found");
+        }
+    }
 
     render() {
         const {
@@ -84,7 +107,7 @@ class JupyterLiteTransformation extends React.Component<
                 fullWidth
                 maxWidth="xl"
                 onSubmit={this.handleSubmit}
-                title="Python Transformation"
+                title="Jupyter Lite Transformation"
                 isSubmitButtonDisabled={executionStatus !== ExecutionStatus.Ready}
             >
                 <DialogContent
@@ -99,21 +122,6 @@ class JupyterLiteTransformation extends React.Component<
                         id="python-transformation-dialog-content"
                         sx={{ height: "100%" }}
                     >
-                        <Grid item xs={12} md={4} alignItems="center">
-                            <Typography variant="subtitle1">Select Source Code</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <TransformationSelector
-                                transformation={transformation}
-                                setTransformation={(newTransformation) =>
-                                    this.setState({ transformation: newTransformation })
-                                }
-                                pythonCode={pythonCode}
-                                setPythonCode={() => {
-                                    console.log("setPythonCode");
-                                }}
-                            />
-                        </Grid>
                         <Grid item xs={12} md={4} alignItems="center">
                             <Typography variant="subtitle1">
                                 Input Materials (<code>materials_in</code>)
@@ -143,13 +151,18 @@ class JupyterLiteTransformation extends React.Component<
                                 </Button>
                                 <CodeExecutionControls
                                     buttonProps={{
-                                        id: "all",
-                                        title: "Run All",
+                                        id: "run-jl",
+                                        title: "Run",
                                         variant: "contained",
                                         color: "primary",
                                     }}
                                     handleRun={() => {
-                                        console.log("run all");
+                                        this.sendMessageToIFrame({
+                                            type: "runAll",
+                                            data: {
+                                                materials: selectedMaterials,
+                                            },
+                                        });
                                     }}
                                     executionStatus={executionStatus}
                                 />
@@ -172,6 +185,7 @@ class JupyterLiteTransformation extends React.Component<
                             >
                                 {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
                                 <iframe
+                                    id="jupyter-lite-iframe"
                                     src="https://jupyter-lite.mat3ra.com/lab/index.html"
                                     width="100%"
                                     height="100%"
