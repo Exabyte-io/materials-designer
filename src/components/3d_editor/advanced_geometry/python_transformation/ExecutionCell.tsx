@@ -53,6 +53,7 @@ function ExecutionCell(props: ExecutionCellProps) {
                             executionStatus={executionStatus}
                             handleRun={handleRun}
                             buttonProps={{
+                                id: id.toString(),
                                 title: "Run",
                                 variant: expanded ? "outlined" : "text",
                             }}

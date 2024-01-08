@@ -52,7 +52,7 @@ Feature: User can open Python Transformation dialog, change python code and run 
     | Graphene | C 0 0 0; C 0.333333 0.666667 0  | {"type":"HEX", "a":2.467291, "b":2.467291, "c":20 } |
     And I open PythonTransformationDialog
     And I see PythonTransformationDialog
-    And I select transformation with title "Custom Transformation"
+    And I select transformation with title "Custom Transformation (Empty)"
     And I select material with index "2" in MaterialsSelector
     And I set code input from the file "../fixtures/create-interface.py"
     And I click the Run button
