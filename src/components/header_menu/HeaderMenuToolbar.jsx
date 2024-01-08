@@ -40,6 +40,7 @@ import { Material } from "../../material";
 import { BoundaryConditionsDialog } from "../3d_editor/advanced_geometry/BoundaryConditionsDialog";
 import CombinatorialBasisDialog from "../3d_editor/advanced_geometry/CombinatorialBasisDialog";
 import InterpolateBasesDialog from "../3d_editor/advanced_geometry/InterpolateBasesDialog";
+import JupyterLiteTransformation from "../3d_editor/advanced_geometry/python_transformation/JupyterLiteTransformation";
 // eslint-disable-next-line import/no-unresolved
 import PythonTransformation from "../3d_editor/advanced_geometry/python_transformation/PythonTransformation";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
@@ -63,6 +64,7 @@ class HeaderMenuToolbar extends React.Component {
             showThreejsEditorModal: false,
             showBoundaryConditionsDialog: false,
             showPythonTransformation: false,
+            showJupyterLiteTransformation: false,
         };
     }
 
@@ -260,6 +262,12 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Python Transformation
                 </MenuItem>
+                <MenuItem onClick={() => this.setState({ showJupyterLiteTransformation: true })}>
+                    <ListItemIcon>
+                        <Terminal />
+                    </ListItemIcon>
+                    JupyterLite Transformation
+                </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
     }
@@ -364,6 +372,7 @@ class HeaderMenuToolbar extends React.Component {
             showPythonTransformation,
             showStandataImportModal,
             showDefaultImportModalDialog,
+            showJupyterLiteTransformation,
         } = this.state;
         const {
             children,
@@ -480,6 +489,16 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={(...args) => {
                         onAdd(...args);
                         this.setState({ showPythonTransformation: false });
+                    }}
+                />
+
+                <JupyterLiteTransformation
+                    show={showJupyterLiteTransformation}
+                    materials={materials}
+                    onHide={() => this.setState({ showJupyterLiteTransformation: false })}
+                    onSubmit={(...args) => {
+                        onAdd(...args);
+                        this.setState({ showJupyterLiteTransformation: false });
                     }}
                 />
             </Toolbar>
