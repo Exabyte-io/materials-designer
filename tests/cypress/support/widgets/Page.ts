@@ -1,10 +1,5 @@
-import browser from "../browser";
-import Widget from "./Widget";
+import BasePage from "@exabyte-io/code.js/dist/cypress/Page";
 
-export default class Page extends Widget {
-    open() {
-        browser.go("/");
-        this.waitForVisible();
-        this.waitForLoaderToDisappear();
-    }
+export default class Page extends BasePage {
+    // Put custom actions here
 }

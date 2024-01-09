@@ -1,4 +1,3 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 const threeJSEditorWidget = {
@@ -46,7 +45,7 @@ export class ThreeJSEditorWidget extends Widget {
 
     clickOnToolbarButton(title: string) {
         const toolbarBtnSelector = this.selectors.toolbarBtnByTitle(title);
-        return browser.clickByXpath(toolbarBtnSelector);
+        return this.browser.clickByXpath(toolbarBtnSelector);
     }
 
     /**
@@ -92,36 +91,36 @@ export class ThreeJSEditorWidget extends Widget {
     }
 
     selectSceneObjectByName(name: string) {
-        browser.clickIfExists(this.selectors.opener);
-        return browser.clickByXpath(this.selectors.sceneObjectByName(name));
+        this.browser.clickIfExists(this.selectors.opener);
+        return this.browser.clickByXpath(this.selectors.sceneObjectByName(name));
     }
 
     toggleSceneObjectOpener(sceneObjectName: string) {
-        return browser.clickByXpath(this.selectors.sceneObjectOpenerByName(sceneObjectName));
+        return this.browser.clickByXpath(this.selectors.sceneObjectOpenerByName(sceneObjectName));
     }
 
     openSidebarTabByTitle(title: string) {
-        return browser.clickByXpath(this.selectors.sidebarTabByTitle(title));
+        return this.browser.clickByXpath(this.selectors.sidebarTabByTitle(title));
     }
 
     openSceneObjectTabByTitle(title: string) {
-        return browser.clickByXpath(this.selectors.sceneObjectTabByTitle(title));
+        return this.browser.clickByXpath(this.selectors.sceneObjectTabByTitle(title));
     }
 
     setSceneObjectPosition(position: string[]) {
         position.forEach((value, index) => {
             const xpath = this.selectors.sceneObjectPositionByIndex(index + 1);
-            browser.clickByXpath(xpath);
-            browser.setInputValueByXpath(xpath, value);
+            this.browser.clickByXpath(xpath);
+            this.browser.setInputValueByXpath(xpath, value);
         });
     }
 
     validateSceneObjectPosition(expectedPosition: number[]) {
         for (let i = 1; i <= 3; i++) {
-            browser
+            this.browser
                 .getInputValueByXpath(this.selectors.sceneObjectPositionByIndex(i))
                 // eslint-disable-next-line no-loop-func
-                .should((value: string) => {
+                .should((value) => {
                     expect(Number(value)).to.equal(expectedPosition[i - 1]);
                 });
         }

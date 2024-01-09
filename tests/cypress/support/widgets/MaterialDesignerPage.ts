@@ -3,13 +3,11 @@ import Page from "./Page";
 
 const wrapper = "#materials-designer";
 
-export class MaterialDesignerPage extends Page {
+export default class MaterialDesignerPage extends Page {
     designerWidget: MaterialDesignerWidget;
 
-    constructor(selector: string) {
-        super(selector);
+    constructor() {
+        super(wrapper);
         this.designerWidget = new MaterialDesignerWidget(wrapper);
     }
 }
-
-export const materialDesignerPage = new MaterialDesignerPage(wrapper);

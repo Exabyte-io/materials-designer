@@ -1,7 +1,7 @@
 import { Given } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 Given("the UploadDialog should be closed", () => {
-    materialDesignerPage.designerWidget.defaultImportModalDialog.waitForDisappear();
+    new MaterialDesignerPage().designerWidget.defaultImportModalDialog.waitForDisappear();
 });

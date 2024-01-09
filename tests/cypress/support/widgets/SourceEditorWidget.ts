@@ -1,5 +1,4 @@
 /* eslint-disable max-classes-per-file */
-import browser from "../browser";
 import Widget from "./Widget";
 
 const latticeEditorSelectors = {
@@ -20,40 +19,44 @@ class LatticeEditorWidget extends Widget {
     }
 
     openLatticeForm() {
-        return browser.click(this.selectors.latticeFormTrigger).then(() => {
-            return browser.waitForVisible(this.selectors.latticeFormBody);
+        return this.browser.click(this.selectors.latticeFormTrigger).then(() => {
+            return this.browser.waitForVisible(this.selectors.latticeFormBody);
         });
     }
 
     closeLatticeForm() {
-        return browser.click(this.selectors.latticeFormTrigger).then(() => {
-            return browser.waitForHide(this.selectors.latticeFormBody);
+        return this.browser.click(this.selectors.latticeFormTrigger).then(() => {
+            return this.browser.waitForHide(this.selectors.latticeFormBody);
         });
     }
 
     updateLatticeConfiguration() {
-        return browser.click(this.selectors.latticeFormSaveButton);
+        return this.browser.click(this.selectors.latticeFormSaveButton);
     }
 
     setLatticeParamInput(name: string, value: string) {
-        browser.waitForVisible(this.selectors.latticeOptionSelectorByNameInput(name));
-        browser.setInputValue(this.selectors.latticeOptionSelectorByNameInput(name), value, false);
+        this.browser.waitForVisible(this.selectors.latticeOptionSelectorByNameInput(name));
+        this.browser.setInputValue(
+            this.selectors.latticeOptionSelectorByNameInput(name),
+            value,
+            false,
+        );
     }
 
     setLatticeParamSelect(name: string, value: string) {
         const selectSelector = this.selectors.latticeOptionSelectorByNameSelect(name);
         const menuItemSelector = `li[data-value="${value}"]`;
 
-        return browser
+        return this.browser
             .waitForVisible(selectSelector)
             .then(() => {
-                return browser.click(selectSelector);
+                return this.browser.click(selectSelector);
             })
             .then(() => {
-                return browser.waitForVisible(menuItemSelector);
+                return this.browser.waitForVisible(menuItemSelector);
             })
             .then(() => {
-                return browser.click(menuItemSelector);
+                return this.browser.click(menuItemSelector);
             });
     }
 
@@ -97,7 +100,7 @@ class BasisEditorWidget extends Widget {
     }
 
     getCodeMirrorContent(editorId: string) {
-        return browser.execute((win) => {
+        return this.browser.execute((win) => {
             const element = win.document.getElementById(editorId);
             return element
                 ?.getElementsByClassName("cm-content")[0]
@@ -106,7 +109,7 @@ class BasisEditorWidget extends Widget {
     }
 
     setCodeMirrorContent(editorId: string, content: string, preserveExistingContent = false) {
-        return browser.execute((win) => {
+        return this.browser.execute((win) => {
             const element = win.document.getElementById(editorId);
 
             if (!element) {

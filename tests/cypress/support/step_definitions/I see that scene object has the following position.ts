@@ -1,7 +1,7 @@
 import { DataTable, Given } from "@badeball/cypress-cucumber-preprocessor";
+import { parseTable } from "@exabyte-io/code.js/dist/cypress/utils/table";
 
-import { parseTable } from "../utils/table";
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 interface Position {
     x: number;
@@ -12,7 +12,7 @@ interface Position {
 Given("I see that scene object has the following position:", (table: DataTable) => {
     const config = parseTable<Position>(table)[0];
 
-    materialDesignerPage.designerWidget.threeJSEditorWidget.validateSceneObjectPosition([
+    new MaterialDesignerPage().designerWidget.threeJSEditorWidget.validateSceneObjectPosition([
         config.x,
         config.y,
         config.z,

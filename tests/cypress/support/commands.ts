@@ -1,4 +1,9 @@
 /// <reference types="cypress" />
+
+import BrowserFactory from "@exabyte-io/code.js/dist/cypress/BrowserFactory";
+
+import SETTINGS from "./settings";
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -35,3 +40,4 @@
 //     }
 //   }
 // }
+BrowserFactory.setBrowserSettings(SETTINGS);

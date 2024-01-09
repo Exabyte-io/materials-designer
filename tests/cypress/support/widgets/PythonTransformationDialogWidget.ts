@@ -1,4 +1,3 @@
-import browser from "../browser";
 import SETTINGS from "../settings";
 import Widget from "./Widget";
 
@@ -26,23 +25,23 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     selectMaterial(index: number) {
-        browser.click(this.wrappedSelectors.materialsInSelector);
-        browser.click(selectors.materialsSelectorItem(index));
+        this.browser.click(this.wrappedSelectors.materialsInSelector);
+        this.browser.click(selectors.materialsSelectorItem(index));
     }
 
     selectTransformationByTitle(title: string) {
-        browser.click(this.wrappedSelectors.transformationSelector);
-        browser.click(selectors.transformationSelectorItem(title));
+        this.browser.click(this.wrappedSelectors.transformationSelector);
+        this.browser.click(selectors.transformationSelectorItem(title));
     }
 
     setCode(code: string, id = 0) {
-        browser.setInputValue(selectors.codeInput(id), code);
+        this.browser.setInputValue(selectors.codeInput(id), code);
     }
 
     getCode(id = 0): Cypress.Chainable<string> {
         const elementSelector = selectors.pythonOutput(id, true);
         return cy
-            .get(`#${elementSelector} .cm-content`, { timeout: SETTINGS.TIMEOUT_MEDIUM })
+            .get(`#${elementSelector} .cm-content`, { timeout: SETTINGS.renderTimeoutMedium })
             .then(($contentElement) => {
                 if ($contentElement.length > 0 && $contentElement[0].cmView) {
                     return $contentElement[0].cmView.view.state.doc.toString();
@@ -52,23 +51,23 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     clearOutput(id = 0) {
-        browser.click(this.wrappedSelectors.clearOutputButton(id));
+        this.browser.click(this.wrappedSelectors.clearOutputButton(id));
     }
 
     runCode(id = 0) {
-        browser.click(this.wrappedSelectors.runButton);
-        cy.get(this.wrappedSelectors.pythonOutput(id), { timeout: SETTINGS.TIMEOUT_MEDIUM })
+        this.browser.click(this.wrappedSelectors.runButton);
+        cy.get(this.wrappedSelectors.pythonOutput(id), { timeout: SETTINGS.renderTimeoutMedium })
             .should("exist")
             .scrollIntoView();
     }
 
     cancel() {
-        browser.click(this.wrappedSelectors.cancelButton);
-        browser.waitForDisappear(this.wrappedSelectors.dialog);
+        this.browser.click(this.wrappedSelectors.cancelButton);
+        this.browser.waitForDisappear(this.wrappedSelectors.dialog);
     }
 
     submit() {
-        browser.click(this.wrappedSelectors.submitButton);
-        browser.waitForDisappear(this.wrappedSelectors.dialog);
+        this.browser.click(this.wrappedSelectors.submitButton);
+        this.browser.waitForDisappear(this.wrappedSelectors.dialog);
     }
 }

@@ -1,9 +1,9 @@
 import { Given } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 Given("I open UploadDialog", () => {
-    materialDesignerPage.designerWidget.headerMenu.selectMenuItemByNameAndItemNumber(
+    new MaterialDesignerPage().designerWidget.headerMenu.selectMenuItemByNameAndItemNumber(
         "Input/Output",
         3,
     );

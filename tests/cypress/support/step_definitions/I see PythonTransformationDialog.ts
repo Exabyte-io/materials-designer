@@ -1,7 +1,7 @@
 import { When } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 When("I see PythonTransformationDialog", () => {
-    materialDesignerPage.designerWidget.pythonTransformationDialog.isVisible();
+    new MaterialDesignerPage().designerWidget.pythonTransformationDialog.waitForVisible();
 });

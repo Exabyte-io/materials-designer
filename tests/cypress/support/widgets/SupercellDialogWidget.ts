@@ -1,4 +1,3 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 const selectors = {
@@ -24,12 +23,15 @@ export class SupercellDialogWidget extends Widget {
             .map((row) => row.trim().split(" ").map(parseFloat));
         scalingMatrix.forEach((scalingVector, i) => {
             scalingVector.forEach((scalingNumber, j) => {
-                browser.setInputValue(this.selectors.matrixElementByIndices(i, j), scalingNumber);
+                this.browser.setInputValue(
+                    this.selectors.matrixElementByIndices(i, j),
+                    scalingNumber,
+                );
             });
         });
     }
 
     submit() {
-        browser.click(this.selectors.submitButton);
+        this.browser.click(this.selectors.submitButton);
     }
 }
