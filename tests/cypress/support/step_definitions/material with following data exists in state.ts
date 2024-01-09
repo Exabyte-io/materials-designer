@@ -2,6 +2,7 @@ import { DataTable, Given } from "@badeball/cypress-cucumber-preprocessor";
 
 import browser from "../browser";
 import { shallowDeepAlmostEqual } from "../utils";
+import { getMaterialFromStandata } from "../utils/standata";
 import { parseTable } from "../utils/table";
 
 interface Params {
@@ -25,10 +26,7 @@ Given("material with following data exists in state", (table: DataTable) => {
 
     if (config.standata) {
         const materialName = config.standata;
-        cy.log(`Using material ${materialName} from standata`);
-        console.log(materialName);
-        console.log(Cypress.env("materialConfigs"));
-        cy.wrap(Cypress.env("materialConfigs")[materialName]).then(assertMaterialExists);
+        cy.wrap(getMaterialFromStandata(materialName)).then(assertMaterialExists);
     } else if (config.path) {
         cy.readFile(`./cypress/fixtures/${config.path}`).then(assertMaterialExists);
     } else {
