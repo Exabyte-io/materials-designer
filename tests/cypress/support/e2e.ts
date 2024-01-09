@@ -16,14 +16,5 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 
-import data from "@mat3ra/standata/lib/runtime_data/materials";
-
-// Set a before hook to run before all tests
-before(() => {
-    const materialConfigs = Object.values(data.filesMapByName);
-    console.log("before.", materialConfigs);
-    Cypress.env("materialConfigs", materialConfigs);
-});
-
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
