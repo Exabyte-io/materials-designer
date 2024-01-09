@@ -11,8 +11,8 @@ Feature: User can import files from Standata
     # Import
     When I import material "Graphene (mp-1040425)" from Standata
     Then material with following data exists in state
-      | path         | index   |
-      | graphene.json| $INT{2} |
-    
+      | standata             | index   |
+      | Graphene (mp-104025) | $INT{2} |
+
     # Cleanup
   Then I delete materials with index "2"
