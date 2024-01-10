@@ -32,7 +32,7 @@
         "@babel/register": "^7.22.15",
         "@babel/runtime-corejs3": "^7.16.8",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#update/SOF-7142",
+        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#bc4be2f4656eb31fa05191e5a6a9f5c29c8c38e9",
         "@typescript-eslint/eslint-plugin": "^5.9.1",
         "@typescript-eslint/parser": "^5.9.1",
         "eslint": "^7.32.0",

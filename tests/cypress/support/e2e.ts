@@ -12,9 +12,13 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-
 // Import commands.js using ES2015 syntax:
 import "./commands";
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+import BrowserFactory from "@exabyte-io/code.js/dist/cypress/BrowserFactory";
+
+import SETTINGS from "./settings";
+
+beforeEach(() => {
+    BrowserFactory.setBrowserSettings(SETTINGS);
+});
