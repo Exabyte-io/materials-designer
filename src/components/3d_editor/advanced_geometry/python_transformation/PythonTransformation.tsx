@@ -123,7 +123,7 @@ class PythonTransformation extends React.Component<
         // Designate a DOM element as the target for matplotlib plots supported by pyodide
         // as per https://github.com/pyodide/matplotlib-pyodide
         // @ts-ignore
-        document.pyodideMplTarget = document.getElementById(`pyodide-plot-target-${name}`);
+        document.pyodideMplTarget = document.getElementById(`pyodide-plot-target-${sectionIndex}`);
 
         const convertedData = pyodide.toPy({ materials_in: selectedMaterials });
 
