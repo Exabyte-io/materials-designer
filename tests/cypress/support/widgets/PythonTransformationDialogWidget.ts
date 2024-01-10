@@ -35,7 +35,9 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     setCode(code: string, id = 0) {
-        this.browser.setInputValue(selectors.codeInput(id), code);
+        this.browser.setInputValue(selectors.codeInput(id), code, true, {
+            parseSpecialCharSequences: false,
+        });
     }
 
     getCode(id = 0): Cypress.Chainable<string> {
