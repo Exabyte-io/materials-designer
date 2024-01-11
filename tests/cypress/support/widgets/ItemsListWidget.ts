@@ -21,7 +21,7 @@ export class ItemsListWidget extends Widget {
         this.selectItemByIndex(itemIndex);
         this.browser.setInputValue(selector, name);
         // Click outside of the input field to save the value
-        this.browser.click(this.selectors.outside);
+        this.browser.click(this.getWrappedSelector(this.selectors.outside));
     }
 
     getSelectorPerItem(itemIndex: number, selectorName: string) {
