@@ -4,7 +4,7 @@ const wrapper = ".materials-designer-items-list";
 
 export class ItemsListWidget extends Widget {
     selectors = {
-        outside: "header",
+        outside: "#materials-designer",
         wrapper,
         nameInput: "input",
         itemByIndex: (index: number) => `ul>div:nth-of-type(${index}) li`,
@@ -21,7 +21,7 @@ export class ItemsListWidget extends Widget {
         this.selectItemByIndex(itemIndex);
         this.browser.setInputValue(selector, name);
         // Click outside of the input field to save the value
-        this.browser.click(this.getWrappedSelector(this.selectors.outside));
+        this.browser.click(this.selectors.outside);
     }
 
     getSelectorPerItem(itemIndex: number, selectorName: string) {
