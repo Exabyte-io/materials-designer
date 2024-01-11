@@ -69,6 +69,10 @@ export default class MaterialDesignerWidget extends Widget {
         this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 1);
     }
 
+    exit() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 6);
+    }
+
     generateSupercell(supercellMatrixAsString: string) {
         this.openSupercellDialog();
         this.supercellDialog.generateSupercell(supercellMatrixAsString);
