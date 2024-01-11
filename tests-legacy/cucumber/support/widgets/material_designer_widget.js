@@ -54,7 +54,9 @@ export class MaterialDesignerWidget extends Widget {
     // eslint-disable-next-line no-unused-vars
     save(config) {}
 
-    exit() {}
+    exit() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 6);
+    }
 
     generateSupercell(supercellMatrixAsString) {
         this.openSupercellDialog();
