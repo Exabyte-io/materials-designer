@@ -51,6 +51,10 @@ export default class MaterialDesignerWidget extends Widget {
         this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 4);
     }
 
+    openSaveDialog() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 5);
+    }
+
     createSurface(config: SurfaceConfig) {
         this.openSurfaceDialog();
         this.surfaceDialog.generateSurface(config);
