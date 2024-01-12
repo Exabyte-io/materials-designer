@@ -129,6 +129,10 @@ export default class MaterialDesignerWidget extends Widget {
         this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", index);
     }
 
+    toggleIsNonPeriodic() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", 6);
+    }
+
     clickDeleteAction(index: number) {
         this.itemsList.deleteMaterialByIndex(index);
     }
