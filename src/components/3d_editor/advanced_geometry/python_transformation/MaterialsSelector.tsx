@@ -12,10 +12,11 @@ interface MaterialsSelectorProps {
     materials: Made.Material[];
     selectedMaterials: Made.Material[];
     setSelectedMaterials: (selectedMaterials: Made.Material[]) => void;
+    testId?: string;
 }
 
 function MaterialsSelector(props: MaterialsSelectorProps) {
-    const { materials, selectedMaterials, setSelectedMaterials } = props;
+    const { materials, selectedMaterials, setSelectedMaterials, testId } = props;
 
     useEffect(() => {
         const updatedSelectedMaterials = selectedMaterials.filter((selectedMaterial) =>
@@ -31,7 +32,7 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
         <Autocomplete
             multiple
             id="materials-autocomplete"
-            data-tid="materials-selector"
+            data-tid={testId || "materials-autocomplete"}
             size="small"
             options={materials}
             getOptionLabel={(option) => option.name}

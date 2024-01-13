@@ -60,6 +60,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
                 .catch((error) => {
                     enqueueSnackbar("Error fetching transformations", { variant: "error" });
                     console.error(error);
+                    setTransformations([emptyTransformation]);
                 });
         }
     }, [isDataFetched, transformation, url]);

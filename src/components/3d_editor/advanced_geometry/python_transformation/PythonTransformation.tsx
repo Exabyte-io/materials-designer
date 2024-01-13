@@ -306,6 +306,7 @@ class PythonTransformation extends React.Component<
                                 setSelectedMaterials={(newMaterials) =>
                                     this.setState({ selectedMaterials: newMaterials })
                                 }
+                                testId="materials-in-selector"
                             />
                         </Grid>
                         <Grid item xs={12}>

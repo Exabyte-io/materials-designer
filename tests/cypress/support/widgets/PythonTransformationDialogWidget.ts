@@ -1,11 +1,11 @@
 import browser from "../browser";
+import SETTINGS from "../settings";
 import Widget from "./Widget";
-import AUTWindow = Cypress.AUTWindow;
 
 const selectors = {
     wrapper: "#python-transformation-dialog",
     dialog: 'div[role="dialog"]',
-    materialsSelector: "[data-tid='materials-selector']",
+    materialsInSelector: "[data-tid='materials-in-selector']",
     materialsSelectorItem: (index: number) => `[data-tid='select-material']:nth-of-type(${index})`,
     transformationSelector: "[data-tid='transformation-selector']",
     transformationSelectorItem: (title: string) => `li:contains("${title}")`,
@@ -26,7 +26,8 @@ export default class PythonTransformationDialogWidget extends Widget {
     }
 
     selectMaterial(index: number) {
-        browser.click(this.wrappedSelectors.materialsSelectorItem(index));
+        browser.click(this.wrappedSelectors.materialsInSelector);
+        browser.click(selectors.materialsSelectorItem(index));
     }
 
     selectTransformationByTitle(title: string) {
@@ -38,18 +39,16 @@ export default class PythonTransformationDialogWidget extends Widget {
         browser.setInputValue(selectors.codeInput(id), code);
     }
 
-    getCode(id = 0) {
-        return browser.execute((win: AUTWindow) => {
-            const { document } = win;
-            const element = document.getElementById(selectors.pythonOutput(id, true));
-            return element
-                ?.getElementsByClassName("cm-content")[0]
-                .cmView.view.state.doc.toString();
-        });
-    }
-
-    getPythonOutput(id = 0) {
-        return browser.getInputValue(selectors.pythonOutput(id));
+    getCode(id = 0): Cypress.Chainable<string> {
+        const elementSelector = selectors.pythonOutput(id, true);
+        return cy
+            .get(`#${elementSelector} .cm-content`, { timeout: SETTINGS.TIMEOUT_MEDIUM })
+            .then(($contentElement) => {
+                if ($contentElement.length > 0 && $contentElement[0].cmView) {
+                    return $contentElement[0].cmView.view.state.doc.toString();
+                }
+                return "";
+            });
     }
 
     clearOutput(id = 0) {
@@ -58,7 +57,9 @@ export default class PythonTransformationDialogWidget extends Widget {
 
     runCode(id = 0) {
         browser.click(this.wrappedSelectors.runButton);
-        browser.waitForVisible(this.wrappedSelectors.pythonOutput(id));
+        cy.get(this.wrappedSelectors.pythonOutput(id), { timeout: SETTINGS.TIMEOUT_MEDIUM })
+            .should("exist")
+            .scrollIntoView();
     }
 
     cancel() {
