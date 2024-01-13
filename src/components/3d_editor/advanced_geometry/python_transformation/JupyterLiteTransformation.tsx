@@ -51,13 +51,7 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     componentDidMount() {
-        window.addEventListener("message", (event) => {
-            console.log("added event listener, event:", event);
-
-            if (event.data.type === "fromJupyterLite") {
-                console.log("Received data from JupyterLite:", event.data.data);
-            }
-        });
+        window.addEventListener("message", this.handleReceiveMessage, false);
     }
 
     componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
@@ -68,6 +62,19 @@ class JupyterLiteTransformation extends React.Component<
         }
     }
 
+    componentWillUnmount() {
+        window.removeEventListener("message", this.handleReceiveMessage, false);
+    }
+
+    handleReceiveMessage = (event: any) => {
+        if (event.origin !== ORIGIN_URL) {
+            return;
+        }
+        if (event.data.type === "fromJupyterLite") {
+            console.log("Received data from JupyterLite:", event.data.data);
+        }
+    };
+
     handleSubmit = async () => {
         const { onSubmit, materials } = this.props;
         const { newMaterials } = this.state;
@@ -77,17 +84,17 @@ class JupyterLiteTransformation extends React.Component<
     };
 
     // eslint-disable-next-line class-methods-use-this
-    sendMessageToIFrame(data: any) {
+    sendMessageToIFrame(data: any = { a: 1 }) {
         const iframe = document.getElementById("jupyter-lite-iframe");
-        if (iframe) {
+        console.log("iframe", iframe);
+        // @ts-ignore
+        if (iframe && iframe.contentWindow) {
             // @ts-ignore
-            iframe.contentWindow.postMessage({ type: "fromHost", data }, window.location.origin);
-            console.log("Sent data to JupyterLite:", data);
+            iframe.contentWindow.postMessage({ type: "fromHost", payload: data }, ORIGIN_URL);
+            console.log("Sending data to JupyterLite:", data);
         } else {
             NPMsAlert.error("JupyterLite iframe not found");
         }
-        // @ts-ignore
-        window.frames.jupyterlite.postMessage({ type: "fromHost", data: "hello" });
     }
 
     render() {
@@ -142,6 +149,12 @@ class JupyterLiteTransformation extends React.Component<
                         <Grid item xs={12}>
                             <Stack direction="row" display="flex" justifyContent="flex-end">
                                 <Button
+                                    id="send-message"
+                                    onClick={() => this.sendMessageToIFrame()}
+                                >
+                                    Send Message
+                                </Button>
+                                <Button
                                     id="download-code-button"
                                     color="secondary"
                                     onClick={() => {
@@ -190,7 +203,7 @@ class JupyterLiteTransformation extends React.Component<
                                     name="jupyterlite"
                                     id="jupyter-lite-iframe"
                                     src="https://jupyter-lite.mat3ra.com/lab/"
-                                    sandbox="allow-scripts allow-same-origin"
+                                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation"
                                     width="100%"
                                     height="100%"
                                 />
