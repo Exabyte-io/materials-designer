@@ -61,14 +61,14 @@
     "peerDependencies": {
         "@exabyte-io/made.js": "*",
         "@exabyte-io/code.js": "*",
-        "@exabyte-io/cove.js": "*",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js.git#feat/SOF-7173",
         "@mat3ra/standata": "*",
         "react": "^17.0.0",
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
         "@exabyte-io/code.js": "2023.12.13-0",
-        "@exabyte-io/cove.js": "git+https://github.com/Exabyte-io/cove.js.git#056b88cb95d6712e0e516cec76bf5c699e4c5982",
+        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js.git#feat/SOF-7173",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "2023.12.4-0",
         "@mat3ra/standata": "^2023.12.26-3",
