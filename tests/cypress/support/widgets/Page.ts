@@ -1,4 +1,4 @@
-import BasePage from "@exabyte-io/tede/src/js/cypress/Page";
+import BasePage from "@mat3ra/tede/src/js/cypress/Page";
 
 export default class Page extends BasePage {
     // Put custom functions here

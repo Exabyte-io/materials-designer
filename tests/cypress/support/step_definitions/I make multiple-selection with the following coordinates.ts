@@ -1,5 +1,5 @@
 import { DataTable, Given } from "@badeball/cypress-cucumber-preprocessor";
-import { parseTable } from "@exabyte-io/tede/src/js/cypress/utils/table";
+import { parseTable } from "@mat3ra/tede/src/js/cypress/utils/table";
 
 import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 import { Coordinates } from "../widgets/ThreeJSEditorWidget";

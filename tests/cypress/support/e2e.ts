@@ -15,7 +15,7 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 
-import BrowserManager from "@exabyte-io/tede/src/js/cypress/BrowserManager";
+import BrowserManager from "@mat3ra/tede/src/js/cypress/BrowserManager";
 
 import SETTINGS from "./settings";
 

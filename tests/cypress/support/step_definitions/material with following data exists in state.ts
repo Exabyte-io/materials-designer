@@ -1,9 +1,9 @@
 import { DataTable, Given } from "@badeball/cypress-cucumber-preprocessor";
+import BrowserManager from "@mat3ra/tede/src/js/cypress/BrowserManager";
+import { shallowDeepAlmostEqual } from "@mat3ra/tede/src/js/cypress/utils";
+import { parseTable } from "@mat3ra/tede/src/js/cypress/utils/table";
 
 import { getMaterialFromStandata } from "../utils/standata";
-import BrowserManager from "@exabyte-io/tede/src/js/cypress/BrowserManager";
-import { parseTable } from "@exabyte-io/tede/src/js/cypress/utils/table";
-import { shallowDeepAlmostEqual } from "@exabyte-io/tede/src/js/cypress/utils";
 
 interface Params {
     path?: string;
