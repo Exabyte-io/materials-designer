@@ -15,10 +15,10 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 
-import BrowserFactory from "@exabyte-io/tede/src/js/cypress/BrowserFactory";
+import BrowserManager from "@exabyte-io/tede/src/js/cypress/BrowserManager";
 
 import SETTINGS from "./settings";
 
-beforeEach(() => {
-    BrowserFactory.setBrowserSettings(SETTINGS);
+before(() => {
+    BrowserManager.setBrowserSettings(SETTINGS);
 });
