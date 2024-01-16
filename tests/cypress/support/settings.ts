@@ -1,4 +1,4 @@
-import { BrowserSettings } from "@exabyte-io/code.js/dist/cypress/Browser";
+import { BrowserSettings } from "@exabyte-io/tede/src/js/cypress/Browser";
 
 // Times are all in milliseconds
 const SETTINGS: BrowserSettings = {
