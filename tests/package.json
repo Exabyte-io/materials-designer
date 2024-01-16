@@ -32,7 +32,8 @@
         "@babel/register": "^7.22.15",
         "@babel/runtime-corejs3": "^7.16.8",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#5bed6c39e3ef7888438caeae414af0d8b5b97b08",
+        "@exabyte-io/code.js": "2024.1.16-0",
+        "@exabyte-io/tede": "git+https://github.com/Exabyte-io/tede.git#352553ee064f449916b457247d24eaad65a4c105",
         "@typescript-eslint/eslint-plugin": "^5.9.1",
         "@typescript-eslint/parser": "^5.9.1",
         "eslint": "^7.32.0",
@@ -51,6 +52,7 @@
         "prettier": "2.5.1"
     },
     "peerDependencies": {
-        "@exabyte-io/code.js": "*"
+        "@exabyte-io/code.js": "*",
+        "@exabyte-io/tede": "*"
     }
 }

@@ -15,7 +15,7 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 
-import BrowserFactory from "@exabyte-io/code.js/dist/cypress/BrowserFactory";
+import BrowserFactory from "@exabyte-io/tede/src/js/cypress/BrowserFactory";
 
 import SETTINGS from "./settings";
 

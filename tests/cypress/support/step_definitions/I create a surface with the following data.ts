@@ -1,5 +1,5 @@
 import { DataTable, Given } from "@badeball/cypress-cucumber-preprocessor";
-import { parseTable } from "@exabyte-io/code.js/dist/cypress/utils/table";
+import { parseTable } from "@exabyte-io/tede/src/js/cypress/utils/table";
 
 import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 import { SurfaceConfig } from "../widgets/SurfaceDialogWidget";
