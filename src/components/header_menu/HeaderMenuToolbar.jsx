@@ -45,7 +45,7 @@ import PythonTransformation from "../3d_editor/advanced_geometry/python_transfor
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
-import StandataImportModal from "../include/StandataImportModal";
+import StandataImportDialog from "../include/StandataImportDialog";
 import UploadDialog from "../include/UploadDialog";
 import ExportActionDialog from "./ExportActionDialog";
 
@@ -56,7 +56,7 @@ class HeaderMenuToolbar extends React.Component {
             showSupercellDialog: false,
             showSurfaceDialog: false,
             showExportMaterialsDialog: false,
-            showStandataImportModal: false,
+            showStandataImportDialog: false,
             showDefaultImportModalDialog: false,
             showCombinatorialDialog: false,
             showInterpolateDialog: false,
@@ -82,7 +82,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Import
                 </MenuItem>
-                <MenuItem onClick={() => this.setState({ showStandataImportModal: true })}>
+                <MenuItem onClick={() => this.setState({ showStandataImportDialog: true })}>
                     <ListItemIcon>
                         <AddCircleIcon />
                     </ListItemIcon>
@@ -362,7 +362,7 @@ class HeaderMenuToolbar extends React.Component {
             showExportMaterialsDialog,
             showInterpolateDialog,
             showPythonTransformation,
-            showStandataImportModal,
+            showStandataImportDialog,
             showDefaultImportModalDialog,
         } = this.state;
         const {
@@ -426,14 +426,14 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={onExport}
                 />
 
-                <StandataImportModal
+                <StandataImportDialog
                     modalId="standataImportModalDialog"
-                    show={showStandataImportModal}
+                    show={showStandataImportDialog}
                     onSubmit={(...args) => {
                         onAdd(...args);
-                        this.setState({ showStandataImportModal: false });
+                        this.setState({ showStandataImportDialog: false });
                     }}
-                    onClose={() => this.setState({ showStandataImportModal: false })}
+                    onClose={() => this.setState({ showStandataImportDialog: false })}
                     defaultMaterialConfigs={defaultMaterialsSet}
                 />
 
