@@ -70,7 +70,7 @@
         "@exabyte-io/code.js": "2023.12.13-0",
         "@exabyte-io/cove.js": "^2023.12.14-0",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@exabyte-io/made.js": "2023.12.4-0",
+        "@exabyte-io/made.js": "2024.1.8-0",
         "@mat3ra/standata": "^2023.12.26-3",
         "@types/debug": "^4.1.12",
         "@types/mocha": "^10.0.1",
