@@ -4,6 +4,7 @@
     "description": "Materials Designer",
     "scripts": {
         "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
+        "build": "react-scripts build",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests-legacy/cucumber tests-legacy/cucumber",
         "transpile": "tsc; node-sass -r src/stylesheets -o dist/stylesheets",
@@ -25,7 +26,7 @@
         "url": "https://github.com/Exabyte-io/materials-designer/issues"
     },
     "license": "Apache-2.0",
-    "homepage": "https://github.com/Exabyte-io/materials-designer",
+    "homepage": ".",
     "dependencies": {
         "@babel/cli": "7.16.0",
         "@babel/core": "7.16.0",
@@ -33,7 +34,7 @@
         "@babel/runtime-corejs2": "7.16.7",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
-        "@exabyte-io/wave.js": "2023.12.15-0",
+        "@exabyte-io/wave.js": "2024.1.17-0",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
@@ -68,9 +69,9 @@
     },
     "devDependencies": {
         "@exabyte-io/code.js": "2023.12.13-0",
-        "@exabyte-io/cove.js": "^2023.12.14-0",
+        "@exabyte-io/cove.js": "^2024.1.17-0",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@exabyte-io/made.js": "2023.12.4-0",
+        "@exabyte-io/made.js": "2024.1.8-0",
         "@mat3ra/standata": "^2023.12.26-3",
         "@types/debug": "^4.1.12",
         "@types/mocha": "^10.0.1",
