@@ -118,12 +118,12 @@ class PythonTransformation extends React.Component<
         });
 
         const section = executionCells[sectionIndex];
-        const { name, content } = section;
+        const { content } = section;
 
         // Designate a DOM element as the target for matplotlib plots supported by pyodide
         // as per https://github.com/pyodide/matplotlib-pyodide
         // @ts-ignore
-        document.pyodideMplTarget = document.getElementById(`pyodide-plot-target-${name}`);
+        document.pyodideMplTarget = document.getElementById(`pyodide-plot-target-${sectionIndex}`);
 
         const convertedData = pyodide.toPy({ materials_in: selectedMaterials });
 
@@ -277,8 +277,9 @@ class PythonTransformation extends React.Component<
                         spacing={2}
                         id="python-transformation-dialog-content"
                         sx={{ height: "100%" }}
+                        alignItems="center"
                     >
-                        <Grid item xs={12} md={4} alignItems="center">
+                        <Grid item xs={12} md={4}>
                             <Typography variant="subtitle1">Select Source Code</Typography>
                         </Grid>
                         <Grid item xs={12} md={8}>
@@ -293,7 +294,7 @@ class PythonTransformation extends React.Component<
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} alignItems="center">
+                        <Grid item xs={12} md={4}>
                             <Typography variant="subtitle1">
                                 Input Materials (<code>materials_in</code>)
                             </Typography>
@@ -341,7 +342,7 @@ class PythonTransformation extends React.Component<
                             xs={12}
                             id="execution-cells"
                             sx={{
-                                height: "calc(100% - 165px)",
+                                height: "calc(100% - 180px)",
                                 overflowY: "hidden",
                             }}
                         >
