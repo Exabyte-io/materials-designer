@@ -341,7 +341,7 @@ class PythonTransformation extends React.Component<
                             xs={12}
                             id="execution-cells"
                             sx={{
-                                height: "calc(100% - 165px)",
+                                height: "calc(100% - 180px)",
                                 overflowY: "hidden",
                             }}
                         >
