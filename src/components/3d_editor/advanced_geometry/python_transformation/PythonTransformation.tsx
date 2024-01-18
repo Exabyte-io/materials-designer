@@ -118,7 +118,7 @@ class PythonTransformation extends React.Component<
         });
 
         const section = executionCells[sectionIndex];
-        const { name, content } = section;
+        const { content } = section;
 
         // Designate a DOM element as the target for matplotlib plots supported by pyodide
         // as per https://github.com/pyodide/matplotlib-pyodide
