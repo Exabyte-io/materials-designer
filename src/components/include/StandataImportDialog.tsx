@@ -11,22 +11,22 @@ import TextField from "@mui/material/TextField";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 
-interface StandataImportModalProps {
+interface StandataImportDialogProps {
     show: boolean;
     onClose: () => void;
     onSubmit: (materials: Made.Material[]) => void;
     defaultMaterialConfigs: MaterialSchema[];
 }
 
-interface StandataImportModalState {
+interface StandataImportDialogState {
     selectedMaterialConfigs: MaterialSchema[];
 }
 
-class StandataImportModal extends React.Component<
-    StandataImportModalProps,
-    StandataImportModalState
+class StandataImportDialog extends React.Component<
+    StandataImportDialogProps,
+    StandataImportDialogState
 > {
-    constructor(props: StandataImportModalProps) {
+    constructor(props: StandataImportDialogProps) {
         super(props);
         this.state = {
             selectedMaterialConfigs: [],
@@ -103,7 +103,7 @@ class StandataImportModal extends React.Component<
         return (
             <Dialog
                 open={show}
-                id="standataImportModalDialog"
+                id="standata-import-dialog"
                 title="Import from Standata"
                 onClose={onClose}
                 onSubmit={this.addMaterials}
@@ -161,4 +161,4 @@ class StandataImportModal extends React.Component<
     }
 }
 
-export default StandataImportModal;
+export default StandataImportDialog;
