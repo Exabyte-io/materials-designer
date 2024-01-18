@@ -78,3 +78,12 @@ jobs:
           npm-token: ${{ secrets.NPM_TOKEN }}
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           verify-tests: false
+
+      - name: Publish cypress
+        uses: ./actions/js/publish
+        with:
+          node-version: 14.19.x
+          npm-token: ${{ secrets.NPM_TOKEN }}
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          package-directory: ./src/tests
+          verify-tests: false

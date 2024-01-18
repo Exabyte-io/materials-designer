@@ -1,5 +1,5 @@
 {
-    "name": "materials-designer-tests",
+    "name": "@mat3ra/materials-designer-tests",
     "version": "0.0.0",
     "description": "",
     "main": "index.js",
