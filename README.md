@@ -5,6 +5,8 @@
 
 A standalone React/Redux application for atomistic design of material structures. Deployed within the Mat3ra.com platform as explained in the corresponding part of its documentatation [here](https://docs.mat3ra.com/materials-designer/overview/). Can be used as a library in other applications.
 
+[Try Materials Designer in action here](https://dev--mat3ra-materials-designer.netlify.app/)
+
 ![Materials Designer in action](https://i.imgur.com/f7NvNNl.png)
 
 ## Functionality
