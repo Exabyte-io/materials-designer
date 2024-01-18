@@ -7,6 +7,7 @@ import { InterpolatedSetDialogWidget } from "./InterpolatedSetDialogWidget";
 import { ItemsListWidget } from "./ItemsListWidget";
 import PythonTransformationDialogWidget from "./PythonTransformationDialogWidget";
 import { SourceEditorWidget } from "./SourceEditorWidget";
+import StandataDialogWidget from "./StandataDialogWidget";
 import { SupercellDialogWidget } from "./SupercellDialogWidget";
 import SurfaceDialogWidget, { SurfaceConfig } from "./SurfaceDialogWidget";
 import { ThreeJSEditorWidget } from "./ThreeJSEditorWidget";
@@ -33,6 +34,8 @@ export default class MaterialDesignerWidget extends Widget {
 
     pythonTransformationDialog: PythonTransformationDialogWidget;
 
+    standataDialog: StandataDialogWidget;
+
     constructor(selector: string) {
         super(selector);
         this.itemsList = new ItemsListWidget();
@@ -45,6 +48,7 @@ export default class MaterialDesignerWidget extends Widget {
         this.interpolatedSetDialog = new InterpolatedSetDialogWidget();
         this.defaultImportModalDialog = new DefaultImportModalDialogWidget();
         this.pythonTransformationDialog = new PythonTransformationDialogWidget();
+        this.standataDialog = new StandataDialogWidget();
     }
 
     openSurfaceDialog() {

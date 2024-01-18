@@ -4,6 +4,7 @@
     "description": "Materials Designer",
     "scripts": {
         "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
+        "build": "react-scripts build",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests-legacy/cucumber tests-legacy/cucumber",
         "transpile": "tsc; node-sass -r src/stylesheets -o dist/stylesheets",
@@ -12,7 +13,7 @@
         "lint": "eslint src tests-legacy && prettier --write src tests-legacy",
         "lint:fix": "eslint src tests-legacy --fix && prettier --write src tests-legacy",
         "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react; npm-link-shared ./node_modules/@exabyte-io/wave.js/node_modules . react",
-        "postinstall": "npm run transpile; npm run transpile-tests",
+        "postinstall": "sed -i.bak '/noEmit/d' ./node_modules/react-scripts/scripts/utils/verifyTypeScriptSetup.js; npm run transpile; npm run transpile-tests",
         "prettier": "prettier --check src tests"
     },
     "repository": {
@@ -25,7 +26,7 @@
         "url": "https://github.com/Exabyte-io/materials-designer/issues"
     },
     "license": "Apache-2.0",
-    "homepage": "https://github.com/Exabyte-io/materials-designer",
+    "homepage": ".",
     "dependencies": {
         "@babel/cli": "7.16.0",
         "@babel/core": "7.16.0",
@@ -33,7 +34,7 @@
         "@babel/runtime-corejs2": "7.16.7",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
-        "@exabyte-io/wave.js": "git+https://github.com/Exabyte-io/wave.js.git#e3bf85ec0d9fa65fb892f9185f6464e57ea0f5d3",
+        "@exabyte-io/wave.js": "2024.1.18-0",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
@@ -70,7 +71,7 @@
         "@exabyte-io/code.js": "2023.12.13-0",
         "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js.git#7f9fde651966368d75dada6d28398c7729ab97ca",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@exabyte-io/made.js": "2023.12.4-0",
+        "@exabyte-io/made.js": "2024.1.8-0",
         "@mat3ra/standata": "^2023.12.26-3",
         "@types/debug": "^4.1.12",
         "@types/mocha": "^10.0.1",
