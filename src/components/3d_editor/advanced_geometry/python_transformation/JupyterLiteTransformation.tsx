@@ -32,7 +32,8 @@ interface JupyterLiteTransformationState {
     pythonCode: string;
 }
 
-const ORIGIN_URL = "http://localhost:3001";
+const ORIGIN_URL = "http://localhost:8000";
+const LOCAL_URL = "http://localhost:3001";
 
 class JupyterLiteTransformation extends React.Component<
     JupyterLiteTransformationProps,
@@ -67,10 +68,11 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     handleReceiveMessage = (event: any) => {
-        if (event.origin !== ORIGIN_URL) {
+        // Check if the message is from the expected source
+        if (event.origin !== LOCAL_URL) {
             return;
         }
-        if (event.data.type === "fromJupyterLite") {
+        if (event.data.type === "from-iframe-to-host") {
             console.log("Received data from JupyterLite:", event.data.data);
         }
     };
@@ -86,14 +88,30 @@ class JupyterLiteTransformation extends React.Component<
     // eslint-disable-next-line class-methods-use-this
     sendMessageToIFrame(data: any = { a: 1 }) {
         const iframe = document.getElementById("jupyter-lite-iframe");
-        console.log("iframe", iframe);
-        // @ts-ignore
-        if (iframe && iframe.contentWindow) {
-            // @ts-ignore
-            iframe.contentWindow.postMessage({ type: "fromHost", payload: data }, ORIGIN_URL);
-            console.log("Sending data to JupyterLite:", data);
-        } else {
+        if (!iframe) {
             NPMsAlert.error("JupyterLite iframe not found");
+            return;
+        }
+
+        if (iframe.onload) {
+            this.postToIframe(iframe, data);
+        } else {
+            iframe.onload = () => {
+                this.postToIframe(iframe, data);
+            };
+        }
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    postToIframe(iframe: any, data: any) {
+        // @ts-ignore
+        if (iframe.contentWindow) {
+            // @ts-ignore
+            iframe.contentWindow.postMessage(
+                { type: "from-host-to-iframe", payload: data },
+                ORIGIN_URL,
+            );
+            console.log("Sending data to JupyterLite:", data);
         }
     }
 
@@ -202,7 +220,7 @@ class JupyterLiteTransformation extends React.Component<
                                 <iframe
                                     name="jupyterlite"
                                     id="jupyter-lite-iframe"
-                                    src="https://jupyter-lite.mat3ra.com/lab/"
+                                    src={ORIGIN_URL}
                                     sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation"
                                     width="100%"
                                     height="100%"
