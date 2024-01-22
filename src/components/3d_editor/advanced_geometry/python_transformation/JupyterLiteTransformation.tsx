@@ -86,7 +86,7 @@ class JupyterLiteTransformation extends React.Component<
     };
 
     // eslint-disable-next-line class-methods-use-this
-    sendMessageToIFrame(data: any = { a: 1 }) {
+    sendMessageToIFrame(data: any) {
         const iframe = document.getElementById("jupyter-lite-iframe");
         if (!iframe) {
             NPMsAlert.error("JupyterLite iframe not found");
@@ -107,10 +107,7 @@ class JupyterLiteTransformation extends React.Component<
         // @ts-ignore
         if (iframe.contentWindow) {
             // @ts-ignore
-            iframe.contentWindow.postMessage(
-                { type: "from-host-to-iframe", payload: data },
-                ORIGIN_URL,
-            );
+            iframe.contentWindow.postMessage({ type: "from-host-to-iframe", data }, ORIGIN_URL);
             console.log("Sending data to JupyterLite:", data);
         }
     }
@@ -168,7 +165,11 @@ class JupyterLiteTransformation extends React.Component<
                             <Stack direction="row" display="flex" justifyContent="flex-end">
                                 <Button
                                     id="send-message"
-                                    onClick={() => this.sendMessageToIFrame()}
+                                    onClick={() =>
+                                        this.sendMessageToIFrame({
+                                            materials: selectedMaterials,
+                                        })
+                                    }
                                 >
                                     Send Message
                                 </Button>
