@@ -49,23 +49,23 @@ class JupyterLiteTransformation extends React.Component<
 
     componentDidMount() {
         window.addEventListener("message", this.handleReceiveMessage, false);
-        const { selectedMaterials } = this.state;
         const iframe = document.getElementById(IFRAME_ID);
         console.log("iframe", iframe);
-
-        // @ts-ignore
-        window.materials = selectedMaterials;
-        window.postMessage(
-            { type: "from-host-to-iframe", materials: selectedMaterials },
-            LOCAL_URL,
-        );
     }
 
-    componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
+    componentDidUpdate(
+        prevProps: JupyterLiteTransformationProps,
+        prevState: JupyterLiteTransformationState,
+    ) {
         const { materials } = this.props;
         if (prevProps.materials !== materials) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ materials });
+        }
+
+        const { selectedMaterials } = this.state;
+        if (prevState.selectedMaterials !== selectedMaterials) {
+            this.sendMessageToIFrame();
         }
     }
 
