@@ -81,7 +81,15 @@ class JupyterLiteTransformation extends React.Component<
         if (event.data.type === "from-iframe-to-host") {
             console.log("Received data from JupyterLite:", event.data, event.origin);
             try {
-                if (event.data.materials) this.setState({ newMaterials: event.data.materials });
+                if (event.data.materials) {
+                    // convert array of JSON into array of Made.Materials
+                    const newMaterials = event.data.materials.map((materialConfig: any) => {
+                        const newMaterial = new Made.Material(materialConfig);
+                        return newMaterial;
+                    });
+                    this.setState({ newMaterials });
+                }
+                if (event.data.requestMaterials === true) this.sendMessageToIFrame();
             } catch (err) {
                 console.log(err);
             }
@@ -97,11 +105,11 @@ class JupyterLiteTransformation extends React.Component<
     };
 
     sendMessageToIFrame() {
-        console.log(this);
-        const { selectedMaterials } = this.state;
+        const { materials } = this.state;
+        const materialConfigs = materials.map((material) => material.toJSON());
         const message = {
             type: "from-host-to-iframe",
-            materials: selectedMaterials,
+            materials: materialConfigs,
         };
         const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement;
         if (!iframe) {
@@ -122,7 +130,7 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     render() {
-        const { materials, selectedMaterials, newMaterials, executionStatus } = this.state;
+        const { newMaterials, executionStatus } = this.state;
         const { show, onHide } = this.props;
 
         return (
@@ -148,76 +156,15 @@ class JupyterLiteTransformation extends React.Component<
                         id="python-transformation-dialog-content"
                         sx={{ height: "100%" }}
                     >
-                        <Grid item xs={12} md={4} alignItems="center">
-                            <Typography variant="subtitle1">
-                                Input Materials (<code>materials_in</code>)
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <MaterialsSelector
-                                materials={materials}
-                                selectedMaterials={selectedMaterials}
-                                setSelectedMaterials={(newMaterials) =>
-                                    this.setState({ selectedMaterials: newMaterials })
-                                }
-                                testId="materials-in-selector"
+                            {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
+                            <iframe
+                                name="jupyterlite"
+                                id={IFRAME_ID}
+                                src={ORIGIN_URL}
+                                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation"
+                                width="100%"
+                                height="100%"
                             />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Stack direction="row" display="flex" justifyContent="flex-end">
-                                <Button
-                                    id="send-message"
-                                    onClick={() => this.sendMessageToIFrame()}
-                                >
-                                    Send Message
-                                </Button>
-                                <Button
-                                    id="download-code-button"
-                                    color="secondary"
-                                    onClick={() => {
-                                        console.log("download code");
-                                    }}
-                                >
-                                    Download Code
-                                    <IconByName name="actions.download" />
-                                </Button>
-                                <CodeExecutionControls
-                                    buttonProps={{
-                                        id: "run-jl",
-                                        title: "Run",
-                                        variant: "contained",
-                                        color: "primary",
-                                    }}
-                                    handleRun={this.sendMessageToIFrame}
-                                    executionStatus={executionStatus}
-                                />
-                            </Stack>
-                        </Grid>
-                        <Grid
-                            pt={0}
-                            item
-                            xs={12}
-                            id="execution-cells"
-                            sx={{
-                                height: "calc(100% - 165px)",
-                                overflowY: "hidden",
-                            }}
-                        >
-                            <Paper
-                                sx={{
-                                    height: "100%",
-                                }}
-                            >
-                                {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
-                                <iframe
-                                    name="jupyterlite"
-                                    id={IFRAME_ID}
-                                    src={ORIGIN_URL}
-                                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation"
-                                    width="100%"
-                                    height="100%"
-                                />
-                            </Paper>
                         </Grid>
                         <Grid item container xs={12} md={4} alignItems="center">
                             <Typography variant="subtitle1">
