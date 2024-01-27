@@ -126,7 +126,7 @@ class JupyterLiteTransformation extends React.Component<
             >
                 <DialogContent
                     sx={{
-                        height: "calc(100vh - 300px)",
+                        height: "calc(100vh - 240px)",
                         ...(theme.palette.mode === "dark" ? darkScrollbar() : null),
                     }}
                 >
@@ -148,13 +148,7 @@ class JupyterLiteTransformation extends React.Component<
                                 height="100%"
                             />
                         </Grid>
-                        <Grid
-                            item
-                            container
-                            spacing={2}
-                            alignItems="center"
-                            justifyContent="space-between"
-                        >
+                        <Grid item container spacing={2}>
                             <Grid item>
                                 <Typography variant="subtitle1">
                                     Output Materials (<code>materials_out</code>)
