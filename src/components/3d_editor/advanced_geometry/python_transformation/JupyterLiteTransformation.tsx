@@ -126,38 +126,49 @@ class JupyterLiteTransformation extends React.Component<
             >
                 <DialogContent
                     sx={{
-                        height: "calc(100vh - 260px)",
+                        height: "calc(100vh - 300px)",
                         ...(theme.palette.mode === "dark" ? darkScrollbar() : null),
                     }}
                 >
                     <Grid
                         container
+                        direction="column"
                         spacing={2}
                         id="python-transformation-dialog-content"
-                        sx={{ height: "100%" }}
+                        height="100%"
                     >
-                        <iframe
-                            name="jupyterlite"
-                            title="JupyterLite"
-                            id={IFRAME_ID}
-                            src={ORIGIN_URL}
-                            sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation"
-                            width="100%"
-                            height="100%"
-                        />
-                        <Grid item container xs={12} md={4} alignItems="center">
-                            <Typography variant="subtitle1">
-                                Output Materials (<code>materials_out</code>)
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <MaterialsSelector
-                                materials={newMaterials}
-                                selectedMaterials={newMaterials}
-                                setSelectedMaterials={(newMaterials) =>
-                                    this.setState({ newMaterials })
-                                }
+                        <Grid item xs>
+                            <iframe
+                                name="jupyterlite"
+                                title="JupyterLite"
+                                id={IFRAME_ID}
+                                src={ORIGIN_URL}
+                                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation"
+                                width="100%"
+                                height="100%"
                             />
+                        </Grid>
+                        <Grid
+                            item
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent="space-between"
+                        >
+                            <Grid item>
+                                <Typography variant="subtitle1">
+                                    Output Materials (<code>materials_out</code>)
+                                </Typography>
+                            </Grid>
+                            <Grid item xs>
+                                <MaterialsSelector
+                                    materials={newMaterials}
+                                    selectedMaterials={newMaterials}
+                                    setSelectedMaterials={(newMaterials) =>
+                                        this.setState({ newMaterials })
+                                    }
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </DialogContent>
