@@ -1,7 +1,7 @@
 import { Given } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 Given("I cancel import", () => {
-    materialDesignerPage.designerWidget.defaultImportModalDialog.cancel();
+    new MaterialDesignerPage().designerWidget.defaultImportModalDialog.cancel();
 });

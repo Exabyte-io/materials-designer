@@ -1,4 +1,3 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 const selectors = {
@@ -16,10 +15,10 @@ export class InterpolatedSetDialogWidget extends Widget {
     }
 
     setInterpolatedSetImagesCount(nImages: number) {
-        browser.setInputValue(this.selectors.intermediateImagesInput, nImages);
+        this.browser.setInputValue(this.selectors.intermediateImagesInput, nImages);
     }
 
     submit() {
-        browser.click(this.selectors.submitButton);
+        this.browser.click(this.selectors.submitButton);
     }
 }

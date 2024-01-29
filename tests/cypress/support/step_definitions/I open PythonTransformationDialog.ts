@@ -1,7 +1,10 @@
 import { When } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 When("I open PythonTransformationDialog", () => {
-    materialDesignerPage.designerWidget.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 6);
+    new MaterialDesignerPage().designerWidget.headerMenu.selectMenuItemByNameAndItemNumber(
+        "Advanced",
+        6,
+    );
 });

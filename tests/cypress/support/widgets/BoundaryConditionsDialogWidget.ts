@@ -1,4 +1,3 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 const selectors = {
@@ -24,17 +23,17 @@ export default class BoundaryConditionsDialogWidget extends Widget {
     addBoundaryConditions({ type, offset }: BoundaryConditions) {
         const selectorType = this.selectors.type;
         const selectorOffset = this.selectors.offset;
-        browser.waitForVisible(selectorType);
-        browser.click(selectorType);
+        this.browser.waitForVisible(selectorType);
+        this.browser.click(selectorType);
         const menuItemSelector = `li[data-value="${type}"]`;
-        browser.waitForVisible(menuItemSelector);
-        browser.click(menuItemSelector);
+        this.browser.waitForVisible(menuItemSelector);
+        this.browser.click(menuItemSelector);
 
-        browser.waitForVisible(selectorOffset);
-        browser.setInputValue(this.selectors.offset, offset);
+        this.browser.waitForVisible(selectorOffset);
+        this.browser.setInputValue(this.selectors.offset, offset);
     }
 
     submit() {
-        browser.click(this.selectors.submitButton);
+        this.browser.click(this.selectors.submitButton);
     }
 }

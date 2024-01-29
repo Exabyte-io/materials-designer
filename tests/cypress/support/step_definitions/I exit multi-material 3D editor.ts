@@ -1,10 +1,11 @@
 import { Given } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 Given("I exit multi-material 3D editor", () => {
-    materialDesignerPage.designerWidget.threeJSEditorWidget.clickOnMenuItem("File", "Exit");
-    materialDesignerPage.designerWidget.threeJSEditorWidget.waitForModalBackdropDisappear();
-    materialDesignerPage.designerWidget.waitForVisible();
-    materialDesignerPage.designerWidget.waitForLoaderToDisappear();
+    const page = new MaterialDesignerPage();
+    page.designerWidget.threeJSEditorWidget.clickOnMenuItem("File", "Exit");
+    page.designerWidget.threeJSEditorWidget.waitForModalBackdropDisappear();
+    page.designerWidget.waitForVisible();
+    page.designerWidget.waitForLoaderToDisappear();
 });

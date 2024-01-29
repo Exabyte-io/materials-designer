@@ -1,4 +1,3 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 export interface SurfaceConfig {
@@ -32,16 +31,16 @@ export default class SurfaceDialogWidget extends Widget {
     }
 
     generateSurface({ h, k, l, thickness, vacuumRatio, vx, vy }: SurfaceConfig) {
-        if (h) browser.setInputValue(this.selectors.h, h);
-        if (k) browser.setInputValue(this.selectors.k, k);
-        if (l) browser.setInputValue(this.selectors.l, l);
-        if (thickness) browser.setInputValue(this.selectors.thickness, thickness);
-        if (vacuumRatio) browser.setInputValue(this.selectors.vacuumRatio, vacuumRatio);
-        if (vx) browser.setInputValue(this.selectors.vx, vx);
-        if (vy) browser.setInputValue(this.selectors.vy, vy);
+        if (h) this.browser.setInputValue(this.selectors.h, h);
+        if (k) this.browser.setInputValue(this.selectors.k, k);
+        if (l) this.browser.setInputValue(this.selectors.l, l);
+        if (thickness) this.browser.setInputValue(this.selectors.thickness, thickness);
+        if (vacuumRatio) this.browser.setInputValue(this.selectors.vacuumRatio, vacuumRatio);
+        if (vx) this.browser.setInputValue(this.selectors.vx, vx);
+        if (vy) this.browser.setInputValue(this.selectors.vy, vy);
     }
 
     submit() {
-        browser.click(this.selectors.submitButton);
+        this.browser.click(this.selectors.submitButton);
     }
 }

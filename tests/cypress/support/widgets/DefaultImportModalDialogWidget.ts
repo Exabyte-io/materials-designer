@@ -1,4 +1,3 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 const selectors = {
@@ -30,21 +29,21 @@ export default class DefaultImportModalDialogWidget extends Widget {
     // eslint-disable-next-line default-param-last
     uploadFiles(filenames: ImportFile[] = []) {
         filenames.forEach(({ filename }) => {
-            browser.uploadFileFromFilePath(this.selectors.uploadInput, filename);
+            this.browser.uploadFileFromFilePath(this.selectors.uploadInput, filename);
         });
     }
 
     verifyFilesInGrid(expectedFiles: ImportFile[]) {
         expectedFiles.forEach((file) => {
             const fileNameSelector = this.selectors.gridFileName(file.filename);
-            browser.waitForVisible(fileNameSelector);
+            this.browser.waitForVisible(fileNameSelector);
         });
     }
 
     verifyFormatsInGrid(expectedFiles: ImportFile[]) {
         expectedFiles.forEach((file) => {
             const formatSelector = this.selectors.gridFormat(file.format);
-            browser.waitForVisible(formatSelector);
+            this.browser.waitForVisible(formatSelector);
         });
     }
 
@@ -52,20 +51,20 @@ export default class DefaultImportModalDialogWidget extends Widget {
         // filename has dots in it which messes with css selectors -> replace them with dashes
         const escapedFileName = file.filename.replace(/\./g, "-");
         const removeButtonSelector = this.selectors.removeButton(escapedFileName);
-        browser.click(removeButtonSelector);
+        this.browser.click(removeButtonSelector);
     }
 
     addButtonExists() {
-        browser.waitForVisible(this.selectors.addButton);
+        this.browser.waitForVisible(this.selectors.addButton);
     }
 
     submit() {
-        browser.waitForVisible(this.selectors.submitButton);
-        browser.click(this.selectors.submitButton);
+        this.browser.waitForVisible(this.selectors.submitButton);
+        this.browser.click(this.selectors.submitButton);
     }
 
     cancel() {
-        browser.waitForVisible(this.selectors.cancelButton);
-        browser.click(this.selectors.cancelButton);
+        this.browser.waitForVisible(this.selectors.cancelButton);
+        this.browser.click(this.selectors.cancelButton);
     }
 }

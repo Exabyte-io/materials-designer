@@ -8,7 +8,7 @@ export default defineConfig({
     e2e: {
         specPattern: "cypress/e2e/**/*.feature",
         // Due to https://github.com/cypress-io/cypress/issues/22040 in GitHub Actions
-        supportFile: false,
+        // supportFile: false,
         async setupNodeEvents(
             on: Cypress.PluginEvents,
             config: Cypress.PluginConfigOptions,
