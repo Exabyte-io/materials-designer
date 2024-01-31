@@ -1,18 +1,14 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
-import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
 import { Made } from "@exabyte-io/made.js";
 import { darkScrollbar } from "@mui/material";
-import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import NPMsAlert from "react-s-alert";
 
 import { theme } from "../../../../settings";
-import CodeExecutionControls, { ExecutionStatus } from "./CodeExecutionControls";
+import { ExecutionStatus } from "./CodeExecutionControls";
 import MaterialsSelector from "./MaterialsSelector";
 
 interface JupyterLiteTransformationProps {
@@ -30,7 +26,6 @@ interface JupyterLiteTransformationState {
 }
 
 const ORIGIN_URL = "http://localhost:8000";
-const LOCAL_URL = "http://localhost:3001";
 const IFRAME_ID = "jupyter-lite-iframe";
 
 class JupyterLiteTransformation extends React.Component<
@@ -49,8 +44,6 @@ class JupyterLiteTransformation extends React.Component<
 
     componentDidMount() {
         window.addEventListener("message", this.handleReceiveMessage, false);
-        const iframe = document.getElementById(IFRAME_ID);
-        console.log("iframe", iframe);
     }
 
     componentDidUpdate(
@@ -97,7 +90,6 @@ class JupyterLiteTransformation extends React.Component<
     };
 
     sendMessageToIFrame() {
-        console.log(this);
         const { selectedMaterials } = this.state;
         const message = {
             type: "from-host-to-iframe",
@@ -105,12 +97,11 @@ class JupyterLiteTransformation extends React.Component<
         };
         const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement;
         if (!iframe) {
-            NPMsAlert.error("JupyterLite iframe not found");
+            console.error("JupyterLite iframe not found");
         }
         const postMessage = () => {
             if (iframe.contentWindow) {
                 iframe.contentWindow.postMessage(message, ORIGIN_URL);
-                console.log("Sending message to JupyterLite:", message);
             }
         };
 
@@ -170,7 +161,7 @@ class JupyterLiteTransformation extends React.Component<
                             id="execution-cells"
                             sx={{
                                 height: "calc(100% - 165px)",
-                                overflowY: "hidden",
+                                overflow: "hidden",
                             }}
                         >
                             <Paper
@@ -178,9 +169,9 @@ class JupyterLiteTransformation extends React.Component<
                                     height: "100%",
                                 }}
                             >
-                                {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
                                 <iframe
                                     name="jupyterlite"
+                                    title="JupyterLite"
                                     id={IFRAME_ID}
                                     src={ORIGIN_URL}
                                     sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation allow-downloads"
