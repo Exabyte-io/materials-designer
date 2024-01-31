@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 
 import { theme } from "../../../../settings";
-import { ExecutionStatus } from "./CodeExecutionControls";
 import MaterialsSelector from "./MaterialsSelector";
 
 interface JupyterLiteTransformationProps {
@@ -22,7 +21,6 @@ interface JupyterLiteTransformationState {
     materials: Made.Material[];
     selectedMaterials: Made.Material[];
     newMaterials: Made.Material[];
-    executionStatus: ExecutionStatus;
 }
 
 const ORIGIN_URL = "http://localhost:8000";
@@ -38,7 +36,6 @@ class JupyterLiteTransformation extends React.Component<
             materials: props.materials,
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
-            executionStatus: ExecutionStatus.Ready,
         };
     }
 
@@ -55,11 +52,6 @@ class JupyterLiteTransformation extends React.Component<
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ materials });
         }
-
-        const { selectedMaterials } = this.state;
-        if (prevState.selectedMaterials !== selectedMaterials) {
-            this.sendMaterialsToIFrame();
-        }
     }
 
     componentWillUnmount() {
@@ -72,7 +64,6 @@ class JupyterLiteTransformation extends React.Component<
             return;
         }
         if (event.data.type === "from-iframe-to-host") {
-            console.log("Received data from JupyterLite:", event.data, event.origin);
             try {
                 // TODO: add check for Material config type
                 const configs = event.data.data.materials;
@@ -119,7 +110,7 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     render() {
-        const { materials, selectedMaterials, newMaterials, executionStatus } = this.state;
+        const { materials, selectedMaterials, newMaterials } = this.state;
         const { show, onHide } = this.props;
 
         return (
@@ -131,7 +122,7 @@ class JupyterLiteTransformation extends React.Component<
                 maxWidth="xl"
                 onSubmit={this.handleSubmit}
                 title="Jupyter Lite Transformation"
-                isSubmitButtonDisabled={executionStatus !== ExecutionStatus.Ready}
+                isSubmitButtonDisabled={newMaterials.length === 0}
             >
                 <DialogContent
                     sx={{
