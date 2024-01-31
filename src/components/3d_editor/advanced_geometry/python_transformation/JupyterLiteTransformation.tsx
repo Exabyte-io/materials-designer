@@ -25,6 +25,7 @@ interface JupyterLiteTransformationState {
 
 const ORIGIN_URL = "http://localhost:8000";
 const IFRAME_ID = "jupyter-lite-iframe";
+const DEFAULT_NOTEBOOK_PATH = "api-examples/other/materials_designer/Introduction.ipynb";
 
 class JupyterLiteTransformation extends React.Component<
     JupyterLiteTransformationProps,
@@ -43,10 +44,7 @@ class JupyterLiteTransformation extends React.Component<
         window.addEventListener("message", this.handleReceiveMessage, false);
     }
 
-    componentDidUpdate(
-        prevProps: JupyterLiteTransformationProps,
-        prevState: JupyterLiteTransformationState,
-    ) {
+    componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
         const { materials } = this.props;
         if (prevProps.materials !== materials) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -170,7 +168,7 @@ class JupyterLiteTransformation extends React.Component<
                                     name="jupyterlite"
                                     title="JupyterLite"
                                     id={IFRAME_ID}
-                                    src={ORIGIN_URL}
+                                    src={`${ORIGIN_URL}/lab/tree?path=${DEFAULT_NOTEBOOK_PATH}`}
                                     sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation allow-downloads"
                                     width="100%"
                                     height="100%"
