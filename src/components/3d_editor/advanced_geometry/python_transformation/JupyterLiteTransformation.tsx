@@ -74,9 +74,13 @@ class JupyterLiteTransformation extends React.Component<
         if (event.data.type === "from-iframe-to-host") {
             console.log("Received data from JupyterLite:", event.data, event.origin);
             try {
-                if (event.data.materials) this.setState({ newMaterials: event.data.materials });
+                if (event.data.data.materials)
+                    this.setState({ newMaterials: event.data.data.materials });
             } catch (err) {
                 console.log(err);
+            }
+            if (event.data.requestData === true) {
+                this.sendMessageToIFrame();
             }
         }
     };
@@ -93,7 +97,7 @@ class JupyterLiteTransformation extends React.Component<
         const { selectedMaterials } = this.state;
         const message = {
             type: "from-host-to-iframe",
-            materials: selectedMaterials,
+            data: selectedMaterials.map((material) => material.toJSON()),
         };
         const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement;
         if (!iframe) {
