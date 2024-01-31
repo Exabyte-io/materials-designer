@@ -23,7 +23,7 @@ interface JupyterLiteTransformationState {
     newMaterials: Made.Material[];
 }
 
-const ORIGIN_URL = "https://jupyter-lite.mat3ra.com/lab/index.html";
+const ORIGIN_URL = "https://jupyter-lite.mat3ra.com/";
 const IFRAME_ID = "jupyter-lite-iframe";
 const DEFAULT_NOTEBOOK_PATH = "api-examples/other/materials_designer/Introduction.ipynb";
 
