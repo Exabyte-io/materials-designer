@@ -81,7 +81,7 @@ class JupyterLiteTransformation extends React.Component<
                 console.log(err);
             }
             if (event.data.requestData === true) {
-                this.sendMessageToIFrame();
+                this.sendMaterialsToIFrame();
             }
         }
     };
@@ -94,26 +94,23 @@ class JupyterLiteTransformation extends React.Component<
         this.setState({ selectedMaterials: [materials[0]], newMaterials: [] });
     };
 
-    sendMessageToIFrame() {
+    sendMaterialsToIFrame() {
         const { selectedMaterials } = this.state;
+        const data = selectedMaterials.map((material) => material.toJSON());
+        this.sendDataToIFrame(data);
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    sendDataToIFrame(data: any) {
         const message = {
             type: "from-host-to-iframe",
-            data: selectedMaterials.map((material) => material.toJSON()),
+            data,
         };
         const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement;
-        if (!iframe) {
-            console.error("JupyterLite iframe not found");
-        }
-        const postMessage = () => {
-            if (iframe.contentWindow) {
-                iframe.contentWindow.postMessage(message, ORIGIN_URL);
-            }
-        };
-
-        if (iframe.onload) {
-            postMessage();
+        if (iframe.contentWindow) {
+            iframe.contentWindow.postMessage(message, ORIGIN_URL);
         } else {
-            iframe.onload = postMessage;
+            console.error("JupyterLite iframe not found");
         }
     }
 
