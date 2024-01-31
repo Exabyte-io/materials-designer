@@ -58,7 +58,7 @@ class JupyterLiteTransformation extends React.Component<
 
         const { selectedMaterials } = this.state;
         if (prevState.selectedMaterials !== selectedMaterials) {
-            this.sendMessageToIFrame();
+            this.sendMaterialsToIFrame();
         }
     }
 
