@@ -74,8 +74,9 @@ class JupyterLiteTransformation extends React.Component<
         if (event.data.type === "from-iframe-to-host") {
             console.log("Received data from JupyterLite:", event.data, event.origin);
             try {
-                if (event.data.data.materials)
+                if (Array.isArray(event.data.data.materials)) {
                     this.setState({ newMaterials: event.data.data.materials });
+                }
             } catch (err) {
                 console.log(err);
             }
