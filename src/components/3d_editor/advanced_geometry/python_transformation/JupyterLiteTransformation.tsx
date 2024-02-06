@@ -23,7 +23,7 @@ interface JupyterLiteTransformationState {
     newMaterials: Made.Material[];
 }
 
-const ORIGIN_URL = "https://jupyter-lite.mat3ra.com";
+const ORIGIN_URL = "http://localhost:8001";
 const IFRAME_ID = "jupyter-lite-iframe";
 const DEFAULT_NOTEBOOK_PATH = "api-examples/other/materials_designer/Introduction.ipynb";
 
@@ -73,7 +73,7 @@ class JupyterLiteTransformation extends React.Component<
             } catch (err) {
                 console.log(err);
             }
-            if (event.data.requestData === true) {
+            if (event.data.requestData === true && event.data.variableName === "materials_in") {
                 this.sendMaterialsToIFrame();
             }
         }
@@ -90,14 +90,15 @@ class JupyterLiteTransformation extends React.Component<
     sendMaterialsToIFrame() {
         const { selectedMaterials } = this.state;
         const data = selectedMaterials.map((material) => material.toJSON());
-        this.sendDataToIFrame(data);
+        this.sendDataToIFrame(data, "materials_in");
     }
 
     // eslint-disable-next-line class-methods-use-this
-    sendDataToIFrame(data: any) {
+    sendDataToIFrame(data: any, variableName = "data") {
         const message = {
             type: "from-host-to-iframe",
             data,
+            variableName,
         };
         const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement;
         if (iframe.contentWindow) {
