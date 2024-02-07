@@ -24,9 +24,9 @@ interface JupyterLiteTransformationState {
     newMaterials: Made.Material[];
 }
 
-const ORIGIN_URL = "https://jupyter-lite.mat3ra.com/";
+const ORIGIN_URL = "http://localhost:8001/";
 const IFRAME_ID = "jupyter-lite-iframe";
-const DEFAULT_NOTEBOOK_PATH = "api-examples/other/materials_designer/Introduction.ipynb";
+const DEFAULT_NOTEBOOK_PATH = "content/api-examples/other/materials_designer/Introduction.ipynb";
 
 class JupyterLiteTransformation extends React.Component<
     JupyterLiteTransformationProps,
@@ -45,17 +45,28 @@ class JupyterLiteTransformation extends React.Component<
         window.addEventListener("message", this.handleReceiveMessage, false);
     }
 
-    componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
+    componentDidUpdate(prevProps: JupyterLiteTransformationProps, prevState: JupyterLiteTransformationState) {
         const { materials } = this.props;
         if (prevProps.materials !== materials) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ materials });
+        }
+        const { selectedMaterials } = this.state;
+        if (prevState.selectedMaterials !== selectedMaterials) {
+            this.updateJupyterLiteEnv(
         }
     }
 
     componentWillUnmount() {
         window.removeEventListener("message", this.handleReceiveMessage, false);
     }
+
+    updateJupyterLiteEnv = (data: JSON) => {
+        const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement;
+        if (iframe.contentWindow) {
+            iframe.contentWindow.postMessage({ type: "update-env", data }, "*");
+        }
+    };
 
     handleReceiveMessage = (event: any) => {
         // Check if the message is from the expected source
@@ -75,6 +86,10 @@ class JupyterLiteTransformation extends React.Component<
                 console.log(err);
             }
             if (event.data.requestData === true && event.data.variableName === "materials_in") {
+                this.sendMaterialsToIFrame();
+            }
+            if (typeof event.data.path === "string") {
+                console.log("notebook changed");
                 this.sendMaterialsToIFrame();
             }
         }
