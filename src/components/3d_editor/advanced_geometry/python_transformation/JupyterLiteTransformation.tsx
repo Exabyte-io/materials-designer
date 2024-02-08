@@ -24,7 +24,7 @@ interface JupyterLiteTransformationState {
     newMaterials: Made.Material[];
 }
 
-const ORIGIN_URL = "https://jupyter-lite.mat3ra.com/";
+const ORIGIN_URL = "https://jupyterlite.mat3ra.com";
 const IFRAME_ID = "jupyter-lite-iframe";
 const DEFAULT_NOTEBOOK_PATH = "api-examples/other/materials_designer/Introduction.ipynb";
 
@@ -59,6 +59,7 @@ class JupyterLiteTransformation extends React.Component<
 
     handleReceiveMessage = (event: any) => {
         // Check if the message is from the expected source
+        // TODO: check for partial URL match, e.g. with "/" at the end
         if (event.origin !== ORIGIN_URL) {
             return;
         }
