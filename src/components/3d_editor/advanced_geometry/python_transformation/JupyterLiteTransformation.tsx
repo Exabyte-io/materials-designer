@@ -125,75 +125,69 @@ class JupyterLiteTransformation extends React.Component<
                 title={title}
                 isSubmitButtonDisabled={newMaterials.length === 0}
             >
-                <DialogContent
+                <Grid
+                    container
+                    spacing={1}
+                    id="jupyterlite-transformation-dialog-content"
                     sx={{
                         height: "calc(100vh - 260px)",
                         ...(theme.palette.mode === "dark" ? darkScrollbar() : null),
                     }}
                 >
+                    <Grid item xs={12} md={4} alignItems="center">
+                        <Typography variant="subtitle1">
+                            Input Materials (<code>materials_in</code>)
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <MaterialsSelector
+                            materials={materials}
+                            selectedMaterials={selectedMaterials}
+                            setSelectedMaterials={(newMaterials) =>
+                                this.setState({ selectedMaterials: newMaterials })
+                            }
+                            testId="materials-in-selector"
+                        />
+                    </Grid>
                     <Grid
-                        container
-                        spacing={1}
-                        id="jupyterlite-transformation-dialog-content"
-                        sx={{ height: "100%" }}
+                        pt={0}
+                        item
+                        xs={12}
+                        id="execution-cells"
+                        sx={{
+                            height: "calc(100% - 80px)",
+                            overflow: "hidden",
+                        }}
                     >
-                        <Grid item xs={12} md={4} alignItems="center">
-                            <Typography variant="subtitle1">
-                                Input Materials (<code>materials_in</code>)
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <MaterialsSelector
-                                materials={materials}
-                                selectedMaterials={selectedMaterials}
-                                setSelectedMaterials={(newMaterials) =>
-                                    this.setState({ selectedMaterials: newMaterials })
-                                }
-                                testId="materials-in-selector"
-                            />
-                        </Grid>
-                        <Grid
-                            pt={0}
-                            item
-                            xs={12}
-                            id="execution-cells"
+                        <Paper
                             sx={{
-                                height: "calc(100% - 80px)",
-                                overflow: "hidden",
+                                height: "100%",
                             }}
                         >
-                            <Paper
-                                sx={{
-                                    height: "100%",
-                                }}
-                            >
-                                <iframe
-                                    name="jupyterlite"
-                                    title="JupyterLite"
-                                    id={IFRAME_ID}
-                                    src={`${ORIGIN_URL}/lab/tree?path=${DEFAULT_NOTEBOOK_PATH}`}
-                                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation allow-downloads"
-                                    width="100%"
-                                    height="100%"
-                                />
-                            </Paper>
-                        </Grid>
-                        <Grid item container xs={12} md={4} alignItems="center">
-                            <Typography variant="subtitle1">
-                                Output Materials (<code>materials_out</code>)
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <MaterialsSelector
-                                materials={newMaterials}
-                                selectedMaterials={newMaterials}
-                                setSelectedMaterials={(newMaterials) =>
-                                    this.setState({ newMaterials })
-                                }
+                            <iframe
+                                name="jupyterlite"
+                                title="JupyterLite"
+                                id={IFRAME_ID}
+                                src={`${ORIGIN_URL}/lab/tree?path=${DEFAULT_NOTEBOOK_PATH}`}
+                                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation allow-downloads"
+                                width="100%"
+                                height="100%"
                             />
-                        </Grid>
+                        </Paper>
                     </Grid>
-                </DialogContent>
+                    <Grid item container xs={12} md={4} alignItems="center">
+                        <Typography variant="subtitle1">
+                            Output Materials (<code>materials_out</code>)
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <MaterialsSelector
+                            materials={newMaterials}
+                            selectedMaterials={newMaterials}
+                            setSelectedMaterials={(newMaterials) => this.setState({ newMaterials })}
+                        />
+                    </Grid>
+                </Grid>
             </Dialog>
         );
     }
