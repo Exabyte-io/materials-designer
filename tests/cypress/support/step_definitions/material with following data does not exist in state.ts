@@ -1,8 +1,7 @@
 import { DataTable, Given } from "@badeball/cypress-cucumber-preprocessor";
-
-import browser from "../browser";
-import { shallowDeepAlmostEqual } from "../utils";
-import { parseTable } from "../utils/table";
+import BrowserManager from "@mat3ra/tede/src/js/cypress/BrowserManager";
+import { shallowDeepAlmostEqual } from "@mat3ra/tede/src/js/cypress/utils/index";
+import { parseTable } from "@mat3ra/tede/src/js/cypress/utils/table";
 
 interface Params {
     path: string;
@@ -12,7 +11,7 @@ interface Params {
 Given("material with following data does not exist in state", (table: DataTable) => {
     const config = parseTable<Params>(table)[0];
     cy.readFile(`./cypress/fixtures/${config.path}`).then(() => {
-        return browser
+        return BrowserManager.getBrowser()
             .execute((win) => {
                 return win.MDContainer.store.getState().present.materials.map((m) => m.toJSON());
             })

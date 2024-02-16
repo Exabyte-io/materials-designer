@@ -1,9 +1,9 @@
 import { When } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 When("I select transformation with title {string}", (title: string) => {
-    materialDesignerPage.designerWidget.pythonTransformationDialog.selectTransformationByTitle(
+    new MaterialDesignerPage().designerWidget.pythonTransformationDialog.selectTransformationByTitle(
         title,
     );
 });

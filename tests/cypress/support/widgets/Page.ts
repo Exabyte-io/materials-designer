@@ -1,10 +1,5 @@
-import browser from "../browser";
-import Widget from "./Widget";
+import BasePage from "@mat3ra/tede/src/js/cypress/Page";
 
-export default class Page extends Widget {
-    open() {
-        browser.go("/");
-        this.waitForVisible();
-        this.waitForLoaderToDisappear();
-    }
+export default class Page extends BasePage {
+    // Put custom functions here
 }

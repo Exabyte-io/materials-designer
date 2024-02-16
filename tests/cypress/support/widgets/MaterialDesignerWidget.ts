@@ -55,6 +55,10 @@ export default class MaterialDesignerWidget extends Widget {
         this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 4);
     }
 
+    openSaveDialog() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 5);
+    }
+
     createSurface(config: SurfaceConfig) {
         this.openSurfaceDialog();
         this.surfaceDialog.generateSurface(config);
@@ -67,6 +71,10 @@ export default class MaterialDesignerWidget extends Widget {
 
     openSupercellDialog() {
         this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 1);
+    }
+
+    exit() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 6);
     }
 
     generateSupercell(supercellMatrixAsString: string) {
@@ -123,6 +131,10 @@ export default class MaterialDesignerWidget extends Widget {
 
     clickUndoRedoReset(index = 1) {
         this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", index);
+    }
+
+    toggleIsNonPeriodic() {
+        this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", 6);
     }
 
     clickDeleteAction(index: number) {

@@ -1,4 +1,3 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 const selectors = {
@@ -18,16 +17,16 @@ export default class StandataDialogWidget extends Widget {
     }
 
     verifyStandataDialog() {
-        browser.waitForVisible(this.wrappedSelectors.dialog);
+        this.browser.waitForVisible(this.wrappedSelectors.dialog);
     }
 
     selectMaterial(materialName: string) {
-        browser.click(this.wrappedSelectors.materialsSelector);
+        this.browser.click(this.wrappedSelectors.materialsSelector);
         const materialSelector = selectors.materialsSelectorItem(materialName);
-        browser.click(materialSelector);
+        this.browser.click(materialSelector);
     }
 
     submit() {
-        browser.click(selectors.submitButton);
+        this.browser.click(selectors.submitButton);
     }
 }

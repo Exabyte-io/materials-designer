@@ -1,11 +1,10 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 const wrapper = ".materials-designer-items-list";
 
 export class ItemsListWidget extends Widget {
     selectors = {
-        outside: "header",
+        outside: "#materials-designer",
         wrapper,
         nameInput: "input",
         itemByIndex: (index: number) => `ul>div:nth-of-type(${index}) li`,
@@ -18,11 +17,11 @@ export class ItemsListWidget extends Widget {
 
     setItemName(itemIndex: number, name: string) {
         const selector = this.getSelectorPerItem(itemIndex, this.selectors.nameInput);
-        browser.waitForValue(selector);
+        this.browser.waitForValue(selector);
         this.selectItemByIndex(itemIndex);
-        browser.setInputValue(selector, name);
+        this.browser.setInputValue(selector, name);
         // Click outside of the input field to save the value
-        browser.click(this.selectors.outside);
+        this.browser.click(this.selectors.outside);
     }
 
     getSelectorPerItem(itemIndex: number, selectorName: string) {
@@ -30,11 +29,10 @@ export class ItemsListWidget extends Widget {
     }
 
     selectItemByIndex(index: number) {
-        return browser.click(this.getSelectorPerItem(index, ""));
+        return this.browser.click(this.getSelectorPerItem(index, ""));
     }
 
     deleteMaterialByIndex(index: number) {
-        browser.click(this.getSelectorPerItem(index, this.selectors.iconButtonDelete));
-        // browser.pause(1000);
+        this.browser.click(this.getSelectorPerItem(index, this.selectors.iconButtonDelete));
     }
 }

@@ -1,7 +1,7 @@
 import { Given } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 Given("I generate interpolated set with {string} intermediate images", (nImages: string) => {
-    materialDesignerPage.designerWidget.generateInterpolatedSet(parseInt(nImages, 10));
+    new MaterialDesignerPage().designerWidget.generateInterpolatedSet(parseInt(nImages, 10));
 });

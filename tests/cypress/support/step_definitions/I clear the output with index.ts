@@ -1,7 +1,9 @@
 import { When } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 When("I clear the output with index {string}", (index: string) => {
-    materialDesignerPage.designerWidget.pythonTransformationDialog.clearOutput(parseInt(index, 10));
+    new MaterialDesignerPage().designerWidget.pythonTransformationDialog.clearOutput(
+        parseInt(index, 10),
+    );
 });

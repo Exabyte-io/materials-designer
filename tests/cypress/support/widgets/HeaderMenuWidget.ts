@@ -1,4 +1,3 @@
-import browser from "../browser";
 import Widget from "./Widget";
 
 const selectors = {
@@ -16,12 +15,12 @@ export default class HeaderMenuWidget extends Widget {
     }
 
     openMenuDialog(menuName: string) {
-        return browser.clickOnText(menuName);
+        return this.browser.clickOnText(menuName);
     }
 
     selectMenuItem(menuName: string, itemNumber: number) {
         // Not using 'selectors' instead of 'this.selectors' because of the dialog location
-        return browser.click(selectors.menuDialogItemByNumber(menuName, itemNumber));
+        return this.browser.click(selectors.menuDialogItemByNumber(menuName, itemNumber));
     }
 
     selectMenuItemByNameAndItemNumber(menuName: string, itemNumber: number) {

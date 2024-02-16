@@ -1,7 +1,7 @@
 import { Then } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 Then("I submit python transformation", () => {
-    materialDesignerPage.designerWidget.pythonTransformationDialog.submit();
+    new MaterialDesignerPage().designerWidget.pythonTransformationDialog.submit();
 });

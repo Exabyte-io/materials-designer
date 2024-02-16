@@ -1,8 +1,9 @@
 import { Given } from "@badeball/cypress-cucumber-preprocessor";
 
-import { materialDesignerPage } from "../widgets/MaterialDesignerPage";
+import MaterialDesignerPage from "../widgets/MaterialDesignerPage";
 
 Given("I see material designer page", () => {
-    materialDesignerPage.designerWidget.waitForVisible();
-    materialDesignerPage.designerWidget.waitForLoaderToDisappear();
+    const page = new MaterialDesignerPage();
+    page.designerWidget.waitForVisible();
+    page.designerWidget.waitForLoaderToDisappear();
 });

@@ -1,9 +1,9 @@
 import { DataTable, Given } from "@badeball/cypress-cucumber-preprocessor";
+import BrowserManager from "@mat3ra/tede/src/js/cypress/BrowserManager";
+import { shallowDeepAlmostEqual } from "@mat3ra/tede/src/js/cypress/utils";
+import { parseTable } from "@mat3ra/tede/src/js/cypress/utils/table";
 
-import browser from "../browser";
-import { shallowDeepAlmostEqual } from "../utils";
 import { getMaterialFromStandata } from "../utils/standata";
-import { parseTable } from "../utils/table";
 
 interface Params {
     path?: string;
@@ -15,7 +15,7 @@ Given("material with following data exists in state", (table: DataTable) => {
     const config = parseTable<Params>(table)[0];
 
     const assertMaterialExists = (material) => {
-        browser
+        BrowserManager.getBrowser()
             .execute((win) => {
                 return win.MDContainer.store.getState().present.materials.map((m) => m.toJSON());
             })

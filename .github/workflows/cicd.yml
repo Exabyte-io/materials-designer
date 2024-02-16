@@ -71,10 +71,20 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           path: actions
 
-      - name: Publish release
+      - name: Publish the application package and create release tag
         uses: ./actions/js/publish
         with:
           node-version: 14.19.x
           npm-token: ${{ secrets.NPM_TOKEN }}
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           verify-tests: false
+
+      - name: Publish tests package
+        uses: ./actions/js/publish
+        with:
+          node-version: 14.19.x
+          npm-token: ${{ secrets.NPM_TOKEN }}
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          package-directory: ./tests
+          verify-tests: false
+          publish-tag: false
