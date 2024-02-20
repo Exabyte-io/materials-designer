@@ -11,7 +11,8 @@ Feature: User can import files from Standata
     # Import
     When I import material "C, Graphene, HEX (P6/mmm) 2D (Monolayer), 2dm-3993" from Standata
 
-    # TODO: fix the toJSON() indexing problem and uncomment the test
+    # TODO: material.toJSON() has the `id` for atomic elements starting from 0, while 
+    # `express-py` makes them starting from 1 leading to inconsistency in need of fixing
 #    Then material with following data exists in state
 #      | standata                                           | index   |
 #      | C, Graphene, HEX (P6/mmm) 2D (Monolayer), 2dm-3993 | $INT{2} |
