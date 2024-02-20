@@ -20,6 +20,15 @@ Given("material with following data exists in state", (table: DataTable) => {
                 return win.MDContainer.store.getState().present.materials.map((m) => m.toJSON());
             })
             .then((materials) => {
+                // TODO: fix toJSON() method in made.js to return basis.elements array with index starting from 1
+                materials = materials.map((material, index) => {
+                    if (material.basis && material.basis.elements) {
+                        material.basis.elements = material.basis.elements.map((element, i) => {
+                            return { ...element, index: i + 1 };
+                        });
+                    }
+                    return material;
+                });
                 shallowDeepAlmostEqual(material, materials[config.index - 1]);
             });
     };
