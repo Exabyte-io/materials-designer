@@ -95,7 +95,7 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     // eslint-disable-next-line class-methods-use-this
-    sendDataToIFrame(data: object | string, variableName = "data") {
+    sendDataToIFrame(data: Record<string, unknown>[], variableName = "data") {
         const message = {
             type: "from-host-to-iframe",
             data,
