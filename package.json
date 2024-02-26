@@ -75,7 +75,7 @@
         "@mat3ra/esse": "^2024.2.19-1",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/made.js": "^2024.2.20-1",
-        "@mat3ra/standata": "^2023.12.26-3",
+        "@mat3ra/standata": "^2024.2.21-0",
         "@types/debug": "^4.1.12",
         "@types/mocha": "^10.0.1",
         "@types/node": "^20.4.2",
