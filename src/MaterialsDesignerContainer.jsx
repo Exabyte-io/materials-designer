@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { AlertProvider } from "@exabyte-io/cove.js/dist/theme/provider";
 import lodash from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import NPMsAlert from "react-s-alert";
 import { applyMiddleware, createStore } from "redux";
 import logger from "redux-logger";
 import { ActionCreators } from "redux-undo";
@@ -25,7 +25,6 @@ import {
     updateNameForOneMaterial,
     updateOneMaterial,
 } from "./actions";
-import SAlertContentTmpl from "./components/include/SAlertContentTmpl";
 import { Material } from "./material";
 import MaterialsDesignerComponent from "./MaterialsDesigner";
 import { createMaterialsDesignerReducer } from "./reducers";
@@ -104,16 +103,9 @@ export class MaterialsDesignerContainer extends React.Component {
         const props = _.omit(this.props, "component");
         return (
             <div>
-                <ReduxProvider {...props} container={this.container} store={this.store} />
-                <NPMsAlert
-                    effect="stackslide"
-                    position="bottom-right"
-                    timeout={3000}
-                    html={false}
-                    stack
-                    offset={0}
-                    contentTemplate={SAlertContentTmpl}
-                />
+                <AlertProvider>
+                    <ReduxProvider {...props} container={this.container} store={this.store} />
+                </AlertProvider>
             </div>
         );
     }

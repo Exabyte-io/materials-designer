@@ -84,10 +84,10 @@ export const SELECTORS = {
             latticeFormSaveButton: "button.save-lattice-config",
         },
     },
-    sAlertWidget: {
-        wrapper: ".alert.s-alert-box",
+    snackbarAlertWidget: {
+        wrapper: ".alert",
         alertByType: (type) => `.alert-${type}`,
-        closeButton: "button.close",
+        closeButton: "button[title='Close']",
     },
     threeJSEditorWidget: {
         wrapper: "#threejs-editor",

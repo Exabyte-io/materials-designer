@@ -1,4 +1,4 @@
-import NPMsAlert from "react-s-alert";
+import { enqueueSnackbar } from "notistack";
 
 import { MATERIALS_ADD, MATERIALS_EXPORT, MATERIALS_REMOVE, MATERIALS_SAVE } from "../actions";
 import { exportToDisk } from "../utils/downloader";
@@ -30,15 +30,18 @@ export function materialsRemove(state, action) {
 
     // sanity check
     if (materials.length === 1) {
-        NPMsAlert.warning("Prevented remove action: only one material in set.");
+        enqueueSnackbar("Prevented remove action: only one material in set.", {
+            variant: "warning",
+        });
         return state;
     }
     // remove elements at indices (array is modified in place => subtract idx within `each`)
     indices.forEach((indicesArrayElement, idx) => {
         const currentMaterial = materials[indicesArrayElement - idx];
         const { formula } = currentMaterial;
-        NPMsAlert.success(
+        enqueueSnackbar(
             `Removed material with index ${indicesArrayElement} and formula ${formula} from set.`,
+            { variant: "success" },
         );
         materials.splice(indicesArrayElement - idx, 1);
         // lower the current index if it is above the deleted material's index

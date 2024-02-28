@@ -3,9 +3,9 @@ import { SELECTORS } from "../../selectors";
 import { retry } from "../../utils";
 import { AlertWidget } from "./alert_widget";
 
-export class SAlertWidget extends AlertWidget {
+export class SnackbarAlertWidget extends AlertWidget {
     getAlertSelectorByType(type) {
-        return this.getWrappedSelector(SELECTORS.sAlertWidget.alertByType(type), "");
+        return this.getWrappedSelector(SELECTORS.snackbarAlertWidget.alertByType(type), "");
     }
 
     isVisibleByType(type) {
@@ -17,16 +17,18 @@ export class SAlertWidget extends AlertWidget {
     }
 
     close() {
-        exabrowser.scrollAndClick(this.getWrappedSelector(SELECTORS.sAlertWidget.closeButton));
+        exabrowser.scrollAndClick(
+            this.getWrappedSelector(SELECTORS.snackbarAlertWidget.closeButton),
+        );
     }
 
     closeAllSuccess() {
         retry(() => {
             if (this.isVisible()) {
-                logger.debug("sAlertSuccess closed");
                 this.close();
+                logger.debug("Success SnackbarAlert closed");
                 // eslint-disable-next-line no-throw-literal
-                throw "Something is wrong: there should be no sAlertSuccess shown!";
+                throw "Something is wrong: there should be no success SnackbarAlert shown!";
             }
         });
     }
