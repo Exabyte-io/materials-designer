@@ -1,7 +1,6 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import { Made } from "@exabyte-io/made.js";
 import { darkScrollbar } from "@mui/material";
-import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -57,7 +56,7 @@ class JupyterLiteTransformation extends React.Component<
         window.removeEventListener("message", this.handleReceiveMessage, false);
     }
 
-    handleReceiveMessage = (event: any) => {
+    handleReceiveMessage = (event: MessageEvent) => {
         // Check if the message is from the expected source
         // TODO: check for partial URL match, e.g. with "/" at the end
         if (event.origin !== ORIGIN_URL) {
@@ -96,7 +95,7 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     // eslint-disable-next-line class-methods-use-this
-    sendDataToIFrame(data: any, variableName = "data") {
+    sendDataToIFrame(data: Record<string, unknown>[], variableName = "data") {
         const message = {
             type: "from-host-to-iframe",
             data,
