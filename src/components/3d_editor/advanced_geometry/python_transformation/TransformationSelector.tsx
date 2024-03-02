@@ -1,8 +1,8 @@
 import { fetchFilesFromGitHubAPI } from "@exabyte-io/code.js/dist/utils";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import { enqueueSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import NPMsAlert from "react-s-alert";
 
 export interface Transformation {
     id: string;
@@ -58,7 +58,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
                     setIsDataFetched(true);
                 })
                 .catch((error) => {
-                    NPMsAlert.error("Error fetching transformations");
+                    enqueueSnackbar("Error fetching transformations", { variant: "error" });
                     console.error(error);
                     setTransformations([emptyTransformation]);
                 });

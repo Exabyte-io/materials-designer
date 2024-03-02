@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { SELECTORS } from "../selectors";
 import { Widget } from "../widget";
-import { SAlertWidget } from "./alert/s_alert_widget";
+import { SnackbarAlertWidget } from "./alert/snackbar_alert_widget";
 import { BoundaryConditionsDialogWidget } from "./dialogs/boundary_conditions_dialog";
 import { DefaultImportModalDialogWidget } from "./dialogs/default_import_modal_dialog";
 import { InterpolatedSetDialogWidget } from "./dialogs/interpolated_set_dialog";
@@ -17,7 +17,7 @@ export class MaterialDesignerWidget extends Widget {
     constructor(selector) {
         super(selector);
         this.itemsList = new ItemsListWidget(SELECTORS.itemsList.wrapper);
-        this.sAlertWidget = new SAlertWidget(SELECTORS.sAlertWidget.wrapper);
+        this.sAlertWidget = new SnackbarAlertWidget(SELECTORS.snackbarAlertWidget.wrapper);
         this.headerMenu = new HeaderMenuWidget(SELECTORS.headerMenu.wrapper);
         this.sourceEditor = new SourceEditorWidget(SELECTORS.sourceEditor.wrapper);
         this.surfaceDialog = new SurfaceDialogWidget(SELECTORS.headerMenu.surfaceDialog.wrapper);

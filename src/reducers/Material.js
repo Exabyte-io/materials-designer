@@ -1,5 +1,5 @@
 import { Made } from "@exabyte-io/made.js";
-import NPMsAlert from "react-s-alert";
+import { enqueueSnackbar } from "notistack";
 
 import {
     MATERIALS_CLONE_ONE,
@@ -40,8 +40,9 @@ function materialsToggleIsNonPeriodicForOne(state, action) {
     const newMaterial = state.materials[state.index].clone({ hash: "", scaledHash: "" });
     // clone check
     if (newMaterial.id) {
-        NPMsAlert.warning(
+        enqueueSnackbar(
             "Prevented Toggle 'isNonPeriodic' action. Please start from a cloned material",
+            { variant: "warning" },
         );
         return state;
     }
@@ -72,7 +73,11 @@ function _setMetadataForSlabConfig(
     { h, k, l, thickness, vacuumRatio, vx, vy, material },
 ) {
     const bulkId = material && (material.id || material._id);
-    if (!bulkId) NPMsAlert.warning(displayMessage("surface.noBulkId"), { timeout: 10000 });
+    if (!bulkId)
+        enqueueSnackbar(displayMessage("surface.noBulkId"), {
+            variant: "warning",
+            autoHideDuration: 10000,
+        });
 
     Object.assign(slabConfig, {
         metadata: {
