@@ -72,9 +72,9 @@
     "devDependencies": {
         "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#d003d4a01e8619f7fd907d4bea270fe4e7ba43b9",
         "@exabyte-io/cove.js": "2024.2.28-1",
-        "@mat3ra/esse": "^2024.2.19-1",
+        "@mat3ra/esse": "git+https://github.com/Exabyte-io/esse.git#7f1278c3945aae70800fed060c0ffcb8147c8f79",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@exabyte-io/made.js": "git+https://github.com/Exabyte-io/made.js.git#c8685ae774d75b6dbc2af883cbd39ecfb0ca6840",
+        "@exabyte-io/made.js": "git+https://github.com/Exabyte-io/made.js.git#58952327ce3f374f2c4a5b610a01b897ea6d6583",
         "@mat3ra/standata": "^2024.2.21-0",
         "@types/debug": "^4.1.12",
         "@types/mocha": "^10.0.1",
