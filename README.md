@@ -37,11 +37,10 @@ npm start
 > To fix this run (on OSX):
 > ```
 > brew install git-lfs
-> # after successful installation run next command in the root directory of this repository:
-> git lfs install
+> git lfs pull
 > ```
 
-Open http://localhost:3001 to view the application in the browser
+Open http://localhost:3001 to view the application in the browser.
 
 ### 1.2. Using Docker
 
