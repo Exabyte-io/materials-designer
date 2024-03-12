@@ -124,6 +124,10 @@ Desirable features/fixes for implementation:
 - remove updateIndex action when index is the same
 - show the total number of materials in set and the current index
 - fix fullscreen support
+- add ability to change lattice vectors in the 3D editor with a mouse
+- highlight atoms in the 3D editor that are selected in the basis editor (and vice versa)
+- add ability to drop files with material structural data in any format to the materials list, and convert them to ESSE Material instances. (ESSE JSON and POSCAR parsers already implemented in made.js)
+- save the state of Materials Designer (materials from redux store, visual settings) to share materials and visualization via URL link.  
 
 ## Dependencies
 
