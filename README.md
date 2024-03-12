@@ -124,10 +124,16 @@ Desirable features/fixes for implementation:
 - remove updateIndex action when index is the same
 - show the total number of materials in set and the current index
 - fix fullscreen support
-- add ability to change lattice vectors in the 3D editor with a mouse
+- add ability to change lattice vectors in the 3D editor with a mouse:
+  - two modes: preserving basis in cartesian coordinates, and changing basis according to the new lattice vectors 
 - highlight atoms in the 3D editor that are selected in the basis editor (and vice versa)
-- add ability to drop files with material structural data in any format to the materials list, and convert them to ESSE Material instances. (ESSE JSON and POSCAR parsers already implemented in made.js)
-- save the state of Materials Designer (materials from redux store, visual settings) to share materials and visualization via URL link.  
+- add ability to drop files with material structural data in any format to the materials list, and convert them to ESSE Material instances:
+  - ESSE JSON and POSCAR parsers already implemented in made.js
+  - add a skeleton material with (+) button to the materials list (combines functionality of "Edit" -> "Clone" and "I/O" -> "Import...")
+- save the state of Materials Designer to share materials and exact visualization via URL link.  
+  - the idea is to be able to share exact copy of the state of the application
+  - materials data is stored in redux store
+  - visualization settings stored in wave.js components, via `useState()` hook 
 
 ## Dependencies
 
