@@ -25,7 +25,7 @@ Or use https, if no SSH authentication is set up with GitHub:
 git clone https://github.com/Exabyte-io/materials-designer.git
 ```
 
-then start the application:
+then start the application using Node v14.19:
 
 ```bash
 cd materials-designer
@@ -116,7 +116,7 @@ Developer Experience:
 
 ### 3.1. Run the application
 
-Execute the following commands when running the application in development mode.
+Execute the following commands when running the application in development mode. Use Node v14.19
 
 ```bash
 npm install
@@ -125,9 +125,11 @@ npm start
 
 ### 3.2. Tests
 
-To run all tests:
+Tests are implemented using Cypress. To launch it use Node v20 and run:
 
 ```bash
+cd tests
+npm install
 npm test
 ```
 
