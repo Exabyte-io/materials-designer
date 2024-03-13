@@ -1,6 +1,7 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
 import { Made } from "@exabyte-io/made.js";
+import { JupyterliteMessageSchema, MaterialSchema } from "@mat3ra/esse/lib/js/types";
 import { darkScrollbar } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -51,20 +52,24 @@ class JupyterLiteTransformation extends React.Component<
         }
     }
 
-    handleReceiveMessage = (data: any) => {
-        if (data.type === "from-iframe-to-host") {
-            // TODO: add check for Material config type
-            if (data.data && data.data.materials) {
-                const configs = data.data.materials;
+    handleReceiveData = (message: JupyterliteMessageSchema) => {
+        try {
+            if (message.payload && message.payload.data) {
+                const configs = message.payload.data as MaterialSchema[];
                 if (Array.isArray(configs)) {
                     this.setState({
                         newMaterials: configs.map((config) => new Made.Material(config)),
                     });
                 }
             }
-            if (data.requestData === true && data.variableName === "materials_in") {
+            if (
+                message.payload.requestData === true &&
+                message.payload.variableName === "materials_in"
+            ) {
                 this.sendMaterialsToIFrame();
             }
+        } catch (e) {
+            console.log(e);
         }
     };
 
@@ -141,7 +146,7 @@ class JupyterLiteTransformation extends React.Component<
                                 defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
                                 frameId={IFRAME_ID}
                                 receiveData={(data: any) => {
-                                    this.handleReceiveMessage(data);
+                                    this.handleReceiveData(data);
                                 }}
                                 ref={this.jupyterLiteSessionRef}
                             />
