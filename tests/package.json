@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "CYPRESS_BASE_URL=http://localhost:3001 cypress open",
-        "test:headless": "CYPRESS_BASE_URL=http://localhost:3001 cypress run -e TAGS='not @ignore'",
+        "test": "CYPRESS_BASE_URL=${CYPRESS_BASE_URL:-'http://localhost:3001'} cypress open",
+        "test:headless": "CYPRESS_BASE_URL=${CYPRESS_BASE_URL:-'http://localhost:3001'} cypress run -e TAGS='not @ignore'",
         "lint": "npx eslint cypress && prettier --write cypress"
     },
     "engines": {
