@@ -1,4 +1,5 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
+import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
 import { Made } from "@exabyte-io/made.js";
 import { darkScrollbar } from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -31,6 +32,8 @@ class JupyterLiteTransformation extends React.Component<
     JupyterLiteTransformationProps,
     JupyterLiteTransformationState
 > {
+    jupyterLiteSessionRef = React.createRef<JupyterLiteSession>();
+
     constructor(props: JupyterLiteTransformationProps) {
         super(props);
         this.state = {
@@ -38,10 +41,6 @@ class JupyterLiteTransformation extends React.Component<
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
         };
-    }
-
-    componentDidMount() {
-        window.addEventListener("message", this.handleReceiveMessage, false);
     }
 
     componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
@@ -52,29 +51,18 @@ class JupyterLiteTransformation extends React.Component<
         }
     }
 
-    componentWillUnmount() {
-        window.removeEventListener("message", this.handleReceiveMessage, false);
-    }
-
-    handleReceiveMessage = (event: MessageEvent) => {
-        // Check if the message is from the expected source
-        // TODO: check for partial URL match, e.g. with "/" at the end
-        if (event.origin !== ORIGIN_URL) {
-            return;
-        }
-        if (event.data.type === "from-iframe-to-host") {
-            try {
-                // TODO: add check for Material config type
-                const configs = event.data.data.materials;
+    handleReceiveMessage = (data: any) => {
+        if (data.type === "from-iframe-to-host") {
+            // TODO: add check for Material config type
+            if (data.data && data.data.materials) {
+                const configs = data.data.materials;
                 if (Array.isArray(configs)) {
                     this.setState({
                         newMaterials: configs.map((config) => new Made.Material(config)),
                     });
                 }
-            } catch (err) {
-                console.log(err);
             }
-            if (event.data.requestData === true && event.data.variableName === "materials_in") {
+            if (data.requestData === true && data.variableName === "materials_in") {
                 this.sendMaterialsToIFrame();
             }
         }
@@ -91,22 +79,7 @@ class JupyterLiteTransformation extends React.Component<
     sendMaterialsToIFrame() {
         const { selectedMaterials } = this.state;
         const data = selectedMaterials.map((material) => material.toJSON());
-        this.sendDataToIFrame(data, "materials_in");
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    sendDataToIFrame(data: Record<string, unknown>[], variableName = "data") {
-        const message = {
-            type: "from-host-to-iframe",
-            data,
-            variableName,
-        };
-        const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement;
-        if (iframe.contentWindow) {
-            iframe.contentWindow.postMessage(message, ORIGIN_URL);
-        } else {
-            console.error("JupyterLite iframe not found");
-        }
+        this.jupyterLiteSessionRef.current?.sendData(data, "materials_in");
     }
 
     render() {
@@ -163,14 +136,14 @@ class JupyterLiteTransformation extends React.Component<
                                 height: "100%",
                             }}
                         >
-                            <iframe
-                                name="jupyterlite"
-                                title="JupyterLite"
-                                id={IFRAME_ID}
-                                src={`${ORIGIN_URL}/lab/tree?path=${DEFAULT_NOTEBOOK_PATH}`}
-                                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation allow-downloads"
-                                width="100%"
-                                height="100%"
+                            <JupyterLiteSession
+                                originURL={ORIGIN_URL}
+                                defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
+                                frameId={IFRAME_ID}
+                                receiveData={(data: any) => {
+                                    this.handleReceiveMessage(data);
+                                }}
+                                ref={this.jupyterLiteSessionRef}
                             />
                         </Paper>
                     </Grid>
