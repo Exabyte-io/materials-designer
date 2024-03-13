@@ -70,11 +70,11 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#215e9e7b194c63422858d043be750fe023814329",
+        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#5937dc94eb8ca88c6f3e4e9c8f93050e56a869ea",
         "@exabyte-io/cove.js": "2024.2.28-1",
-        "@mat3ra/esse": "git+https://github.com/Exabyte-io/esse.git#332a9cc5c0853af610dd721dc976905637cf989e",
+        "@mat3ra/esse": "git+https://github.com/Exabyte-io/esse.git#a967135c3bf155242fc2a5d0a0a262ffdf5d68b7",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@exabyte-io/made.js": "git+https://github.com/Exabyte-io/made.js.git#51ef7f0f3e30249ac571fef4a4fee68f51f91b05",
+        "@exabyte-io/made.js": "git+https://github.com/Exabyte-io/made.js.git#882ce639da8b36ef208fe0e6318c6c7a40485274",
         "@mat3ra/standata": "^2024.2.21-0",
         "@types/debug": "^4.1.12",
         "@types/mocha": "^10.0.1",
