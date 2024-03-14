@@ -26,6 +26,7 @@ class BasisEditor extends React.Component {
         };
 
         this.handleBasisTextChange = this.handleBasisTextChange.bind(this);
+        this.handleSelectionChange = this.handleSelectionChange.bind(this);
     }
 
     // eslint-disable-next-line no-unused-vars
@@ -60,6 +61,14 @@ class BasisEditor extends React.Component {
         const newMaterial = material.clone();
         newMaterial.setBasis(content, "xyz", coordinateUnits);
         onUpdate(newMaterial);
+    }
+
+    handleSelectionChange(content) {
+        const { material } = this.props;
+        const { coordinateUnits } = this.state;
+        const newMaterial = material.clone();
+        console.log("Selection change", content);
+        newMaterial.setBasis(content, "xyz", coordinateUnits);
     }
 
     renderBasisUnitsLabel = (unitsType = "crystal") => {
@@ -108,6 +117,7 @@ class BasisEditor extends React.Component {
                                 content={xyzContent}
                                 checks={checks}
                                 onChange={this.handleBasisTextChange}
+                                onSelection={this.handleSelectionChange}
                             />
                         </Grid>
                     </Grid>

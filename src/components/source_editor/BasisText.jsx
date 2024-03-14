@@ -1,13 +1,15 @@
-/* eslint-disable react/sort-comp */
-import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
-import { Made } from "@exabyte-io/made.js";
+/* eslint-disable  simple-import-sort/imports */
+// import { Made } from "@exabyte-io/made.js";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
+import { Statistics } from "@uiw/react-codemirror";
+import CodeMirror from "./codemirror/CodeMirror";
 import { displayMessage } from "../../i18n/messages";
+import { Made } from "./@exabyte-io/made.js";
 
 class BasisText extends React.Component {
     codeMirrorRef = React.createRef();
@@ -21,6 +23,7 @@ class BasisText extends React.Component {
             message: props.message,
         };
         this.updateContent = this.updateContent.bind(this);
+        this.onSelection = this.onSelection.bind(this);
         // TODO: adjust tests to accommodate for the delay and re-enable
         // this.updateContent = _.debounce(this.updateContent, 700);
     }
@@ -44,6 +47,7 @@ class BasisText extends React.Component {
         }
     };
 
+    // eslint-disable-next-line react/sort-comp
     isContentPassingValidation(content) {
         const { isContentValidated } = this.state;
         const isValid = this.validateContent(content);
@@ -81,7 +85,7 @@ class BasisText extends React.Component {
     }
 
     render() {
-        const { className, readOnly, codeMirrorOptions } = this.props;
+        const { className, readOnly, codeMirrorOptions, onSelection } = this.props;
         const { content, isContentValidated, message, checks } = this.state;
         // Using `success.main` color below b/c of https://github.com/mui/material-ui/issues/29564
         return (
@@ -92,6 +96,7 @@ class BasisText extends React.Component {
                         id="xyz-codemirror"
                         content={content}
                         updateContent={this.updateContent}
+                        onSelection={onSelection}
                         readOnly={readOnly}
                         options={{
                             lineNumbers: true,
@@ -128,6 +133,7 @@ BasisText.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     codeMirrorOptions: PropTypes.object,
     onChange: PropTypes.func,
+    onSelection: PropTypes.func,
 };
 
 BasisText.defaultProps = {
@@ -138,6 +144,7 @@ BasisText.defaultProps = {
     checks: [],
     codeMirrorOptions: {},
     onChange: () => {},
+    onSelection: () => {},
 };
 
 export default BasisText;
