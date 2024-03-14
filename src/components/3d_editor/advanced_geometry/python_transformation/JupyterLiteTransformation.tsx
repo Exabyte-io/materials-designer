@@ -48,15 +48,14 @@ class JupyterLiteTransformation extends React.Component<
         }
     }
 
-    createPayload = () => {
+    returnMaterials = () => {
         const { selectedMaterials } = this.state;
-        const data = selectedMaterials.map((material) => material.toJSON());
-        return { data, variableName: "materials_in" };
+        return selectedMaterials.map((material) => material.toJSON());
     };
 
     handleSendData = (variableName: string) => {
         // In case functions to retrieve a value depend on the variable name, we can filter based on that
-        const handlers = [{ variableName: "materials_in", handler: this.createPayload }];
+        const handlers = [{ variableName: "materials_in", handler: this.returnMaterials }];
         return handlers.find((handler) => handler.variableName === variableName)?.handler;
     };
 
@@ -156,6 +155,7 @@ class JupyterLiteTransformation extends React.Component<
                             }}
                         >
                             <JupyterLiteSession
+                                originURL="http://localhost:8000"
                                 defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
                                 handlers={this.eventHandlers}
                             />
