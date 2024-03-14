@@ -1,7 +1,7 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
 import { Made } from "@exabyte-io/made.js";
-import { JupyterliteMessageSchema, MaterialSchema } from "@mat3ra/esse/lib/js/types";
+import { IframeMessageSchema, MaterialSchema } from "@mat3ra/esse/lib/js/types";
 import { darkScrollbar } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -25,16 +25,12 @@ interface JupyterLiteTransformationState {
     newMaterials: Made.Material[];
 }
 
-const ORIGIN_URL = "https://jupyterlite.mat3ra.com";
-const IFRAME_ID = "jupyter-lite-iframe";
 const DEFAULT_NOTEBOOK_PATH = "api-examples/other/materials_designer/Introduction.ipynb";
 
 class JupyterLiteTransformation extends React.Component<
     JupyterLiteTransformationProps,
     JupyterLiteTransformationState
 > {
-    jupyterLiteSessionRef = React.createRef<JupyterLiteSession>();
-
     constructor(props: JupyterLiteTransformationProps) {
         super(props);
         this.state = {
@@ -52,26 +48,50 @@ class JupyterLiteTransformation extends React.Component<
         }
     }
 
-    handleReceiveData = (message: JupyterliteMessageSchema) => {
+    createPayload = () => {
+        const { selectedMaterials } = this.state;
+        const data = selectedMaterials.map((material) => material.toJSON());
+        return { data, variableName: "materials_in" };
+    };
+
+    handleSendData = (variableName: string) => {
+        // In case functions to retrieve a value depend on the variable name, we can filter based on that
+        const handlers = [{ variableName: "materials_in", handler: this.createPayload }];
+        return handlers.find((handler) => handler.variableName === variableName)?.handler;
+    };
+
+    createMaterials = (data: any) => {
         try {
-            if (message.payload && message.payload.data) {
-                const configs = message.payload.data as MaterialSchema[];
-                if (Array.isArray(configs)) {
-                    this.setState({
-                        newMaterials: configs.map((config) => new Made.Material(config)),
-                    });
-                }
-            }
-            if (
-                message.payload.requestData === true &&
-                message.payload.variableName === "materials_in"
-            ) {
-                this.sendMaterialsToIFrame();
+            const configs = data as MaterialSchema[];
+            if (Array.isArray(configs)) {
+                this.setState({
+                    newMaterials: configs.map((config) => new Made.Material(config)),
+                });
             }
         } catch (e) {
             console.log(e);
         }
     };
+
+    // eslint-disable-next-line react/sort-comp
+    eventHandlers = [
+        {
+            type: "from-iframe-to-host",
+            filter: {
+                keys: ["data"],
+            },
+            extraParameters: [],
+            handler: this.createMaterials,
+        },
+        {
+            type: "from-iframe-to-host",
+            filter: {
+                keys: ["requestData", "variableName"],
+            },
+            extraParameters: [],
+            handler: this.handleSendData,
+        },
+    ];
 
     handleSubmit = async () => {
         const { onSubmit, materials } = this.props;
@@ -80,12 +100,6 @@ class JupyterLiteTransformation extends React.Component<
         onSubmit(newMaterials);
         this.setState({ selectedMaterials: [materials[0]], newMaterials: [] });
     };
-
-    sendMaterialsToIFrame() {
-        const { selectedMaterials } = this.state;
-        const data = selectedMaterials.map((material) => material.toJSON());
-        this.jupyterLiteSessionRef.current?.sendData(data, "materials_in");
-    }
 
     render() {
         const { materials, selectedMaterials, newMaterials } = this.state;
@@ -142,13 +156,8 @@ class JupyterLiteTransformation extends React.Component<
                             }}
                         >
                             <JupyterLiteSession
-                                originURL={ORIGIN_URL}
                                 defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
-                                frameId={IFRAME_ID}
-                                receiveData={(data: any) => {
-                                    this.handleReceiveData(data);
-                                }}
-                                ref={this.jupyterLiteSessionRef}
+                                handlers={this.eventHandlers}
                             />
                         </Paper>
                     </Grid>
