@@ -1,5 +1,6 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
+import MessageHandler from "@exabyte-io/cove.js/dist/other/jupyterlite/MessageHandler";
 import { Made } from "@exabyte-io/made.js";
 import { IframeMessageSchema, MaterialSchema } from "@mat3ra/esse/lib/js/types";
 import { darkScrollbar } from "@mui/material";
@@ -31,6 +32,8 @@ class JupyterLiteTransformation extends React.Component<
     JupyterLiteTransformationProps,
     JupyterLiteTransformationState
 > {
+    messageHandler = new MessageHandler();
+
     constructor(props: JupyterLiteTransformationProps) {
         super(props);
         this.state = {
@@ -38,6 +41,11 @@ class JupyterLiteTransformation extends React.Component<
             selectedMaterials: [props.materials[0]],
             newMaterials: [],
         };
+    }
+
+    componentDidMount() {
+        this.messageHandler.addHandlers("set-data", [this.createMaterials]);
+        this.messageHandler.addHandlers("get-data", [this.returnMaterials]);
     }
 
     componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
@@ -53,11 +61,11 @@ class JupyterLiteTransformation extends React.Component<
         return selectedMaterials.map((material) => material.toJSON());
     };
 
-    handleSendData = (variableName: string) => {
-        // In case functions to retrieve a value depend on the variable name, we can filter based on that
-        const handlers = [{ variableName: "materials_in", handler: this.returnMaterials }];
-        return handlers.find((handler) => handler.variableName === variableName)?.handler;
-    };
+    // handleSendData = (variableName: string) => {
+    //     // In case functions to retrieve a value depend on the variable name, we can filter based on that
+    //     const handlers = [{ variableName: "materials_in", handler: this.returnMaterials }];
+    //     return handlers.find((handler) => handler.variableName === variableName)?.handler;
+    // };
 
     createMaterials = (data: any) => {
         try {
@@ -71,26 +79,6 @@ class JupyterLiteTransformation extends React.Component<
             console.log(e);
         }
     };
-
-    // eslint-disable-next-line react/sort-comp
-    eventHandlers = [
-        {
-            type: "from-iframe-to-host",
-            filter: {
-                keys: ["data"],
-            },
-            extraParameters: [],
-            handler: this.createMaterials,
-        },
-        {
-            type: "from-iframe-to-host",
-            filter: {
-                keys: ["requestData", "variableName"],
-            },
-            extraParameters: [],
-            handler: this.handleSendData,
-        },
-    ];
 
     handleSubmit = async () => {
         const { onSubmit, materials } = this.props;
@@ -139,6 +127,9 @@ class JupyterLiteTransformation extends React.Component<
                             testId="materials-in-selector"
                         />
                     </Grid>
+                    <button onClick={() => this.messageHandler.sendData("materials_in")}>
+                        Test Send
+                    </button>
                     <Grid
                         pt={0}
                         item
@@ -157,7 +148,7 @@ class JupyterLiteTransformation extends React.Component<
                             <JupyterLiteSession
                                 originURL="http://localhost:8000"
                                 defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
-                                handlers={this.eventHandlers}
+                                messageHandler={this.messageHandler}
                             />
                         </Paper>
                     </Grid>
