@@ -2,7 +2,7 @@ import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
 import MessageHandler from "@exabyte-io/cove.js/dist/other/jupyterlite/MessageHandler";
 import { Made } from "@exabyte-io/made.js";
-import { IframeMessageSchema, MaterialSchema } from "@mat3ra/esse/lib/js/types";
+import { MaterialSchema } from "@mat3ra/esse/lib/js/types";
 import { darkScrollbar } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -44,8 +44,9 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     componentDidMount() {
-        this.messageHandler.addHandlers("set-data", [this.createMaterials]);
-        this.messageHandler.addHandlers("get-data", [this.returnMaterials]);
+        this.messageHandler.addHandlers("set-data", [this.setMaterials]);
+        this.messageHandler.addHandlers("get-data", [this.returnSelectedMaterials]);
+        this.messageHandler.sendData(this.returnSelectedMaterials());
     }
 
     componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
@@ -54,22 +55,17 @@ class JupyterLiteTransformation extends React.Component<
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ materials });
         }
+        this.messageHandler.sendData(this.returnSelectedMaterials());
     }
 
-    returnMaterials = () => {
+    returnSelectedMaterials = () => {
         const { selectedMaterials } = this.state;
         return selectedMaterials.map((material) => material.toJSON());
     };
 
-    // handleSendData = (variableName: string) => {
-    //     // In case functions to retrieve a value depend on the variable name, we can filter based on that
-    //     const handlers = [{ variableName: "materials_in", handler: this.returnMaterials }];
-    //     return handlers.find((handler) => handler.variableName === variableName)?.handler;
-    // };
-
-    createMaterials = (data: any) => {
+    setMaterials = (data: any) => {
         try {
-            const configs = data as MaterialSchema[];
+            const configs = data.materials as MaterialSchema[];
             if (Array.isArray(configs)) {
                 this.setState({
                     newMaterials: configs.map((config) => new Made.Material(config)),
@@ -127,9 +123,6 @@ class JupyterLiteTransformation extends React.Component<
                             testId="materials-in-selector"
                         />
                     </Grid>
-                    <button onClick={() => this.messageHandler.sendData("materials_in")}>
-                        Test Send
-                    </button>
                     <Grid
                         pt={0}
                         item
