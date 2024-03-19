@@ -46,7 +46,6 @@ class JupyterLiteTransformation extends React.Component<
     componentDidMount() {
         this.messageHandler.addHandlers("set-data", [this.setMaterials]);
         this.messageHandler.addHandlers("get-data", [this.returnSelectedMaterials]);
-        this.messageHandler.sendData(this.returnSelectedMaterials());
     }
 
     componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
@@ -64,11 +63,16 @@ class JupyterLiteTransformation extends React.Component<
     };
 
     setMaterials = (data: any) => {
+        // Since any arbitrary data can be sent from the JupyterLite notebook, the validation might fail
         try {
             const configs = data.materials as MaterialSchema[];
             if (Array.isArray(configs)) {
                 this.setState({
-                    newMaterials: configs.map((config) => new Made.Material(config)),
+                    newMaterials: configs.map((config) => {
+                        const m = new Made.Material(config);
+                        m.validate();
+                        return m;
+                    }),
                 });
             }
         } catch (e) {
