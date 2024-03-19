@@ -74,7 +74,7 @@
         "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js.git#cd98e41c48b555125b7c4a8a8b4cb3daee8f16a1",
         "@mat3ra/esse": "2024.3.19-0",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@exabyte-io/made.js": "https://github.com/Exabyte-io/made.js.git#23c428ed083deb43a7de2a1d43be44cdbe1605f5",
+        "@exabyte-io/made.js": "^2024.3.5-0",
         "@mat3ra/standata": "^2024.2.21-0",
         "@types/debug": "^4.1.12",
         "@types/mocha": "^10.0.1",
