@@ -7,6 +7,7 @@ import { darkScrollbar } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { enqueueSnackbar } from "notistack";
 import React from "react";
 
 import { theme } from "../../../../settings";
@@ -63,20 +64,29 @@ class JupyterLiteTransformation extends React.Component<
     };
 
     setMaterials = (data: any) => {
-        // Since any arbitrary data can be sent from the JupyterLite notebook, the validation might fail
-        try {
-            const configs = data.materials as MaterialSchema[];
-            if (Array.isArray(configs)) {
-                this.setState({
-                    newMaterials: configs.map((config) => {
-                        const m = new Made.Material(config);
-                        m.validate();
-                        return m;
-                    }),
-                });
-            }
-        } catch (e) {
-            console.log(e);
+        const configs = data.materials as MaterialSchema[];
+        if (Array.isArray(configs)) {
+            const validationErrors: string[] = [];
+            const newMaterials = configs.reduce((validMaterials, config) => {
+                try {
+                    const material = new Made.Material(config);
+                    material.validate();
+                    validMaterials.push(material);
+                } catch (e: any) {
+                    validationErrors.push(
+                        `Failed to create material ${config.name}: ${JSON.stringify(
+                            e.details.error[0],
+                        )}`,
+                    );
+                }
+                return validMaterials;
+            }, [] as Made.Material[]);
+
+            this.setState({ newMaterials });
+
+            validationErrors.forEach((errorMessage) => {
+                enqueueSnackbar(errorMessage, { variant: "error" });
+            });
         }
     };
 
@@ -143,6 +153,7 @@ class JupyterLiteTransformation extends React.Component<
                             }}
                         >
                             <JupyterLiteSession
+                                originURL="http://localhost:8000"
                                 defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
                                 messageHandler={this.messageHandler}
                             />
