@@ -153,7 +153,6 @@ class JupyterLiteTransformation extends React.Component<
                             }}
                         >
                             <JupyterLiteSession
-                                originURL="http://localhost:8000"
                                 defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
                                 messageHandler={this.messageHandler}
                             />
