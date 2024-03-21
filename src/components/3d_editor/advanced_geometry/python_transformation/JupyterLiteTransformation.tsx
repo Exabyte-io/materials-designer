@@ -63,30 +63,37 @@ class JupyterLiteTransformation extends React.Component<
         return selectedMaterials.map((material) => material.toJSON());
     };
 
+    validateMaterialConfigs = (configs: MaterialSchema[]) => {
+        const validationErrors: string[] = [];
+        const validatedMaterials = configs.reduce((validMaterials, config) => {
+            try {
+                const material = new Made.Material(config);
+                material.validate();
+                validMaterials.push(material);
+            } catch (e: any) {
+                validationErrors.push(
+                    `Failed to create material ${config.name}: ${JSON.stringify(
+                        e.details.error[0],
+                    )}`,
+                );
+            }
+            return validMaterials;
+        }, [] as Made.Material[]);
+        return { validatedMaterials, validationErrors };
+    };
+
     handleSetMaterials = (data: any) => {
         const configs = data.materials as MaterialSchema[];
         if (Array.isArray(configs)) {
-            const validationErrors: string[] = [];
-            const newMaterials = configs.reduce((validMaterials, config) => {
-                try {
-                    const material = new Made.Material(config);
-                    material.validate();
-                    validMaterials.push(material);
-                } catch (e: any) {
-                    validationErrors.push(
-                        `Failed to create material ${config.name}: ${JSON.stringify(
-                            e.details.error[0],
-                        )}`,
-                    );
-                }
-                return validMaterials;
-            }, [] as Made.Material[]);
+            const { validatedMaterials, validationErrors } = this.validateMaterialConfigs(configs);
 
-            this.setState({ newMaterials });
+            this.setState({ newMaterials: validatedMaterials });
 
             validationErrors.forEach((errorMessage) => {
                 enqueueSnackbar(errorMessage, { variant: "error" });
             });
+        } else {
+            enqueueSnackbar("Invalid material data received", { variant: "error" });
         }
     };
 
