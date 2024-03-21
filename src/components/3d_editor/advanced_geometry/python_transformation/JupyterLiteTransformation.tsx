@@ -1,9 +1,13 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
+import MessageHandler from "@exabyte-io/cove.js/dist/other/iframe-messaging";
+import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
 import { Made } from "@exabyte-io/made.js";
+import { MaterialSchema } from "@mat3ra/esse/lib/js/types";
 import { darkScrollbar } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { enqueueSnackbar } from "notistack";
 import React from "react";
 
 import { theme } from "../../../../settings";
@@ -23,14 +27,14 @@ interface JupyterLiteTransformationState {
     newMaterials: Made.Material[];
 }
 
-const ORIGIN_URL = "https://jupyterlite.mat3ra.com";
-const IFRAME_ID = "jupyter-lite-iframe";
 const DEFAULT_NOTEBOOK_PATH = "api-examples/other/materials_designer/Introduction.ipynb";
 
 class JupyterLiteTransformation extends React.Component<
     JupyterLiteTransformationProps,
     JupyterLiteTransformationState
 > {
+    messageHandler = new MessageHandler();
+
     constructor(props: JupyterLiteTransformationProps) {
         super(props);
         this.state = {
@@ -41,7 +45,8 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     componentDidMount() {
-        window.addEventListener("message", this.handleReceiveMessage, false);
+        this.messageHandler.addHandlers("set-data", [this.handleSetMaterials]);
+        this.messageHandler.addHandlers("get-data", [this.returnSelectedMaterials]);
     }
 
     componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
@@ -50,33 +55,45 @@ class JupyterLiteTransformation extends React.Component<
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ materials });
         }
+        this.messageHandler.sendData(this.returnSelectedMaterials());
     }
 
-    componentWillUnmount() {
-        window.removeEventListener("message", this.handleReceiveMessage, false);
-    }
+    returnSelectedMaterials = () => {
+        const { selectedMaterials } = this.state;
+        return selectedMaterials.map((material) => material.toJSON());
+    };
 
-    handleReceiveMessage = (event: MessageEvent) => {
-        // Check if the message is from the expected source
-        // TODO: check for partial URL match, e.g. with "/" at the end
-        if (event.origin !== ORIGIN_URL) {
-            return;
-        }
-        if (event.data.type === "from-iframe-to-host") {
+    validateMaterialConfigs = (configs: MaterialSchema[]) => {
+        const validationErrors: string[] = [];
+        const validatedMaterials = configs.reduce((validMaterials, config) => {
             try {
-                // TODO: add check for Material config type
-                const configs = event.data.data.materials;
-                if (Array.isArray(configs)) {
-                    this.setState({
-                        newMaterials: configs.map((config) => new Made.Material(config)),
-                    });
-                }
-            } catch (err) {
-                console.log(err);
+                const material = new Made.Material(config);
+                material.validate();
+                validMaterials.push(material);
+            } catch (e: any) {
+                validationErrors.push(
+                    `Failed to create material ${config.name}: ${JSON.stringify(
+                        e.details.error[0],
+                    )}`,
+                );
             }
-            if (event.data.requestData === true && event.data.variableName === "materials_in") {
-                this.sendMaterialsToIFrame();
-            }
+            return validMaterials;
+        }, [] as Made.Material[]);
+        return { validatedMaterials, validationErrors };
+    };
+
+    handleSetMaterials = (data: any) => {
+        const configs = data.materials as MaterialSchema[];
+        if (Array.isArray(configs)) {
+            const { validatedMaterials, validationErrors } = this.validateMaterialConfigs(configs);
+
+            this.setState({ newMaterials: validatedMaterials });
+
+            validationErrors.forEach((errorMessage) => {
+                enqueueSnackbar(errorMessage, { variant: "error" });
+            });
+        } else {
+            enqueueSnackbar("Invalid material data received", { variant: "error" });
         }
     };
 
@@ -87,27 +104,6 @@ class JupyterLiteTransformation extends React.Component<
         onSubmit(newMaterials);
         this.setState({ selectedMaterials: [materials[0]], newMaterials: [] });
     };
-
-    sendMaterialsToIFrame() {
-        const { selectedMaterials } = this.state;
-        const data = selectedMaterials.map((material) => material.toJSON());
-        this.sendDataToIFrame(data, "materials_in");
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    sendDataToIFrame(data: Record<string, unknown>[], variableName = "data") {
-        const message = {
-            type: "from-host-to-iframe",
-            data,
-            variableName,
-        };
-        const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement;
-        if (iframe.contentWindow) {
-            iframe.contentWindow.postMessage(message, ORIGIN_URL);
-        } else {
-            console.error("JupyterLite iframe not found");
-        }
-    }
 
     render() {
         const { materials, selectedMaterials, newMaterials } = this.state;
@@ -163,14 +159,9 @@ class JupyterLiteTransformation extends React.Component<
                                 height: "100%",
                             }}
                         >
-                            <iframe
-                                name="jupyterlite"
-                                title="JupyterLite"
-                                id={IFRAME_ID}
-                                src={`${ORIGIN_URL}/lab/tree?path=${DEFAULT_NOTEBOOK_PATH}`}
-                                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation allow-downloads"
-                                width="100%"
-                                height="100%"
+                            <JupyterLiteSession
+                                defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
+                                messageHandler={this.messageHandler}
                             />
                         </Paper>
                     </Grid>
