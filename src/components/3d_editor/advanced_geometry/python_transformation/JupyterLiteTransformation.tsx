@@ -45,7 +45,7 @@ class JupyterLiteTransformation extends React.Component<
     }
 
     componentDidMount() {
-        this.messageHandler.addHandlers("set-data", [this.setMaterials]);
+        this.messageHandler.addHandlers("set-data", [this.handleSetMaterials]);
         this.messageHandler.addHandlers("get-data", [this.returnSelectedMaterials]);
     }
 
@@ -63,7 +63,7 @@ class JupyterLiteTransformation extends React.Component<
         return selectedMaterials.map((material) => material.toJSON());
     };
 
-    setMaterials = (data: any) => {
+    handleSetMaterials = (data: any) => {
         const configs = data.materials as MaterialSchema[];
         if (Array.isArray(configs)) {
             const validationErrors: string[] = [];
