@@ -1,10 +1,10 @@
+import ResizableDrawer from "@exabyte-io/cove.js/dist/mui/components/custom/resizable-drawer/ResizableDrawer";
 import MessageHandler from "@exabyte-io/cove.js/dist/other/iframe-messaging";
 import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
 import { Made } from "@exabyte-io/made.js";
 import { MaterialSchema } from "@mat3ra/esse/lib/js/types";
 import { enqueueSnackbar } from "notistack";
 import React from "react";
-import ResizableDrawer from "temp_cove/ResizableDrawer";
 
 import { theme } from "../../settings";
 
