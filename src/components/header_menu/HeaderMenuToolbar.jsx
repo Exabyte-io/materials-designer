@@ -280,7 +280,7 @@ class HeaderMenuToolbar extends React.Component {
                     <ListItemIcon>
                         <Terminal />
                     </ListItemIcon>
-                    JupyterLite Session
+                    JupyterLite Transformation
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
@@ -508,7 +508,7 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 <JupyterLiteTransformation
-                    title="JupyterLite Session"
+                    title="JupyterLite Transformation"
                     show={showJupyterLiteTransformation}
                     materials={materials}
                     onHide={() => this.setState({ showJupyterLiteTransformation: false })}
