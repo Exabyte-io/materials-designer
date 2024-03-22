@@ -6,12 +6,10 @@ import { MaterialSchema } from "@mat3ra/esse/lib/js/types";
 import { enqueueSnackbar } from "notistack";
 import React from "react";
 
-import { theme } from "../../settings";
-
 interface JupyterLiteTransformationProps {
     materials: Made.Material[];
     show: boolean;
-    onSubmit: (newMaterials: Made.Material[]) => void;
+    onUpdate: (newMaterials: Made.Material[]) => void;
     onHide: () => void;
 }
 
@@ -31,10 +29,6 @@ class JupyterLiteSessionDrawer extends React.Component<JupyterLiteTransformation
     }
 
     componentDidUpdate(prevProps: JupyterLiteTransformationProps) {
-        // const { materials } = this.props;
-        // if (prevProps.materials !== materials) {
-        //     // eslint-disable-next-line react/no-did-update-set-state
-        // }
         this.messageHandler.sendData(this.returnSelectedMaterials());
     }
 
@@ -63,12 +57,12 @@ class JupyterLiteSessionDrawer extends React.Component<JupyterLiteTransformation
     };
 
     handleSetMaterials = (data: any) => {
-        const { onSubmit } = this.props;
+        const { onUpdate } = this.props;
         const configs = data.materials as MaterialSchema[];
         if (Array.isArray(configs)) {
             const { validatedMaterials, validationErrors } = this.validateMaterialConfigs(configs);
 
-            onSubmit(validatedMaterials);
+            onUpdate(validatedMaterials);
 
             validationErrors.forEach((errorMessage) => {
                 enqueueSnackbar(errorMessage, { variant: "error" });
