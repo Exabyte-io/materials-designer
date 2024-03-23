@@ -118,7 +118,7 @@ class StandataImportDialog extends React.Component<
                             options={defaultMaterialConfigs || []}
                             value={selectedMaterialConfigs || null}
                             getOptionLabel={(material) => material.name || "Not available"}
-                            onChange={(event, newValues) => this.handleMaterialSelect(newValues)}
+                            onChange={(_event, newValues) => this.handleMaterialSelect(newValues)}
                             renderOption={(props, option, { selected }) => (
                                 // eslint-disable-next-line react/jsx-props-no-spreading
                                 <li {...props} data-tid="select-material">

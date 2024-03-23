@@ -72,7 +72,7 @@ function TransformationSelector(props: TransformationSelectorProps) {
             value={transformation}
             getOptionLabel={(option) => option.title}
             options={transformations}
-            onChange={(event, newValue) => {
+            onChange={(_event, newValue) => {
                 if (newValue) {
                     setPythonCode(newValue.content);
                     setTransformation(newValue);

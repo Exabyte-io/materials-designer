@@ -37,7 +37,7 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
             options={materials}
             getOptionLabel={(option) => option.name}
             value={selectedMaterials}
-            onChange={(event, newValue) => setSelectedMaterials(newValue)}
+            onChange={(_event, newValue) => setSelectedMaterials(newValue)}
             renderOption={(props, option, { selected }) => (
                 <li {...props} data-tid="select-material">
                     <Checkbox
