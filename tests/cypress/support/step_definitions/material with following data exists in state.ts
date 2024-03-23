@@ -1,5 +1,5 @@
 import { DataTable, Given } from "@badeball/cypress-cucumber-preprocessor";
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import BrowserManager from "@mat3ra/tede/src/js/cypress/BrowserManager";
 import { shallowDeepAlmostEqual } from "@mat3ra/tede/src/js/cypress/utils";
 import { parseTable } from "@mat3ra/tede/src/js/cypress/utils/table";
