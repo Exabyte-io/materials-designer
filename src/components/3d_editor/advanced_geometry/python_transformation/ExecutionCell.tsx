@@ -38,7 +38,7 @@ function ExecutionCell(props: ExecutionCellProps) {
     } = props;
     const [expanded, setExpanded] = React.useState(defaultExpanded);
 
-    const handleAccordionChange = (event: React.SyntheticEvent, isExpanded: boolean) => {
+    const handleAccordionChange = (_event: React.SyntheticEvent, isExpanded: boolean) => {
         setExpanded(isExpanded);
     };
     return (

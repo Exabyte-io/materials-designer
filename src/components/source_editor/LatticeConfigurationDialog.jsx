@@ -1,5 +1,5 @@
 /* eslint-disable react/sort-comp */
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";

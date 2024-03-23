@@ -1,5 +1,5 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import { enqueueSnackbar } from "notistack";
 import PropTypes from "prop-types";
 import React from "react";
