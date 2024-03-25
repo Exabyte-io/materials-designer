@@ -72,19 +72,11 @@ class JupyterLiteSessionDrawer extends React.Component<JupyterLiteTransformation
         }
     };
 
-    // eslint-disable-next-line react/sort-comp
-    containerRef = React.useRef(null);
-
     render() {
         const { show, onHide } = this.props;
         return (
             <div style={{ display: show ? "block" : "none" }}>
-                <ResizableDrawer
-                    open={show}
-                    onClose={onHide}
-                    contained
-                    containerRef={this.containerRef}
-                >
+                <ResizableDrawer open={show} onClose={onHide}>
                     <JupyterLiteSession
                         originURL="https://jupyterlite.mat3ra.com"
                         defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}

@@ -45,7 +45,6 @@ import JupyterLiteTransformation from "../3d_editor/advanced_geometry/python_tra
 import PythonTransformation from "../3d_editor/advanced_geometry/python_transformation/PythonTransformation";
 import SupercellDialog from "../3d_editor/advanced_geometry/SupercellDialog";
 import SurfaceDialog from "../3d_editor/advanced_geometry/SurfaceDialog";
-import JupyterLiteSessionDrawer from "../drawer_session/JupyterLiteSessionDrawer";
 import { ButtonActivatedMenuMaterialUI } from "../include/material-ui/ButtonActivatedMenu";
 import StandataImportDialog from "../include/StandataImportDialog";
 import UploadDialog from "../include/UploadDialog";
@@ -66,7 +65,6 @@ class HeaderMenuToolbar extends React.Component {
             showBoundaryConditionsDialog: false,
             showPythonTransformation: false,
             showJupyterLiteTransformation: false,
-            showJupyterLiteSessionDrawer: false,
         };
     }
 
@@ -204,7 +202,7 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     3D Viewer/Editor
                 </MenuItem>
-                <MenuItem onClick={() => this.setState({ showJupyterLiteSessionDrawer: true })}>
+                <MenuItem onClick={() => onSectionVisibilityToggle("JupyterLiteSessionDrawer")}>
                     <ListItemIcon>
                         <Terminal />
                     </ListItemIcon>
@@ -387,7 +385,6 @@ class HeaderMenuToolbar extends React.Component {
             showStandataImportDialog,
             showDefaultImportModalDialog,
             showJupyterLiteTransformation,
-            showJupyterLiteSessionDrawer,
         } = this.state;
         const {
             children,
@@ -515,15 +512,6 @@ class HeaderMenuToolbar extends React.Component {
                     onSubmit={(...args) => {
                         onAdd(...args);
                         this.setState({ showJupyterLiteTransformation: false });
-                    }}
-                />
-
-                <JupyterLiteSessionDrawer
-                    show={showJupyterLiteSessionDrawer}
-                    materials={materials}
-                    onHide={() => this.setState({ showJupyterLiteSessionDrawer: false })}
-                    onUpdate={(...args) => {
-                        onAdd(...args);
                     }}
                 />
             </Toolbar>
