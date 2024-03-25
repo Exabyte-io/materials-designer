@@ -1,5 +1,5 @@
 /* eslint-disable react/sort-comp */
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import CheckBox from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -37,7 +37,7 @@ function MaterialsSelector(props: MaterialsSelectorProps) {
             options={materials}
             getOptionLabel={(option) => option.name}
             value={selectedMaterials}
-            onChange={(event, newValue) => setSelectedMaterials(newValue)}
+            onChange={(_event, newValue) => setSelectedMaterials(newValue)}
             renderOption={(props, option, { selected }) => (
                 <li {...props} data-tid="select-material">
                     <Checkbox

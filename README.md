@@ -140,7 +140,7 @@ sh run-tests.sh -f=menu/advanced/create-supercell.feature
 
 ### 3.3. Dependencies
 
-This package depends on [Made](https://github.com/Exabyte-io/made.js), [Wave](https://github.com/Exabyte-io/wave.js), and [Cove.js](https://github.com/Exabyte-io/cove.js) among other packages. For the full list, see [package.json](package.json).
+This package depends on [Made](https://github.com/mat3ra/made), [Wave](https://github.com/Exabyte-io/wave.js), and [Cove.js](https://github.com/Exabyte-io/cove.js) among other packages. For the full list, see [package.json](package.json).
 
 ### 3.4. CI Docker files
 

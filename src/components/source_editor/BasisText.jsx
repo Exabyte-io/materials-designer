@@ -1,6 +1,6 @@
 /* eslint-disable react/sort-comp */
 import CodeMirror from "@exabyte-io/cove.js/dist/other/codemirror/CodeMirror";
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import setClass from "classnames";

@@ -1,4 +1,4 @@
-import { Made } from "@exabyte-io/made.js";
+import { Made } from "@mat3ra/made";
 
 export class Material extends Made.Material {
     constructor(config) {
