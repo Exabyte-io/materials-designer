@@ -1,8 +1,8 @@
 import ResizableDrawer from "@exabyte-io/cove.js/dist/mui/components/custom/resizable-drawer/ResizableDrawer";
 import MessageHandler from "@exabyte-io/cove.js/dist/other/iframe-messaging";
 import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
-import { Made } from "@exabyte-io/made.js";
 import { MaterialSchema } from "@mat3ra/esse/lib/js/types";
+import { Made } from "@mat3ra/made";
 import { enqueueSnackbar } from "notistack";
 import React from "react";
 
@@ -72,11 +72,19 @@ class JupyterLiteSessionDrawer extends React.Component<JupyterLiteTransformation
         }
     };
 
+    // eslint-disable-next-line react/sort-comp
+    containerRef = React.useRef(null);
+
     render() {
         const { show, onHide } = this.props;
         return (
             <div style={{ display: show ? "block" : "none" }}>
-                <ResizableDrawer open={show} onClose={onHide}>
+                <ResizableDrawer
+                    open={show}
+                    onClose={onHide}
+                    contained
+                    containerRef={this.containerRef}
+                >
                     <JupyterLiteSession
                         originURL="https://jupyterlite.mat3ra.com"
                         defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
