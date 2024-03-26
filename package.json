@@ -34,7 +34,7 @@
         "@babel/runtime-corejs2": "7.16.7",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
-        "@exabyte-io/wave.js": "2024.3.23-0",
+        "@exabyte-io/wave.js": "2024.3.26-0",
         "@mui/icons-material": "^5.11.0",
         "@mui/material": "^5.11.9",
         "@mui/styles": "^5.11.7",
@@ -61,8 +61,8 @@
         "underscore.string": "^3.3.4"
     },
     "peerDependencies": {
+        "@mat3ra/code": "*",
         "@mat3ra/made": "*",
-        "@exabyte-io/code.js": "*",
         "@exabyte-io/cove.js": "*",
         "@exabyte-io/standata": "*",
         "@mat3ra/esse": "*",
@@ -70,11 +70,11 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/code.js": "2024.2.29-0",
         "@exabyte-io/cove.js": "2024.3.20-0",
-        "@mat3ra/esse": "2024.3.20-0",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
-        "@mat3ra/made": "2024.3.25-0",
+        "@mat3ra/esse": "2024.3.25-6",
+        "@mat3ra/code": "2024.3.25-3",
+        "@mat3ra/made": "2024.3.26-0",
         "@mat3ra/standata": "^2024.2.21-0",
         "@mat3ra/tsconfig": "^2024.3.23-2",
         "@types/debug": "^4.1.12",

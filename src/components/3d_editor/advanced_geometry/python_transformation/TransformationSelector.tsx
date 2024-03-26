@@ -1,4 +1,4 @@
-import { fetchFilesFromGitHubAPI } from "@exabyte-io/code.js/dist/utils";
+import { fetchFilesFromGitHubAPI } from "@mat3ra/code/dist/js/utils";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { enqueueSnackbar } from "notistack";
