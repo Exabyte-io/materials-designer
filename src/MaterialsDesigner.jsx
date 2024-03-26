@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 // TODO: use when converting to typescript
-// import {MaterialSchema} from "@exabyte-io/code.js/dist/types";
+// import {MaterialSchema} from "@mat3ra/code/dist/js/types";
 import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
 import EditorSelectionInfo, {
     FOOTER_HEIGHT,
