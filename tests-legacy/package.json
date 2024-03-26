@@ -9,7 +9,7 @@
         "@babel/cli": "^7.20.7",
         "@babel/core": "^7.20.12",
         "@babel/node": "^7.20.7",
-        "@exabyte-io/code.js": "2022.6.8-0",
+        "@mat3ra/code": "2024.3.25-3",
         "chromedriver": "^114.0.3",
         "lodash": "^4.17.4",
         "moment": "^2.11.2",
