@@ -1,6 +1,6 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
-import { MaterialSchema } from "@mat3ra/esse/lib/js/types";
+import { MaterialSchema } from "@mat3ra/esse/dist/js/types";
 import { Made } from "@mat3ra/made";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import Autocomplete from "@mui/material/Autocomplete";
