@@ -75,27 +75,10 @@ class JupyterLiteSessionDrawer extends React.Component<JupyterLiteTransformation
 
     render() {
         const { show, onHide, containerRef } = this.props;
-        const drawerStyles =
-            containerRef && containerRef.current
-                ? {
-                      position: "absolute",
-                      left: containerRef.current.offsetLeft,
-                      bottom:
-                          window.innerHeight -
-                          (containerRef.current.offsetTop + containerRef.current.offsetHeight),
-                      maxHeight: containerRef.current.offsetHeight,
-                      maxWidth: containerRef.current.offsetWidth,
-                  }
-                : {};
 
         return (
             <div style={{ display: show ? "block" : "none" }}>
-                <ResizableDrawer
-                    open={show}
-                    onClose={onHide}
-                    paperProps={{ style: drawerStyles }}
-                    containerRef={containerRef}
-                >
+                <ResizableDrawer open={show} onClose={onHide} containerRef={containerRef}>
                     <JupyterLiteSession
                         originURL="https://jupyterlite.mat3ra.com"
                         defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
