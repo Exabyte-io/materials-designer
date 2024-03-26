@@ -81,6 +81,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
             isVisibleJupyterLiteSessionDrawer: false,
             importMaterialsDialogProps: null,
         };
+        this.containerRef = React.createRef();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -207,6 +208,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 justifyContent="flex-start"
                                 id="materials-designer-container"
                                 sx={{ height: "100%" }}
+                                ref={this.containerRef}
                             >
                                 {isVisibleItemsList && (
                                     <Grid
@@ -294,6 +296,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     onHide={() => {
                                         this.setState({ isVisibleJupyterLiteSessionDrawer: false });
                                     }}
+                                    containerRef={this.containerRef}
                                 />
                             </Grid>
                         </Box>

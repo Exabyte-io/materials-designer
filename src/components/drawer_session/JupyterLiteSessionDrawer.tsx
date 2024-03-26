@@ -11,6 +11,7 @@ interface JupyterLiteTransformationProps {
     show: boolean;
     onUpdate: (newMaterials: Made.Material[]) => void;
     onHide: () => void;
+    containerRef: React.RefObject<HTMLDivElement>;
 }
 
 const DEFAULT_NOTEBOOK_PATH = "api-examples/other/materials_designer/Introduction.ipynb";
@@ -73,10 +74,20 @@ class JupyterLiteSessionDrawer extends React.Component<JupyterLiteTransformation
     };
 
     render() {
-        const { show, onHide } = this.props;
+        const { show, onHide, containerRef } = this.props;
+        console.log(containerRef, containerRef.current);
+        const drawerStyles =
+            containerRef && containerRef.current
+                ? {
+                      position: "absolute",
+                      maxHeight: containerRef.current.offsetHeight,
+                      maxWidth: containerRef.current.offsetWidth,
+                  }
+                : {};
+
         return (
             <div style={{ display: show ? "block" : "none" }}>
-                <ResizableDrawer open={show} onClose={onHide}>
+                <ResizableDrawer open={show} onClose={onHide} paperProps={{ style: drawerStyles }}>
                     <JupyterLiteSession
                         originURL="https://jupyterlite.mat3ra.com"
                         defaultNotebookPath={DEFAULT_NOTEBOOK_PATH}
