@@ -299,6 +299,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                                 isVisibleJupyterLiteSessionDrawer: false,
                                             });
                                         }}
+                                        containerRef={this.containerRef}
                                     />
                                 )}
                             </Grid>

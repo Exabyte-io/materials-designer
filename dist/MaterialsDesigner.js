@@ -150,7 +150,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                             this.setState({
                                                 isVisibleJupyterLiteSessionDrawer: false,
                                             });
-                                        } }))] }) }), _jsx(EditorSelectionInfo, {})] }) }) }));
+                                        }, containerRef: this.containerRef }))] }) }), _jsx(EditorSelectionInfo, {})] }) }) }));
     }
 }
 MaterialsDesigner.propTypes = {
