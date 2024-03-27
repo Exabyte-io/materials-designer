@@ -144,11 +144,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                                 newMaterial.metadata =
                                                     this.props.material.metadata || {};
                                                 this.props.onUpdate(newMaterial);
-                                            } }) })), _jsx(JupyterLiteSessionDrawer, { materials: this.props.materials, show: this.state.isVisibleJupyterLiteSessionDrawer, onUpdate: (...args) => {
+                                            } }) })), this.state.isVisibleJupyterLiteSessionDrawer && (_jsx(JupyterLiteSessionDrawer, { materials: this.props.materials, show: this.state.isVisibleJupyterLiteSessionDrawer, onMaterialsUpdate: (...args) => {
                                             this.props.onAdd(...args);
                                         }, onHide: () => {
-                                            this.setState({ isVisibleJupyterLiteSessionDrawer: false });
-                                        }, containerRef: this.containerRef })] }) }), _jsx(EditorSelectionInfo, {})] }) }) }));
+                                            this.setState({
+                                                isVisibleJupyterLiteSessionDrawer: false,
+                                            });
+                                        } }))] }) }), _jsx(EditorSelectionInfo, {})] }) }) }));
     }
 }
 MaterialsDesigner.propTypes = {
