@@ -27,6 +27,7 @@ class JupyterLiteTransformation extends React.Component {
                     const material = new Made.Material(config);
                     material.validate();
                     validMaterials.push(material);
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 }
                 catch (e) {
                     validationErrors.push(`Failed to create material ${config.name}: ${JSON.stringify(e.details.error[0])}`);
@@ -35,6 +36,7 @@ class JupyterLiteTransformation extends React.Component {
             }, []);
             return { validatedMaterials, validationErrors };
         };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.handleSetMaterials = (data) => {
             const configs = data.materials;
             if (Array.isArray(configs)) {
