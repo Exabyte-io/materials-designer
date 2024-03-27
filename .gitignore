@@ -1,4 +1,6 @@
-dist/
+# Committing dist to allow installation from github commits and avoid tsconfig paths
+# resolution issues when using this package as a library
+# dist/
 build/
 node_modules/
 .eslintcache

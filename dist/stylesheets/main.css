@@ -1,0 +1,13 @@
+.three-renderer {
+  height: calc(100vh - $footer-height - $header-height); }
+
+#basis-xyz {
+  height: calc( 100vh - $footer-height - $header-height - $crystal-lattice-accordion-height-with-borders - $crystal-basis-accordion-header-with-button-group);
+  overflow-y: hidden; }
+  #basis-xyz .cm-editor {
+    font-size: 0.9em;
+    max-height: calc( 100vh - $footer-height - $header-height - $crystal-lattice-accordion-height-with-borders - $crystal-basis-accordion-header-with-button-group);
+    resize: vertical;
+    overflow-y: auto; }
+    #basis-xyz .cm-editor .cm-scroller {
+      min-height: calc( 100vh - $footer-height - $header-height - $crystal-lattice-accordion-height-with-borders - $crystal-basis-accordion-header-with-button-group); }
