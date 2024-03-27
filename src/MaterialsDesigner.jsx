@@ -296,7 +296,6 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     onHide={() => {
                                         this.setState({ isVisibleJupyterLiteSessionDrawer: false });
                                     }}
-                                    containerRef={this.containerRef}
                                 />
                             </Grid>
                         </Box>
