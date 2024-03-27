@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Fixing lint"
+npm run lint:fix
+
+echo "Transpiling sources"
+npm run transpile
+npm run transpile-tests
+git status
+
+echo "Adding transpiled sources in dist"
+git add dist
