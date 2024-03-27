@@ -1,4 +1,4 @@
-// BaseJupyterLiteSessionComponent.js
+/** eslint-disable-next-line react/no-unused-prop-types * */
 import MessageHandler from "@exabyte-io/cove.js/dist/other/iframe-messaging";
 import { MaterialSchema } from "@mat3ra/esse/dist/js/types";
 import { Made } from "@mat3ra/made";
