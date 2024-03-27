@@ -6,17 +6,14 @@
         "start": "cross-env PORT=3001 SKIP_PREFLIGHT_CHECK=true react-scripts start",
         "build": "react-scripts build",
         "prepublishOnly": "rm -rf dist; npm run transpile; npm run transpile-tests",
-        "transpile-scss": "node-sass -r src/stylesheets -o dist/stylesheets",
         "transpile-tests": "babel --presets @babel/preset-env --out-dir dist/tests-legacy/cucumber tests-legacy/cucumber",
-        "transpile": "npm run transpile-local && npm run transpile-scss",
-        "transpile-in-postinstall": "tsc -p ./node_modules/@mat3ra/materials-designer/tsconfig.json && npm run transpile-scss",
-        "transpile-local": "tsc",
+        "transpile": "tsc; node-sass -r src/stylesheets -o dist/stylesheets",
         "test": "bash run-tests.sh",
         "testsOnly": "bash run-tests.sh -s=true",
         "lint": "eslint src tests-legacy && prettier --write src tests-legacy",
         "lint:fix": "eslint src tests-legacy --fix && prettier --write src tests-legacy",
-        "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react; npm-link-shared ./node_modules/@exabyte-io/wave.js/node_modules . react; exit 0",
-        "postinstall": "sed -i.bak '/noEmit/d' ./node_modules/react-scripts/scripts/utils/verifyTypeScriptSetup.js && npm run transpile-in-postinstall && npm run transpile-tests",
+        "prestart": "npm-link-shared ./node_modules/@exabyte-io/cove.js/node_modules . react; npm-link-shared ./node_modules/@exabyte-io/wave.js/node_modules . react",
+        "postinstall": "sed -i.bak '/noEmit/d' ./node_modules/react-scripts/scripts/utils/verifyTypeScriptSetup.js; npm run transpile; npm run transpile-tests",
         "prettier": "prettier --check src tests"
     },
     "repository": {
@@ -73,7 +70,7 @@
         "react-dom": "^17.0.0"
     },
     "devDependencies": {
-        "@exabyte-io/cove.js": "https://github.com/Exabyte-io/cove.js.git#6ab5a1f6a05c524c9715816c85cdf2c991bdea8d",
+        "@exabyte-io/cove.js": "2024.3.20-0",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@mat3ra/esse": "2024.3.25-6",
         "@mat3ra/code": "2024.3.25-3",
