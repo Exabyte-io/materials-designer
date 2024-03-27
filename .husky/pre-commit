@@ -1,13 +1,17 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "Fixing lint"
+echo ">>>>>>>> Husky Pre-commit: Fixing lint"
+echo ""
 npm run lint:fix
 
-echo "Transpiling sources"
+echo ">>>>>>>> Husky Pre-commit: Transpiling sources"
+echo ""
 npm run transpile
 npm run transpile-tests
 git status
 
-echo "Adding transpiled sources in dist"
+echo ">>>>>>>> Husky Pre-commit: Adding transpiled sources in dist"
+echo ""
 git add dist
+echo ""
