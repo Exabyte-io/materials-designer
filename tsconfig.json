@@ -1,35 +1,3 @@
 {
-  "compilerOptions": {
-    "target": "es2018",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "module": "esNext",
-    "moduleResolution": "node",
-    "declaration": true,
-    "outDir": "./dist",
-    "noEmitOnError": false,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "types": [],
-    "rootDir": "./src",
-    "baseUrl": "./src",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
-  },
-  "include": [
-    "./src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "extends": "@mat3ra/tsconfig/tsconfig-react-jsx.json",
 }

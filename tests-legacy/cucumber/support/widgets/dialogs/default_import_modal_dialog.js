@@ -1,4 +1,4 @@
-import { safeMakeArray } from "@exabyte-io/code.js/dist/utils";
+import { safeMakeArray } from "@mat3ra/code/dist/js/utils";
 import path from "path";
 
 import { SELECTORS } from "../../selectors";

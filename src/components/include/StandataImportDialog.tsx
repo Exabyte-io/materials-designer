@@ -1,7 +1,7 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import IconByName from "@exabyte-io/cove.js/dist/mui/components/icon/IconByName";
-import { Made } from "@exabyte-io/made.js";
-import { MaterialSchema } from "@mat3ra/esse/lib/js/types";
+import { MaterialSchema } from "@mat3ra/esse/dist/js/types";
+import { Made } from "@mat3ra/made";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import Autocomplete from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
@@ -118,7 +118,7 @@ class StandataImportDialog extends React.Component<
                             options={defaultMaterialConfigs || []}
                             value={selectedMaterialConfigs || null}
                             getOptionLabel={(material) => material.name || "Not available"}
-                            onChange={(event, newValues) => this.handleMaterialSelect(newValues)}
+                            onChange={(_event, newValues) => this.handleMaterialSelect(newValues)}
                             renderOption={(props, option, { selected }) => (
                                 // eslint-disable-next-line react/jsx-props-no-spreading
                                 <li {...props} data-tid="select-material">

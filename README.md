@@ -3,15 +3,55 @@
 
 # Materials Designer
 
-A standalone React/Redux application for atomistic design of material structures. Deployed within the Mat3ra.com platform as explained in the corresponding part of its documentatation [here](https://docs.mat3ra.com/materials-designer/overview/). Can be used as a library in other applications.
+A standalone React application for atomistic structural design. Deployed within the Mat3ra.com platform as documented [here](https://docs.mat3ra.com/materials-designer/overview/) and can be used as a library in any web/Node.js application.
 
 [Try Materials Designer in action here](https://mat3ra-materials-designer.netlify.app/)
 
 ![Materials Designer in action](https://i.imgur.com/f7NvNNl.png)
 
-## Functionality
 
-As below:
+## 1. Installation
+
+### 1.1. From source
+
+Materials Designer can be installed from the source as follows:
+
+```bash
+git clone git@github.com:Exabyte-io/materials-designer.git
+```
+Or use https, if no SSH authentication is set up with GitHub:
+
+```bash
+git clone https://github.com/Exabyte-io/materials-designer.git
+```
+
+then start the application using Node v14.19:
+
+```bash
+cd materials-designer
+npm install
+npm start
+```
+
+> Some files might not be downloaded by `git clone` or `git pull` commands if your system doesn't have `git-lfs` installed.
+> To fix this run (on OSX):
+> ```
+> brew install git-lfs
+> git lfs pull
+> ```
+
+Open http://localhost:3001 to view the application in the browser.
+
+### 1.2. Using Docker
+
+See the Docker Files section below.
+
+
+## 2. Functionality
+
+### 2.1. Current Functionality
+
+As below and further documented [here](https://docs.mat3ra.com/materials-designer/overview/):
 
 - Input/Output Menu
     - Export materials in JSON/POSCAR formats
@@ -25,6 +65,8 @@ As below:
     - Creating surfaces/slabs
     - Creating combinatorial sets
     - Creating interpolated sets
+    - Run Python Script
+    - Launch a Jupyter Lite session
 - Basis Editor
     - Adding/Removing/Modifying sites
     - Adding/Removing/Modifying atomic constraints
@@ -40,100 +82,71 @@ As below:
         - add/remove/select atoms
         - multiple selection with drag-and-drop
 
-## Installation
+### 2.2. TODO list
 
-Tested with `Node` v14.19.3. The corresponding version(s) of npm should be fine, tested with v6.4.19. We recommend using `nvm` for version management.
+Desirable features/fixes for implementation.
+
+General Improvements:
+
+- switch the color back to white when the material is back to the original after editing
+- show the total number of materials in the list and the current index
+- fix fullscreen support
+- add lattice vectors form to change lattice vectors in a 3x3 matrix with all components explicitly:
+- highlight atoms that are selected in the source editor in the 3D editor and vice versa
+- add the ability to drop files with material structural data to the materials list
+  - ESSE JSON and POSCAR parsers already implemented in made.js
+  - add a skeleton material with (+) button to the materials list (combines functionality of "Edit" -> "Clone" and "I/O" -> "Import...")
+- save the state of Materials Designer to share materials and exact visualization via URL link.  
+  - the idea is to be able to share an exact copy of the state of the application
+  - materials data is stored in the redux store
+  - visualization settings stored in wave.js components, via `useState()` hook
+ 
+Specific features:
+
+- add logic for Interstitials and vacancy concentrations in combinatorial sets
+ 
+Developer Experience:
+
+- add tests for all the functionality listed above. We only test advanced operations at current.
+- fix modal dialog exceptions for AdvancedGeometryDialog
+- remove the `updateIndex` action when the index is the same
 
 
-### From source
+## 3. Development
 
-Materials Designer can be installed from source as follows:
+### 3.1. Run the application
 
-```bash
-git clone git@github.com:Exabyte-io/materials-designer.git
-```
-Or use https, if no SSH authentication is set up with GitHub:
-
-```bash
-git clone https://github.com/Exabyte-io/materials-designer.git
-```
-
-then start the application:
-
-```bash
-cd materials-designer
-sh run-application.sh
-```
-
-> Some files might not be downloaded by `git clone` or `git pull` commands if your system doesn't have `git-lfs` installed.
-> To fix this run (on OSX):
-> ```
-> brew install git-lfs
-> # after successful installation run next command in the root directory of this repository:
-> git lfs install
-> ```
-
-Open http://localhost:3001 to view the application in the browser
-
-### From Docker
-
-See Docker Files section below.
-
-## Development
-
-Execute the following commands when running the application in development mode.
+Execute the following commands when running the application in development mode. Use Node v14.19
 
 ```bash
 npm install
 npm start
 ```
 
-## Tests
+### 3.2. Tests
 
-Start the application and then run one of the below commands to run the tests.
-
-> This will require proper java v1.8 installed, please verify it with command `java -version`.
-> If version does not mach use next commands to install (on OSX):
-> ```
-> brew tap adoptopenjdk/openjdk
-> brew install --cask adoptopenjdk8
-> # set to path
-> export PATH=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/bin:$PATH
-> ```
-
-To run all tests:
+Tests are implemented using Cypress. To launch it use Node v20 and run:
 
 ```bash
-sh run-tests.sh
+cd tests
+npm install
+npm test
 ```
 
-To run a specific test feature, pass it's relative path as option: 
+To run a specific test feature, pass its relative path as an option:
 ```bash
-sh run-tests.sh -f=menu/advanced/create-supercell.feature       # to run a specific test
+sh run-tests.sh -f=menu/advanced/create-supercell.feature
 ```
 
-### TODO list
+### 3.3. Dependencies
 
-Desirable features/fixes for implementation:
+This package depends on [Made](https://github.com/mat3ra/made), [Wave](https://github.com/Exabyte-io/wave.js), and [Cove.js](https://github.com/Exabyte-io/cove.js) among other packages. For the full list, see [package.json](package.json).
 
-- add tests for all the functionality listed above. We only tests advanced operations at current.
-- switch color back to white when the material is back to original after editing
-- add logic for Interstitials, Vacancy concentrations in combinatorial sets
-- fix modal dialog exceptions for AdvancedGeometryDialog
-- add line numbers to SourceEditor
-- remove updateIndex action when index is the same
-- show the total number of materials in set and the current index
-- fix fullscreen support
+### 3.4. CI Docker files
 
-## Dependencies
-
-This package depends on [Made.js](https://github.com/Exabyte-io/made.js) and [Wave.js](https://github.com/Exabyte-io/wave.js). See [package.json](package.json) for the full list.
-
-## CI Docker files
-
-There are two docker files used for testing in CI. In principle, we could use
+Two docker files were used for testing in CI. In principle, we could use
 more targeted base images for the use case (e.g. `node` or `selenium` images),
-but we want to verify correct behavior
+but we want to verify the correct behavior
 on a specific CentOS version. The first `dockerfiles/centos/Dockerfile` builds and
 runs the application. The second `dockerfiles/test/Dockerfile` provisions and runs
 the tests. The `test` image uses the `centos` image as a base and is related by the
@@ -141,7 +154,7 @@ the tests. The `test` image uses the `centos` image as a base and is related by 
 the `entrypoint.sh` you may need to re-build both containers for your changes to
 work. It can also be useful to comment out the `ENTRYPOINT` in the `centos` dockerfile
 as well as the `CMD` in the `test` dockerfile in order to easily run and debug both
-containers. There is also a `docker-compose.yml` file which can be used for local
+containers. There is also a `docker-compose.yml` file, which can be used for local
 building and testing. Provided `docker-compose` is installed, it can be used like so:
 
 ```bash
@@ -153,13 +166,13 @@ sleep 30  # let the app actually start
 docker-compose run materials-designer-test
 ```
 
-## Cove.js local development
+### 3.5. Using Cove.js for local development
 
-In case you need to link Cove.js into the app for local development you need
+If need to link Cove.js into the app for local development, you need
 
-1. Add local path of Cove.js to package.json
+1. Add the local path of Cove.js to package.json
 ```bash
-    "@exabyte-io/code.js": "file:../../cove.js"
+    "@exabyte-io/cove.js": "file:../../cove.js"
 ```
 2. Run the app
 ```bash
@@ -169,6 +182,7 @@ In case you need to link Cove.js into the app for local development you need
 If you need to re-link it again, remove node_modules in cove.js and the app, run npm install, then run npm start again. 
 
 
-## Links
+## 4. Links
 
 1. [Create React App, GitHub Repository](https://github.com/facebook/create-react-app)
+2. [Mat3ra Platform documentation for materials designer](https://docs.mat3ra.com/materials-designer/overview/).

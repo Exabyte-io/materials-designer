@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "CYPRESS_BASE_URL=http://localhost:3001 cypress open",
-        "test:headless": "CYPRESS_BASE_URL=http://localhost:3001 cypress run -e TAGS='not @ignore'",
+        "test": "CYPRESS_BASE_URL=${CYPRESS_BASE_URL:-'http://localhost:3001'} cypress open",
+        "test:headless": "CYPRESS_BASE_URL=${CYPRESS_BASE_URL:-'http://localhost:3001'} cypress run -e TAGS='not @ignore'",
         "lint": "npx eslint cypress && prettier --write cypress"
     },
     "engines": {
@@ -34,7 +34,7 @@
         "@babel/runtime-corejs3": "^7.16.8",
         "@exabyte-io/eslint-config": "^2023.8.29-1",
         "@exabyte-io/code.js": "2024.1.16-0",
-        "@mat3ra/tede": "^2024.1.26-0",
+        "@mat3ra/tede": "2024.3.15-1",
         "@types/mocha": "^10.0.1",
         "@typescript-eslint/eslint-plugin": "^5.9.1",
         "@typescript-eslint/parser": "^5.9.1",
