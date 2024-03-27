@@ -1,7 +1,7 @@
 import Dialog from "@exabyte-io/cove.js/dist/mui/components/dialog/Dialog";
 import MessageHandler from "@exabyte-io/cove.js/dist/other/iframe-messaging";
 import JupyterLiteSession from "@exabyte-io/cove.js/dist/other/jupyterlite/JupyterLiteSession";
-import { MaterialSchema } from "@mat3ra/esse/lib/js/types";
+import { MaterialSchema } from "@mat3ra/esse/dist/js/types";
 import { Made } from "@mat3ra/made";
 import { darkScrollbar } from "@mui/material";
 import Grid from "@mui/material/Grid";
