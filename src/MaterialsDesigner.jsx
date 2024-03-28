@@ -20,6 +20,7 @@ import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFulls
 import EditorSelectionInfo, {
     FOOTER_HEIGHT,
 } from "./components/3d_editor_selection_info/EditorSelectionInfo";
+import JupyterLiteSessionDrawer from "./components/drawer_session/JupyterLiteSessionDrawer";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
 import ItemsList from "./components/items_list/ItemsList";
 import BasisEditor from "./components/source_editor/Basis";
@@ -69,6 +70,7 @@ const GRID_CONFIG_BY_VISIBILITY = {
         3: { xs: 12, md: 0 },
     },
 };
+
 class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMixin) {
     constructor(props) {
         super(props);
@@ -76,8 +78,10 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
             isVisibleItemsList: true,
             isVisibleSourceEditor: true,
             isVisibleThreeDEditorFullscreen: true,
+            isVisibleJupyterLiteSessionDrawer: false,
             importMaterialsDialogProps: null,
         };
+        this.containerRef = React.createRef();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -165,6 +169,9 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 isVisibleItemsList={isVisibleItemsList}
                                 isVisibleSourceEditor={isVisibleSourceEditor}
                                 isVisibleThreeDEditorFullscreen={isVisibleThreeDEditorFullscreen}
+                                isVisibleJupyterLiteSessionDrawer={
+                                    this.state.isVisibleJupyterLiteSessionDrawer
+                                }
                             >
                                 <IconButton
                                     color="inherit"
@@ -201,6 +208,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 justifyContent="flex-start"
                                 id="materials-designer-container"
                                 sx={{ height: "100%" }}
+                                ref={this.containerRef}
                             >
                                 {isVisibleItemsList && (
                                     <Grid
@@ -278,6 +286,21 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                             }}
                                         />
                                     </Grid>
+                                )}
+                                {this.state.isVisibleJupyterLiteSessionDrawer && (
+                                    <JupyterLiteSessionDrawer
+                                        materials={this.props.materials}
+                                        show={this.state.isVisibleJupyterLiteSessionDrawer}
+                                        onMaterialsUpdate={(...args) => {
+                                            this.props.onAdd(...args);
+                                        }}
+                                        onHide={() => {
+                                            this.setState({
+                                                isVisibleJupyterLiteSessionDrawer: false,
+                                            });
+                                        }}
+                                        containerRef={this.containerRef}
+                                    />
                                 )}
                             </Grid>
                         </Box>

@@ -1,7 +1,24 @@
-import BaseJupyterLiteSessionComponent, { BaseJupyterLiteProps } from "../../../include/jupyterlite/BaseJupyterLiteComponent";
-declare class JupyterLiteTransformationDialog extends BaseJupyterLiteSessionComponent {
-    state: {
-        selectedMaterials: ({
+/** eslint-disable-next-line react/no-unused-prop-types * */
+import MessageHandler from "@exabyte-io/cove.js/dist/other/iframe-messaging";
+import { MaterialSchema } from "@mat3ra/esse/dist/js/types";
+import { Made } from "@mat3ra/made";
+import React from "react";
+export interface BaseJupyterLiteProps {
+    materials: Made.Material[];
+    show: boolean;
+    onMaterialsUpdate: (newMaterials: Made.Material[]) => void;
+    onHide: () => void;
+    title?: string;
+    containerRef?: React.RefObject<HTMLDivElement>;
+}
+declare class BaseJupyterLiteSessionComponent extends React.Component<BaseJupyterLiteProps> {
+    messageHandler: MessageHandler;
+    DEFAULT_NOTEBOOK_PATH: string;
+    componentDidMount(): void;
+    componentDidUpdate(prevProps: BaseJupyterLiteProps): void;
+    returnSelectedMaterials: () => import("@mat3ra/made/dist/js/types").MaterialJSON[];
+    validateMaterialConfigs: (configs: MaterialSchema[]) => {
+        validatedMaterials: ({
             _json: import("@mat3ra/made/dist/js/material").MaterialSchemaJSON;
             toJSON(): import("@mat3ra/made/dist/js/types").MaterialJSON;
             src: import("@mat3ra/esse/dist/js/types").FileSourceSchema;
@@ -47,7 +64,7 @@ declare class JupyterLiteTransformationDialog extends BaseJupyterLiteSessionComp
             readonly Basis: import("@mat3ra/made/dist/js/basis/constrained_basis").ConstrainedBasis;
             readonly uniqueElements: string[];
             lattice: import("@mat3ra/made/dist/js/lattice/lattice_vectors").BravaisConfigProps | undefined;
-            readonly Lattice: import("@mat3ra/made/dist/js/lattice/lattice").Lattice;
+            readonly Lattice: Made.Lattice;
             getInchiStringForHash(): string;
             calculateHash(salt?: string | undefined, isScaled?: boolean | undefined, bypassNonPeriodicCheck?: boolean | undefined): string;
             hash: string;
@@ -191,10 +208,8 @@ declare class JupyterLiteTransformationDialog extends BaseJupyterLiteSessionComp
             getAsEntityReference(byIdOnly?: boolean | undefined): import("@mat3ra/esse/dist/js/types").EntityReferenceSchema;
             getEntityByName(entities: import("@mat3ra/code/dist/js/entity").InMemoryEntity[], entity: string, name: string): import("@mat3ra/code/dist/js/entity").InMemoryEntity;
         } & import("@mat3ra/code/dist/js/entity").InMemoryEntity)[];
-        newMaterials: never[];
+        validationErrors: string[];
     };
-    componentDidUpdate(prevProps: BaseJupyterLiteProps): void;
-    handleSubmit: () => void;
-    render(): import("react/jsx-runtime").JSX.Element;
+    handleSetMaterials: (data: any) => void;
 }
-export default JupyterLiteTransformationDialog;
+export default BaseJupyterLiteSessionComponent;

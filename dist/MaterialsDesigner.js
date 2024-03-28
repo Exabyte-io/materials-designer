@@ -18,6 +18,7 @@ import React from "react";
 // import {MaterialSchema} from "@mat3ra/code/dist/js/types";
 import { ThreeDEditorFullscreen } from "./components/3d_editor/ThreeDEditorFullscreen";
 import EditorSelectionInfo, { FOOTER_HEIGHT, } from "./components/3d_editor_selection_info/EditorSelectionInfo";
+import JupyterLiteSessionDrawer from "./components/drawer_session/JupyterLiteSessionDrawer";
 import HeaderMenuToolbar from "./components/header_menu/HeaderMenuToolbar";
 import ItemsList from "./components/items_list/ItemsList";
 import BasisEditor from "./components/source_editor/Basis";
@@ -100,8 +101,10 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
             isVisibleItemsList: true,
             isVisibleSourceEditor: true,
             isVisibleThreeDEditorFullscreen: true,
+            isVisibleJupyterLiteSessionDrawer: false,
             importMaterialsDialogProps: null,
         };
+        this.containerRef = React.createRef();
     }
     shouldComponentUpdate(nextProps, nextState) {
         const [nextProps_, thisProps_, nextState_, thisState_] = [
@@ -116,7 +119,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
         const { isVisibleItemsList, isVisibleSourceEditor, isVisibleThreeDEditorFullscreen } = this.state;
         const gridConfig = this.getGridConfig();
         const mainContainerHeightDirective = `calc(100vh - ${APP_BAR_HEIGHT + FOOTER_HEIGHT - 8}px)`; // 8px is the padding + borders
-        return (_jsx(ThemeProvider, { theme: theme, children: _jsx(ScopedCssBaseline, { enableColorScheme: true, children: _jsxs(Paper, { id: "materials-designer", children: [_jsx(AppBar, { position: "static", className: setClass("", this.props.className), children: _jsx(HeaderMenuToolbar, { isLoading: this.props.isLoading, material: this.props.material, materials: this.props.materials, index: this.props.index, onUndo: this.props.onUndo, onRedo: this.props.onRedo, onReset: this.props.onReset, onClone: this.props.onClone, onToggleIsNonPeriodic: this.props.onToggleIsNonPeriodic, onUpdate: this.props.onUpdate, onAdd: this.props.onAdd, onExport: this.props.onExport, onSave: this.props.onSave, onExit: this.props.onExit, openImportModal: this.props.openImportModal, closeImportModal: this.props.closeImportModal, openSaveActionDialog: this.props.openSaveActionDialog, onGenerateSupercell: this.props.onGenerateSupercell, onGenerateSurface: this.props.onGenerateSurface, onSetBoundaryConditions: this.props.onSetBoundaryConditions, maxCombinatorialBasesCount: this.props.maxCombinatorialBasesCount, defaultMaterialsSet: this.props.defaultMaterialsSet, onSectionVisibilityToggle: this.onSectionVisibilityToggle, isVisibleItemsList: isVisibleItemsList, isVisibleSourceEditor: isVisibleSourceEditor, isVisibleThreeDEditorFullscreen: isVisibleThreeDEditorFullscreen, children: _jsx(IconButton, { color: "inherit", disabled: true, edge: "start", disableFocusRipple: true, disableRipple: true, sx: { mr: 0.75 }, children: _jsx(IconByName, { size: "large", edge: "start", color: "inherit", name: "entities.material", sx: { fontSize: "1.5rem" } }) }) }) }), _jsx(Box, { component: "main", sx: {
+        return (_jsx(ThemeProvider, { theme: theme, children: _jsx(ScopedCssBaseline, { enableColorScheme: true, children: _jsxs(Paper, { id: "materials-designer", children: [_jsx(AppBar, { position: "static", className: setClass("", this.props.className), children: _jsx(HeaderMenuToolbar, { isLoading: this.props.isLoading, material: this.props.material, materials: this.props.materials, index: this.props.index, onUndo: this.props.onUndo, onRedo: this.props.onRedo, onReset: this.props.onReset, onClone: this.props.onClone, onToggleIsNonPeriodic: this.props.onToggleIsNonPeriodic, onUpdate: this.props.onUpdate, onAdd: this.props.onAdd, onExport: this.props.onExport, onSave: this.props.onSave, onExit: this.props.onExit, openImportModal: this.props.openImportModal, closeImportModal: this.props.closeImportModal, openSaveActionDialog: this.props.openSaveActionDialog, onGenerateSupercell: this.props.onGenerateSupercell, onGenerateSurface: this.props.onGenerateSurface, onSetBoundaryConditions: this.props.onSetBoundaryConditions, maxCombinatorialBasesCount: this.props.maxCombinatorialBasesCount, defaultMaterialsSet: this.props.defaultMaterialsSet, onSectionVisibilityToggle: this.onSectionVisibilityToggle, isVisibleItemsList: isVisibleItemsList, isVisibleSourceEditor: isVisibleSourceEditor, isVisibleThreeDEditorFullscreen: isVisibleThreeDEditorFullscreen, isVisibleJupyterLiteSessionDrawer: this.state.isVisibleJupyterLiteSessionDrawer, children: _jsx(IconButton, { color: "inherit", disabled: true, edge: "start", disableFocusRipple: true, disableRipple: true, sx: { mr: 0.75 }, children: _jsx(IconByName, { size: "large", edge: "start", color: "inherit", name: "entities.material", sx: { fontSize: "1.5rem" } }) }) }) }), _jsx(Box, { component: "main", sx: {
                                 [theme.breakpoints.up("md")]: {
                                     height: mainContainerHeightDirective,
                                 },
@@ -124,7 +127,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                     maxHeight: mainContainerHeightDirective,
                                 },
                                 overflowY: "auto",
-                            }, children: _jsxs(Grid, { container: true, justifyContent: "flex-start", id: "materials-designer-container", sx: { height: "100%" }, children: [isVisibleItemsList && (_jsx(Grid, { item: true, ...gridConfig[1], sx: {
+                            }, children: _jsxs(Grid, { container: true, justifyContent: "flex-start", id: "materials-designer-container", sx: { height: "100%" }, ref: this.containerRef, children: [isVisibleItemsList && (_jsx(Grid, { item: true, ...gridConfig[1], sx: {
                                             borderRight: `1px solid ${theme.palette.grey[800]}`,
                                             height: "100%",
                                             overflowY: "auto",
@@ -141,7 +144,13 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                                 newMaterial.metadata =
                                                     this.props.material.metadata || {};
                                                 this.props.onUpdate(newMaterial);
-                                            } }) }))] }) }), _jsx(EditorSelectionInfo, {})] }) }) }));
+                                            } }) })), this.state.isVisibleJupyterLiteSessionDrawer && (_jsx(JupyterLiteSessionDrawer, { materials: this.props.materials, show: this.state.isVisibleJupyterLiteSessionDrawer, onMaterialsUpdate: (...args) => {
+                                            this.props.onAdd(...args);
+                                        }, onHide: () => {
+                                            this.setState({
+                                                isVisibleJupyterLiteSessionDrawer: false,
+                                            });
+                                        }, containerRef: this.containerRef }))] }) }), _jsx(EditorSelectionInfo, {})] }) }) }));
     }
 }
 MaterialsDesigner.propTypes = {

@@ -202,6 +202,12 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     3D Viewer/Editor
                 </MenuItem>
+                <MenuItem onClick={() => onSectionVisibilityToggle("JupyterLiteSessionDrawer")}>
+                    <ListItemIcon>
+                        <Terminal />
+                    </ListItemIcon>
+                    JupyterLite Session
+                </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
     }
@@ -262,11 +268,17 @@ class HeaderMenuToolbar extends React.Component {
                     </ListItemIcon>
                     Python Transformation
                 </MenuItem>
-                <MenuItem onClick={() => this.setState({ showJupyterLiteTransformation: true })}>
+                <MenuItem
+                    onClick={() =>
+                        this.setState((state) => ({
+                            showJupyterLiteTransformation: !state.showJupyterLiteTransformation,
+                        }))
+                    }
+                >
                     <ListItemIcon>
                         <Terminal />
                     </ListItemIcon>
-                    JupyterLite Session
+                    JupyterLite Transformation
                 </MenuItem>
             </ButtonActivatedMenuMaterialUI>
         );
@@ -493,7 +505,7 @@ class HeaderMenuToolbar extends React.Component {
                 />
 
                 <JupyterLiteTransformation
-                    title="JupyterLite Session"
+                    title="JupyterLite Transformation"
                     show={showJupyterLiteTransformation}
                     materials={materials}
                     onHide={() => this.setState({ showJupyterLiteTransformation: false })}

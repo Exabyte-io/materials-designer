@@ -5,8 +5,10 @@ declare class MaterialsDesigner {
         isVisibleItemsList: boolean;
         isVisibleSourceEditor: boolean;
         isVisibleThreeDEditorFullscreen: boolean;
+        isVisibleJupyterLiteSessionDrawer: boolean;
         importMaterialsDialogProps: null;
     };
+    containerRef: React.RefObject<any>;
     shouldComponentUpdate(nextProps: any, nextState: any): boolean;
     getGridConfig: () => any;
     checkIfOnlyOneGridItemIsVisible: () => boolean;
@@ -46,5 +48,6 @@ declare namespace MaterialsDesigner {
         export { materialConfigs as defaultMaterialsSet };
     }
 }
+import React from "react";
 import PropTypes from "prop-types";
 declare const materialConfigs: any[];
