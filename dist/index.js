@@ -1,7 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 // Load styling, bootstrap needs to be loaded first
 import "@exabyte-io/wave.js/dist/stylesheets/main.css";
-import "./stylesheets/main.scss";
+import "./stylesheets/main.css";
 // eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 import React from "react";
 import ReactDOM from "react-dom";

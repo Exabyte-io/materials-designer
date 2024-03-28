@@ -4,7 +4,7 @@
 build/
 node_modules/
 .eslintcache
-.husky/
+.husky/_/
 .nyc_output/
 tests-legacy/node_modules/
 tests-legacy/.screenshots/*

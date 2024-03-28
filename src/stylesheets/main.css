@@ -1,3 +1,8 @@
+/**
+ * SCSS Sources for the CSS content below
+ */
+
+/**
 $header-height: 54px;
 $footer-height: 54px;
 $crystal-lattice-accordion-height-with-borders: 56px;
@@ -30,4 +35,25 @@ $crystal-lattice-accordion-height-with-borders: 56px;
       );
     }
   }
+}
+**/
+
+.three-renderer {
+    height: calc(100vh - 108px);
+}
+
+#basis-xyz {
+    height: calc(100vh - 280px);
+    overflow-y: hidden;
+}
+
+#basis-xyz .cm-editor {
+    font-size: 0.9em;
+    max-height: calc(100vh - 280px);
+    resize: vertical;
+    overflow-y: auto;
+}
+
+#basis-xyz .cm-editor .cm-scroller {
+    min-height: calc(100vh - 280px);
 }
