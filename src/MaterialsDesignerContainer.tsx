@@ -95,6 +95,8 @@ export interface MaterialsDesignerContainerProps {
     skipAlertProvider?: boolean;
     /** Where the embedded pyodide-repl page is served; defaults to the production deploy. */
     replOriginURL?: string;
+    /** Overrides what the REPL installs and runs; defaults to the `made` config. */
+    replConfig?: object;
     isLoading?: boolean;
     initialMaterials?: MDMaterial[];
     openImportModal?: (params: ImportModalProps) => void;

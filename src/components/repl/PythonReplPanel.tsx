@@ -6,6 +6,7 @@ import React, { useEffect, useRef } from "react";
 
 import type { MDMaterial } from "../../MDMaterial";
 import { PYODIDE_REPL_ORIGIN_URL } from "../../settings";
+import { MADE_REPL_CONFIG } from "./madeReplConfig";
 import type { MaterialsSyncPayload } from "./types";
 
 const IFRAME_ID = "pyodide-repl-iframe";
@@ -17,14 +18,16 @@ interface PythonReplPanelProps {
     show: boolean;
     onHide: () => void;
     replOriginURL?: string;
+    /** What the generic REPL page should install and run; see madeReplConfig. */
+    replConfig?: object;
     containerRef?: React.RefObject<HTMLDivElement>;
 }
 
 /**
  * The Python REPL drawer: an embedded pyodide-repl page (github.com/mat3ra/pyodide-repl), driven
- * over the same iframe data bridge as the JupyterLite session. All Pyodide and Python concerns live
- * in that page; this component only answers `get-data` with the designer's materials and routes the
- * page's `set-data` sync payloads into the reducer.
+ * over the same iframe data bridge as the JupyterLite session. That page is generic — everything
+ * material-specific reaches it as configuration from here (see madeReplConfig), and this component
+ * only answers `get-data` and routes the page's `set-data` payloads into the reducer.
  *
  * Stays mounted while hidden — the page's ~30 s Python environment survives closing the drawer.
  */
@@ -35,6 +38,7 @@ function PythonReplPanel({
     show,
     onHide,
     replOriginURL = PYODIDE_REPL_ORIGIN_URL,
+    replConfig = MADE_REPL_CONFIG,
     containerRef,
 }: PythonReplPanelProps) {
     // Refs, not handler re-registration: the designer's state changes every edit, and the bridge
@@ -45,18 +49,24 @@ function PythonReplPanel({
     activeIndexRef.current = activeIndex;
     const onReplSyncRef = useRef(onReplSync);
     onReplSyncRef.current = onReplSync;
+    const replConfigRef = useRef(replConfig);
+    replConfigRef.current = replConfig;
 
     useEffect(() => {
         const messageHandler = new IframeToFromHostMessageHandler();
         messageHandler.init(replOriginURL, IFRAME_ID);
-        // The REPL asks before every run; the reply is this handler's return value.
+        // The page asks on load and before every run; the reply is this handler's return value.
+        // `config` sets the generic REPL up (read once); `data` is this app's current state.
         messageHandler.addHandlers(Action.getData, [
             () => ({
-                materials: materialsRef.current.map((material) => material.toJSON()),
-                selectedIndex: activeIndexRef.current,
+                config: replConfigRef.current,
+                data: {
+                    materials: materialsRef.current.map((material) => material.toJSON()),
+                    selectedIndex: activeIndexRef.current,
+                },
             }),
         ]);
-        // The REPL reports every public Material binding after every run, under its sync scope.
+        // The page forwards whatever this app's own afterRunCode produced — see madeReplConfig.
         messageHandler.addHandlers(Action.setData, [
             (payload: Partial<MaterialsSyncPayload>) => {
                 if (typeof payload?.syncScope === "string" && Array.isArray(payload.entities)) {

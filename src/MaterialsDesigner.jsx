@@ -323,6 +323,7 @@ class MaterialsDesigner extends mix(React.Component).with(FullscreenComponentMix
                                 activeIndex={mdState.index}
                                 onReplSync={this.props.onReplSync}
                                 replOriginURL={this.props.replOriginURL}
+                                replConfig={this.props.replConfig}
                                 containerRef={this.containerRef}
                                 onHide={() => {
                                     this.setState({ isVisiblePythonReplPanel: false });
@@ -350,6 +351,9 @@ MaterialsDesigner.propTypes = {
     onReplSync: PropTypes.func,
     /** Where the embedded pyodide-repl page is served; defaults to the production deploy. */
     replOriginURL: PropTypes.string,
+    /** Overrides what the REPL installs and runs; defaults to the `made` config. */
+    // eslint-disable-next-line react/forbid-prop-types
+    replConfig: PropTypes.object,
 
     isConventionalCellShown: PropTypes.bool,
 
