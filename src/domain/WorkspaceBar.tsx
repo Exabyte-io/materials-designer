@@ -140,7 +140,10 @@ export function WorkspaceBar({
                     <QuickAction key={key} actionKey={key} command={resolved} />
                 ) : null;
             })}
-            <span className="md2-vdiv" />
+            {/* Hidden below 1150px, where the search pill needs the room more.
+                Nothing is lost: every region collapses from its own header, and hide/show is
+                still in the palette. See `.md2-toggles` in md2.css. */}
+            <span className="md2-vdiv md2-toggles" />
             {PANEL_TOGGLES.map(({ name, command, label }) => {
                 const resolved = byId.get(command);
                 if (!resolved) return null;
@@ -148,7 +151,7 @@ export function WorkspaceBar({
                     <button
                         key={name}
                         type="button"
-                        className={`md2-wbtn md2-toggle panel-toggle-${name}`}
+                        className={`md2-wbtn md2-toggle md2-toggles panel-toggle-${name}`}
                         onClick={resolved.run}
                         disabled={!resolved.enabled}
                         title={resolved.enabled ? resolved.label : resolved.reason}

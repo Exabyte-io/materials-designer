@@ -42,6 +42,20 @@ type Theme = "dark" | "light";
 /** Operations whose panel lives in the shell rather than the parameter kit. */
 const STANDATA = loadStandata();
 
+/**
+ * Below this, there is not room for the viewport and more than one side panel at once.
+ * Expanding one rails the others rather than letting the 3D view be squeezed to nothing.
+ */
+const NARROW_WIDTH = 1000;
+
+/** The three regions that flank the centre column, and so compete for its width. */
+const SIDE_REGIONS: RegionName[] = ["navigator", "timeline", "inspector"];
+
+/** Read once at mount. Guarded for the non-DOM environments the kernel tests run in. */
+function initialWidth(): number {
+    return typeof window === "undefined" ? 1600 : window.innerWidth;
+}
+
 const SHELL_PANELS = new Set([
     "standard-library",
     "combinatorial-set",
@@ -109,9 +123,56 @@ export function MaterialsDesigner({
         inspector: true,
         console: true,
     });
+    /**
+     * Which side regions are railed down to their glyph.
+     *
+     * Distinct from hidden, and both are worth having: collapsed means "I want the space back but
+     * keep this reachable", hidden means "I do not need this panel". A collapsed region is still on
+     * screen, which is why collapsing every one of them is allowed where hiding every one is not.
+     *
+     * Seeded from the window: 804px of side chrome (252 + 236 + 316) leaves a laptop nothing for
+     * the 3D view. Measured once at mount rather than on every resize — a panel that re-collapses
+     * itself while you are dragging the window is worse than one that simply started sensibly.
+     */
+    const [collapsed, setCollapsed] = useState<Record<RegionName, boolean>>(() => ({
+        navigator: false,
+        viewport: false,
+        timeline: initialWidth() < 1400,
+        inspector: initialWidth() < 1150,
+        console: false,
+    }));
     /** Which console tab is forward, and whether the dock is showing its body. */
     const [consoleTab, setConsoleTab] = useState<ConsoleTab>("script");
     const [consoleOpen, setConsoleOpen] = useState(false);
+    /**
+     * The layout the console was maximised over, or null when it is not.
+     *
+     * Maximising is a preset of the two states above, not a move in the tree: relocating the
+     * console would remount its iframe and take a running kernel with it. So the dock stays
+     * exactly where it is and everything around it collapses, which is also why restoring is
+     * simply putting this snapshot back.
+     */
+    const [maximised, setMaximised] = useState<{
+        regions: Record<RegionName, boolean>;
+        collapsed: Record<RegionName, boolean>;
+    } | null>(null);
+
+    /**
+     * Leave maximised, restoring the layout it covered.
+     *
+     * Every region control calls this first. Without it the workspace bar could un-hide the
+     * viewport underneath a console that still calls itself maximised, and the two states would
+     * drift apart with no way for the user to tell which was real.
+     */
+    const exitMaximised = useCallback(() => {
+        setMaximised((snapshot) => {
+            if (snapshot) {
+                setRegions(snapshot.regions);
+                setCollapsed(snapshot.collapsed);
+            }
+            return null;
+        });
+    }, []);
     /** Material whose name is being edited inline in the Navigator. */
     const [renamingId, setRenamingId] = useState<string | null>(null);
     const [paletteOpen, setPaletteOpen] = useState(false);
@@ -379,8 +440,55 @@ export function MaterialsDesigner({
                 pickFiles,
                 exportActive: (format) => handleExport(format, false),
                 exportAll: () => handleExport("json", true),
-                toggleRegion: (region) =>
-                    setRegions((current) => ({ ...current, [region]: !current[region] })),
+                toggleRegion: (region) => {
+                    // Hide/show is a different intent from expand: the bar's toggle means "I do
+                    // not need this panel", so restoring plainly and then applying it is right.
+                    exitMaximised();
+                    setRegions((current) => ({ ...current, [region]: !current[region] }));
+                },
+                toggleCollapsed: (region) => {
+                    // Maximised, every side region is a rail, and a rail reads as "expand me".
+                    // Restoring and then toggling would flip it straight back to collapsed, so the
+                    // click would look like it did nothing. Honour the affordance instead: leave
+                    // maximised and open the region that was clicked.
+                    if (maximised) {
+                        setRegions(maximised.regions);
+                        setCollapsed({ ...maximised.collapsed, [region]: false });
+                        setMaximised(null);
+                        return;
+                    }
+                    setCollapsed((current) => {
+                        const next = { ...current, [region]: !current[region] };
+                        // Narrow: one side panel at a time. Expanding rails the others, so the
+                        // viewport always keeps its room. The rule lives here rather than in a
+                        // media query because a spec can only assert what the app decides.
+                        if (!next[region] && window.innerWidth < NARROW_WIDTH) {
+                            SIDE_REGIONS.filter((other) => other !== region).forEach((other) => {
+                                next[other] = true;
+                            });
+                        }
+                        return next;
+                    });
+                },
+                toggleConsoleMaximised: () =>
+                    setMaximised((snapshot) => {
+                        if (snapshot) {
+                            setRegions(snapshot.regions);
+                            setCollapsed(snapshot.collapsed);
+                            return null;
+                        }
+                        // Everything but the console gets out of the way. The dock does not move,
+                        // so whatever is running inside it keeps running.
+                        setRegions((current) => ({ ...current, viewport: false, console: true }));
+                        setCollapsed((current) => ({
+                            ...current,
+                            navigator: true,
+                            timeline: true,
+                            inspector: true,
+                        }));
+                        setConsoleOpen(true);
+                        return { regions, collapsed };
+                    }),
                 openConsole: (tab) => {
                     setConsoleTab(tab);
                     setConsoleOpen(true);
@@ -392,7 +500,7 @@ export function MaterialsDesigner({
                 startRename: setRenamingId,
             },
         }),
-        [session, regions, host, pickFiles, handleExport],
+        [session, regions, collapsed, maximised, exitMaximised, host, pickFiles, handleExport],
     );
 
     const commands = useMemo(() => resolveCommands(COMMANDS, commandContext), [commandContext]);
@@ -505,6 +613,8 @@ export function MaterialsDesigner({
         }
         return (
             <Inspector
+                collapsed={collapsed.inspector}
+                onToggleCollapsed={() => commandContext.ui.toggleCollapsed("inspector")}
                 material={session.active.material}
                 digest={session.active.digest}
                 selection={session.state.selection}
@@ -608,10 +718,15 @@ export function MaterialsDesigner({
 
                 <div className="md2-main">
                     <div
-                        className={`md2-region${regions.navigator ? "" : " md2-region-hidden"}`}
+                        className={`md2-region${
+                            collapsed.navigator ? " md2-region-collapsed" : ""
+                        }${regions.navigator ? "" : " md2-region-hidden"}`}
                         data-region="navigator"
+                        data-collapsed={collapsed.navigator ? "true" : "false"}
                     >
                         <Navigator
+                            collapsed={collapsed.navigator}
+                            onToggleCollapsed={() => commandContext.ui.toggleCollapsed("navigator")}
                             state={session.state}
                             onSelect={session.select}
                             onRemove={session.remove}
@@ -661,15 +776,22 @@ export function MaterialsDesigner({
                                 activeMaterialId={session.activeDoc.id}
                                 onAddFromNotebook={handleNotebookOutputs}
                                 onError={setNotice}
+                                maximised={maximised !== null}
+                                onToggleMaximised={commandContext.ui.toggleConsoleMaximised}
                             />
                         </div>
                     </div>
 
                     <div
-                        className={`md2-region${regions.timeline ? "" : " md2-region-hidden"}`}
+                        className={`md2-region${collapsed.timeline ? " md2-region-collapsed" : ""}${
+                            regions.timeline ? "" : " md2-region-hidden"
+                        }`}
                         data-region="timeline"
+                        data-collapsed={collapsed.timeline ? "true" : "false"}
                     >
                         <Timeline
+                            collapsed={collapsed.timeline}
+                            onToggleCollapsed={() => commandContext.ui.toggleCollapsed("timeline")}
                             doc={session.activeDoc}
                             editableTypes={EDITABLE_TYPES}
                             editingStep={editingStep}
@@ -683,8 +805,11 @@ export function MaterialsDesigner({
                     </div>
 
                     <div
-                        className={`md2-region${regions.inspector ? "" : " md2-region-hidden"}`}
+                        className={`md2-region${
+                            collapsed.inspector ? " md2-region-collapsed" : ""
+                        }${regions.inspector ? "" : " md2-region-hidden"}`}
                         data-region="inspector"
+                        data-collapsed={collapsed.inspector ? "true" : "false"}
                     >
                         {renderRightPane()}
                     </div>

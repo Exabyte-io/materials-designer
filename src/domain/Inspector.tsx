@@ -13,6 +13,9 @@ import { BasisEditor } from "./inspector/BasisEditor";
 import { LatticeForm } from "./inspector/LatticeForm";
 
 export interface InspectorProps {
+    /** Railed down to its glyph. */
+    collapsed: boolean;
+    onToggleCollapsed: () => void;
     material: Material;
     digest: ResultDigest;
     selection: SelectionModel;
@@ -211,6 +214,8 @@ function SelectionTab({ selection }: { selection: SelectionModel }) {
 }
 
 export function Inspector({
+    collapsed,
+    onToggleCollapsed,
     material,
     digest,
     selection,
@@ -219,6 +224,30 @@ export function Inspector({
     theme,
 }: InspectorProps) {
     const [tab, setTab] = useState<Tab>("structure");
+
+    // Railed, the tab strip has nothing to show: the chevron is what remains, and it carries the
+    // same `data-collapse` handle as the other two regions' titles.
+    if (collapsed) {
+        return (
+            <div className="md2-inspector">
+                <div className="md2-rhead md2-rhead-rail">
+                    <button
+                        type="button"
+                        className="md2-rhead-toggle"
+                        data-collapse="inspector"
+                        aria-expanded={false}
+                        title="Expand the inspector"
+                        onClick={onToggleCollapsed}
+                    >
+                        <span className="md2-rhead-glyph" aria-hidden="true">
+                            ⚙
+                        </span>
+                        <span className="md2-htitle md2-rhead-title">INSPECTOR</span>
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="md2-inspector">
@@ -238,6 +267,17 @@ export function Inspector({
                             : ""}
                     </button>
                 ))}
+                <span className="md2-spacer" />
+                <button
+                    type="button"
+                    className="md2-itab md2-icollapse"
+                    data-collapse="inspector"
+                    aria-expanded
+                    title="Collapse the inspector"
+                    onClick={onToggleCollapsed}
+                >
+                    ›
+                </button>
             </div>
             <div className="md2-ibody">
                 {tab === "structure" && (

@@ -20,3 +20,26 @@ Then("I see the console frame {string}", (id: string) => {
 Then("I do not see the console frame {string}", (id: string) => {
     cy.get(`iframe#${id}`).should("not.exist");
 });
+
+When("I run the {string} command", (id: string) => {
+    new MaterialDesignerPage().designerWidget.commands.run(id);
+});
+
+/**
+ * Element identity, stamped and checked.
+ *
+ * A kernel lives in the frame; React re-creating that element would silently discard it. Asserting
+ * the frame is still *present* would pass either way, so the stamp is the only thing that actually
+ * distinguishes "kept" from "rebuilt and reloaded".
+ */
+When("I mark the console frame", () => {
+    cy.get("iframe#jupyter-lite-iframe").then(($frame) => {
+        ($frame[0] as unknown as Record<string, unknown>).__mdKernelMark = "kept";
+    });
+});
+
+Then("I see the console frame is the same element", () => {
+    cy.get("iframe#jupyter-lite-iframe").should(($frame) => {
+        expect(($frame[0] as unknown as Record<string, unknown>).__mdKernelMark).to.equal("kept");
+    });
+});

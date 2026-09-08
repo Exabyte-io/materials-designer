@@ -20,9 +20,12 @@ When("I set the supercell matrix diagonal to {string}", (value: string) => {
     panel("supercell").setMatrixDiagonal(value);
 });
 
-When("I set {string} in the {string} operation panel to {string}", (field, type, value) => {
-    panel(type).setField(field, value);
-});
+When(
+    "I set {string} in the {string} operation panel to {string}",
+    (field: string, type: string, value: string) => {
+        panel(type).setField(field, value);
+    },
+);
 
 Then("I see the {string} operation panel forecasts {string}", (type: string, text: string) => {
     panel(type).browser.get(panel(type).selectors.forecast).should("contain.text", text);

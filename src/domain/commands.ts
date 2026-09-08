@@ -42,8 +42,12 @@ export interface CommandContext {
         exportActive: (format: "json" | "poscar") => void;
         exportAll: () => void;
         toggleRegion: (region: RegionName) => void;
+        /** Rail a side region down to its glyph, or bring it back. */
+        toggleCollapsed: (region: RegionName) => void;
         /** Show the console and bring one tab forward. */
         openConsole: (tab: ConsoleTab) => void;
+        /** Give the console the whole window, or hand the layout back. */
+        toggleConsoleMaximised: () => void;
         toggleTheme: () => void;
         startRename: (id: string) => void;
     };
@@ -74,6 +78,23 @@ function step(context: CommandContext, delta: number) {
 function isLastOpenRegion(context: CommandContext, region: RegionName): boolean {
     const open = Object.entries(context.regions).filter(([, isOpen]) => isOpen);
     return open.length === 1 && open[0][0] === region;
+}
+
+/**
+ * Collapsing is not subject to the last-open-panel rule.
+ *
+ * That rule exists because hiding every region leaves a blank window with no way back. A collapsed
+ * region is still on screen — it is a rail you can click — so collapsing all of them is a legible
+ * state rather than a dead end, and refusing it would be a rule copied past its reason.
+ */
+function collapseCommand(region: RegionName, label: string): Command<CommandContext> {
+    return {
+        id: `view.collapse-${region}`,
+        label,
+        group: "View",
+        keywords: ["collapse", "rail", "narrow", "expand"],
+        run: (c) => c.ui.toggleCollapsed(region),
+    };
 }
 
 function regionCommand(region: RegionName, label: string): Command<CommandContext> {
@@ -316,6 +337,9 @@ export const COMMANDS: Command<CommandContext>[] = [
     regionCommand("timeline", "Toggle the timeline"),
     regionCommand("inspector", "Toggle the inspector"),
     regionCommand("console", "Toggle the console"),
+    collapseCommand("navigator", "Collapse the materials list"),
+    collapseCommand("timeline", "Collapse the timeline"),
+    collapseCommand("inspector", "Collapse the inspector"),
     {
         id: "view.theme",
         label: "Switch light / dark theme",
@@ -341,6 +365,14 @@ export const COMMANDS: Command<CommandContext>[] = [
             run: (c) => c.ui.openConsole(tab),
         }),
     ),
+
+    {
+        id: "console.maximise",
+        label: "Maximise the console",
+        group: "Console",
+        keywords: ["full", "expand", "notebook", "repl"],
+        run: (c) => c.ui.toggleConsoleMaximised(),
+    },
 
     // ----------------------------------------------------------------- global
     {

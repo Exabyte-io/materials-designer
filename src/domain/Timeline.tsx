@@ -8,8 +8,12 @@
 import React from "react";
 
 import type { MaterialDoc } from "../core/types";
+import { RegionHeader } from "../kit/RegionHeader";
 
 export interface TimelineProps {
+    /** Railed down to its glyph. */
+    collapsed: boolean;
+    onToggleCollapsed: () => void;
     doc: MaterialDoc;
     onRevertTo: (step: number) => void;
     onFork: (step: number) => void;
@@ -29,6 +33,8 @@ const ENGINE_LABEL: Record<string, string> = {
 };
 
 export function Timeline({
+    collapsed,
+    onToggleCollapsed,
     doc,
     onRevertTo,
     onFork,
@@ -36,12 +42,32 @@ export function Timeline({
     editableTypes,
     editingStep,
 }: TimelineProps) {
+    // Railed, the region is its header and nothing else — see the Navigator for why.
+    if (collapsed) {
+        return (
+            <div className="md2-timeline">
+                <RegionHeader
+                    region="timeline"
+                    title="TIMELINE"
+                    glyph="⋮"
+                    collapsed
+                    onToggle={onToggleCollapsed}
+                    count={<span className="md2-count">{doc.log.length}</span>}
+                />
+            </div>
+        );
+    }
+
     return (
         <div className="md2-timeline">
-            <div className="md2-tl-head">
-                <span className="md2-htitle">TIMELINE</span>
-                <span className="md2-count">{doc.log.length}</span>
-            </div>
+            <RegionHeader
+                region="timeline"
+                title="TIMELINE"
+                glyph="⋮"
+                collapsed={collapsed}
+                onToggle={onToggleCollapsed}
+                count={<span className="md2-count">{doc.log.length}</span>}
+            />
             <div className="md2-tl-body">
                 <div className="md2-tl-rail" />
                 {doc.log.map((op, index) => {

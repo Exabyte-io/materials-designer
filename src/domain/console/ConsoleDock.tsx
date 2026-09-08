@@ -34,6 +34,9 @@ export interface ConsoleDockProps {
     open: boolean;
     onTabChange: (tab: ConsoleTab) => void;
     onOpenChange: (open: boolean) => void;
+    /** Whether the dock currently has the window to itself. */
+    maximised: boolean;
+    onToggleMaximised: () => void;
     /** Every material the session holds, as the notebook needs to see them. */
     notebookInputs: NotebookInput[];
     activeMaterialId: string;
@@ -70,12 +73,14 @@ export function ConsoleDock({
     open,
     onTabChange,
     onOpenChange,
+    maximised,
+    onToggleMaximised,
     notebookInputs,
     activeMaterialId,
     onAddFromNotebook,
     onError,
 }: ConsoleDockProps) {
-    const tall = open && TALL_TABS.includes(tab);
+    const tall = open && (maximised || TALL_TABS.includes(tab));
 
     return (
         <div
@@ -99,6 +104,20 @@ export function ConsoleDock({
                     </button>
                 ))}
                 <span className="md2-spacer" />
+                {/* Maximise rather than move: a notebook needs more width than either side column
+                    could give it, and relocating the dock would remount its frame and take a
+                    running kernel with it. So everything else gets out of the way instead. */}
+                <button
+                    type="button"
+                    className="md2-ctab"
+                    data-command="console.maximise"
+                    aria-pressed={maximised}
+                    onClick={onToggleMaximised}
+                    title={maximised ? "Restore the layout" : "Give the console the whole window"}
+                    aria-label={maximised ? "Restore the layout" : "Maximise the console"}
+                >
+                    {maximised ? "⤡" : "⤢"}
+                </button>
                 <button
                     type="button"
                     className="md2-ctab"

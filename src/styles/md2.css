@@ -154,15 +154,92 @@ button {
     min-width: 0 !important;
     height: 0 !important;
     min-height: 0 !important;
+    /* Zero height is not enough on its own: a hidden region that still carries `flex: 1` grows
+       straight back to fill its column, leaving a gap where the panel used to be. */
+    flex: none !important;
     overflow: hidden !important;
     border: 0 !important;
+}
+
+/* ------------------------------------------------------- collapsible regions */
+/*
+ * Railed, not hidden. A hidden region is gone; a collapsed one is 40px of glyph you can click,
+ * which is what makes collapsing all three a legible state rather than a blank window.
+ */
+.md2-region-collapsed {
+    width: 40px !important;
+    min-width: 40px !important;
+    flex: none;
+}
+.md2-region-collapsed .md2-nav,
+.md2-region-collapsed .md2-timeline,
+.md2-region-collapsed .md2-inspector {
+    width: 40px;
+    min-width: 40px;
+    overflow: hidden;
+}
+.md2-rhead {
+    display: flex;
+    align-items: center;
+    padding: 10px 10px 8px;
+    gap: 6px;
+}
+.md2-rhead-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+    padding: 2px 4px;
+    margin: -2px -4px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: inherit;
+    text-align: left;
+}
+.md2-rhead-toggle:hover {
+    background: var(--bg2);
+}
+.md2-rhead-glyph {
+    display: none;
+    font-size: 13px;
+    color: var(--text-faint);
+}
+/* Railed: the glyph is the only identifier left, so it appears and the title goes. */
+.md2-rhead-rail {
+    padding: 10px 0 8px;
+    justify-content: center;
+}
+.md2-rhead-rail .md2-rhead-toggle {
+    flex-direction: column;
+    flex: none;
+    gap: 4px;
+    justify-content: center;
+}
+.md2-rhead-rail .md2-rhead-glyph {
+    display: block;
+}
+.md2-rhead-rail .md2-rhead-title {
+    display: none;
+}
+/* The bar's toggle labels are single words in intent; wrapping them makes the row ragged. */
+.md2-toggle {
+    white-space: nowrap;
+}
+.md2-icollapse {
+    flex: none;
+    padding: 5px 8px;
+    color: var(--text-faint);
 }
 
 .md2-center {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0;
+    /* The 3D view is the point of the app; no future region gets to crush it. */
+    min-width: 420px;
 }
 .md2-spacer {
     flex: 1;
@@ -1729,4 +1806,31 @@ select.md2-field {
     margin-left: auto;
     font-size: var(--fs-micro);
     color: var(--text-faint);
+}
+
+/* ------------------------------------------------------------- narrow screens */
+/*
+ * The floor, not the rule. `toggleCollapsed` already rails the other side regions below 1000px so
+ * a spec can assert it; this makes sure a state saved on a wide window cannot squeeze the viewport
+ * when the same session is opened narrow.
+ */
+@media (max-width: 1150px) {
+    /*
+     * The bar overflows before this and takes the search pill — the primary way into the app —
+     * off screen with it. The toggles are the right thing to yield: collapse now lives on each
+     * region's own header, and hide/show is a palette command away.
+     */
+    .md2-toggles {
+        display: none;
+    }
+}
+
+@media (max-width: 1000px) {
+    .md2-region[data-collapsed="false"] ~ .md2-region[data-collapsed="false"] {
+        width: 40px !important;
+        min-width: 40px !important;
+    }
+    .md2-center {
+        min-width: 320px;
+    }
 }

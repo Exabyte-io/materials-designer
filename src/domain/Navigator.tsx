@@ -11,8 +11,12 @@ import React, { useMemo, useState } from "react";
 
 import { isModified, resolve } from "../core/replay";
 import type { MaterialDoc, SessionState } from "../core/types";
+import { RegionHeader } from "../kit/RegionHeader";
 
 export interface NavigatorProps {
+    /** Railed down to its glyph. */
+    collapsed: boolean;
+    onToggleCollapsed: () => void;
     state: SessionState;
     onSelect: (id: string) => void;
     onRemove: (id: string) => void;
@@ -53,6 +57,8 @@ function toRows(materials: MaterialDoc[]): Row[] {
 }
 
 export function Navigator({
+    collapsed,
+    onToggleCollapsed,
     state,
     onSelect,
     onRemove,
@@ -211,16 +217,43 @@ export function Navigator({
         );
     }
 
+    // Railed, the region is its header and nothing else. Clipping the body instead would leave
+    // fragments of rows and rails showing through the 40px strip.
+    if (collapsed) {
+        return (
+            <div className="md2-nav materials-designer-items-list">
+                <RegionHeader
+                    region="navigator"
+                    title="MATERIALS"
+                    glyph="☰"
+                    collapsed
+                    onToggle={onToggleCollapsed}
+                    count={
+                        <span className="md2-count materials-count" data-testid="materials-count">
+                            {state.materials.length}
+                        </span>
+                    }
+                />
+            </div>
+        );
+    }
+
     return (
         <div className="md2-nav materials-designer-items-list">
-            <div className="md2-nav-head">
-                <span className="md2-htitle">MATERIALS</span>
-                <span className="md2-count materials-count" data-testid="materials-count">
-                    {query && visible.length !== state.materials.length
-                        ? `${visible.length} / ${state.materials.length}`
-                        : state.materials.length}
-                </span>
-            </div>
+            <RegionHeader
+                region="navigator"
+                title="MATERIALS"
+                glyph="☰"
+                collapsed={collapsed}
+                onToggle={onToggleCollapsed}
+                count={
+                    <span className="md2-count materials-count" data-testid="materials-count">
+                        {query && visible.length !== state.materials.length
+                            ? `${visible.length} / ${state.materials.length}`
+                            : state.materials.length}
+                    </span>
+                }
+            />
             <div className="md2-nav-filter materials-filter">
                 <input
                     value={filter}
