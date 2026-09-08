@@ -18,7 +18,6 @@ import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
-
 class BasisText extends React.Component {
     codeMirrorRef = React.createRef();
 
