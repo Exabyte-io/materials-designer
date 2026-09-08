@@ -252,3 +252,41 @@ The 57 pending are the tag-filtered health-checks and the `@ignore`d specs, exac
 
 That v1 still passes is the point: every change so far is additive, and the same step definitions
 drive both applications until the flip removes the need for the switch.
+
+## The stylesheet must not touch the host (added 2026-09-08)
+
+`src/embed/MaterialsDesignerContainer.tsx` side-effect-imports `src/styles/md2.css`, so every rule
+in that file lands in web-app's document. Until this was split, md2.css opened with `* {}`,
+`html, body, #root {}` and `body { background: var(--bg0) }` — rendered inside the platform, that
+repainted its page navy, changed its base font and restyled every button on it.
+
+Two stylesheets now, and the line between them is what an embed loads:
+
+- **`src/styles/page.css`** — the reset, the root sizing, the page background, and the `:root`
+  tokens. Imported **only** by the standalone entry. A host never sees it.
+- **`src/styles/md2.css`** — everything the app itself needs, with every selector under `.md2-app`,
+  which also carries the token declarations. The `.md2-app` wrapper paints its own ground, colour
+  and type, because `body` is no longer ours to paint.
+
+Three checks hold the line, and they fail in different ways on purpose:
+
+```
+npx vitest run tests/vitest/v2/design-language.test.ts   # rejects any md2.css selector outside .md2-,
+                                                         # and any mention of :root at all
+npm start
+npm run test:host-leak                                   # mounts the real component in a host page
+```
+
+`tests/playwright/host-leak.mjs` is the browser half. It does not diff computed styles — it asks
+Chrome, over CDP, *which stylesheet supplies each declaration on the host's own elements*, and
+fails when the answer is one of ours. That distinction matters, because a plain before/after diff
+fails on something that is not ours to fix:
+
+> `@mat3ra/wave.js/dist/index.js` imports a stylesheet setting
+> `body { font-family: Helvetica, Arial, sans-serif; margin: 0; overflow: hidden }`.
+> Any importer of wave.js gets it — v1's `ThreeDEditorFullscreen` included — so the platform has
+> lived with it since long before 2.0. The check prints it as a NOTE and does not assert on it.
+
+It also checks the two things the `.md2-app` scoping could plausibly break: that nothing of ours
+renders outside the wrapper (a portalled menu would lose every variable), and that every element
+carrying an `md2-` class resolves `--bg1`.

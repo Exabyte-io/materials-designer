@@ -178,9 +178,15 @@ export function MaterialsDesigner({
     const [paletteOpen, setPaletteOpen] = useState(false);
     const [paletteQuery, setPaletteQuery] = useState("");
 
+    /**
+     * The theme goes on the app's own root. It also goes on the document, but only when we own
+     * the page: `persistence: "none"` is the embedded costume, and setting an attribute on a
+     * host's `<html>` is exactly the kind of reaching-out that makes a component unwelcome.
+     */
+    const embedded = persistence === "none";
     useEffect(() => {
-        document.documentElement.setAttribute("data-theme", theme);
-    }, [theme]);
+        if (!embedded) document.documentElement.setAttribute("data-theme", theme);
+    }, [theme, embedded]);
 
     // Shell chrome reads the CSS tokens directly; cove/MUI components read this
     // theme. Both are generated from src/kit/theme/tokens.ts, so a component
@@ -632,6 +638,7 @@ export function MaterialsDesigner({
                 // id, web-app's widget subclass selects the class.
                 id="materials-designer"
                 className="md2-app materials-designer"
+                data-theme={theme}
                 onDragOver={(event) => {
                     if (!event.dataTransfer.types.includes("Files")) return;
                     event.preventDefault();

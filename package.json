@@ -15,7 +15,8 @@
         "prettier": "prettier --check src tests",
         "prepublishOnly": "npm run transpile",
         "test:unit": "vitest run",
-        "test:md2-smoke": "node tests/playwright/md2-smoke.mjs"
+        "test:md2-smoke": "node tests/playwright/md2-smoke.mjs",
+        "test:host-leak": "node tests/playwright/host-leak.mjs"
     },
     "repository": {
         "type": "git",

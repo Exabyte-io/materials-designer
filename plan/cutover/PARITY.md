@@ -117,6 +117,24 @@ these eight plus the harvested specs — is 37 passing, 0 failing.
 Gate 2 — the 62 web-app features against WIP tarballs of both packages — is still to run, and is
 the one that decides the flip.
 
+## The embedded stylesheet (closed 2026-09-08, before the export switch)
+
+The container imports `md2.css` for its side effect, so anything unscoped in that file is a rule
+applied to web-app's page. It opened with `*`, `html, body, #root` and a `body` background: the
+embed would have repainted the platform navy and restyled its buttons. Gate 2 would have caught it,
+at the cost of a full round trip.
+
+`page.css` now holds the reset, the root sizing, the page background and the `:root` tokens and is
+imported only by the standalone entry; `md2.css` holds the app and names nothing but `.md2-app`,
+which carries the tokens and paints its own ground, colour and type. A vitest case rejects any
+selector in md2.css outside `.md2-`, and `npm run test:host-leak` mounts the real component in a
+host page and asks the browser which stylesheet supplies each declaration on the host's elements.
+
+One leak is left, and it is not ours: `@mat3ra/wave.js` imports a stylesheet setting
+`body { font-family; margin; overflow: hidden }`, which reaches any importer — v1's
+`ThreeDEditorFullscreen` included. The check reports it and does not assert on it. Worth raising
+against wave.js separately; it is not a cutover blocker, because the platform already has it.
+
 ## Still open
 
 - The published `src/exports.js` still points `MaterialsDesignerContainer` at v1. It switches at the

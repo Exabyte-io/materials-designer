@@ -163,8 +163,12 @@ export function toCssVariables(mode: ThemeMode, indent = "    "): string {
  * The full token block, marked so the design-language test can find it in any
  * file that embeds it (md2.css, the mockup shell) and prove they agree.
  * `scope` lets the mockups qualify the attribute selector with `html`.
+ *
+ * `roots` is what makes the app embeddable: the same variables are declared on `:root` for the
+ * standalone page and on `.md2-app` for a host's page, so an embed gets its tokens without the
+ * app declaring anything on someone else's document root.
  */
-export function toCssBlock(scope = ""): string {
+export function toCssBlock(scope = "", roots: string[] = [":root"]): string {
     const metrics = [
         `    --font-sans: ${METRICS.fontSans};`,
         `    --font-mono: ${METRICS.fontMono};`,
@@ -174,17 +178,23 @@ export function toCssBlock(scope = ""): string {
         `    --motion-slow: ${METRICS.motion.slow};`,
         `    --ease: ${METRICS.motion.ease};`,
     ].join("\n");
+    // The theme variants attach to the root itself (`.md2-app[data-theme="light"]`), except that a
+    // mockup passes a scope standing in for `:root`, which cannot carry the attribute in a static
+    // file (`html[data-theme="light"]`).
+    const base = roots.join(",\n");
+    const variant = (attr: string) =>
+        roots.map((root) => `${root === ":root" && scope ? scope : root}${attr}`).join(",\n");
     return [
         GENERATED_START,
-        ":root {",
+        `${base} {`,
         metrics,
         "}",
         "",
-        `:root,\n${scope}[data-theme="dark"] {`,
+        `${base},\n${variant('[data-theme="dark"]')} {`,
         toCssVariables("dark"),
         "}",
         "",
-        `${scope}[data-theme="light"] {`,
+        `${variant('[data-theme="light"]')} {`,
         toCssVariables("light"),
         "}",
         GENERATED_END,

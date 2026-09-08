@@ -11,6 +11,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@mat3ra/wave.js/dist/stylesheets/main.css";
+import "./styles/page.css";
 import "./styles/md2.css";
 
 import JSONSchemasInterface from "@mat3ra/esse/dist/js/esse/JSONSchemasInterface";

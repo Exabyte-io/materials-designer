@@ -149,13 +149,22 @@ describe.each(MODES)("Mat3rial D3sign — %s mode", (mode) => {
 
 describe("Mat3rial D3sign — generated artefacts agree", () => {
     const block = {
-        app: toCssBlock(),
+        // The same tokens, declared twice against different roots. md2.css is the only stylesheet
+        // an embed loads, so its copy hangs off `.md2-app` and touches nothing of the host's;
+        // page.css is the standalone page and may have `:root`.
+        app: toCssBlock("", [".md2-app"]),
+        page: toCssBlock("", [":root"]),
         mockup: toCssBlock("html"),
     };
 
     it("md2.css embeds the generated block verbatim", () => {
         const css = fs.readFileSync(path.join(REPO, "src/styles/md2.css"), "utf8");
         expect(css).toContain(block.app);
+    });
+
+    it("page.css carries the same tokens for the standalone page", () => {
+        const css = fs.readFileSync(path.join(REPO, "src/styles/page.css"), "utf8");
+        expect(css).toContain(block.page);
     });
 
     it("every committed mockup embeds the same tokens", () => {
@@ -188,6 +197,70 @@ describe("Mat3rial D3sign — generated artefacts agree", () => {
         expect(literals, `hardcoded colours must become tokens: ${literals.join(", ")}`).toEqual(
             [],
         );
+    });
+});
+
+describe("the embedded stylesheet cannot restyle its host", () => {
+    /**
+     * Every selector md2.css declares, flattened. Hand-rolled because the alternative is a CSS
+     * parser dependency for one assertion, and the stylesheet is ours, so the shapes it can take
+     * are known. Rules inside `@media` are top-level as far as a host page is concerned; rules
+     * inside `@keyframes` are percentages belonging to the animation, not to any element.
+     */
+    function selectors(css: string): string[] {
+        const stripped = css.replace(/\/\*[\s\S]*?\*\//g, "");
+        const out: string[] = [];
+        let prelude = "";
+        let depth = 0;
+        let inKeyframes = false;
+        for (const ch of stripped) {
+            if (ch === "{") {
+                const head = prelude.trim();
+                if (depth === 0 && /^@keyframes\b/.test(head)) inKeyframes = true;
+                else if (!inKeyframes && !head.startsWith("@"))
+                    out.push(...head.split(",").map((s) => s.trim()));
+                depth += 1;
+                prelude = "";
+            } else if (ch === "}") {
+                depth -= 1;
+                if (depth === 0) inKeyframes = false;
+                prelude = "";
+            } else {
+                prelude += ch;
+            }
+        }
+        return out.filter(Boolean);
+    }
+
+    it("scopes every selector under .md2-, so a host page is untouched", () => {
+        const css = fs.readFileSync(path.join(REPO, "src/styles/md2.css"), "utf8");
+        const offenders = selectors(css).filter((sel) => !sel.startsWith(".md2-"));
+        expect(
+            offenders,
+            "md2.css is imported by src/embed into someone else's page: these selectors would " +
+                "restyle it — scope them under .md2-app, or move them to page.css:\n  " +
+                offenders.join("\n  "),
+        ).toEqual([]);
+    });
+
+    it("leaves the host's document root alone entirely", () => {
+        // `:root` belongs to page.css, which is the standalone page's stylesheet and which no
+        // embed loads. Tokens on a host's root would be inert, but "inert" is a judgement that
+        // has to be re-made every time a declaration is added; "absent" does not.
+        const css = fs.readFileSync(path.join(REPO, "src/styles/md2.css"), "utf8");
+        expect(css).not.toContain(":root");
+    });
+
+    it("keeps the page rules out of the embed's reach", () => {
+        const embed = fs.readFileSync(
+            path.join(REPO, "src/embed/MaterialsDesignerContainer.tsx"),
+            "utf8",
+        );
+        expect(embed).toContain('import "../styles/md2.css"');
+        expect(
+            embed,
+            "page.css paints the host's body — the embed must never import it",
+        ).not.toContain("page.css");
     });
 });
 
