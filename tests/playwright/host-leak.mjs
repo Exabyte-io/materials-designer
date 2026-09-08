@@ -15,11 +15,17 @@
  *
  * Usage:  npm start
  *         node tests/playwright/host-leak.mjs
+ *         MD2_FROM=dist node tests/playwright/host-leak.mjs   # after `npm run transpile`
+ *
+ * `MD2_FROM=dist` renders the transpiled container out of dist/ through the package's own entry
+ * point, which is the resolution web-app performs — the one that proves `copy-css` put md2.css
+ * where `dist/embed/MaterialsDesignerContainer.js` expects it.
  */
 import { chromium } from "playwright";
 
 const BASE = process.env.MD2_BASE ?? "http://localhost:3001";
-const HOST = `${BASE}/tests/playwright/host-page/host.html`;
+const PAGE = process.env.MD2_FROM === "dist" ? "host-dist.html" : "host.html";
+const HOST = `${BASE}/tests/playwright/host-page/${PAGE}`;
 /** The host's own elements. Nothing of ours may style any of them. */
 const HOST_NODES = ["html", "body", "#host-panel", "#host-heading", "#host-button", "#host-input", "#host-kbd"];
 
@@ -47,7 +53,7 @@ await page.waitForFunction(() => window.MD_EMBED_READY === true, { timeout: 6000
 await page.waitForSelector(".md2-app", { timeout: 30000 });
 await page.waitForTimeout(2500); // the GL scene, and any late stylesheet
 
-check("the embed mounted inside the host page", await page.locator(".md2-app").isVisible());
+check(`the embed mounted inside the host page (${PAGE})`, await page.locator(".md2-app").isVisible());
 const appBg = await page.evaluate(
     () => getComputedStyle(document.querySelector(".md2-app")).backgroundColor,
 );

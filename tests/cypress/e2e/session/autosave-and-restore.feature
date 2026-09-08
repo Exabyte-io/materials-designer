@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: A refresh does not lose the session
 
   # v1 kept the session in memory only, so a reload started over. 2.0 autosaves the operation log

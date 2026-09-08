@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: The materials list can be counted, filtered and added to
 
   Background:

@@ -7,7 +7,7 @@
         "build": "vite build",
         "prepare": "husky install",
         "transpile": "tsc && npm run copy-css",
-        "copy-css": "mkdir -p dist/stylesheets && cp src/stylesheets/* dist/stylesheets/",
+        "copy-css": "mkdir -p dist/styles dist/stylesheets && cp src/styles/* dist/styles/ && cp src/stylesheets/* dist/stylesheets/",
         "test": "echo 'Tests are in the tests subfolder. Use Node 20 (`nvm use 20`) and run `npm i` && `npm test` there'",
         "lint": "eslint src && prettier --write src",
         "lint:fix": "eslint src --fix && prettier --write src",
@@ -16,13 +16,15 @@
         "prepublishOnly": "npm run transpile",
         "test:unit": "vitest run",
         "test:md2-smoke": "node tests/playwright/md2-smoke.mjs",
-        "test:host-leak": "node tests/playwright/host-leak.mjs"
+        "test:host-leak": "node tests/playwright/host-leak.mjs",
+        "test:host-leak-dist": "MD2_FROM=dist node tests/playwright/host-leak.mjs"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/mat3ra/materials-designer.git"
     },
     "main": "dist/exports.js",
+    "types": "dist/exports.d.ts",
     "files": [
         "dist"
     ],

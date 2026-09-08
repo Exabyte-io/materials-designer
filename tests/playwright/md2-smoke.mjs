@@ -3,7 +3,8 @@
  *
  * Asserts the MVP's central claim end to end: every edit becomes one Timeline
  * step, and one Cmd+Z undoes it whatever surface produced it. Deliberately
- * separate from the Cypress suite in ../cypress, which still covers the v1 app.
+ * separate from the Cypress suite in ../cypress: this drives the app the way a
+ * user does, with no step-definition contract to honour.
  *
  * Usage:  npm start           (in one shell)
  *         node tests/playwright/md2-smoke.mjs
@@ -12,7 +13,7 @@ import { chromium } from "playwright";
 
 const SHOTS = process.env.MD2_SHOTS ?? "./md2-shots";
 await (await import("node:fs/promises")).mkdir(SHOTS, { recursive: true });
-const URL = "http://localhost:3001/v2.html";
+const URL = process.env.MD2_URL ?? "http://localhost:3001/";
 const results = [];
 function check(name, ok, detail = "") {
     results.push({ name, ok, detail });

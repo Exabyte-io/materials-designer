@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: One undo stack, whatever surface made the edit
 
   # v1 had two: the reducer's and the 3D editor's, so undoing after switching surfaces could

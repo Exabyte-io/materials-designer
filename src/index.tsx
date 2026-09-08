@@ -1,9 +1,13 @@
 /**
- * Standalone entry for MD 2.0.
+ * Standalone entry.
  *
- * Mirrors src/index.jsx: ESSE schemas must be registered before any Material
- * toJSON()/clone() call. (A host embedding the app registers its own extended
- * set, which is why this lives in the entry point and not in a shared module.)
+ * ESSE schemas must be registered before any Material `toJSON()`/`clone()` call, which is why this
+ * lives in the entry point rather than a shared module: a host embedding the app registers its own
+ * extended set and must not have ours imposed on it.
+ *
+ * The page stylesheet is imported here and nowhere else. `src/embed` loads only md2.css, so a host
+ * gets the app without getting our reset, our root sizing or our page background — see
+ * plan/cutover/TEST-HOOKS.md, *The stylesheet must not touch the host*.
  */
 // Roboto is self-hosted so standalone MD sets type identically to the platform,
 // which loads the same family. See plan/ux-redesign/DESIGN-LANGUAGE.md.

@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: The layout still works on a small screen
 
   # 804px of fixed side chrome (252 + 236 + 316) against a 1280px laptop left the 3D view under

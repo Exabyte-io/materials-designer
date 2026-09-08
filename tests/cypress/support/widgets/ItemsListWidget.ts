@@ -1,15 +1,17 @@
-import { forApp, isV2 } from "../app";
 import Widget from "./Widget";
 
 const wrapper = ".materials-designer-items-list";
 
-/**
- * 2.0 renders rows as a tree of divs rather than v1's ul>div>li, so the row selector is addressed
- * by test id and position instead of by tag structure. Everything else is a shared class name.
- */
-const rowsV2 = `${wrapper} [data-testid="material-row"]`;
+/** Rows are addressed by test id and position; everything else is a class name. */
+const rows = `${wrapper} [data-testid="material-row"]`;
 
 export class ItemsListWidget extends Widget {
+    /*
+     * `outside`, `nameInput`, `itemByIndex` and `iconButtonDelete` address a list this repository
+     * no longer renders — v1's ul>div>li rows — and nothing here reads them any more. They stay,
+     * with `getSelectorPerItem` below, because web-app subclasses this widget and may: removing
+     * them is a contract change to agree with that repository, not a tidy-up to do in passing.
+     */
     selectors = {
         outside: "#materials-designer",
         wrapper,
@@ -19,7 +21,7 @@ export class ItemsListWidget extends Widget {
         count: `${wrapper} .materials-count`,
         filterInput: `${wrapper} .materials-filter input`,
         filterClear: `${wrapper} .materials-filter-clear`,
-        rows: forApp(`${wrapper} ul>div`, rowsV2),
+        rows,
         emptyState: `${wrapper} .materials-empty-state`,
         addMenuButton: `${wrapper} .add-material-menu`,
         // The add menu renders in a portal, so it is addressed outside the list wrapper.
@@ -68,33 +70,19 @@ export class ItemsListWidget extends Widget {
     }
 
     undoRemove() {
-        // v1 offered an inline "undo" beside the list. 2.0 has one history for every surface, so
-        // undoing a removal is the same action as undoing anything else.
-        if (isV2()) {
-            this.browser.click('[data-command="edit.undo"]');
-            return;
-        }
-        this.browser.click(this.selectors.undoRemove);
+        // There is one history for every surface, so undoing a removal is the same action as
+        // undoing anything else — no inline "undo" beside the list.
+        this.browser.click('[data-command="edit.undo"]');
     }
 
     setItemName(itemIndex: number, name: string) {
-        if (isV2()) {
-            // 2.0 opens the field on double-click and commits on Enter; there is no always-present
-            // input to type into.
-            this.browser
-                .get(rowsV2)
-                .eq(itemIndex - 1)
-                .find(".md2-tname")
-                .dblclick();
-            this.browser.get('[data-testid="material-name-input"]').clear().type(`${name}{enter}`);
-            return;
-        }
-        const selector = this.getSelectorPerItem(itemIndex, this.selectors.nameInput);
-        this.browser.waitForValue(selector);
-        this.selectItemByIndex(itemIndex);
-        this.browser.setInputValue(selector, name);
-        // Click outside of the input field to save the value
-        this.browser.click(this.selectors.outside);
+        // The field opens on double-click and commits on Enter; there is no always-present input.
+        this.browser
+            .get(rows)
+            .eq(itemIndex - 1)
+            .find(".md2-tname")
+            .dblclick();
+        this.browser.get('[data-testid="material-name-input"]').clear().type(`${name}{enter}`);
     }
 
     getSelectorPerItem(itemIndex: number, selectorName: string) {
@@ -102,23 +90,17 @@ export class ItemsListWidget extends Widget {
     }
 
     selectItemByIndex(index: number) {
-        if (isV2())
-            return this.browser
-                .get(rowsV2)
-                .eq(index - 1)
-                .click();
-        return this.browser.click(this.getSelectorPerItem(index, ""));
+        return this.browser
+            .get(rows)
+            .eq(index - 1)
+            .click();
     }
 
     deleteMaterialByIndex(index: number) {
-        if (isV2()) {
-            this.browser
-                .get(rowsV2)
-                .eq(index - 1)
-                .find('[data-testid="row-remove"]')
-                .click({ force: true });
-            return;
-        }
-        this.browser.click(this.getSelectorPerItem(index, this.selectors.iconButtonDelete));
+        this.browser
+            .get(rows)
+            .eq(index - 1)
+            .find('[data-testid="row-remove"]')
+            .click({ force: true });
     }
 }

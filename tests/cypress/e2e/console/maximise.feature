@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: The console can take the whole window
 
   # "Where to put JupyterLite — right vs left" is a false choice: JupyterLab ships its own file

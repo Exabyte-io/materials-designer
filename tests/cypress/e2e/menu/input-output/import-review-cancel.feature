@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: Reviewing an upload is a decision, and cancelling is one too
 
   # `add-remove-import-files` covers the grid itself and runs against both applications. This adds

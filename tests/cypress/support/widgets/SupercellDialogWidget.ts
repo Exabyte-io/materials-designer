@@ -1,4 +1,3 @@
-import { forApp } from "../app";
 import Widget from "./Widget";
 
 /**
@@ -7,10 +6,10 @@ import Widget from "./Widget";
  * contract other repositories depend on, and the selectors underneath them are not.
  */
 const selectors = {
-    wrapper: forApp("#supercellModal", "#panel-supercell"),
-    submitButton: forApp("#supercellModal-submit-button", '[data-testid="panel-apply"]'),
+    wrapper: "#panel-supercell",
+    submitButton: '[data-testid="panel-apply"]',
     matrixElementByIndices: (i: number, j: number) =>
-        forApp(`div.m${i + 1}${j + 1} input`, `[data-tid="m${i + 1}${j + 1}"]`),
+        `[data-tid="m${i + 1}${j + 1}"]`,
 };
 
 export class SupercellDialogWidget extends Widget {

@@ -1,3 +1,11 @@
+/*
+ * Kept for the platform, not for this app.
+ *
+ * MD 2.0 does not render this. web-app imports it through src/exports.ts, and it is standalone
+ * code in another repository's tree — rewriting it in 2.0's terms is out of scope for the cutover
+ * and is exactly the kind of change that breaks a platform quietly. It moved here, unchanged, so
+ * that deleting v1 did not delete it.
+ */
 /* eslint-disable react/jsx-props-no-spreading */
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";

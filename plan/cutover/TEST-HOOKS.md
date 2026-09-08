@@ -73,17 +73,18 @@ change with the design language; labels change with the copy; positions change w
 Command IDs and test IDs are the only supported handles, and they are chosen so that the flip is a
 change of implementation rather than a change of contract.
 
-## Running the parity specs (added 2026-09-06)
+## Running the specs (added 2026-09-06, rewritten at the flip)
 
-The suite drives both applications while they coexist. `cypress/support/app.ts` decides which:
+There is one application and one suite:
 
 ```
-cd tests && npx cypress run --env APP=v2,TAGS='@parity_2_0'
+cd tests && npx cypress run
 ```
 
-`APP=v2` points `MaterialDesignerPage.url` at `/v2.html` and switches the widgets to 2.0's
-selectors; the default stays v1 at `/`, so every existing spec runs exactly as before. The whole
-mechanism deletes itself at the flip, when v1 is gone and `/v2.html` becomes `/`.
+Until the flip, `cypress/support/app.ts` chose between two applications with `--env APP=v2` and
+`forApp(v1, v2)`, and the specs that only 2.0 could pass were tagged `@parity_2_0` and excluded by
+default. Both are gone: v1 is deleted, `/v2.html` is `/`, the 2.0 branch is inlined at each of the
+switch's fourteen consumers, and every spec runs by default.
 
 Two environment notes, both of which cost an afternoon to discover:
 
@@ -234,24 +235,27 @@ Three things learned writing them, all worth keeping:
 The Playwright script stays until the remaining checks (viewport selection sync, drag-and-drop,
 theme) have features of their own; it is not in CI, and `npm run test:md2-smoke` runs it locally.
 
-## Both suites, side by side
+## Both suites, side by side (historical — the flip merged them)
 
-Run on 2026-09-06, after the retarget:
+Run on 2026-09-08, the last time both applications existed, immediately before the flip:
 
 ```
 # MD 2.0 — everything CI would gate on, harvested specs included
 npx cypress run --env APP=v2,TAGS='not @ignore and not @quarantine and not @notebook_healthcheck'
-                                                          # 37 passing, 0 failing, 57 pending
+                                                        # 114 tests: 57 passing, 0 failing, 57 pending
 
-# v1 — what CI runs today, unchanged
-npx cypress run --env TAGS='not @ignore and not @quarantine and not @notebook_healthcheck and not @parity_2_0'
-                                                          # 8 passing, 0 failing
+# v1 — what CI ran, unchanged
+npx cypress run --env TAGS='... and not @parity_2_0'    # 114 tests: 8 passing, 0 failing, 106 pending
 ```
 
-The 57 pending are the tag-filtered health-checks and the `@ignore`d specs, exactly as in CI.
+The pending are the tag-filtered health-checks and the `@ignore`d specs, exactly as in CI.
 
-That v1 still passes is the point: every change so far is additive, and the same step definitions
-drive both applications until the flip removes the need for the switch.
+That v1 passed to the end is the point, and it is what closed gate 1: every change was additive, and
+the same step definitions drove both applications until the flip removed the need for the switch.
+
+**Run them sequentially, not concurrently.** Two Cypress runs against one dev server produced a
+`menu/advanced/supercell.feature` failure that died in one second and passed in eleven on its own.
+That was the only red in the whole cutover that was not a real defect, and it cost a diagnosis.
 
 ## The stylesheet must not touch the host (added 2026-09-08)
 

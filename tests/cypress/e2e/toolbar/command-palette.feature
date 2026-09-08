@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: The command palette searches actions, the session's materials and Standata
 
   Background:

@@ -1,11 +1,10 @@
-import { forApp, isV2 } from "../app";
 import Widget from "./Widget";
 
 const selectors = {
-    wrapper: forApp("#BoundaryConditionsModal", "#panel-boundary-conditions"),
-    submitButton: forApp("#BoundaryConditionsModal-submit-button", '[data-testid="panel-apply"]'),
-    type: forApp('.MuiFormControl-root[data-tid="type"]', 'select[data-tid="type"]'),
-    offset: forApp('[data-tid="offset"] input', '[data-tid="offset"]'),
+    wrapper: "#panel-boundary-conditions",
+    submitButton: '[data-testid="panel-apply"]',
+    type: 'select[data-tid="type"]',
+    offset: '[data-tid="offset"]',
 };
 
 export interface BoundaryConditions {
@@ -25,16 +24,9 @@ export default class BoundaryConditionsDialogWidget extends Widget {
         const selectorType = this.selectors.type;
         this.browser.waitForVisible(selectorType);
 
-        if (isV2()) {
-            // A native select, so the choice is made on the element rather than by clicking a
-            // menu item that MUI renders in a portal somewhere else on the page.
-            cy.get(selectorType).select(type);
-        } else {
-            this.browser.click(selectorType);
-            const menuItemSelector = `li[data-value="${type}"]`;
-            this.browser.waitForVisible(menuItemSelector);
-            this.browser.click(menuItemSelector);
-        }
+        // A native select, so the choice is made on the element rather than by clicking a menu
+        // item that MUI renders in a portal somewhere else on the page.
+        cy.get(selectorType).select(type);
 
         this.browser.waitForVisible(this.selectors.offset);
         this.browser.setInputValue(this.selectors.offset, offset);

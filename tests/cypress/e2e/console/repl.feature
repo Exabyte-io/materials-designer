@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: The Console carries a Python REPL
 
   # The materials binding waits on cove's in-page REPL; what is here is a working Python console

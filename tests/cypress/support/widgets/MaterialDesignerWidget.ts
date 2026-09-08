@@ -4,7 +4,6 @@ import BoundaryConditionsDialogWidget, {
 import DefaultImportModalDialogWidget from "./DefaultImportModalDialogWidget";
 import HeaderMenuWidget from "./HeaderMenuWidget";
 import { InterpolatedSetDialogWidget } from "./InterpolatedSetDialogWidget";
-import { isV2 } from "../app";
 import { CommandsWidget } from "./CommandsWidget";
 import { ItemsListWidget } from "./ItemsListWidget";
 import JupyterLiteSession from "./JupyterLiteSession";
@@ -62,19 +61,11 @@ export default class MaterialDesignerWidget extends Widget {
     }
 
     openSurfaceDialog() {
-        if (isV2()) {
-            this.commands.run("op.surface");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 4);
+        this.commands.run("op.surface");
     }
 
     openSaveDialog() {
-        if (isV2()) {
-            this.commands.run("file.save");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 5);
+        this.commands.run("file.save");
     }
 
     createSurface(config: SurfaceConfig) {
@@ -84,50 +75,25 @@ export default class MaterialDesignerWidget extends Widget {
     }
 
     cloneCurrentMaterial() {
-        // v1 reaches Clone as the fourth item of the Edit menu. 2.0 has no menu bar, so the
-        // command is addressed by its id — the same action, found by name instead of by position.
-        if (isV2()) {
-            this.commands.run("material.clone");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", 4);
+        this.commands.run("material.clone");
     }
 
     openSupercellDialog() {
-        if (isV2()) {
-            this.commands.run("op.supercell");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 1);
+        this.commands.run("op.supercell");
     }
 
     openUploadDialog() {
-        // v1 reaches Upload from Disk as the third item of Input/Output; 2.0 opens the same
-        // review from the Create group of the command registry.
-        if (isV2()) {
-            this.commands.run("create.from-file");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 3);
+        // The import review, opened from the Create group of the command registry.
+        this.commands.run("create.from-file");
     }
 
     openJupyterLiteTransformation() {
-        // v1 reaches JupyterLite as the sixth item of the Advanced menu. In 2.0 it is a console
-        // tab, addressed by the command id it renders — the same surface, found by name rather
-        // than by counting menu entries.
-        if (isV2()) {
-            this.commands.run("console.notebook");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 6);
+        // JupyterLite is a Console tab, addressed by the command that opens it.
+        this.commands.run("console.notebook");
     }
 
     exit() {
-        if (isV2()) {
-            this.commands.run("file.exit");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Input/Output", 6);
+        this.commands.run("file.exit");
     }
 
     generateSupercell(supercellMatrixAsString: string) {
@@ -163,11 +129,7 @@ export default class MaterialDesignerWidget extends Widget {
     }
 
     openBoundaryConditionsDialog() {
-        if (isV2()) {
-            this.commands.run("op.boundary-conditions");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 5);
+        this.commands.run("op.boundary-conditions");
     }
 
     addBoundaryConditions(config: BoundaryConditions) {
@@ -177,11 +139,7 @@ export default class MaterialDesignerWidget extends Widget {
     }
 
     openInterpolateSetDialog() {
-        if (isV2()) {
-            this.commands.run("op.interpolated-set");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Advanced", 3);
+        this.commands.run("op.interpolated-set");
     }
 
     generateInterpolatedSet(nImages: number) {
@@ -191,24 +149,16 @@ export default class MaterialDesignerWidget extends Widget {
     }
 
     /**
-     * v1's Edit menu, by position: 1 undo, 2 redo, 3 reset. The ordinals are the reason this
-     * needed a widget at all; 2.0 names the three actions instead.
+     * The phrase other repositories use is positional — v1's Edit menu was 1 undo, 2 redo,
+     * 3 reset — and the phrase is frozen, so the position is translated to a name here. That
+     * translation is the whole reason this method exists.
      */
     clickUndoRedoReset(index = 1) {
-        if (isV2()) {
-            const byPosition = ["edit.undo", "edit.redo", "edit.reset"];
-            this.commands.run(byPosition[index - 1]);
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", index);
+        this.commands.run(["edit.undo", "edit.redo", "edit.reset"][index - 1]);
     }
 
     toggleIsNonPeriodic() {
-        if (isV2()) {
-            this.commands.run("structure.toggle-periodicity");
-            return;
-        }
-        this.headerMenu.selectMenuItemByNameAndItemNumber("Edit", 6);
+        this.commands.run("structure.toggle-periodicity");
     }
 
     clickDeleteAction(index: number) {

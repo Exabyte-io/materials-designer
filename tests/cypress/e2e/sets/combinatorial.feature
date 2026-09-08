@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: One template, many materials — and one undo to take them all back
 
   # A combinatorial run emits a batch. v1 dropped each one into the list as a separate material, so

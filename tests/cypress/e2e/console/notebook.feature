@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: The Console binds a JupyterLite notebook to the session
 
   Scenario: the notebook opens on the material the session is showing

@@ -1,10 +1,9 @@
-import { forApp } from "../app";
 import Widget from "./Widget";
 
 const selectors = {
-    wrapper: forApp("#interpolatedSetModal", "#panel-interpolated-set"),
-    submitButton: forApp("#interpolatedSetModal-submit-button", '[data-testid="panel-apply"]'),
-    intermediateImagesInput: forApp("input[type='number']", "#neb-count"),
+    wrapper: "#panel-interpolated-set",
+    submitButton: '[data-testid="panel-apply"]',
+    intermediateImagesInput: "#neb-count",
 };
 
 export class InterpolatedSetDialogWidget extends Widget {

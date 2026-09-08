@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: Controls that cannot do anything say so
 
   # A control that looks live and does nothing is worse than one that is greyed out: the user

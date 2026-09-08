@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: Files can be dropped anywhere on the window
 
   # The Catalog and the app menu both open the review; a drop is the shortcut, because the drop is

@@ -4,6 +4,7 @@ Companion to [`PROPOSAL.md`](PROPOSAL.md). Written at the end of the build sessi
 estimate in §14.1 can be checked against what actually happened.
 
 **Where it lives:** `src/v2/`, served at `/v2.html` by the existing dev server (`npm start`).
+*(Historical. The flip made 2.0 the application: it is `src/`, served at `/`.)*
 The v1 app at `/` is untouched — verified running, 6 menus, `window.MDState` intact, no console
 errors — so the Cypress suite keeps passing and the platform embed contract is unchanged.
 

@@ -6,8 +6,8 @@ import OperationPanelWidget from "../../widgets/OperationPanelWidget";
 /**
  * Steps for MD 2.0's modeless operation panels.
  *
- * They have no v1 counterpart — v1 configured operations in modals that covered the material being
- * configured — so the features using them are tagged `@parity_2_0` and run only against 2.0.
+ * These replaced v1's modals, which covered the material being configured — the reason the panel
+ * is modeless and beside the viewport rather than over it.
  */
 const panel = (type: string) => new OperationPanelWidget(type);
 

@@ -135,14 +135,99 @@ One leak is left, and it is not ours: `@mat3ra/wave.js` imports a stylesheet set
 `ThreeDEditorFullscreen` included. The check reports it and does not assert on it. Worth raising
 against wave.js separately; it is not a cutover blocker, because the platform already has it.
 
+## The flip, and what moved
+
+v1 is deleted. `index.html` loads `src/index.tsx`, `/v2.html` is gone, and `src/exports.ts` is the
+published surface. Where each export went:
+
+| Export | Before | After |
+|---|---|---|
+| `MaterialsDesignerContainer` | `src/MaterialsDesignerContainer.tsx` | `src/embed/MaterialsDesignerContainer.tsx` |
+| `MDMaterial` | `src/MDMaterial.ts` | unchanged — it was already v1-free |
+| `ActionDialog` | `src/components/include/` | `src/compat/ActionDialog.jsx` |
+| `BasisText` | `src/components/source_editor/` | `src/compat/BasisText.jsx` |
+| `ThreeDEditorFullscreen` | `src/components/3d_editor/` | `src/compat/ThreeDEditorFullscreen.jsx` |
+| `MDState` type | `src/reducers/Material.ts` | same path, now a type-only re-export of `MDStateView` |
+| `CodeMirror`, wave view-settings helpers | re-exports | unchanged |
+
+The three `src/compat` files are kept, not rewritten: they are standalone code another repository
+renders, and 2.0 does not use them. `BasisText`'s two `displayMessage()` calls are inlined, which
+retired `src/i18n` as the plan intended.
+
+Two deliberate deviations from the plan, both because a published path cannot be proven unused
+from inside this repository:
+
+- **`src/stylesheets/main.css` stays**, and `copy-css` still ships it to `dist/stylesheets/`.
+  v1's container never imported it — only its page entry did — so it may well be dead, but if
+  web-app imports the path directly, deleting it changes that page's layout silently. Confirming
+  and then deleting it is a gate-2 item. Note it targets `.three-renderer` with v1's header and
+  footer heights, so if web-app does load it, it now applies to 2.0's viewport as well.
+- **`StandataDialogWidget`'s three v1 methods keep their names** (web-app subclasses these
+  widgets) but throw a message naming `pickFromLibrary` instead of timing out on a selector that
+  no longer exists. `HeaderMenuWidget` and the `headerMenu` property survive untouched for the
+  same reason, even though nothing routes through them any more.
+
 ## Still open
 
-- The published `src/exports.js` still points `MaterialsDesignerContainer` at v1. It switches at the
-  flip; until then the 2.0 adapter is reachable at `dist/embed/MaterialsDesignerContainer` for
-  anyone who wants to try the embedded costume.
 - The REPL's materials binding, which waits on cove's `feature/SOF-7961` (see the row above).
-- Retargeting the remaining v1 specs, which is Phase 3 rather than Phase 2: see *What the v1 suite
-  says against 2.0* in TEST-HOOKS.md for the list.
+- Gate 2, below. Nothing is published and no pin is bumped until it passes.
+
+## Cutover gate 2 — the platform's own suite
+
+Gate 1 is closed: every v1 spec CI gates on passes against 2.0 (see above). Gate 2 is the half that
+cannot run from this repository, because it needs web-app's stack. **Nothing is published, no pin
+is bumped, and this branch does not merge until it passes.**
+
+The 62 feature files in web-app that consume this repository's step definitions are the
+specification. They exercise MD through the platform — the import modal, the save dialog, the
+materials the platform seeds — which is exactly the surface unit tests here cannot reach.
+
+1. **Build both WIP tarballs.**
+   ```
+   npm run transpile && npm pack          # → mat3ra-materials-designer-<version>.tgz
+   ```
+   Do the same in cove if a cove change is in flight; otherwise pin the released version.
+
+2. **Confirm the surface before handing it over.** These are the paths web-app resolves, and the
+   CSS path is load-bearing because `src/embed` imports it relatively:
+   ```
+   dist/exports.js
+   dist/exports.d.ts
+   dist/embed/MaterialsDesignerContainer.js
+   dist/reducers/Material.d.ts        # the MDState type
+   dist/compat/{ActionDialog,BasisText,ThreeDEditorFullscreen}.js
+   dist/styles/md2.css
+   ```
+
+3. **Pin the tarballs in web-app** (`file:` dependencies), install, and build it.
+
+4. **Run its 62 consuming features.** They are the gate. A failure here is a 2.0 defect until
+   proven otherwise — that was true of all seven defects gate 1 exposed.
+
+5. **Check the embed does not restyle the platform** in the running app, not just in this
+   repository's harness: the platform's own page background, type and buttons must not move. See
+   *The stylesheet must not touch the host* in TEST-HOOKS.md for what is known to leak and what
+   is not ours.
+
+Only when 4 and 5 are clean:
+
+6. `npm publish` this repository, then bump the pin in web-app's `package.json`.
+7. Merge this branch.
+
+### Three things to settle while you are in web-app
+
+- **Does anything import `dist/stylesheets/main.css`?** It is v1's page stylesheet, kept only
+  because that cannot be answered from this repository. If nothing does, delete `src/stylesheets/`
+  and drop it from `copy-css`. If something does, note that it sets
+  `.three-renderer { height: calc(100vh - <v1's header and footer>) }`, which now lands on 2.0's
+  viewport.
+- **Does its widget subclass call `headerMenu` or `StandataDialogWidget`'s dropdown methods?**
+  The menu bar is gone; those three methods now throw a message naming `pickFromLibrary`. Both are
+  kept for the subclass, and both can be deleted with a `[contract-change]` commit once the answer
+  is known.
+- **`isConventionalCellShown` and `initialViewSettings` are accepted and ignored**, pending wave.js
+  taking them as controlled props. If web-app's suite asserts on either, that is the one expected
+  class of failure — record it here rather than working around it in the adapter.
 
 ## Descope order if Phase 2 slips
 

@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: A region collapses from its own header
 
   # The affordance belongs on the thing it acts on. "Give me that space back" is a thought you

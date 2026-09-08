@@ -1,3 +1,14 @@
+/*
+ * Kept for the platform, not for this app.
+ *
+ * MD 2.0 does not render this. web-app imports it through src/exports.ts, and it is standalone
+ * code in another repository's tree — rewriting it in 2.0's terms is out of scope for the cutover
+ * and is exactly the kind of change that breaks a platform quietly. It moved here, unchanged, so
+ * that deleting v1 did not delete it.
+ *
+ * One change: the two validation strings were looked up through `src/i18n`, which had one locale
+ * and, after this move, one caller. They are inlined below and `src/i18n` is gone.
+ */
 /* eslint-disable react/sort-comp */
 import CodeMirror from "@mat3ra/cove/dist/other/codemirror/CodeMirror";
 import { Made } from "@mat3ra/made";
@@ -7,7 +18,6 @@ import setClass from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { displayMessage } from "../../i18n/messages";
 
 class BasisText extends React.Component {
     codeMirrorRef = React.createRef();
@@ -47,10 +57,12 @@ class BasisText extends React.Component {
     isContentPassingValidation(content) {
         const { isContentValidated } = this.state;
         const isValid = this.validateContent(content);
-        let message = displayMessage("basis.validationError");
+        // The two strings v1 looked up through src/i18n, which had one locale and one
+        // caller left. Inlined so this file stands alone.
+        let message = "Invalid basis format. Please see documentation";
         if (isValid) {
             // if not previously validated, display success, otherwise remove message
-            message = !isContentValidated ? displayMessage("basis.validationSuccess") : "";
+            message = !isContentValidated ? "Valid basis format" : "";
         }
         this.setState({ isContentValidated: isValid, message });
         return isValid;

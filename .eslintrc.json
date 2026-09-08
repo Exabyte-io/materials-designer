@@ -69,6 +69,31 @@
                         "target": "./domain",
                         "from": "./embed",
                         "message": "domain must not import the embed adapters \u2014 the dependency runs the other way."
+                    },
+                    {
+                        "target": "./core",
+                        "from": "./compat",
+                        "message": "compat is v1 code kept for the platform \u2014 nothing here may render it."
+                    },
+                    {
+                        "target": "./kit",
+                        "from": "./compat",
+                        "message": "compat is v1 code kept for the platform \u2014 nothing here may render it."
+                    },
+                    {
+                        "target": "./shell",
+                        "from": "./compat",
+                        "message": "compat is v1 code kept for the platform \u2014 nothing here may render it."
+                    },
+                    {
+                        "target": "./domain",
+                        "from": "./compat",
+                        "message": "compat is v1 code kept for the platform \u2014 nothing here may render it."
+                    },
+                    {
+                        "target": "./embed",
+                        "from": "./compat",
+                        "message": "compat is v1 code kept for the platform \u2014 nothing here may render it."
                     }
                 ]
             }

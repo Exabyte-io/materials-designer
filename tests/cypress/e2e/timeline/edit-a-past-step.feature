@@ -1,4 +1,3 @@
-@parity_2_0
 Feature: A step in the history can be edited, and everything after it re-runs
 
   # The central claim of the operation log: history is not a list of snapshots you can only walk

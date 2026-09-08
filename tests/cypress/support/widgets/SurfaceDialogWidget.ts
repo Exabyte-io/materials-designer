@@ -1,4 +1,3 @@
-import { forApp } from "../app";
 import Widget from "./Widget";
 
 export interface SurfaceConfig {
@@ -12,15 +11,15 @@ export interface SurfaceConfig {
 }
 
 const selectors = {
-    wrapper: forApp("#surfaceModal", "#panel-surface"),
-    submitButton: forApp("#surfaceModal-submit-button", '[data-testid="panel-apply"]'),
-    h: forApp('[data-tid="miller-h"] input', '[data-tid="miller-h"]'),
-    k: forApp('[data-tid="miller-k"] input', '[data-tid="miller-k"]'),
-    l: forApp('[data-tid="miller-l"] input', '[data-tid="miller-l"]'),
-    thickness: forApp('[data-tid="thickness"] input', '[data-tid="thickness"]'),
-    vacuumRatio: forApp('[data-tid="vacuum-ratio"] input', '[data-tid="vacuum-ratio"]'),
-    vx: forApp('[data-tid="vx"] input', '[data-tid="vx"]'),
-    vy: forApp('[data-tid="vy"] input', '[data-tid="vy"]'),
+    wrapper: "#panel-surface",
+    submitButton: '[data-testid="panel-apply"]',
+    h: '[data-tid="miller-h"]',
+    k: '[data-tid="miller-k"]',
+    l: '[data-tid="miller-l"]',
+    thickness: '[data-tid="thickness"]',
+    vacuumRatio: '[data-tid="vacuum-ratio"]',
+    vx: '[data-tid="vx"]',
+    vy: '[data-tid="vy"]',
 };
 
 export default class SurfaceDialogWidget extends Widget {

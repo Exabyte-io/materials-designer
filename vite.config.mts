@@ -26,22 +26,8 @@ export default defineConfig({
         port: 3001,
     },
     build: {
+        // One entry again: index.html is the app. The two-input block that used to live here
+        // existed only to keep v1 and /v2.html from colliding over the same chunk name.
         outDir: "build",
-        rollupOptions: {
-            // Two entries: the v1 app at index.html and the MD 2.0 shell at
-            // v2.html. They share the domain layer and nothing else.
-            input: {
-                main: "index.html",
-                v2: "v2.html",
-            },
-            output: {
-                // The v1 entry keeps its published name; anything else is named
-                // after its entry. With a constant here the two entries collided
-                // and rollup silently decided which one became main.js.
-                entryFileNames: (chunk) => (chunk.name === "main" ? "main.js" : "[name].js"),
-                chunkFileNames: "[name]-[hash].js", // Optional: Name for dynamic imports or shared chunks
-                assetFileNames: "[name]-[hash].[ext]", // Optional: Name for assets like CSS or images
-            },
-        },
     },
 });
