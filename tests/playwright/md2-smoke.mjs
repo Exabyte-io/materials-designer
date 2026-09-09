@@ -238,8 +238,11 @@ check(
 // --- the standard library --------------------------------------------------
 await page.getByTestId("open-catalog").click();
 await page.waitForSelector(".md2-catalog");
+// Scoped to the Catalog: the quick-action row carries a button with the same accessible name,
+// and it sits behind the Catalog's scrim.
 await page
-    .getByRole("button", { name: /Standard library/i })
+    .locator(".md2-catalog")
+    .getByRole("button", { name: /Import from Standata/i })
     .first()
     .click();
 await page.waitForSelector(".md2-standata-list", { timeout: 10000 });
@@ -565,17 +568,18 @@ check(
     );
 
     // The point of the operation log: notebook work shows up as notebook work. The row is found
-    // by name rather than by position, because lineage puts a derived material under its parent
-    // rather than at the end of the list.
+    // by name rather than by position. A code result is a row of its own, not a fork of its
+    // input — which materials went in is provenance the chip prints, not lineage — so it is not
+    // indented under anything.
     const producedRow = page
         .getByTestId("material-row")
         .filter({ hasText: "Notebook Output" })
         .first();
     check("the produced material is listed", (await producedRow.count()) === 1);
     check(
-        "and sits under the material it was derived from",
-        Number(((await producedRow.getAttribute("style")) ?? "").replace(/\D/g, "") || 0) > 0,
-        (await producedRow.getAttribute("style")) ?? "no indent",
+        "and is a row of its own, not a child of its input",
+        (await producedRow.getAttribute("data-depth")) === "0",
+        `data-depth=${await producedRow.getAttribute("data-depth")}`,
     );
     await producedRow.click();
     await page.waitForTimeout(500);
