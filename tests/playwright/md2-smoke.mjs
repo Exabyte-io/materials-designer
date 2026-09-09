@@ -30,7 +30,9 @@ const browser = await chromium.launch({
 const page = await browser.newPage({ viewport: { width: 1600, height: 950 } });
 const errors = [];
 page.on("pageerror", (e) => errors.push(String(e)));
-page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
+page.on("console", (m) => {
+    if (m.type() === "error") errors.push(m.text());
+});
 
 await page.goto(URL, { waitUntil: "networkidle" });
 await page.waitForSelector('[data-testid="status-bar"]', { timeout: 30000 });
@@ -49,10 +51,17 @@ await page.waitForSelector(".md2-catalog", { timeout: 5000 });
 await page.screenshot({ path: `${SHOTS}/02-catalog.png` });
 check("catalog opens on the palette chord", await page.locator(".md2-catalog").isVisible());
 
-await page.getByRole("button", { name: /Supercell/i }).first().click();
+await page
+    .getByRole("button", { name: /Supercell/i })
+    .first()
+    .click();
 await page.waitForSelector(".md2-panel", { timeout: 5000 });
 const inputs = page.locator(".md2-matrix-grid input");
-for (const [i, v] of [[0, "2"], [4, "2"], [8, "2"]]) {
+for (const [i, v] of [
+    [0, "2"],
+    [4, "2"],
+    [8, "2"],
+]) {
     await inputs.nth(i).fill(v);
 }
 await page.waitForTimeout(400);
@@ -95,7 +104,13 @@ await page.keyboard.press("t");
 await page.waitForTimeout(1200);
 const vpBox = await page.getByTestId("viewport").boundingBox();
 let picked = false;
-for (const [dx, dy] of [[0.6, 0.68], [0.5, 0.55], [0.45, 0.6], [0.55, 0.5], [0.5, 0.62]]) {
+for (const [dx, dy] of [
+    [0.6, 0.68],
+    [0.5, 0.55],
+    [0.45, 0.6],
+    [0.55, 0.5],
+    [0.5, 0.62],
+]) {
     await page.mouse.click(vpBox.x + vpBox.width * dx, vpBox.y + vpBox.height * dy);
     await page.waitForTimeout(500);
     if (!/no selection/i.test(await page.getByTestId("selection-readout").innerText())) {
@@ -114,7 +129,11 @@ await page.screenshot({ path: `${SHOTS}/10-selection.png` });
 await page.getByRole("button", { name: /Script/i }).click();
 await page.waitForTimeout(400);
 const script = await page.getByTestId("script-tab").innerText();
-check("the timeline exports as a runnable script", /supercell/.test(script), script.split("\n").slice(-1)[0]);
+check(
+    "the timeline exports as a runnable script",
+    /supercell/.test(script),
+    script.split("\n").slice(-1)[0],
+);
 await page.screenshot({ path: `${SHOTS}/05-script.png` });
 
 // --- autosave / restore ----------------------------------------------------
@@ -123,7 +142,10 @@ await page.reload({ waitUntil: "networkidle" });
 await page.waitForSelector('[data-testid="status-bar"]', { timeout: 30000 });
 await page.waitForTimeout(2000);
 check("a reload restores the session", (await atoms()) === "16 atoms", await atoms());
-check("and says so instead of restoring silently", await page.getByTestId("restore-notice").isVisible());
+check(
+    "and says so instead of restoring silently",
+    await page.getByTestId("restore-notice").isVisible(),
+);
 await page.screenshot({ path: `${SHOTS}/06-restored.png` });
 
 // --- editing a past step ---------------------------------------------------
@@ -146,16 +168,27 @@ check(
     `m11=${await editInputs.nth(0).inputValue()}`,
 );
 const applyBtn = page.getByRole("button", { name: /Apply & replay/i });
-check("and says how many steps will replay", await applyBtn.isVisible(), await applyBtn.innerText());
+check(
+    "and says how many steps will replay",
+    await applyBtn.isVisible(),
+    await applyBtn.innerText(),
+);
 await editInputs.nth(0).fill("3");
 await editInputs.nth(4).fill("3");
 await editInputs.nth(8).fill("3");
 await page.waitForTimeout(400);
 await applyBtn.click();
 await page.waitForTimeout(1500);
-check("the edit replaces the step in place", (await chips()) === chipsBeforeEdit, `${await chips()} chips`);
+check(
+    "the edit replaces the step in place",
+    (await chips()) === chipsBeforeEdit,
+    `${await chips()} chips`,
+);
 check("and downstream steps re-ran", (await atoms()) === "54 atoms", await atoms());
-const editedChip = (await page.getByTestId("timeline-chip").nth(1).innerText()).replace(/\s+/g, " ");
+const editedChip = (await page.getByTestId("timeline-chip").nth(1).innerText()).replace(
+    /\s+/g,
+    " ",
+);
 check(
     "the edited chip reports its new result, not the old one",
     /2 → 54/.test(editedChip),
@@ -172,7 +205,10 @@ await page.waitForTimeout(800);
 // --- sets: one template, many materials, one undo -------------------------
 await page.getByTestId("open-catalog").click();
 await page.waitForSelector(".md2-catalog");
-await page.getByRole("button", { name: /Combinatorial set/i }).first().click();
+await page
+    .getByRole("button", { name: /Combinatorial set/i })
+    .first()
+    .click();
 await page.waitForSelector(".md2-panel");
 const basisBox = page.getByLabel("Combinatorial basis in XYZ format");
 const seed = await basisBox.inputValue();
@@ -202,7 +238,10 @@ check(
 // --- the standard library --------------------------------------------------
 await page.getByTestId("open-catalog").click();
 await page.waitForSelector(".md2-catalog");
-await page.getByRole("button", { name: /Standard library/i }).first().click();
+await page
+    .getByRole("button", { name: /Standard library/i })
+    .first()
+    .click();
 await page.waitForSelector(".md2-standata-list", { timeout: 10000 });
 const libCount = await page.locator(".md2-standata-row").count();
 check("the standard library lists real entries", libCount > 20, `${libCount} entries`);
@@ -243,7 +282,10 @@ check(
     (await page.getByTestId("material-row").count()) > rowsBeforeImport,
     `${await page.getByTestId("material-row").count()} rows`,
 );
-const importedChip = (await page.getByTestId("timeline-chip").first().innerText()).replace(/\s+/g, " ");
+const importedChip = (await page.getByTestId("timeline-chip").first().innerText()).replace(
+    /\s+/g,
+    " ",
+);
 check(
     "whose history starts at the import, naming the detected format",
     /Imported/.test(importedChip) && /json/i.test(importedChip),
@@ -257,7 +299,8 @@ await page.screenshot({ path: `${SHOTS}/12-import-export.png` });
 const overlayShown = await page.evaluate(() => {
     const app = document.querySelector(".md2-app");
     const dt = new DataTransfer();
-    const fire = (type) => app.dispatchEvent(new DragEvent(type, { bubbles: true, dataTransfer: dt }));
+    const fire = (type) =>
+        app.dispatchEvent(new DragEvent(type, { bubbles: true, dataTransfer: dt }));
     // A real DataTransfer with no files still reports the Files type while a
     // drag is in flight, which is what the handler keys on.
     Object.defineProperty(dt, "types", { value: ["Files"] });
@@ -275,7 +318,9 @@ await page.waitForTimeout(300);
 check(
     "a cancelled drag dismisses its overlay",
     overlayShown === 1 && (await page.getByTestId("dropzone").count()) === 0,
-    `overlay while dragging: ${overlayShown}, after leaving: ${await page.getByTestId("dropzone").count()}`,
+    `overlay while dragging: ${overlayShown}, after leaving: ${await page
+        .getByTestId("dropzone")
+        .count()}`,
 );
 
 // The hamburger must be able to close the menu it opened.
@@ -283,15 +328,23 @@ await page.getByTestId("app-menu-button").click();
 await page.waitForSelector('[data-testid="app-menu"]');
 await page.getByTestId("app-menu-button").click();
 await page.waitForTimeout(400);
-check("the app menu toggles shut from its own button", (await page.getByTestId("app-menu").count()) === 0);
+check(
+    "the app menu toggles shut from its own button",
+    (await page.getByTestId("app-menu").count()) === 0,
+);
 
 // An expanded set must be collapsible again.
 await page.getByTestId("open-catalog").click();
 await page.waitForSelector(".md2-catalog");
-await page.getByRole("button", { name: /Combinatorial set/i }).first().click();
+await page
+    .getByRole("button", { name: /Combinatorial set/i })
+    .first()
+    .click();
 await page.waitForSelector(".md2-panel");
 const seed2 = await page.getByLabel("Combinatorial basis in XYZ format").inputValue();
-await page.getByLabel("Combinatorial basis in XYZ format").fill(seed2.replace(/^(\s*)(\w+)/m, "$1$2/Ge"));
+await page
+    .getByLabel("Combinatorial basis in XYZ format")
+    .fill(seed2.replace(/^(\s*)(\w+)/m, "$1$2/Ge"));
 await page.waitForTimeout(400);
 await page.getByRole("button", { name: /^Apply/i }).click();
 await page.waitForTimeout(1500);
@@ -425,7 +478,11 @@ check(
         (await row.locator(".md2-tname").innerText()).trim() === "Renamed Material",
         (await row.locator(".md2-tname").innerText()).trim(),
     );
-    check("and the rename is recorded as a step", (await chips()) === before + 1, `${await chips()} chips`);
+    check(
+        "and the rename is recorded as a step",
+        (await chips()) === before + 1,
+        `${await chips()} chips`,
+    );
 
     // Opening the field and leaving without changing anything must not deepen the history,
     // or an undo would spend itself walking back a no-op.
@@ -488,7 +545,8 @@ check(
     const outChips = page.locator("[data-tid='materials-out-selector'] .MuiChip-root");
     check(
         "what the notebook produced is staged, not adopted",
-        (await outChips.count()) === 1 && (await page.getByTestId("material-row").count()) === before,
+        (await outChips.count()) === 1 &&
+            (await page.getByTestId("material-row").count()) === before,
         `${await outChips.count()} staged, ${await page.getByTestId("material-row").count()} rows`,
     );
     check("and the button now offers to add it", await submit.isEnabled());
@@ -557,7 +615,10 @@ check(
     const before = await page.getByTestId("material-row").count();
     await page.locator('[data-command="create.from-file"]').click();
     await page.waitForSelector("#defaultImportModalDialog", { timeout: 5000 });
-    check("upload from disk opens the review, not the file picker", await page.locator("#defaultImportModalDialog").isVisible());
+    check(
+        "upload from disk opens the review, not the file picker",
+        await page.locator("#defaultImportModalDialog").isVisible(),
+    );
     check("which starts on a drop zone", await page.locator('[data-name="dropzone"]').isVisible());
     const addButton = page.locator("#defaultImportModalDialog-submit-button");
     check("with nothing to add yet", await addButton.isDisabled());
@@ -565,20 +626,33 @@ check(
     // Two files, one of each supported format, so the format column has something to detect.
     const poscar = await page.evaluate(() => window.MDState.materials[0].getAsPOSCAR());
     await page.locator('input[data-name="fileapi"]').setInputFiles([
-        { name: "smoke.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(await page.evaluate(() => window.MDState.materials[0].toJSON()))) },
+        {
+            name: "smoke.json",
+            mimeType: "application/json",
+            buffer: Buffer.from(
+                JSON.stringify(await page.evaluate(() => window.MDState.materials[0].toJSON())),
+            ),
+        },
         { name: "smoke.poscar", mimeType: "text/plain", buffer: Buffer.from(poscar) },
     ]);
     await page.waitForTimeout(700);
-    const cell = (field, value) => page.locator(`div[role="cell"][data-field="${field}"] div[title="${value}"]`);
+    const cell = (field, value) =>
+        page.locator(`div[role="cell"][data-field="${field}"] div[title="${value}"]`);
     check(
         "both files are listed with the format that was detected, not declared",
         (await cell("fileName", "smoke.json").count()) === 1 &&
             (await cell("format", "json").count()) === 1 &&
             (await cell("fileName", "smoke.poscar").count()) === 1 &&
             (await cell("format", "poscar").count()) === 1,
-        `json: ${await cell("format", "json").count()}, poscar: ${await cell("format", "poscar").count()}`,
+        `json: ${await cell("format", "json").count()}, poscar: ${await cell(
+            "format",
+            "poscar",
+        ).count()}`,
     );
-    check("nothing has been imported yet", (await page.getByTestId("material-row").count()) === before);
+    check(
+        "nothing has been imported yet",
+        (await page.getByTestId("material-row").count()) === before,
+    );
 
     await page.locator("#smoke-poscar-remove-button").click();
     await page.waitForTimeout(400);
@@ -617,7 +691,9 @@ await page.waitForTimeout(600);
 check("light theme renders", (await page.locator("html").getAttribute("data-theme")) === "light");
 await page.screenshot({ path: `${SHOTS}/07-light.png` });
 
-const real = errors.filter((e) => !/ResizeObserver|WebGL|SwiftShader|GroupMarkerNotSet|Failed to load resource/i.test(e));
+const real = errors.filter(
+    (e) => !/ResizeObserver|WebGL|SwiftShader|GroupMarkerNotSet|Failed to load resource/i.test(e),
+);
 check("no uncaught page errors", real.length === 0, real.slice(0, 2).join(" | "));
 
 await browser.close();
