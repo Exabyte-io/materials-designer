@@ -24,6 +24,11 @@ describe("the standard library", () => {
         // all said "Import from Standata" — and a reviewer looking for Standata did not find it.
         const command = COMMANDS.find((one) => one.id === "create.standard-library");
         const card = CATALOG.find((entry) => entry.command === "create.standard-library");
+        // Both have to be found first. Comparing `card?.title` to `command?.label` when neither
+        // exists is `undefined === undefined`, so the test passed precisely when the id it guards
+        // had been renamed away — proven by renaming it and watching this stay green.
+        expect(command, "no command create.standard-library").toBeDefined();
+        expect(card, "no Catalog card runs create.standard-library").toBeDefined();
         expect(card?.title).toBe(command?.label);
     });
 

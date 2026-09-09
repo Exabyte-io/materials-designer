@@ -15,6 +15,8 @@ a diff cannot show it.
 | `07-catalog-standata.png` | the Catalog card, now titled *Import from Standata* like the command it runs |
 | `08-notebook-result-top-level.png` | Navigator after *Add to session* — the notebook's result is a row of its own, not a child of its input |
 | `09-repl-bound.png` | Console › REPL bound to the session: selectors, *Add to session*, the lines to paste. The frame is dark only because the sandbox cannot reach jupyterlite.mat3ra.com |
+| `10-standata-panel.png` | the library panel after the self-review — its lone Cancel fills the row again, which giving Cancel its own width had quietly taken away |
+| `11-repl-chip-and-open-console.png` | a REPL result in the Timeline: *From REPL* with the engine badge in `--ok`, and the dock still open behind it — adopting must not cost the kernel |
 
 Regenerate with `npm start` and the snippet in the PR thread; they are review artefacts, not
 fixtures, and nothing asserts on them.

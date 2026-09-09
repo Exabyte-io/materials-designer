@@ -51,26 +51,30 @@ Given("I do not see the {string} panel", (selector: string) => {
  * than by clicking and asserting nothing happened: a control that looks live but does nothing is
  * the thing being guarded against.
  */
-Given(
-    "I see the {string} quick action is {string}",
-    (id: string, state: "enabled" | "disabled") => {
-        new MaterialDesignerPage().designerWidget.browser
-            .get(`.quick-action-${id}`)
-            .should(state === "disabled" ? "be.disabled" : "not.be.disabled");
-    },
-);
+/**
+ * A word this does not recognise has to fail loudly.
+ *
+ * Both of these steps took the state as a string and fell through to "enabled" for anything that
+ * was not "disabled", so `is "enabldd"` asserted nothing while reading as though it asserted
+ * something. Cucumber hands over whatever the feature file says; the TypeScript union is a comment.
+ */
+function unknownState(state: string): never {
+    throw new Error(`Unknown state "${state}" — expected one of: enabled, disabled, on, off.`);
+}
 
-Given(
-    "I see the {string} panel toggle is {string}",
-    (name: string, state: "enabled" | "disabled" | "on" | "off") => {
-        const toggle = new MaterialDesignerPage().designerWidget.browser.get(
-            `.panel-toggle-${name}`,
-        );
-        // Two facts, two attributes: whether it can be pressed, and whether it is.
-        if (state === "on" || state === "off") {
-            toggle.should("have.attr", "aria-pressed", state === "on" ? "true" : "false");
-            return;
-        }
-        toggle.should(state === "disabled" ? "be.disabled" : "not.be.disabled");
-    },
-);
+Given("I see the {string} quick action is {string}", (id: string, state: string) => {
+    const action = new MaterialDesignerPage().designerWidget.browser.get(`.quick-action-${id}`);
+    if (state !== "enabled" && state !== "disabled") unknownState(state);
+    action.should(state === "disabled" ? "be.disabled" : "not.be.disabled");
+});
+
+Given("I see the {string} panel toggle is {string}", (name: string, state: string) => {
+    const toggle = new MaterialDesignerPage().designerWidget.browser.get(`.panel-toggle-${name}`);
+    // Two facts, two attributes: whether it can be pressed, and whether it is.
+    if (state === "on" || state === "off") {
+        toggle.should("have.attr", "aria-pressed", state === "on" ? "true" : "false");
+        return;
+    }
+    if (state !== "enabled" && state !== "disabled") unknownState(state);
+    toggle.should(state === "disabled" ? "be.disabled" : "not.be.disabled");
+});
