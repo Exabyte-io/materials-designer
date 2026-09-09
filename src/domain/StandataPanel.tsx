@@ -1,5 +1,5 @@
 /**
- * Standard library — the 74 Standata entries as a searchable list.
+ * Standata library — the 74 Standata entries as a searchable list.
  *
  * In v1 this was a modal dialog behind Input/Output; here it is a Catalog entry
  * that opens in the panel zone, and each pick becomes a material whose origin
@@ -45,14 +45,14 @@ export function StandataPanel({ onPick, onCancel }: StandataPanelProps) {
     return (
         <section
             className="md2-panel"
-            aria-label="Standard library"
+            aria-label="Standata library"
             data-testid="panel-standard-library"
         >
             <header className="md2-panel-head">
                 <span className="md2-icon" aria-hidden="true">
                     ◈
                 </span>
-                <h2 className="md2-panel-title">Standard library</h2>
+                <h2 className="md2-panel-title">Standata library</h2>
                 <span className="md2-badge" data-engine="native">
                     NATIVE
                 </span>

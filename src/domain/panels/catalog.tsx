@@ -44,7 +44,7 @@ export const CATALOG: CatalogEntry[] = [
     {
         type: "standard-library",
         command: "create.standard-library",
-        title: "Standard library",
+        title: "Import from Standata",
         icon: "◈",
         description: "Start from one of the curated Standata materials.",
         engine: "native",

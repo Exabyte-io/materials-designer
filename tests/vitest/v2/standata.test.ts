@@ -2,6 +2,8 @@ import Material from "@mat3ra/made/dist/js/Material";
 import { describe, expect, it } from "vitest";
 
 import { toImportableConfig } from "../../../src/core/io";
+import { COMMANDS } from "../../../src/domain/commands";
+import { CATALOG } from "../../../src/domain/panels/catalog";
 import { loadStandata } from "../../../src/domain/StandataPanel";
 
 describe("the standard library", () => {
@@ -15,6 +17,14 @@ describe("the standard library", () => {
                 (entry) => entry.name === "C, Graphene, HEX (P6/mmm) 2D (Monolayer), 2dm-3993",
             ),
         ).toBe(true);
+    });
+
+    it("is offered under one name wherever it is offered", () => {
+        // The Catalog card said "Standard library" while the command, the palette and v1's menu
+        // all said "Import from Standata" — and a reviewer looking for Standata did not find it.
+        const command = COMMANDS.find((one) => one.id === "create.standard-library");
+        const card = CATALOG.find((entry) => entry.command === "create.standard-library");
+        expect(card?.title).toBe(command?.label);
     });
 
     it("can be imported entry by entry", () => {
