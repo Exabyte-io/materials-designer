@@ -48,3 +48,15 @@ Feature: Controls that cannot do anything say so
       | path          | index   |
       | si-clone.json | $INT{2} |
     And I see the "undo" quick action is "disabled"
+
+  Scenario: Toggles show which panels are open
+    # A toggle that looks the same on and off makes the bar a row of labels, not a row of state.
+    Then I see the "timeline" panel toggle is "on"
+    And I see the "inspector" panel toggle is "on"
+
+    When I toggle the "timeline" panel
+    Then I see the "timeline" panel toggle is "off"
+    And I see the "inspector" panel toggle is "on"
+
+    When I toggle the "timeline" panel
+    Then I see the "timeline" panel toggle is "on"

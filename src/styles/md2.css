@@ -291,6 +291,13 @@
     opacity: 0.45;
     cursor: not-allowed;
 }
+/* On means the region is shown — the same treatment as a selected segment, so "on" reads the
+   same everywhere in the app. */
+.md2-toggle[aria-pressed="true"] {
+    background: var(--bg3);
+    color: var(--text);
+    font-weight: 600;
+}
 
 .md2-wbtn {
     height: 30px;

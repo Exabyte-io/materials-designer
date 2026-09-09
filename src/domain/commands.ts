@@ -104,6 +104,8 @@ function regionCommand(region: RegionName, label: string): Command<CommandContex
         group: "View",
         keywords: ["panel", "toggle", "show", "hide"],
         run: (c) => c.ui.toggleRegion(region),
+        // Shown, not expanded: the toggle hides and shows the region, so that is what it reports.
+        isActive: (c) => c.regions[region],
         isEnabled: (c) => !isLastOpenRegion(c, region),
         disabledReason: () => "The last open panel cannot be hidden",
     };

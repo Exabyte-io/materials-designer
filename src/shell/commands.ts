@@ -31,6 +31,11 @@ export interface Command<TContext> {
      * than one that is greyed out — the user cannot tell a no-op from a bug.
      */
     disabledReason?: (context: TContext) => string;
+    /**
+     * For a command that toggles something visible: whether it is on right now. A toolbar can
+     * then show the state as well as offer the action.
+     */
+    isActive?: (context: TContext) => boolean;
 }
 
 export interface ResolvedCommand {
@@ -42,6 +47,8 @@ export interface ResolvedCommand {
     enabled: boolean;
     /** Present only when `enabled` is false. */
     reason?: string;
+    /** Present only for commands that define `isActive`. */
+    active?: boolean;
     run: () => void;
 }
 
@@ -57,6 +64,7 @@ export function resolveCommands<T>(commands: Command<T>[], context: T): Resolved
             keywords: command.keywords ?? [],
             enabled,
             reason: enabled ? undefined : command.disabledReason?.(context),
+            active: command.isActive ? command.isActive(context) : undefined,
             run: () => {
                 if (enabled) command.run(context);
             },

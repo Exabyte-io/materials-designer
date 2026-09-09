@@ -156,7 +156,7 @@ export function WorkspaceBar({
                         disabled={!resolved.enabled}
                         title={resolved.enabled ? resolved.label : resolved.reason}
                         aria-label={resolved.label}
-                        aria-pressed={undefined}
+                        aria-pressed={resolved.active}
                         data-command={resolved.id}
                     >
                         {label}

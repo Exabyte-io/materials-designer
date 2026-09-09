@@ -62,9 +62,15 @@ Given(
 
 Given(
     "I see the {string} panel toggle is {string}",
-    (name: string, state: "enabled" | "disabled") => {
-        new MaterialDesignerPage().designerWidget.browser
-            .get(`.panel-toggle-${name}`)
-            .should(state === "disabled" ? "be.disabled" : "not.be.disabled");
+    (name: string, state: "enabled" | "disabled" | "on" | "off") => {
+        const toggle = new MaterialDesignerPage().designerWidget.browser.get(
+            `.panel-toggle-${name}`,
+        );
+        // Two facts, two attributes: whether it can be pressed, and whether it is.
+        if (state === "on" || state === "off") {
+            toggle.should("have.attr", "aria-pressed", state === "on" ? "true" : "false");
+            return;
+        }
+        toggle.should(state === "disabled" ? "be.disabled" : "not.be.disabled");
     },
 );
