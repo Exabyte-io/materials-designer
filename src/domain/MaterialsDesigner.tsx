@@ -382,9 +382,10 @@ export function MaterialsDesigner({
                             { config: output.config, inputs: inputs.map((one) => one.name) },
                             {
                                 source: "code",
-                                parentId: inputs[0]?.id,
-                                // The inputs live in the params, where replay can see them;
-                                // provenance carries only what replay does not need.
+                                // No parentId: that is fork lineage, and a code result is not a
+                                // fork. Which materials went in is in the params, where replay
+                                // can see it and the chip prints it — so the row sits at the top
+                                // level, as one with two inputs, or none, already did.
                                 provenance: { entryPath: notebookPath },
                             },
                         ),

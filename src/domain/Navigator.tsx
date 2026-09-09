@@ -116,6 +116,7 @@ export function Navigator({
                 tabIndex={0}
                 className="md2-trow md2-setrow"
                 style={{ marginLeft: depth * 14 }}
+                data-depth={depth}
                 onClick={() => toggleSet(setId)}
                 onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") toggleSet(setId);
@@ -141,6 +142,7 @@ export function Navigator({
                 tabIndex={0}
                 className={`md2-trow${active ? " md2-active" : ""}`}
                 style={{ marginLeft: depth * 14 }}
+                data-depth={depth}
                 onClick={() => onSelect(doc.id)}
                 onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") onSelect(doc.id);

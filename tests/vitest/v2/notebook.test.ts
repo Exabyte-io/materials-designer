@@ -102,14 +102,18 @@ describe("adopting a notebook result", () => {
         expect(resolve(doc).digest.atomCount).toBe(2);
     });
 
-    it("keeps the input it came from as its parent, so lineage survives", () => {
-        const parent = createMaterialDoc("create-from-config", { config: SILICON });
-        const child = createMaterialDoc(
+    it("is a row of its own: which materials went in is provenance, not lineage", () => {
+        // The app once handed the first input over as `parentId`, which drew the result as a fork
+        // of it. A notebook with two inputs has no single parent and one with none has no parent
+        // at all, so the derivation lives in the params — where replay sees it and the chip
+        // prints it — and the row lands at the top level.
+        const doc = createMaterialDoc(
             "notebook-result",
-            { config: SILICON, inputs: ["Silicon FCC"] },
-            { parentId: parent.id },
+            { config: SILICON, inputs: ["Silicon FCC", "Nickel FCC"] },
+            { source: "code", provenance: { entryPath: "made/Introduction.ipynb" } },
         );
-        expect(child.parentId).toBe(parent.id);
+        expect(doc.parentId).toBeUndefined();
+        expect(doc.log[0].digest).toBe("from Silicon FCC, Nickel FCC");
     });
 });
 

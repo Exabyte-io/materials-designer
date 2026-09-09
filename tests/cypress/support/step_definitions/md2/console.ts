@@ -43,3 +43,14 @@ Then("I see the console frame is the same element", () => {
         expect(($frame[0] as unknown as Record<string, unknown>).__mdKernelMark).to.equal("kept");
     });
 });
+
+/**
+ * A code result is not a fork. Notebook and REPL output used to land under the first input as a
+ * child row; which materials went in is provenance the chip already prints, not lineage.
+ */
+Then("I see material {string} at the top level of the list", (name: string) => {
+    cy.get('[data-testid="material-row"]')
+        .contains(".md2-tname", name)
+        .closest(".md2-trow")
+        .should("have.attr", "data-depth", "0");
+});
