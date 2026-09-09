@@ -1,43 +1,113 @@
 /**
- * Console › REPL — a Python console in the dock.
+ * Console › REPL — a Python console in the dock, bound to the session.
  *
- * The end state for this tab is cove's `PythonRepl` mounted in-page over `InPageTransport`: no
- * iframe, no postMessage hop, and the selection shared directly. That component exists, on cove's
- * unmerged `feature/SOF-7961`; the published package carries only `PyodideLoader`. So this is the
- * fallback the plan wrote down — the same surface pointed at JupyterLite's own REPL app, which is
- * deployed alongside the notebooks and needs no new code.
+ * JupyterLite's own `/repl/` app through `BridgedIframe`, over the same materials bridge as the
+ * Notebook tab. The deployment's `data_bridge` extension is federated at the root and the REPL app
+ * inherits it, so `get_materials` / `set_materials` from `mat3ra.notebooks_utils` work at this
+ * prompt exactly as they do in a notebook cell. The host side was already answering the frame's
+ * requests; until now this tab simply was not asking.
  *
- * What it deliberately does *not* do is bind `materials_in` / `materials_out`. The notebook tab
- * does, over a bridge whose behaviour in the REPL app is not something this repository can verify.
- * A selector that silently never fills is worse than an absent one, so the binding waits for the
- * in-page REPL, where it is a direct call rather than a message.
+ * The end state is still cove's `PythonRepl` mounted in-page over `InPageTransport` (its unmerged
+ * `feature/SOF-7961`): no iframe, no postMessage hop, and the selection shared by a direct call
+ * rather than a message. This is that surface with a frame in the middle.
  */
 import React from "react";
 
 import { JUPYTERLITE_ORIGIN_URL } from "../../config";
 import { BridgedIframe } from "../../kit/BridgedIframe";
+import { MaterialsSelector } from "./MaterialsSelector";
+import { type NotebookInput, type NotebookOutput, useMaterialsBridge } from "./useMaterialsBridge";
 
 export const REPL_IFRAME_ID = "python-repl-iframe";
+
+/** Recorded as the entry path of what the REPL produces, where a notebook records its file. */
+export const REPL_ENTRY = "repl";
 
 /** `kernel` picks the interpreter; `toolbar` gives the run and restart controls. */
 export const REPL_URL = `${JUPYTERLITE_ORIGIN_URL}/repl/index.html?kernel=python&toolbar=1`;
 
-export function ReplTab() {
+/** The lines a notebook runs to reach the bridge, in the order the notebooks run them. */
+export const REPL_RECIPE = [
+    'from mat3ra.notebooks_utils.packages import install_packages; await install_packages("made")',
+    "from mat3ra.notebooks_utils.material import get_materials, set_materials",
+    "materials = get_materials(globals())   # the selection above, as materials_in",
+    "set_materials([result])                # stages result above for Add to session",
+].join("\n");
+
+export interface ReplTabProps {
+    inputs: NotebookInput[];
+    activeId?: string;
+    onAdd: (outputs: NotebookOutput[], inputs: NotebookInput[], entryPath: string) => void;
+    onError: (message: string) => void;
+}
+
+export function ReplTab({ inputs, activeId, onAdd, onError }: ReplTabProps) {
+    const bridge = useMaterialsBridge({ inputs, activeId, onError });
+
     return (
-        <div className="md2-repl" id="python-repl">
+        <div className="md2-notebook md2-repl" id="python-repl">
+            <div className="md2-notebook-row">
+                <span className="md2-notebook-label">
+                    Input materials (<code>materials_in</code>)
+                </span>
+                <div className="md2-notebook-field">
+                    <MaterialsSelector
+                        items={inputs}
+                        selected={bridge.selected}
+                        onChange={bridge.onSelect}
+                        testId="materials-in-selector"
+                        label="Selected"
+                        placeholder={bridge.selected.length ? undefined : "Pick materials to send"}
+                    />
+                </div>
+            </div>
+
             <div className="md2-notebook-frame">
                 <BridgedIframe
+                    ref={bridge.frame}
                     id={REPL_IFRAME_ID}
                     src={REPL_URL}
                     origin={JUPYTERLITE_ORIGIN_URL}
                     title="Python REPL"
+                    onRequestData={bridge.handleRequestData}
+                    onReceiveData={bridge.handleReceiveData}
                 />
             </div>
-            <p className="md2-note" data-testid="repl-note">
-                Python with the mat3ra packages available. Passing the session&rsquo;s materials in
-                and out arrives with the in-page REPL; until then, use the Notebook tab for work
-                that needs <code>materials_in</code>.
-            </p>
+
+            <div className="md2-notebook-row">
+                <span className="md2-notebook-label">
+                    Output materials (<code>materials_out</code>)
+                </span>
+                <div className="md2-notebook-field">
+                    <MaterialsSelector
+                        items={bridge.outputs}
+                        selected={bridge.outputs}
+                        onChange={bridge.setOutputs}
+                        testId="materials-out-selector"
+                        label="Produced"
+                        placeholder={bridge.outputs.length ? undefined : "Nothing produced yet"}
+                    />
+                </div>
+                <button
+                    type="button"
+                    className="md2-btn md2-btn-primary"
+                    data-testid="console-add-to-session"
+                    disabled={bridge.outputs.length === 0}
+                    title={
+                        bridge.outputs.length === 0
+                            ? "Call set_materials(...) at the prompt first"
+                            : undefined
+                    }
+                    onClick={() => onAdd(bridge.outputs, bridge.selected, REPL_ENTRY)}
+                >
+                    Add to session
+                </button>
+            </div>
+
+            <div className="md2-note" data-testid="repl-note">
+                The same bridge the notebooks use. At the prompt:
+                <pre className="md2-repl-recipe">{REPL_RECIPE}</pre>
+            </div>
         </div>
     );
 }

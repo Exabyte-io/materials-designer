@@ -54,3 +54,8 @@ Then("I see material {string} at the top level of the list", (name: string) => {
         .closest(".md2-trow")
         .should("have.attr", "data-depth", "0");
 });
+
+/** Both code surfaces stage what they produce behind the same button. */
+When("I add what the console produced to the session", () => {
+    cy.get('[data-testid="console-add-to-session"]').should("not.be.disabled").click();
+});

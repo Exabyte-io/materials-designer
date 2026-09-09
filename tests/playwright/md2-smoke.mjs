@@ -594,8 +594,11 @@ check(
         src ?? "no iframe",
     );
     check(
-        "and says plainly that materials are not bound yet",
-        /Notebook tab/.test(await page.getByTestId("repl-note").innerText()),
+        "and is bound to the session like the notebook: selectors, and the lines to reach them",
+        (await page.locator("#python-repl [data-tid='materials-in-selector']").count()) === 1 &&
+            (await page.locator("#python-repl [data-tid='materials-out-selector']").count()) ===
+                1 &&
+            /get_materials/.test(await page.getByTestId("repl-note").innerText()),
     );
     // Switching away and back must not leave two frames on the page: both tabs address their
     // frame by id when posting, so a stale one would receive the messages.

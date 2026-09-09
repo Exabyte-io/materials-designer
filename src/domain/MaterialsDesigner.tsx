@@ -22,8 +22,9 @@ import { resolveCommands, useCommandShortcuts } from "../shell/commands";
 import { AppMenu } from "./AppMenu";
 import { CombinatorialPanel } from "./CombinatorialPanel";
 import { type CommandContext, type HostActions, type RegionName, COMMANDS } from "./commands";
-import { type ConsoleTab, ConsoleDock, TALL_TABS } from "./console/ConsoleDock";
+import { type ConsoleTab, BRIDGED_TABS, ConsoleDock, TALL_TABS } from "./console/ConsoleDock";
 import type { NotebookInput, NotebookOutput } from "./console/NotebookTab";
+import { REPL_ENTRY } from "./console/ReplTab";
 import { ImportReview } from "./ImportReview";
 import { Inspector } from "./Inspector";
 import { toMDState } from "./mdState";
@@ -337,14 +338,15 @@ export function MaterialsDesigner({
     );
 
     /**
-     * The notebook's `materials_in`.
+     * `materials_in` for the code surfaces — the notebook and the REPL.
      *
-     * Built only while that tab is showing: every material has to be replayed and serialised, and
-     * doing that on every session change to feed a hidden surface is work nobody asked for.
+     * Built only while one of them is showing: every material has to be replayed and serialised,
+     * and doing that on every session change to feed a hidden surface is work nobody asked for.
+     * (Gating this on the notebook alone is what left the REPL's picker empty.)
      */
-    const notebookOpen = consoleOpen && consoleTab === "notebook";
+    const bridgeOpen = consoleOpen && BRIDGED_TABS.includes(consoleTab);
     const notebookInputs = useMemo<NotebookInput[]>(() => {
-        if (!notebookOpen) return [];
+        if (!bridgeOpen) return [];
         return session.state.materials.flatMap((doc) => {
             try {
                 const { material } = resolve(doc);
@@ -361,14 +363,14 @@ export function MaterialsDesigner({
                 return [];
             }
         });
-    }, [notebookOpen, session.state]);
+    }, [bridgeOpen, session.state]);
 
     /**
-     * Adopting what a notebook produced.
+     * Adopting what a notebook or the REPL produced.
      *
-     * Each output becomes its own material whose origin step records that a notebook made it and
-     * from what — so the Timeline chip reads as notebook work and the Navigator can show it under
-     * the material it came from, rather than as an anonymous import that appeared from nowhere.
+     * Each output becomes its own material whose origin step records which surface made it and
+     * from what — so the Timeline chip reads as notebook or REPL work rather than as an anonymous
+     * import that appeared from nowhere. It lands as a row of its own: a code result is not a fork.
      */
     const handleNotebookOutputs = useCallback(
         (outputs: NotebookOutput[], inputs: NotebookInput[], notebookPath: string) => {
@@ -378,7 +380,8 @@ export function MaterialsDesigner({
                 try {
                     docs.push(
                         createMaterialDoc(
-                            "notebook-result",
+                            // Named by the surface that ran the code, so the chip says which.
+                            notebookPath === REPL_ENTRY ? "repl-result" : "notebook-result",
                             { config: output.config, inputs: inputs.map((one) => one.name) },
                             {
                                 source: "code",

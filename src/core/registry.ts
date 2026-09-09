@@ -118,6 +118,18 @@ const definitions: OperationDefinition[] = [
             p.inputs?.length ? `from ${p.inputs.join(", ")}` : "no input material",
     },
     {
+        type: "repl-result",
+        engine: "repl",
+        title: "From REPL",
+        isOrigin: true,
+        // The same contract as a notebook result — a person ran code against a kernel we do not
+        // control, so the structure is stored and the code is not — under its own name, so the
+        // chip and the Log say which surface it came from.
+        apply: (_m, p: { config: any }) => new Material(p.config),
+        digest: (p: { inputs?: string[] }) =>
+            p.inputs?.length ? `from ${p.inputs.join(", ")}` : "no input material",
+    },
+    {
         type: "import-file",
         engine: "native",
         title: "Imported",

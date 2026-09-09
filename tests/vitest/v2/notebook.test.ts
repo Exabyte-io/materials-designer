@@ -117,6 +117,21 @@ describe("adopting a notebook result", () => {
     });
 });
 
+describe("adopting a REPL result", () => {
+    it("says which surface ran the code, and replays like a notebook result", () => {
+        const doc = createMaterialDoc(
+            "repl-result",
+            { config: SILICON, inputs: ["Silicon FCC"] },
+            { source: "code", provenance: { entryPath: "repl" } },
+        );
+        const [origin] = doc.log;
+        expect(origin.engine).toBe("repl");
+        expect(origin.label).toBe("From REPL");
+        expect(origin.digest).toBe("from Silicon FCC");
+        expect(resolve(doc).digest.atomCount).toBe(2);
+    });
+});
+
 describe("the timeline as a script", () => {
     it("names every step in order, with its parameters", () => {
         let doc = createMaterialDoc("create-from-config", { config: SILICON });

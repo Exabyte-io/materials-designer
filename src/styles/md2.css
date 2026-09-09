@@ -1087,6 +1087,19 @@
     flex: none;
     margin: 0;
 }
+/* The lines to paste at the prompt. A block, not prose with inline code, so it can be copied
+   in one go. */
+.md2-repl-recipe {
+    margin: 4px 0 0;
+    padding: 6px 8px;
+    font: 11px/1.5 var(--font-mono);
+    color: var(--text-dim);
+    background: var(--bg2);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    white-space: pre;
+    overflow-x: auto;
+}
 
 /* ------------------------------------------------------- console > notebook */
 .md2-notebook {

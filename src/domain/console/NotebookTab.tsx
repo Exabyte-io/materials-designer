@@ -14,25 +14,19 @@
  *    session at `Introduction.ipynb` — the templates open it three times in one scenario and
  *    assert that file each time;
  *  - "Add to session" closes the console, which is what made v1's re-opens work.
+ *
+ * The bridge itself is `useMaterialsBridge`, shared with the REPL tab.
  */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React from "react";
 
 import { DEFAULT_NOTEBOOK_PATH, JUPYTERLITE_ORIGIN_URL } from "../../config";
-import { type BridgedIframeHandle, BridgedIframe } from "../../kit/BridgedIframe";
-import { type NamedItem, MaterialsSelector } from "./MaterialsSelector";
-import { type MaterialConfig, fromFramePayload, toFramePayload } from "./payload";
+import { BridgedIframe } from "../../kit/BridgedIframe";
+import { MaterialsSelector } from "./MaterialsSelector";
+import { type NotebookInput, type NotebookOutput, useMaterialsBridge } from "./useMaterialsBridge";
+
+export type { NotebookInput, NotebookOutput } from "./useMaterialsBridge";
 
 export const NOTEBOOK_IFRAME_ID = "jupyter-lite-iframe";
-
-/** A material the session holds, as the notebook needs to see it. */
-export interface NotebookInput extends NamedItem {
-    config: MaterialConfig;
-}
-
-/** A structure the notebook produced, staged until the user adopts it. */
-export interface NotebookOutput extends NamedItem {
-    config: MaterialConfig;
-}
 
 export interface NotebookTabProps {
     inputs: NotebookInput[];
@@ -55,52 +49,7 @@ export function NotebookTab({
     onError,
     notebookPath = DEFAULT_NOTEBOOK_PATH,
 }: NotebookTabProps) {
-    const frame = useRef<BridgedIframeHandle>(null);
-    const [selectedIds, setSelectedIds] = useState<string[]>(() =>
-        activeId ? [activeId] : inputs.slice(0, 1).map((one) => one.id),
-    );
-    const [outputs, setOutputs] = useState<NotebookOutput[]>([]);
-
-    const selected = useMemo(
-        () => selectedIds.map((id) => inputs.find((one) => one.id === id)).filter(Boolean),
-        [selectedIds, inputs],
-    ) as NotebookInput[];
-
-    const payload = useMemo(() => toFramePayload(selected.map((one) => one.config)), [selected]);
-
-    // The notebook reads `materials_in` when a cell asks for it, so what it gets has to track the
-    // selection rather than a snapshot taken when the frame loaded.
-    useEffect(() => {
-        frame.current?.send(payload);
-    }, [payload]);
-
-    const handleRequestData = useCallback(() => payload, [payload]);
-
-    const handleReceiveData = useCallback(
-        (data: unknown) => {
-            const { configs, errors } = fromFramePayload(data);
-            // One notice, not one per failure: they replace each other otherwise, and the user
-            // ends up seeing whichever structure happened to be last in the list.
-            if (errors.length) onError(errors.join(" "));
-            if (!configs) return;
-            setOutputs(
-                configs.map((config, index) => ({
-                    // The notebook re-sends its whole output set on every run, so ids are derived
-                    // from the run rather than kept: a re-run replaces the staging list instead of
-                    // appending a second copy of everything.
-                    id: `out-${index}`,
-                    name: (config.name as string) || `Material ${index + 1}`,
-                    config,
-                })),
-            );
-        },
-        [onError],
-    );
-
-    const handleSelect = useCallback((next: NotebookInput[]) => {
-        setSelectedIds(next.map((one) => one.id));
-    }, []);
-
+    const bridge = useMaterialsBridge({ inputs, activeId, onError });
     const src = `${JUPYTERLITE_ORIGIN_URL}/lab/tree?path=${notebookPath}`;
 
     return (
@@ -112,24 +61,24 @@ export function NotebookTab({
                 <div className="md2-notebook-field">
                     <MaterialsSelector
                         items={inputs}
-                        selected={selected}
-                        onChange={handleSelect}
+                        selected={bridge.selected}
+                        onChange={bridge.onSelect}
                         testId="materials-in-selector"
                         label="Selected"
-                        placeholder={selected.length ? undefined : "Pick materials to send"}
+                        placeholder={bridge.selected.length ? undefined : "Pick materials to send"}
                     />
                 </div>
             </div>
 
             <div className="md2-notebook-frame">
                 <BridgedIframe
-                    ref={frame}
+                    ref={bridge.frame}
                     id={NOTEBOOK_IFRAME_ID}
                     src={src}
                     origin={JUPYTERLITE_ORIGIN_URL}
                     title="JupyterLite"
-                    onRequestData={handleRequestData}
-                    onReceiveData={handleReceiveData}
+                    onRequestData={bridge.handleRequestData}
+                    onReceiveData={bridge.handleReceiveData}
                 />
             </div>
 
@@ -139,25 +88,26 @@ export function NotebookTab({
                 </span>
                 <div className="md2-notebook-field">
                     <MaterialsSelector
-                        items={outputs}
-                        selected={outputs}
-                        onChange={setOutputs}
+                        items={bridge.outputs}
+                        selected={bridge.outputs}
+                        onChange={bridge.setOutputs}
                         testId="materials-out-selector"
                         label="Produced"
-                        placeholder={outputs.length ? undefined : "Nothing produced yet"}
+                        placeholder={bridge.outputs.length ? undefined : "Nothing produced yet"}
                     />
                 </div>
                 <button
                     type="button"
                     className="md2-btn md2-btn-primary"
                     id="jupyterlite-transformation-dialog-submit-button"
-                    disabled={outputs.length === 0}
+                    data-testid="console-add-to-session"
+                    disabled={bridge.outputs.length === 0}
                     title={
-                        outputs.length === 0
+                        bridge.outputs.length === 0
                             ? "Run a notebook cell that writes to materials_out"
                             : undefined
                     }
-                    onClick={() => onAdd(outputs, selected, notebookPath)}
+                    onClick={() => onAdd(bridge.outputs, bridge.selected, notebookPath)}
                 >
                     Add to session
                 </button>

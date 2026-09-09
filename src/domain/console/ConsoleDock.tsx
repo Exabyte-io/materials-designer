@@ -3,7 +3,8 @@
  *
  * v1 had three disconnected ones (a JupyterLite drawer, a notebook transformation dialog, and an
  * incoming Pyodide REPL). In 2.0 they are tabs of one dock: Script (the timeline as runnable
- * Python), Log (the operations themselves), Notebook (JupyterLite over the bridge) and REPL.
+ * Python), Log (the operations themselves), and Notebook and REPL — both JupyterLite, both over
+ * the same materials bridge.
  *
  * The dock has two heights. Script and Log are readouts and sit in the 190px strip; Notebook and
  * REPL are places you work, and take the centre column. Which one a tab wants is a property of the
@@ -19,6 +20,9 @@ export type ConsoleTab = "script" | "log" | "notebook" | "repl";
 
 /** Tabs that need the room. Used to pick the dock's height when a tab is opened. */
 export const TALL_TABS: ConsoleTab[] = ["notebook", "repl"];
+
+/** Tabs that bind the session's materials over the bridge, and so need them serialised. */
+export const BRIDGED_TABS: ConsoleTab[] = ["notebook", "repl"];
 
 const TAB_LABELS: Record<ConsoleTab, string> = {
     script: "⌁ Script",
@@ -156,7 +160,14 @@ export function ConsoleDock({
                             onError={onError}
                         />
                     )}
-                    {tab === "repl" && <ReplTab />}
+                    {tab === "repl" && (
+                        <ReplTab
+                            inputs={notebookInputs}
+                            activeId={activeMaterialId}
+                            onAdd={onAddFromNotebook}
+                            onError={onError}
+                        />
+                    )}
                 </div>
             )}
         </div>
