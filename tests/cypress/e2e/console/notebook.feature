@@ -27,6 +27,10 @@ Feature: The Console binds a JupyterLite notebook to the session
       | Ni-C Interface | 2     |
     # A code result is not a fork of its input: it lands as a row of its own, not a child.
     And I see material "Ni-C Interface" at the top level of the list
+    # v1 closed its dialog on submit and this keeps that, so re-opening starts a fresh notebook.
+    # The REPL does the opposite on purpose — its frame is a live kernel — and its scenario pins
+    # that, so the pair is deliberate rather than one of them being incidental.
+    And I do not see the console frame "jupyter-lite-iframe"
 
   Scenario: a second run replaces what is staged instead of adding to it
     When I open materials designer page

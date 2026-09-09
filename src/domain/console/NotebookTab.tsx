@@ -22,9 +22,14 @@ import React from "react";
 import { DEFAULT_NOTEBOOK_PATH, JUPYTERLITE_ORIGIN_URL } from "../../config";
 import { BridgedIframe } from "../../kit/BridgedIframe";
 import { MaterialsSelector } from "./MaterialsSelector";
-import { type NotebookInput, type NotebookOutput, useMaterialsBridge } from "./useMaterialsBridge";
+import { type AdoptOutputs, type NotebookInput, useMaterialsBridge } from "./useMaterialsBridge";
 
-export type { NotebookInput, NotebookOutput } from "./useMaterialsBridge";
+export type {
+    AdoptOutputs,
+    CodeSurface,
+    NotebookInput,
+    NotebookOutput,
+} from "./useMaterialsBridge";
 
 export const NOTEBOOK_IFRAME_ID = "jupyter-lite-iframe";
 
@@ -37,7 +42,7 @@ export interface NotebookTabProps {
      * notebook the session was opened at — reported rather than assumed, so provenance cannot
      * drift from what this surface actually loaded.
      */
-    onAdd: (outputs: NotebookOutput[], inputs: NotebookInput[], notebookPath: string) => void;
+    onAdd: AdoptOutputs;
     onError: (message: string) => void;
     notebookPath?: string;
 }
@@ -107,7 +112,12 @@ export function NotebookTab({
                             ? "Run a notebook cell that writes to materials_out"
                             : undefined
                     }
-                    onClick={() => onAdd(bridge.outputs, bridge.selected, notebookPath)}
+                    onClick={() =>
+                        onAdd(bridge.outputs, bridge.selected, {
+                            surface: "notebook",
+                            entryPath: notebookPath,
+                        })
+                    }
                 >
                     Add to session
                 </button>

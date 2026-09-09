@@ -31,15 +31,20 @@ When("I run the {string} command", (id: string) => {
  * A kernel lives in the frame; React re-creating that element would silently discard it. Asserting
  * the frame is still *present* would pass either way, so the stamp is the only thing that actually
  * distinguishes "kept" from "rebuilt and reloaded".
+ *
+ * Whichever bridged frame is mounted — only one ever is — so the same two phrases cover the
+ * notebook and the REPL.
  */
+const BRIDGED_FRAME = "iframe#jupyter-lite-iframe, iframe#python-repl-iframe";
+
 When("I mark the console frame", () => {
-    cy.get("iframe#jupyter-lite-iframe").then(($frame) => {
+    cy.get(BRIDGED_FRAME).then(($frame) => {
         ($frame[0] as unknown as Record<string, unknown>).__mdKernelMark = "kept";
     });
 });
 
 Then("I see the console frame is the same element", () => {
-    cy.get("iframe#jupyter-lite-iframe").should(($frame) => {
+    cy.get(BRIDGED_FRAME).should(($frame) => {
         expect(($frame[0] as unknown as Record<string, unknown>).__mdKernelMark).to.equal("kept");
     });
 });

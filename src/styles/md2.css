@@ -704,9 +704,11 @@
     color: var(--ai);
     background: color-mix(in srgb, var(--ai) 15%, transparent);
 }
+/* --ok, per DESIGN-LANGUAGE.md and the contrast case that already assumed it. Not --ghost:
+   that token means "previewed, not applied" and is always dashed or translucent. */
 .md2-badge-repl {
-    color: var(--ghost);
-    background: color-mix(in srgb, var(--ghost) 14%, transparent);
+    color: var(--ok);
+    background: color-mix(in srgb, var(--ok) 14%, transparent);
 }
 .md2-tl-now {
     margin-left: 22px;
@@ -1076,13 +1078,8 @@
 }
 
 /* ----------------------------------------------------------- console > repl */
-.md2-repl {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-height: 0;
-}
+/* Layout comes from .md2-notebook, which the REPL root also carries: the two surfaces are the
+   same shape, and two rules that must agree are one rule too many. */
 .md2-repl .md2-note {
     flex: none;
     margin: 0;
@@ -1400,6 +1397,8 @@
 .md2-actions .md2-btn {
     flex: 0 0 auto;
 }
+/* A row with one button — the library panel's lone Cancel — still fills it. */
+.md2-actions .md2-btn:only-child,
 .md2-actions .md2-btn-primary {
     flex: 1;
 }

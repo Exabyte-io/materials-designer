@@ -16,12 +16,9 @@ import React from "react";
 import { JUPYTERLITE_ORIGIN_URL } from "../../config";
 import { BridgedIframe } from "../../kit/BridgedIframe";
 import { MaterialsSelector } from "./MaterialsSelector";
-import { type NotebookInput, type NotebookOutput, useMaterialsBridge } from "./useMaterialsBridge";
+import { type AdoptOutputs, type NotebookInput, useMaterialsBridge } from "./useMaterialsBridge";
 
 export const REPL_IFRAME_ID = "python-repl-iframe";
-
-/** Recorded as the entry path of what the REPL produces, where a notebook records its file. */
-export const REPL_ENTRY = "repl";
 
 /** `kernel` picks the interpreter; `toolbar` gives the run and restart controls. */
 export const REPL_URL = `${JUPYTERLITE_ORIGIN_URL}/repl/index.html?kernel=python&toolbar=1`;
@@ -31,13 +28,13 @@ export const REPL_RECIPE = [
     'from mat3ra.notebooks_utils.packages import install_packages; await install_packages("made")',
     "from mat3ra.notebooks_utils.material import get_materials, set_materials",
     "materials = get_materials(globals())   # the selection above, as materials_in",
-    "set_materials([result])                # stages result above for Add to session",
+    "set_materials(materials)               # stages them above for Add to session",
 ].join("\n");
 
 export interface ReplTabProps {
     inputs: NotebookInput[];
     activeId?: string;
-    onAdd: (outputs: NotebookOutput[], inputs: NotebookInput[], entryPath: string) => void;
+    onAdd: AdoptOutputs;
     onError: (message: string) => void;
 }
 
@@ -98,7 +95,7 @@ export function ReplTab({ inputs, activeId, onAdd, onError }: ReplTabProps) {
                             ? "Call set_materials(...) at the prompt first"
                             : undefined
                     }
-                    onClick={() => onAdd(bridge.outputs, bridge.selected, REPL_ENTRY)}
+                    onClick={() => onAdd(bridge.outputs, bridge.selected, { surface: "repl" })}
                 >
                     Add to session
                 </button>

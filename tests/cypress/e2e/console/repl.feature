@@ -32,8 +32,14 @@ Feature: The Console carries a Python REPL
       | REPL Made |
     Then I see 1 material staged in the output selector
 
-    When I add what the console produced to the session
+    # The frame is the kernel. Adopting a result must not cost the user the session they are
+    # working in, so the dock stays open and the element is the one that was already there —
+    # the notebook closes on adopt, deliberately, and the scenario there pins the opposite.
+    When I mark the console frame
+    And I add what the console produced to the session
     Then material with following name exists in state
       | name      | index |
       | REPL Made | 2     |
     And I see material "REPL Made" at the top level of the list
+    And I see the console frame "python-repl-iframe"
+    And I see the console frame is the same element

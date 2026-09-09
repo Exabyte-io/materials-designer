@@ -23,6 +23,22 @@ export interface NotebookOutput extends NamedItem {
     config: MaterialConfig;
 }
 
+/**
+ * Which code surface produced a result, and — for the notebook — the file it was opened at.
+ *
+ * Named rather than inferred: the REPL has no path, and encoding "it was the REPL" as a fake one
+ * would put a sentinel in the operation log where a real path is recorded, and make every consumer
+ * compare strings to find out who called.
+ */
+export type CodeSurface = { surface: "notebook"; entryPath: string } | { surface: "repl" };
+
+/** Adopt staged outputs into the session, with the inputs and the surface that produced them. */
+export type AdoptOutputs = (
+    outputs: NotebookOutput[],
+    inputs: NotebookInput[],
+    from: CodeSurface,
+) => void;
+
 export interface MaterialsBridgeOptions {
     inputs: NotebookInput[];
     /** Preselected when the tab opens — the material the rest of the app is showing. */

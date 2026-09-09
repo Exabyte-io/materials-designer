@@ -122,10 +122,12 @@ describe("adopting a REPL result", () => {
         const doc = createMaterialDoc(
             "repl-result",
             { config: SILICON, inputs: ["Silicon FCC"] },
-            { source: "code", provenance: { entryPath: "repl" } },
+            { source: "code" },
         );
         const [origin] = doc.log;
         expect(origin.engine).toBe("repl");
+        // No entryPath: a prompt has no file, and a sentinel in its place would be a fake one.
+        expect(origin.provenance?.entryPath).toBeUndefined();
         expect(origin.label).toBe("From REPL");
         expect(origin.digest).toBe("from Silicon FCC");
         expect(resolve(doc).digest.atomCount).toBe(2);

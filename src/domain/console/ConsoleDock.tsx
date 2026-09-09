@@ -13,7 +13,7 @@
 import React from "react";
 
 import type { MaterialDoc } from "../../core/types";
-import { type NotebookInput, type NotebookOutput, NotebookTab } from "./NotebookTab";
+import { type AdoptOutputs, type NotebookInput, NotebookTab } from "./NotebookTab";
 import { ReplTab } from "./ReplTab";
 
 export type ConsoleTab = "script" | "log" | "notebook" | "repl";
@@ -44,11 +44,7 @@ export interface ConsoleDockProps {
     /** Every material the session holds, as the notebook needs to see them. */
     notebookInputs: NotebookInput[];
     activeMaterialId: string;
-    onAddFromNotebook: (
-        outputs: NotebookOutput[],
-        inputs: NotebookInput[],
-        notebookPath: string,
-    ) => void;
+    onAddFromNotebook: AdoptOutputs;
     onError: (message: string) => void;
 }
 

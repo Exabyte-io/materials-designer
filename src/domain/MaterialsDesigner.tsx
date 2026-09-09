@@ -23,8 +23,7 @@ import { AppMenu } from "./AppMenu";
 import { CombinatorialPanel } from "./CombinatorialPanel";
 import { type CommandContext, type HostActions, type RegionName, COMMANDS } from "./commands";
 import { type ConsoleTab, BRIDGED_TABS, ConsoleDock, TALL_TABS } from "./console/ConsoleDock";
-import type { NotebookInput, NotebookOutput } from "./console/NotebookTab";
-import { REPL_ENTRY } from "./console/ReplTab";
+import type { CodeSurface, NotebookInput, NotebookOutput } from "./console/NotebookTab";
 import { ImportReview } from "./ImportReview";
 import { Inspector } from "./Inspector";
 import { toMDState } from "./mdState";
@@ -373,7 +372,7 @@ export function MaterialsDesigner({
      * import that appeared from nowhere. It lands as a row of its own: a code result is not a fork.
      */
     const handleNotebookOutputs = useCallback(
-        (outputs: NotebookOutput[], inputs: NotebookInput[], notebookPath: string) => {
+        (outputs: NotebookOutput[], inputs: NotebookInput[], from: CodeSurface) => {
             const docs: MaterialDoc[] = [];
             const failed: string[] = [];
             outputs.forEach((output) => {
@@ -381,7 +380,7 @@ export function MaterialsDesigner({
                     docs.push(
                         createMaterialDoc(
                             // Named by the surface that ran the code, so the chip says which.
-                            notebookPath === REPL_ENTRY ? "repl-result" : "notebook-result",
+                            from.surface === "repl" ? "repl-result" : "notebook-result",
                             { config: output.config, inputs: inputs.map((one) => one.name) },
                             {
                                 source: "code",
@@ -389,7 +388,12 @@ export function MaterialsDesigner({
                                 // fork. Which materials went in is in the params, where replay
                                 // can see it and the chip prints it — so the row sits at the top
                                 // level, as one with two inputs, or none, already did.
-                                provenance: { entryPath: notebookPath },
+                                // Only the notebook has a file to record; the REPL is a
+                                // prompt, and a sentinel in place of a path is a fake one.
+                                provenance:
+                                    from.surface === "notebook"
+                                        ? { entryPath: from.entryPath }
+                                        : undefined,
                             },
                         ),
                     );
@@ -398,11 +402,17 @@ export function MaterialsDesigner({
                 }
             });
             if (docs.length) session.add(docs);
-            // v1 closed its dialog on submit. Keeping that: the materials just landed in the
-            // Navigator, and re-opening the notebook is what starts a fresh session.
-            setConsoleOpen(false);
+            const fromRepl = from.surface === "repl";
+            // v1 closed its dialog on submit, and the notebook keeps that: the materials just
+            // landed in the Navigator, and re-opening it is what starts a fresh session.
+            //
+            // The REPL is the opposite. Closing unmounts the frame, and the frame is the kernel —
+            // the imports, the variables, the packages the user waited to install. Adopting a
+            // result is not a reason to throw the session away, so the dock stays open.
+            if (!fromRepl) setConsoleOpen(false);
+            const surface = fromRepl ? "the REPL" : "the notebook";
             const added = docs.length
-                ? `Added ${docs.length} material${docs.length === 1 ? "" : "s"} from the notebook.`
+                ? `Added ${docs.length} material${docs.length === 1 ? "" : "s"} from ${surface}.`
                 : "";
             const skipped = failed.length ? ` Could not read ${failed.join(", ")}.` : "";
             setNotice(`${added}${skipped}`.trim() || null);
